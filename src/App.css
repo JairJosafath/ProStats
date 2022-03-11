@@ -1,0 +1,81 @@
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.container-center-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.container-center-horizontal > * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.navs {
+  align-items: flex-start;
+  background-color: var(--woodsmoke);
+  display: flex;
+  height: 84px;
+  padding: 0 200px;
+  position: relative;
+  width: 1440px;
+}
+
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --woodsmoke: rgba(13, 13, 13, 1);
+  --onyx: rgba(55, 55, 55, 1);
+  --x03-on-primary--high-emphasis322222: rgba(255, 255, 255, 1);
+
+  --font-size-m: 14px;
+  --font-size-l: 16px;
+  --font-size-xl: 20px;
+
+  --font-family-inter: "Inter";
+  --font-family-roboto: "Roboto";
+  --font-family-roboto-medium: "Roboto-Medium";
+}
+
+.inter-normal-white-16px {
+  color: var(--x03-on-primary--high-emphasis322222);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  font-style: normal;
+}
+.inter-normal-white-14px {
+  color: var(--x03-on-primary--high-emphasis322222);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  font-style: normal;
+}
+.button {
+  font-family: var(--font-family-roboto-medium);
+  font-size: var(--font-size-m);
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-style: normal;
+}
+.button {
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-m);
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-style: normal;
+}
+.inter-semi-bold-white-20px {
+  color: var(--x03-on-primary--high-emphasis322222);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  font-style: normal;
+}
+a {
+  text-decoration: none;
+}

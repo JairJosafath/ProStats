@@ -1,0 +1,188 @@
+#players
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "League President"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "FC Barcelona Manager"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "Real Madrid CF Manager"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "Manchester City Manager"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "LiverpoolFC Manager"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "Manchester United FC Manager"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+mutation MyMutation {
+  createPlayer(
+    input: {
+      username: "user1"
+      status: "active"
+      slogan: "in t to win it"
+      name: "Paris Saint Germain Manager"
+      image: "none"
+    }
+  ) {
+    id
+    name
+    username
+    owner
+  }
+}
+
+#league
+
+mutation MyMutation {
+  createLeague(
+    input: {
+      name: "Super League"
+      status: "active"
+      description: "Demo League"
+      header: "none"
+      logo: "none"
+      playerAdminsId: "5b3cd113-f270-4d68-be75-3dffb3940fce"
+    }
+  ) {
+    admin {
+      name
+    }
+    id
+    name
+  }
+}
+
+#tournament
+#quiries
+query MyQuery {
+  getTournament(id: "75b681ba-1001-456b-b399-d40704ab4652") {
+    table {
+      items {
+        team {
+          name
+        }
+        points
+        cleanSheats
+        gamesDrawn
+        gamesLost
+        gamesPlayed
+        gamesWon
+        goalDifference
+        goalsAgainst
+        goalsFor
+        record
+      }
+    }
+  }
+}
+
+query MyQuery {
+  getTournament(id: "75b681ba-1001-456b-b399-d40704ab4652") {
+    playerTable {
+      items {
+        assists
+        beat
+        blocks
+        expectedAssists
+        goals
+        interceptions
+        matchRating
+        nutmeg
+        playerOfTheMatch
+        saves
+        skillmoveBeat
+        tacklesWon
+        player {
+          name
+        }
+      }
+    }
+  }
+}

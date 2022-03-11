@@ -1,0 +1,755 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+# input AMPLIFY {
+#   globalAuthRule: AuthRule = { allow: public }
+# } # FOR TESTING ONLY!
+type League
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  #
+  id: ID!
+  name: String!
+
+  admin: Player! @belongsTo
+
+  status: String! #active, inactive, disabled
+  logo: String
+  description: String
+  header: String #not in classic
+  moderators: [Player] @manyToMany(relationName: "LeagueModerators")
+  teams: [Team] @hasMany
+  #max ten in classic
+  tournaments: [Tournament] @hasMany
+
+  #max one in classic
+  news: [News] @hasMany
+
+  #not in classic
+  transfers: [Transfer] @hasMany
+
+  #not in classic
+  requestsfromTeam: [RequestTeam2League] @hasMany
+
+  requeststoTeam: [RequestLeague2Team] @hasMany
+
+  leagueLevel: LeagueLevel @hasOne
+
+  leagueSubscription: LeagueSubscription @hasOne
+  #classic, pro, ultimate
+  tournamentModerators: [String]
+
+  newsModerators: [String]
+
+  requestModerators: [String]
+
+  transferModerator: [String]
+
+  leagueAdmin: String
+}
+
+type Player
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  name: String #lenient name that can change
+  image: String
+  slogan: String
+  status: String #active, inactive, warned, disabled
+  admins: [League] @hasMany
+  moderates: [League] @manyToMany(relationName: "LeagueModerators") #max one in classic
+  teams: [Team] @manyToMany(relationName: "TeamMembers")
+  #
+  manages: [Team] @hasMany #max one in classic
+  captains: [Team] @manyToMany(relationName: "TeamCaptains")
+  playerTournaments: [PlayerTournament] @hasMany
+  #
+  hostplayerTournaments: [PlayerTournament] @hasMany
+  trophies: [Trophy] @hasMany
+  #
+  playerLevel: PlayerLevel @hasOne
+
+  requestsfromTeam: [RequestTeam2Player] @hasMany
+
+  requeststoTeam: [RequestPlayer2Team] @hasMany
+  fixtures: [Fixture] @manyToMany(relationName: "PlayerFixtures")
+
+  playerStats: [PlayerStats] @hasMany
+  playerSubscription: PlayerSubscription @hasOne
+
+  news: [News] @hasMany
+}
+
+type Team
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  logo: String
+  slogan: String
+  league: League @belongsTo
+  manager: Player! @belongsTo
+  status: String
+  captains: [Player] @manyToMany(relationName: "TeamCaptains")
+  member: [Player] @manyToMany(relationName: "TeamMembers")
+  tournaments: [Tournament] @manyToMany(relationName: "TeamTournaments")
+
+  trophies: [Trophy] @hasMany
+
+  requestsfromLeague: [RequestLeague2Team] @hasMany
+
+  requeststoLeague: [RequestTeam2League] @hasMany
+  requestsfromPlayer: [RequestPlayer2Team] @hasMany
+
+  requeststoPlayer: [RequestTeam2Player] @hasMany
+
+  teamStats: [TeamStats] @hasMany
+  teamSubscription: TeamSubscription @hasOne
+  homefixtures: [Fixture] @hasMany
+  awayfixtures: [Fixture] @hasMany
+
+  teamManager: String!
+
+  teamCaptain: [String]
+}
+
+type Tournament
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  season: Int!
+  logo: String
+  slogan: String
+  team: [Team] @manyToMany(relationName: "TeamTournaments")
+  table: [TableStat] @hasMany
+  playerTable: [PlayerTableStat] @hasMany
+  league: League @belongsTo
+  fixtures: [Fixture] @hasMany
+  status: String
+  trophies: [Trophy] @hasMany
+  tournamentmod: [String]
+}
+
+type Fixture
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  season: Int!
+  round: Int!
+  homeID: ID
+  awayID: ID
+  homeTeam: Team @belongsTo(fields: ["homeID"])
+  awayTeam: Team @belongsTo(fields: ["awayID"])
+  homeScore: Int
+  awayScore: Int
+  homeResult: String
+  awayResult: String
+  teamStats: [TeamStats] @hasMany
+  playerStats: [PlayerStats] @hasMany
+  tournamentMod: [String]
+  players: [Player] @manyToMany(relationName: "PlayerFixtures")
+}
+
+type PlayerStats
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  matchRating: Float
+  OVR: Int
+  position: String
+  name: String
+  version: Int
+  player: Player @belongsTo
+  fixture: Fixture
+  verified: Boolean
+  summary_goals: Int
+  summary_assists: Int
+  summary_shots: Int
+  summary_shot_accuracy: Int
+  summary_passes: Int
+  summary_pass_accuraccy: Int
+  summary_dribbles: Int
+  summary_dribble_accuracy: Int
+  summary_tackles: Int
+  summary_tackle_success_rate: Int
+  summary_offsides: Int
+  summary_fouls_committed: Int
+  summary_possession_won: Int
+  summary_possession_lost: Int
+  summary_minutes_played_vs_team_average: Float
+  summary_distance_covered_vs_team_average: Float
+  summary_distance_sprinted_vs_team_average: Float
+  possession_possession_percentage: Int
+  possession_dribbles: Int
+  possession_dribblescompleted: Int
+  possession_dribble_success_rate_percentage: Int
+  possession_distance_dribbled: Int
+  possession_fouls_won: Int
+  possession_penalties_won: Int
+  possession_regular_dribble_percentage: Int
+  possession_shield_dribble_percentage: Int
+  possession_strafe_dribble_percentage: Int
+  possession_beat: Int
+  possession_skillmove_beat: Int
+  possession_nutmeg: Int
+  possession_knock_ons: Int
+  shooting_goals: Int
+  shooting_expected_goals: Float
+  shooting_shots: Int
+  shooting_shots_on_target: Int
+  shooting_shots_off_target: Int
+  shooting_shots_blocked: Int
+  shooting_shot_accuracy_percentage: Int
+  shooting_normal: Int
+  shooting_finesse: Int
+  shooting_header: Int
+  shooting_low: Int
+  shooting_volley: Int
+  shooting_chip: Int
+  shooting_set_pieces: Int
+  passing_assists: Int
+  passing_expected_assists: Float
+  passing_passes: Int
+  passing_completed: Int
+  passing_intercepted: Int
+  passing_pass_accuraccy_percentage: Int
+  passing_offside_passes: Int
+  passing_ground: Int
+  passing_lob: Int
+  passing_through: Int
+  passing_lofted_through: Int
+  passing_cross: Int
+  passing_set_pieces: Int
+  defending_standing_tackles: Int
+  defending_standing_tackles_won: Int
+  defending_standing_tackles_success_rate_percentage: Int
+  defending_sliding_tackles: Int
+  defending_sliding_tackles_won: Int
+  defending_sliding_tackles_success_rate_percentage: Int
+  defending_interceptions: Int
+  defending_blocks: Int
+  defending_clearances: Int
+  defending_air_duels_won: Int
+  defending_beaten_by_opponent: Int
+  defending_fouls_committed: Int
+  defending_penalties_committed: Int
+  defending_own_goals: Int
+  goalkeeping_shots_against: Int
+  goalkeeping_shots_on_target: Int
+  goalkeeping_saves: Int
+  goalkeeping_goals_conceded: Int
+  goalkeeping_save_success_rate_percentage: Int
+  goalkeeping_shootout_saves: Int
+  goalkeeping_shootout_goals_conceded: Int
+  goalkeeping_normal: Int
+  goalkeeping_finesse: Int
+  goalkeeping_header: Int
+  goalkeeping_low: Int
+  goalkeeping_volley: Int
+  goalkeeping_chip: Int
+  goalkeeping_set_pieces: Int
+}
+
+type TeamStats
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  version: Int
+  verified: Boolean
+  fixture: Fixture
+  home_name: String
+  away_name: String
+  home_team: Team @hasOne
+  away_team: Team @hasOne
+  home_summary_goals: Int
+  home_summary_possession_percentage: Int
+  home_summary_shots: Int
+  home_summary_expected_goals: Float
+  home_summary_spasses: Int
+  home_summary_tackles: Int
+  home_summary_tackles_won: Int
+  home_summary_interceptions: Int
+  home_summary_saves: Int
+  home_summary_fouls_committed: Int
+  home_summary_offsides: Int
+  home_summary_corners: Int
+  home_summary_free_kicks: Int
+  home_summary_penalty_kicks: Int
+  home_summary_yellow_cards: Int
+  home_summary_red_cards: Int
+  home_possession_minute_15: Int
+  home_possession_minute_30: Int
+  home_possession_minute_45: Int
+  home_possession_minute_60: Int
+  home_possession_minute_75: Int
+  home_possession_minute_90: Int
+  home_shooting_total_shots: Int
+  home_shooting_on_target: Int
+  home_shooting_off_target: Int
+  home_shooting_blocked: Int
+  home_shooting_normal: Int
+  home_shooting_finesse: Int
+  home_shooting_header: Int
+  home_shooting_low: Int
+  home_shooting_volley: Int
+  home_shooting_chip: Int
+  home_shooting_set_pieces: Int
+  home_shooting_inside_the_box: Int
+  home_shooting_outside_the_box: Int
+  home_shooting_near_side: Int
+  home_shooting_far_side: Int
+  home_passing_total_passes: Int
+  home_passing_completed: Int
+  home_passing_intercepted: Int
+  home_passing_offside: Int
+  home_passing_other: Int
+  home_passing_ground: Int
+  home_passing_lob: Int
+  home_passing_through: Int
+  home_passing_lofted_through: Int
+  home_passing_cross: Int
+  home_passing_set_pieces: Int
+  home_passing_key_pass: Int
+  home_passing_first_time: Int
+  home_passing_pass_and_go: Int
+  home_passing_down_wing: Int
+  home_passing_breakaway: Int
+  home_defending_standing_tackles: Int
+  home_defending_standing_tackles_won: Int
+  home_defending_average_standing_tackles_distance: Int
+  home_defending_sliding_tackles: Int
+  home_defending_sliding_tackles_won: Int
+  home_defending_average_sliding_tackles_distance: Int
+  home_defending_interceptions: Int
+  home_defending_blocks: Int
+  home_defending_saves: Int
+  home_defending_clearances: Int
+  home_defending_air_duels_won: Int
+  home_defending_beaten_by_opponent: Int
+  home_defending_fouls_committed: Int
+  home_defending_penalties_committed: Int
+  home_defending_yellow_cards: Int
+  home_defending_red_cards: Int
+
+  #
+
+  away_summary_goals: Int
+  away_summary_possession_percentage: Int
+  away_summary_shots: Int
+  away_summary_expected_goals: Float
+  away_summary_spasses: Int
+  away_summary_tackles: Int
+  away_summary_tackles_won: Int
+  away_summary_interceptions: Int
+  away_summary_saves: Int
+  away_summary_fouls_committed: Int
+  away_summary_offsides: Int
+  away_summary_corners: Int
+  away_summary_free_kicks: Int
+  away_summary_penalty_kicks: Int
+  away_summary_yellow_cards: Int
+  away_summary_red_cards: Int
+  away_possession_minute_15: Int
+  away_possession_minute_30: Int
+  away_possession_minute_45: Int
+  away_possession_minute_60: Int
+  away_possession_minute_75: Int
+  away_possession_minute_90: Int
+  away_shooting_total_shots: Int
+  away_shooting_on_target: Int
+  away_shooting_off_target: Int
+  away_shooting_blocked: Int
+  away_shooting_normal: Int
+  away_shooting_finesse: Int
+  away_shooting_header: Int
+  away_shooting_low: Int
+  away_shooting_volley: Int
+  away_shooting_chip: Int
+  away_shooting_set_pieces: Int
+  away_shooting_inside_the_box: Int
+  away_shooting_outside_the_box: Int
+  away_shooting_near_side: Int
+  away_shooting_far_side: Int
+  away_passing_total_passes: Int
+  away_passing_completed: Int
+  away_passing_intercepted: Int
+  away_passing_offside: Int
+  away_passing_other: Int
+  away_passing_ground: Int
+  away_passing_lob: Int
+  away_passing_through: Int
+  away_passing_lofted_through: Int
+  away_passing_cross: Int
+  away_passing_set_pieces: Int
+  away_passing_key_pass: Int
+  away_passing_first_time: Int
+  away_passing_pass_and_go: Int
+  away_passing_down_wing: Int
+  away_passing_breakaway: Int
+  away_defending_standing_tackles: Int
+  away_defending_standing_tackles_won: Int
+  away_defending_average_standing_tackles_distance: Int
+  away_defending_sliding_tackles: Int
+  away_defending_sliding_tackles_won: Int
+  away_defending_average_sliding_tackles_distance: Int
+  away_defending_interceptions: Int
+  away_defending_blocks: Int
+  away_defending_saves: Int
+  away_defending_clearances: Int
+  away_defending_air_duels_won: Int
+  away_defending_beaten_by_opponent: Int
+  away_defending_fouls_committed: Int
+  away_defending_penalties_committed: Int
+  away_defending_yellow_cards: Int
+  away_defending_red_cards: Int
+}
+
+type News
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  subTitle: String
+  headerImage: String
+  content: String
+  playerTags: [Player] @hasMany
+  teamTags: [Team] @hasMany
+  tournamentTags: [Tournament] @hasMany
+  status: String
+  author: Player @belongsTo
+}
+
+type Transfer
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  player: Player @hasOne
+  from: Team @hasOne
+  to: Team @hasOne
+  type: String
+  league: League @belongsTo
+}
+
+type LeagueLevel
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String!
+  color: String!
+  card: String
+  rank: Int
+  leagues: [League] @hasMany
+}
+
+type PlayerLevel
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String!
+  color: String!
+  card: String
+  rank: Int
+  players: [Player] @hasMany
+}
+
+type TeamLevel
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String!
+  color: String!
+  card: String
+  rank: Int
+  team: [Team] @hasMany
+}
+
+type userRole
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String!
+}
+
+type RequestLeague2Team
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  from: League @hasOne
+  to: Team @hasOne
+  status: String!
+}
+type RequestTeam2League
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  from: Team @hasOne
+  to: League @hasOne
+  status: String!
+}
+type RequestTeam2Player
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  from: Team @hasOne
+  to: Player @hasOne
+  status: String!
+}
+
+type RequestPlayer2Team
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  from: Player @hasOne
+  to: Team @hasOne
+  status: String!
+}
+
+type LeagueSubscription
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  features: [String]
+}
+type TeamSubscription
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  features: [String]
+}
+type PlayerSubscription
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  features: [String]
+}
+
+type Trophy
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  tournament: Tournament @belongsTo
+  image: String
+}
+
+type PlayerTournament
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  season: Int!
+  host: Player @belongsTo
+  logo: String
+  slogan: String
+  players: [Player] @hasMany
+  standings: PlayerTournamentStanding @hasOne
+  fixtures: [Fixture] @hasMany
+  status: String
+}
+
+type PlayerTournamentStanding
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  leaderboard: [Player] @hasMany
+  champion: Player @hasOne
+}
+type TableStat
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  tournament: Tournament @belongsTo
+  team: Team @hasOne
+  points: Int
+  gamesPlayed: Int
+  gamesWon: Int
+  gamesDrawn: Int
+  gamesLost: Int
+  goalsFor: Int
+  goalsAgainst: Int
+  goalDifference: Int
+  cleanSheats: Int
+  record: [String]
+}
+type PlayerTableStat
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  tournament: Tournament @belongsTo
+  player: Player @hasOne
+  goals: Int
+  assists: Int
+  beat: Int
+  skillmoveBeat: Int
+  nutmeg: Int
+  matchRating: Float
+  playerOfTheMatch: Int
+  expectedAssists: Float
+  interceptions: Int
+  tacklesWon: Int
+  blocks: Int
+  saves: Int
+}
