@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import NavItem from "rsuite/esm/Nav/NavItem";
 import * as queries from "../../graphql/queries";
 import { API } from "aws-amplify";
-import useUploadDummyData from "../../hooks/useUploadDummyData";
 
 const query = `
 query MyQuery {
@@ -54,8 +53,6 @@ const NavBarInstance = ({
   //   };
   //   getLeagues();
   // }, []);
-
-  useUploadDummyData();
 
   return (
     <Navbar {...props}>
