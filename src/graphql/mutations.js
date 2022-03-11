@@ -309,7 +309,7 @@ export const createPlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -392,7 +392,7 @@ export const updatePlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -475,7 +475,7 @@ export const deletePlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -1039,7 +1039,7 @@ export const createFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -1109,7 +1109,7 @@ export const updateFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -1179,7 +1179,7 @@ export const deleteFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -4834,12 +4834,12 @@ export const deleteTeamCaptains = /* GraphQL */ `
     }
   }
 `;
-export const createPlayerFixtures = /* GraphQL */ `
-  mutation CreatePlayerFixtures(
-    $input: CreatePlayerFixturesInput!
-    $condition: ModelPlayerFixturesConditionInput
+export const createPlayersAndFixtures = /* GraphQL */ `
+  mutation CreatePlayersAndFixtures(
+    $input: CreatePlayersAndFixturesInput!
+    $condition: ModelPlayersAndFixturesConditionInput
   ) {
-    createPlayerFixtures(input: $input, condition: $condition) {
+    createPlayersAndFixtures(input: $input, condition: $condition) {
       id
       playerID
       fixtureID
@@ -4886,12 +4886,12 @@ export const createPlayerFixtures = /* GraphQL */ `
     }
   }
 `;
-export const updatePlayerFixtures = /* GraphQL */ `
-  mutation UpdatePlayerFixtures(
-    $input: UpdatePlayerFixturesInput!
-    $condition: ModelPlayerFixturesConditionInput
+export const updatePlayersAndFixtures = /* GraphQL */ `
+  mutation UpdatePlayersAndFixtures(
+    $input: UpdatePlayersAndFixturesInput!
+    $condition: ModelPlayersAndFixturesConditionInput
   ) {
-    updatePlayerFixtures(input: $input, condition: $condition) {
+    updatePlayersAndFixtures(input: $input, condition: $condition) {
       id
       playerID
       fixtureID
@@ -4938,12 +4938,12 @@ export const updatePlayerFixtures = /* GraphQL */ `
     }
   }
 `;
-export const deletePlayerFixtures = /* GraphQL */ `
-  mutation DeletePlayerFixtures(
-    $input: DeletePlayerFixturesInput!
-    $condition: ModelPlayerFixturesConditionInput
+export const deletePlayersAndFixtures = /* GraphQL */ `
+  mutation DeletePlayersAndFixtures(
+    $input: DeletePlayersAndFixturesInput!
+    $condition: ModelPlayersAndFixturesConditionInput
   ) {
-    deletePlayerFixtures(input: $input, condition: $condition) {
+    deletePlayersAndFixtures(input: $input, condition: $condition) {
       id
       playerID
       fixtureID

@@ -1,16 +1,16 @@
-const Admins = [
+export const Admins = [
   { id: 1, name: "Super League Admin", username: "user1" },
   //managers
 ];
 
-const Leagues = [
+export const Leagues = [
   {
     id: 1,
     name: "Super League",
     descr: "E-League that hosts different competitions and divisions",
   },
 ];
-const Managers = [
+export const Managers = [
   //managers
   { id: 2, name: "Liverpool Manager", username: "user2" },
   { id: 3, name: "Barcelona Manager", username: "user3" },
@@ -25,7 +25,7 @@ const Managers = [
   { id: 12, name: "Bayern Munich", username: "user12" },
   { id: 13, name: "Juventus Manager", username: "user13" },
 ];
-const Players = [
+export const Players = [
   //players
   //Liv
   { id: 14, name: "Mo Salah", username: "user14" },
@@ -58,88 +58,88 @@ const Players = [
   { id: 36, name: "Sergio Ramos", username: "user36" },
   { id: 37, name: "Donna Ruma", username: "user37" },
   //MUTD
-  { id: 14, name: "Cristiano Ronaldo", username: "user14" },
-  { id: 15, name: "Marcus Rashford", username: "user15" },
-  { id: 16, name: "Paul Pogba", username: "user16" },
-  { id: 17, name: "Luke Shaw", username: "user17" },
-  { id: 18, name: "De Gea", username: "user18" },
-  { id: 19, name: "Edinson Cavani", username: "user19" },
+  { id: 38, name: "Cristiano Ronaldo", username: "user38" },
+  { id: 39, name: "Marcus Rashford", username: "user39" },
+  { id: 40, name: "Paul Pogba", username: "user40" },
+  { id: 41, name: "Luke Shaw", username: "user41" },
+  { id: 42, name: "De Gea", username: "user42" },
+  { id: 43, name: "Edinson Cavani", username: "user43" },
 
   //ATL
-  { id: 20, name: "Luis Suarez", username: "user20" },
-  { id: 21, name: "Antione Griezman", username: "user21" },
-  { id: 22, name: "Koke", username: "user22" },
-  { id: 23, name: "Jan Oblak", username: "user23" },
-  { id: 24, name: "Godin", username: "user24" },
-  { id: 25, name: "Carrasco", username: "user25" },
+  { id: 44, name: "Luis Suarez", username: "user44" },
+  { id: 45, name: "Antione Griezman", username: "user45" },
+  { id: 46, name: "Koke", username: "user46" },
+  { id: 47, name: "Jan Oblak", username: "user47" },
+  { id: 48, name: "Godin", username: "user48" },
+  { id: 49, name: "Carrasco", username: "user49" },
   //SEV
-  { id: 26, name: "Anthony Martial", username: "user26" },
-  { id: 27, name: "Sevilla Forward", username: "user27" },
-  { id: 28, name: "Sevilla Midfielder", username: "user28" },
-  { id: 29, name: "Sevilla Defender", username: "user29" },
-  { id: 30, name: "Sevilla Goalkeeper", username: "user30" },
-  { id: 31, name: "David Silva", username: "user31" },
+  { id: 50, name: "Anthony Martial", username: "user50" },
+  { id: 51, name: "Sevilla Forward", username: "user51" },
+  { id: 52, name: "Sevilla Midfielder", username: "user52" },
+  { id: 53, name: "Sevilla Defender", username: "user53" },
+  { id: 54, name: "Sevilla Goalkeeper", username: "user54" },
+  { id: 55, name: "David Silva", username: "user55" },
 
   //MANC
-  { id: 32, name: "Raheem Sterling", username: "user32" },
-  { id: 33, name: "Kevin De Bruyne", username: "user33" },
-  { id: 34, name: "Bernardo Silva", username: "user34" },
-  { id: 35, name: "Cancelo", username: "user35" },
-  { id: 36, name: "Ederson", username: "user36" },
-  { id: 37, name: "Phil Foden", username: "user37" },
+  { id: 56, name: "Raheem Sterling", username: "user56" },
+  { id: 57, name: "Kevin De Bruyne", username: "user57" },
+  { id: 58, name: "Bernardo Silva", username: "user58" },
+  { id: 59, name: "Cancelo", username: "user59" },
+  { id: 60, name: "Ederson", username: "user60" },
+  { id: 61, name: "Phil Foden", username: "user61" },
   //Chel
-  { id: 38, name: "Kai Havertz", username: "user38" },
-  { id: 39, name: "Timo Werner", username: "user39" },
-  { id: 40, name: "Lukaku", username: "user40" },
-  { id: 41, name: "Ngolo Kante", username: "user41" },
-  { id: 42, name: "Thiago Silva", username: "user42" },
-  { id: 43, name: "Mendy", username: "user43" },
+  { id: 62, name: "Kai Havertz", username: "user62" },
+  { id: 63, name: "Timo Werner", username: "user63" },
+  { id: 64, name: "Lukaku", username: "user64" },
+  { id: 65, name: "Ngolo Kante", username: "user65" },
+  { id: 66, name: "Thiago Silva", username: "user66" },
+  { id: 67, name: "Mendy", username: "user67" },
 
   //ACM
-  { id: 44, name: "Zlatan Ibrahimovic", username: "user44" },
-  { id: 45, name: "Olivier Giroud", username: "user45" },
-  { id: 46, name: "Kessie", username: "user46" },
-  { id: 47, name: "AC Milan Midfielder", username: "user47" },
-  { id: 48, name: "AC Milan Defender", username: "user48" },
-  { id: 49, name: "AC Milan Goalkeeper", username: "user49" },
+  { id: 68, name: "Zlatan Ibrahimovic", username: "user68" },
+  { id: 69, name: "Olivier Giroud", username: "user69" },
+  { id: 70, name: "Kessie", username: "user70" },
+  { id: 71, name: "AC Milan Midfielder", username: "user71" },
+  { id: 72, name: "AC Milan Defender", username: "user72" },
+  { id: 73, name: "AC Milan Goalkeeper", username: "user73" },
   //BMun
-  { id: 50, name: "Robert Lewandowski", username: "user50" },
-  { id: 51, name: "Leroy Sane", username: "user51" },
-  { id: 52, name: "Goretzka", username: "user52" },
-  { id: 53, name: "Opamecano", username: "user53" },
-  { id: 54, name: "Edgar Davies", username: "user54" },
-  { id: 55, name: "Manuel Neuer", username: "user55" },
+  { id: 74, name: "Robert Lewandowski", username: "user74" },
+  { id: 75, name: "Leroy Sane", username: "user75" },
+  { id: 76, name: "Goretzka", username: "user76" },
+  { id: 77, name: "Opamecano", username: "user77" },
+  { id: 78, name: "Edgar Davies", username: "user78" },
+  { id: 79, name: "Manuel Neuer", username: "user79" },
 
   //Juv
-  { id: 56, name: "Dybala", username: "user56" },
-  { id: 57, name: "Del Piero", username: "user57" },
-  { id: 58, name: "Mandzukic", username: "user58" },
-  { id: 59, name: "Juventus Midfielder", username: "user59" },
-  { id: 60, name: "Chiellini", username: "user60" },
-  { id: 61, name: "Juventus Goalkeeper", username: "user61" },
+  { id: 80, name: "Dybala", username: "user80" },
+  { id: 81, name: "Del Piero", username: "user81" },
+  { id: 82, name: "Mandzukic", username: "user82" },
+  { id: 83, name: "Juventus Midfielder", username: "user83" },
+  { id: 84, name: "Chiellini", username: "user84" },
+  { id: 85, name: "Juventus Goalkeeper", username: "user85" },
 ];
 
-const Teams = [
-  { id: 1, name: "Liverpool Manager", username: "user1" },
-  { id: 2, name: "Barcelona Manager", username: "user2" },
-  { id: 3, name: "Real Madrid Manager", username: "user3" },
-  { id: 4, name: "Paris Saint Germain Manager", username: "user4" },
-  { id: 5, name: "Manchester United Manager", username: "user5" },
-  { id: 6, name: "Atletico Madrid Manager", username: "user6" },
-  { id: 7, name: "Sevilla Manager", username: "user7" },
-  { id: 8, name: "Manchester City Manager", username: "user8" },
-  { id: 9, name: "Chelsea Manager", username: "user9" },
-  { id: 10, name: "AC Milan Manager", username: "user10" },
-  { id: 11, name: "Bayern Munich", username: "user11" },
-  { id: 12, name: "Juventus Manager", username: "user12" },
+export const Teams = [
+  { id: 1, name: "Liverpool Manager", managerID: 2, leagueID: 1 },
+  { id: 2, name: "Barcelona Manager", managerID: 3, leagueID: 1 },
+  { id: 3, name: "Real Madrid Manager", managerID: 4, leagueID: 1 },
+  { id: 4, name: "Paris Saint Germain Manager", managerID: 5, leagueID: 1 },
+  { id: 5, name: "Manchester United Manager", managerID: 6, leagueID: 1 },
+  { id: 6, name: "Atletico Madrid Manager", managerID: 7, leagueID: 1 },
+  { id: 7, name: "Sevilla Manager", managerID: 8, leagueID: 1 },
+  { id: 8, name: "Manchester City Manager", managerID: 9, leagueID: 1 },
+  { id: 9, name: "Chelsea Manager", managerID: 10, leagueID: 1 },
+  { id: 10, name: "AC Milan Manager", managerID: 11, leagueID: 1 },
+  { id: 11, name: "Bayern Munich", managerID: 12, leagueID: 1 },
+  { id: 12, name: "Juventus Manager", managerID: 13, leagueID: 1 },
 ];
 
-const Tournaments = [
+export const Tournaments = [
   { id: 1, name: "Super League", descr: "League for top teams" },
   { id: 2, name: "La Liga", descr: "League for Spanish teams" },
-  { id: 2, name: "Premier League", descr: "League for English teams" },
-  { id: 2, name: "Other League", descr: "League for Other teams" },
-  { id: 2, name: "Copa Del Rey", descr: "Cup for Spanish teams" },
-  { id: 2, name: "Fa Cup", descr: "Cup for English teams" },
-  { id: 2, name: "Champions League", descr: "All top EU Teams" },
+  { id: 3, name: "Premier League", descr: "League for English teams" },
+  { id: 4, name: "Other League", descr: "League for Other teams" },
+  { id: 5, name: "Copa Del Rey", descr: "Cup for Spanish teams" },
+  { id: 6, name: "Fa Cup", descr: "Cup for English teams" },
+  { id: 7, name: "Champions League", descr: "All top EU Teams" },
 ];

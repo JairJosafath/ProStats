@@ -164,7 +164,7 @@ export const getPlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -482,7 +482,7 @@ export const getFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -2451,9 +2451,9 @@ export const listTeamCaptains = /* GraphQL */ `
     }
   }
 `;
-export const getPlayerFixtures = /* GraphQL */ `
-  query GetPlayerFixtures($id: ID!) {
-    getPlayerFixtures(id: $id) {
+export const getPlayersAndFixtures = /* GraphQL */ `
+  query GetPlayersAndFixtures($id: ID!) {
+    getPlayersAndFixtures(id: $id) {
       id
       playerID
       fixtureID
@@ -2500,13 +2500,17 @@ export const getPlayerFixtures = /* GraphQL */ `
     }
   }
 `;
-export const listPlayerFixtures = /* GraphQL */ `
-  query ListPlayerFixtures(
-    $filter: ModelPlayerFixturesFilterInput
+export const listPlayersAndFixtures = /* GraphQL */ `
+  query ListPlayersAndFixtures(
+    $filter: ModelPlayersAndFixturesFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listPlayerFixtures(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listPlayersAndFixtures(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         playerID

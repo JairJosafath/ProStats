@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import NavItem from "rsuite/esm/Nav/NavItem";
 import * as queries from "../../graphql/queries";
 import { API } from "aws-amplify";
+import useUploadDummyData from "../../hooks/useUploadDummyData";
 
 const query = `
 query MyQuery {
@@ -43,16 +44,18 @@ const NavBarInstance = ({
 }) => {
   const [league, setLeague] = useState("league");
 
-  useEffect(() => {
-    const getLeagues = async () => {
-      const AllLeagues = await API.graphql({
-        query: query,
-      });
+  // useEffect(() => {
+  //   const getLeagues = async () => {
+  //     const AllLeagues = await API.graphql({
+  //       query: query,
+  //     });
 
-      console.log("all leagues", AllLeagues);
-    };
-    getLeagues();
-  }, []);
+  //     console.log("all leagues", AllLeagues);
+  //   };
+  //   getLeagues();
+  // }, []);
+
+  useUploadDummyData();
 
   return (
     <Navbar {...props}>

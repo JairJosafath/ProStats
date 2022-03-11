@@ -2,7 +2,7 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 # input AMPLIFY {
 #   globalAuthRule: AuthRule = { allow: public }
-# } # FOR TESTING ONLY!
+# } # FOR TESTING ONLY
 type League
   @model
   @auth(
@@ -12,13 +12,12 @@ type League
       { allow: public, operations: [read] }
     ]
   ) {
-  #
   id: ID!
-  name: String!
+  name: String
 
-  admin: Player! @belongsTo
+  admin: Player @belongsTo
 
-  status: String! #active, inactive, disabled
+  status: String #active, inactive, disabled
   logo: String
   description: String
   header: String #not in classic
@@ -63,7 +62,7 @@ type Player
     ]
   ) {
   id: ID!
-  username: String!
+  username: String
   name: String #lenient name that can change
   image: String
   slogan: String
@@ -84,7 +83,7 @@ type Player
   requestsfromTeam: [RequestTeam2Player] @hasMany
 
   requeststoTeam: [RequestPlayer2Team] @hasMany
-  fixtures: [Fixture] @manyToMany(relationName: "PlayerFixtures")
+  fixturesPlayedIn: [Fixture] @manyToMany(relationName: "PlayersAndFixtures")
 
   playerStats: [PlayerStats] @hasMany
   playerSubscription: PlayerSubscription @hasOne
@@ -102,11 +101,11 @@ type Team
     ]
   ) {
   id: ID!
-  name: String!
+  name: String
   logo: String
   slogan: String
   league: League @belongsTo
-  manager: Player! @belongsTo
+  manager: Player @belongsTo
   status: String
   captains: [Player] @manyToMany(relationName: "TeamCaptains")
   member: [Player] @manyToMany(relationName: "TeamMembers")
@@ -126,7 +125,7 @@ type Team
   homefixtures: [Fixture] @hasMany
   awayfixtures: [Fixture] @hasMany
 
-  teamManager: String!
+  teamManager: String
 
   teamCaptain: [String]
 }
@@ -141,8 +140,8 @@ type Tournament
     ]
   ) {
   id: ID!
-  name: String!
-  season: Int!
+  name: String
+  season: Int
   logo: String
   slogan: String
   team: [Team] @manyToMany(relationName: "TeamTournaments")
@@ -166,10 +165,10 @@ type Fixture
   ) {
   id: ID!
   name: String
-  season: Int!
-  round: Int!
-  homeID: ID
-  awayID: ID
+  season: Int
+  round: Int
+  homeID: ID!
+  awayID: ID!
   homeTeam: Team @belongsTo(fields: ["homeID"])
   awayTeam: Team @belongsTo(fields: ["awayID"])
   homeScore: Int
@@ -179,7 +178,7 @@ type Fixture
   teamStats: [TeamStats] @hasMany
   playerStats: [PlayerStats] @hasMany
   tournamentMod: [String]
-  players: [Player] @manyToMany(relationName: "PlayerFixtures")
+  playersPlayed: [Player] @manyToMany(relationName: "PlayersAndFixtures")
 }
 
 type PlayerStats
@@ -198,7 +197,7 @@ type PlayerStats
   name: String
   version: Int
   player: Player @belongsTo
-  fixture: Fixture
+  fixture: Fixture @belongsTo
   verified: Boolean
   summary_goals: Int
   summary_assists: Int
@@ -458,7 +457,7 @@ type News
     ]
   ) {
   id: ID!
-  title: String!
+  title: String
   subTitle: String
   headerImage: String
   content: String
@@ -496,9 +495,9 @@ type LeagueLevel
     ]
   ) {
   id: ID!
-  name: String!
-  description: String!
-  color: String!
+  name: String
+  description: String
+  color: String
   card: String
   rank: Int
   leagues: [League] @hasMany
@@ -514,9 +513,9 @@ type PlayerLevel
     ]
   ) {
   id: ID!
-  name: String!
-  description: String!
-  color: String!
+  name: String
+  description: String
+  color: String
   card: String
   rank: Int
   players: [Player] @hasMany
@@ -532,9 +531,9 @@ type TeamLevel
     ]
   ) {
   id: ID!
-  name: String!
-  description: String!
-  color: String!
+  name: String
+  description: String
+  color: String
   card: String
   rank: Int
   team: [Team] @hasMany
@@ -550,8 +549,8 @@ type userRole
     ]
   ) {
   id: ID!
-  name: String!
-  description: String!
+  name: String
+  description: String
 }
 
 type RequestLeague2Team
@@ -566,7 +565,7 @@ type RequestLeague2Team
   id: ID!
   from: League @hasOne
   to: Team @hasOne
-  status: String!
+  status: String
 }
 type RequestTeam2League
   @model
@@ -580,7 +579,7 @@ type RequestTeam2League
   id: ID!
   from: Team @hasOne
   to: League @hasOne
-  status: String!
+  status: String
 }
 type RequestTeam2Player
   @model
@@ -594,7 +593,7 @@ type RequestTeam2Player
   id: ID!
   from: Team @hasOne
   to: Player @hasOne
-  status: String!
+  status: String
 }
 
 type RequestPlayer2Team
@@ -609,7 +608,7 @@ type RequestPlayer2Team
   id: ID!
   from: Player @hasOne
   to: Team @hasOne
-  status: String!
+  status: String
 }
 
 type LeagueSubscription
@@ -622,7 +621,7 @@ type LeagueSubscription
     ]
   ) {
   id: ID!
-  name: String!
+  name: String
   description: String
   features: [String]
 }
@@ -636,7 +635,7 @@ type TeamSubscription
     ]
   ) {
   id: ID!
-  name: String!
+  name: String
   description: String
   features: [String]
 }
@@ -650,7 +649,7 @@ type PlayerSubscription
     ]
   ) {
   id: ID!
-  name: String!
+  name: String
   description: String
   features: [String]
 }
@@ -665,7 +664,7 @@ type Trophy
     ]
   ) {
   id: ID!
-  name: String!
+  name: String
   description: String
   tournament: Tournament @belongsTo
   image: String
@@ -681,8 +680,8 @@ type PlayerTournament
     ]
   ) {
   id: ID!
-  name: String!
-  season: Int!
+  name: String
+  season: Int
   host: Player @belongsTo
   logo: String
   slogan: String

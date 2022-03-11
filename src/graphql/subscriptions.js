@@ -297,7 +297,7 @@ export const onCreatePlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -377,7 +377,7 @@ export const onUpdatePlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -457,7 +457,7 @@ export const onDeletePlayer = /* GraphQL */ `
       requeststoTeam {
         nextToken
       }
-      fixtures {
+      fixturesPlayedIn {
         nextToken
       }
       playerStats {
@@ -1000,7 +1000,7 @@ export const onCreateFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -1067,7 +1067,7 @@ export const onUpdateFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -1134,7 +1134,7 @@ export const onDeleteFixture = /* GraphQL */ `
         nextToken
       }
       tournamentMod
-      players {
+      playersPlayed {
         nextToken
       }
       createdAt
@@ -4582,9 +4582,9 @@ export const onDeleteTeamCaptains = /* GraphQL */ `
     }
   }
 `;
-export const onCreatePlayerFixtures = /* GraphQL */ `
-  subscription OnCreatePlayerFixtures($owner: String) {
-    onCreatePlayerFixtures(owner: $owner) {
+export const onCreatePlayersAndFixtures = /* GraphQL */ `
+  subscription OnCreatePlayersAndFixtures($owner: String) {
+    onCreatePlayersAndFixtures(owner: $owner) {
       id
       playerID
       fixtureID
@@ -4631,9 +4631,9 @@ export const onCreatePlayerFixtures = /* GraphQL */ `
     }
   }
 `;
-export const onUpdatePlayerFixtures = /* GraphQL */ `
-  subscription OnUpdatePlayerFixtures($owner: String) {
-    onUpdatePlayerFixtures(owner: $owner) {
+export const onUpdatePlayersAndFixtures = /* GraphQL */ `
+  subscription OnUpdatePlayersAndFixtures($owner: String) {
+    onUpdatePlayersAndFixtures(owner: $owner) {
       id
       playerID
       fixtureID
@@ -4680,9 +4680,9 @@ export const onUpdatePlayerFixtures = /* GraphQL */ `
     }
   }
 `;
-export const onDeletePlayerFixtures = /* GraphQL */ `
-  subscription OnDeletePlayerFixtures($owner: String) {
-    onDeletePlayerFixtures(owner: $owner) {
+export const onDeletePlayersAndFixtures = /* GraphQL */ `
+  subscription OnDeletePlayersAndFixtures($owner: String) {
+    onDeletePlayersAndFixtures(owner: $owner) {
       id
       playerID
       fixtureID
