@@ -16,6 +16,24 @@ export const createLeague = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -101,6 +119,24 @@ export const updateLeague = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -186,6 +222,24 @@ export const deleteLeague = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -303,6 +357,24 @@ export const createPlayer = /* GraphQL */ `
         updatedAt
         owner
       }
+      leaguemembership1
+      leaguemembership2
+      leaguemembership3
+      teammembership2
+      teammembership1
+      teammembership3
+      leagueadmin1
+      leagueadmin2
+      leagueadmin3
+      leaguemod1
+      leaguemod2
+      leaguemod3
+      teamcaptain1
+      teamcaptain2
+      teamcaptain3
+      teammanager2
+      teammanager1
+      teammanager3
       requestsfromTeam {
         nextToken
       }
@@ -386,6 +458,24 @@ export const updatePlayer = /* GraphQL */ `
         updatedAt
         owner
       }
+      leaguemembership1
+      leaguemembership2
+      leaguemembership3
+      teammembership2
+      teammembership1
+      teammembership3
+      leagueadmin1
+      leagueadmin2
+      leagueadmin3
+      leaguemod1
+      leaguemod2
+      leaguemod3
+      teamcaptain1
+      teamcaptain2
+      teamcaptain3
+      teammanager2
+      teammanager1
+      teammanager3
       requestsfromTeam {
         nextToken
       }
@@ -469,6 +559,24 @@ export const deletePlayer = /* GraphQL */ `
         updatedAt
         owner
       }
+      leaguemembership1
+      leaguemembership2
+      leaguemembership3
+      teammembership2
+      teammembership1
+      teammembership3
+      leagueadmin1
+      leagueadmin2
+      leagueadmin3
+      leaguemod1
+      leaguemod2
+      leaguemod3
+      teamcaptain1
+      teamcaptain2
+      teamcaptain3
+      teammanager2
+      teammanager1
+      teammanager3
       requestsfromTeam {
         nextToken
       }
@@ -542,6 +650,24 @@ export const createTeam = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -645,6 +771,24 @@ export const updateTeam = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -748,6 +892,24 @@ export const deleteTeam = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -1211,6 +1373,24 @@ export const createPlayerStats = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -1355,6 +1535,24 @@ export const updatePlayerStats = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -1499,6 +1697,24 @@ export const deletePlayerStats = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2291,6 +2507,24 @@ export const createNews = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2337,6 +2571,24 @@ export const updateNews = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2383,6 +2635,24 @@ export const deleteNews = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2415,6 +2685,24 @@ export const createTransfer = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2425,6 +2713,8 @@ export const createTransfer = /* GraphQL */ `
         playerPlayerSubscriptionId
         owner
       }
+      fromID
+      toID
       from {
         id
         name
@@ -2484,8 +2774,6 @@ export const createTransfer = /* GraphQL */ `
       updatedAt
       leagueTransfersId
       transferPlayerId
-      transferFromId
-      transferToId
       owner
     }
   }
@@ -2504,6 +2792,24 @@ export const updateTransfer = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2514,6 +2820,8 @@ export const updateTransfer = /* GraphQL */ `
         playerPlayerSubscriptionId
         owner
       }
+      fromID
+      toID
       from {
         id
         name
@@ -2573,8 +2881,6 @@ export const updateTransfer = /* GraphQL */ `
       updatedAt
       leagueTransfersId
       transferPlayerId
-      transferFromId
-      transferToId
       owner
     }
   }
@@ -2593,6 +2899,24 @@ export const deleteTransfer = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -2603,6 +2927,8 @@ export const deleteTransfer = /* GraphQL */ `
         playerPlayerSubscriptionId
         owner
       }
+      fromID
+      toID
       from {
         id
         name
@@ -2662,8 +2988,6 @@ export const deleteTransfer = /* GraphQL */ `
       updatedAt
       leagueTransfersId
       transferPlayerId
-      transferFromId
-      transferToId
       owner
     }
   }
@@ -3263,6 +3587,24 @@ export const createRequestTeam2Player = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3315,6 +3657,24 @@ export const updateRequestTeam2Player = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3367,6 +3727,24 @@ export const deleteRequestTeam2Player = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3402,6 +3780,24 @@ export const createRequestPlayer2Team = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3454,6 +3850,24 @@ export const updateRequestPlayer2Team = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3506,6 +3920,24 @@ export const deleteRequestPlayer2Team = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3803,6 +4235,24 @@ export const createPlayerTournament = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3854,6 +4304,24 @@ export const updatePlayerTournament = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3905,6 +4373,24 @@ export const deletePlayerTournament = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3957,6 +4443,24 @@ export const createPlayerTournamentStanding = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -3991,6 +4495,24 @@ export const updatePlayerTournamentStanding = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4025,6 +4547,24 @@ export const deletePlayerTournamentStanding = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4238,6 +4778,24 @@ export const createPlayerTableStat = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4296,6 +4854,24 @@ export const updatePlayerTableStat = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4354,6 +4930,24 @@ export const deletePlayerTableStat = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4420,6 +5014,24 @@ export const createLeagueModerators = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4472,6 +5084,24 @@ export const updateLeagueModerators = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4524,6 +5154,24 @@ export const deleteLeagueModerators = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4556,6 +5204,24 @@ export const createTeamMembers = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4605,6 +5271,24 @@ export const updateTeamMembers = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4654,6 +5338,24 @@ export const deleteTeamMembers = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4703,6 +5405,24 @@ export const createTeamCaptains = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4752,6 +5472,24 @@ export const updateTeamCaptains = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4801,6 +5539,24 @@ export const deleteTeamCaptains = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4850,6 +5606,24 @@ export const createPlayersAndFixtures = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4902,6 +5676,24 @@ export const updatePlayersAndFixtures = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId
@@ -4954,6 +5746,24 @@ export const deletePlayersAndFixtures = /* GraphQL */ `
         image
         slogan
         status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
         createdAt
         updatedAt
         newsPlayerTagsId

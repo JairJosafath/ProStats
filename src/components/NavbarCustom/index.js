@@ -8,28 +8,61 @@ import { API } from "aws-amplify";
 
 const query = `
 query MyQuery {
-  getTournament(id: "75b681ba-1001-456b-b399-d40704ab4652") {
-    playerTable {
-      items {
-        assists
-        beat
-        blocks
-        expectedAssists
-        goals
-        interceptions
-        matchRating
-        nutmeg
-        playerOfTheMatch
-        saves
-        skillmoveBeat
-        tacklesWon
-        player {
+  listLeagues {
+    items {
+      id
+      name
+      header
+      tournaments {
+        items {
           name
+          table {
+            items {
+              cleanSheats
+              gamesDrawn
+              gamesLost
+              gamesWon
+              gamesPlayed
+              goalDifference
+              goalsAgainst
+              goalsFor
+              points
+              record
+              team {
+                logo
+                name
+                id
+              }
+            }
+          }
+          playerTable {
+            items {
+              assists
+              beat
+              blocks
+              expectedAssists
+              goals
+              interceptions
+              matchRating
+              nutmeg
+              player {
+                name
+              }
+              playerOfTheMatch
+              playerTableStatPlayerId
+              saves
+              skillmoveBeat
+              tacklesWon
+              tournamentPlayerTableId
+              id
+            }
+          }
         }
       }
     }
   }
 }
+
 
 `;
 
@@ -39,20 +72,27 @@ const NavBarInstance = ({
   onSelect,
   activeKey,
   user,
+  league,
+  setLeague,
   ...props
 }) => {
-  const [league, setLeague] = useState("league");
+  const [leagues, setLeagues] = useState([]);
 
-  // useEffect(() => {
-  //   const getLeagues = async () => {
-  //     const AllLeagues = await API.graphql({
-  //       query: query,
-  //     });
+  console.log("innav", league);
+  useEffect(() => {
+    const getLeagues = async () => {
+      const AllLeagues = await API.graphql({
+        query: query,
+      });
 
-  //     console.log("all leagues", AllLeagues);
-  //   };
-  //   getLeagues();
-  // }, []);
+      setLeagues(AllLeagues.data.listLeagues.items);
+
+      console.log("allleagues", leagues);
+      // console.log(leagues);
+      // leagues.map((league) => console.log(league.name));
+    };
+    getLeagues();
+  }, []);
 
   return (
     <Navbar {...props}>
@@ -89,8 +129,17 @@ const NavBarInstance = ({
           </Nav.Item>
         </Link>
 
-        <Dropdown title={league}>
-          <Dropdown.Item
+        <Dropdown title={league.name || "league"} style={{ color: "white" }}>
+          {leagues?.map((league) => (
+            <Dropdown.Item
+              key={league.id}
+              eventKey={league.id}
+              onSelect={() => setLeague(league)}
+            >
+              {league.name}
+            </Dropdown.Item>
+          ))}
+          {/* <Dropdown.Item
             eventKey="a"
             onSelect={() => setLeague("Super League")}
           >
@@ -104,12 +153,8 @@ const NavBarInstance = ({
           </Dropdown.Item>
           <Dropdown.Item eventKey="c" onSelect={() => setLeague("La Liga")}>
             La Liga
-          </Dropdown.Item>
-          <Dropdown.Item
-            style={{ background: "rgba(0,0,0,.04)" }}
-            eventKey="d"
-            onSelect={() => setLeague("all")}
-          >
+          </Dropdown.Item> */}
+          <Dropdown.Item style={{ background: "rgba(0,0,0,.04)" }} eventKey="d">
             All leagues
           </Dropdown.Item>
         </Dropdown>
@@ -117,25 +162,22 @@ const NavBarInstance = ({
 
       <Nav pullRight>
         {signedIn ? (
-          <Dropdown title={user ? user.name : "Profile"}>
+          <Dropdown
+            title={user ? user.name : "Profile"}
+            style={{ color: "white" }}
+          >
             <Dropdown.Item eventKey="d">
-              <Link
-                to={"account"}
-                style={{ color: "black", textDecoration: "none" }}
-              >
+              <Link to={"account"} style={{ textDecoration: "none" }}>
                 Account
               </Link>
             </Dropdown.Item>
             <Dropdown.Item eventKey="e">
-              <Link
-                to={"preferences"}
-                style={{ color: "black", textDecoration: "none" }}
-              >
+              <Link to={"preferences"} style={{ textDecoration: "none" }}>
                 Preferences
               </Link>
             </Dropdown.Item>
             <Dropdown.Item eventKey="f" onClick={() => setSignedIn(!signedIn)}>
-              <Link to={"/"} style={{ color: "black", textDecoration: "none" }}>
+              <Link to={"/"} style={{ textDecoration: "none" }}>
                 Log Out
               </Link>
             </Dropdown.Item>
@@ -155,22 +197,24 @@ const NavBarInstance = ({
   );
 };
 
-const NavbarCustom = ({ setSignedIn, signedIn }) => {
+const NavbarCustom = ({ setSignedIn, signedIn, league, setLeague }) => {
   const [activeKey, setActiveKey] = useState(null);
   return (
     <NavBarInstance
-      appearance="inverse"
+      appearance="default"
       activeKey={activeKey}
       onSelect={setActiveKey}
       style={style}
       signedIn={signedIn}
       setSignedIn={setSignedIn}
+      league={league}
+      setLeague={setLeague}
     />
   );
 };
 
 const style = {
-  background: "#0000B9",
+  background: "#023e8a",
   position: "sticky",
   top: 0,
   left: 0,

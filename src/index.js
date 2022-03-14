@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-
+import styled from "styled-components";
 import "rsuite/dist/rsuite.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+const Backdrop = styled.div`
+  background: var(--primary-col);
+`;
 
 ReactDOM.render(
   <React.StrictMode>

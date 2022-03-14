@@ -80,6 +80,31 @@ type Player
   #
   playerLevel: PlayerLevel @hasOne
 
+  #team/league memberships
+  leaguemembership1: String
+  leaguemembership2: String
+  leaguemembership3: String
+
+  teammembership2: String
+  teammembership1: String
+  teammembership3: String
+
+  leagueadmin1: String
+  leagueadmin2: String
+  leagueadmin3: String
+
+  leaguemod1: String
+  leaguemod2: String
+  leaguemod3: String
+
+  teamcaptain1: String
+  teamcaptain2: String
+  teamcaptain3: String
+
+  teammanager2: String
+  teammanager1: String
+  teammanager3: String
+
   requestsfromTeam: [RequestTeam2Player] @hasMany
 
   requeststoTeam: [RequestPlayer2Team] @hasMany
@@ -479,8 +504,10 @@ type Transfer
   ) {
   id: ID!
   player: Player @hasOne
-  from: Team @hasOne
-  to: Team @hasOne
+  fromID: ID!
+  toID: ID!
+  from: Team @hasOne(fields: ["fromID"])
+  to: Team @hasOne(fields: ["toID"])
   type: String
   league: League @belongsTo
 }

@@ -4,29 +4,50 @@ import DropdownItem from "rsuite/esm/Dropdown/DropdownItem";
 import LeagueTable from "../Table";
 import TopPerformers from "../TopScorers";
 
-const StandingCard = ({ title, content }) => {
-  const [type, setType] = useState("Goals");
+const StandingCard = ({
+  title,
+  content,
+  tournament,
+  setTournament,
+  tournaments,
+  setTournaments,
+  league,
+  table,
+  indexT,
+  setIndexT,
+  playerTable,
+}) => {
+  const [type, setType] = useState("goals");
   return (
     <Panel header={title} shaded>
       {title !== "Table" && (
         <Dropdown title={type}>
-          <DropdownItem onSelect={() => setType("Goals")}>Goals</DropdownItem>
-          <DropdownItem onSelect={() => setType("Assists")}>
+          <DropdownItem onSelect={() => setType("goals")}>Goals</DropdownItem>
+          <DropdownItem onSelect={() => setType("assists")}>
             Assists
           </DropdownItem>
-          <DropdownItem onSelect={() => setType("Saves")}>Saves</DropdownItem>
-          <DropdownItem onSelect={() => setType("Tackles")}>
-            Tackles
-          </DropdownItem>
-          <DropdownItem onSelect={() => setType("Yellow Card")}>
-            Yellow Card
-          </DropdownItem>
-          <DropdownItem onSelect={() => setType("Red Card")}>
-            Red Card
+          <DropdownItem onSelect={() => setType("saves")}>Saves</DropdownItem>
+          <DropdownItem onSelect={() => setType("beat")}>Beat</DropdownItem>
+          <DropdownItem onSelect={() => setType("blocks")}>Blocks</DropdownItem>
+          <DropdownItem onSelect={() => setType("expectedAssists")}>
+            Expected Assists
           </DropdownItem>
         </Dropdown>
       )}
-      {title === "Table" ? <LeagueTable /> : <TopPerformers type={type} />}
+      {title === "Table" ? (
+        <LeagueTable
+          tournament={tournament}
+          tournaments={tournaments}
+          setTournament={setTournament}
+          setTournaments={setTournaments}
+          league={league}
+          table={table}
+          indexT={indexT}
+          setIndexT={setIndexT}
+        />
+      ) : (
+        <TopPerformers type={type} playerTable={playerTable} />
+      )}
     </Panel>
   );
 };

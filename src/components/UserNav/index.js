@@ -16,7 +16,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
         <Nav.Item as={"div"} eventKey="dashboard" icon={<AiFillHome />}>
           <Link
             to={"dashboard"}
-            style={{ color: "black", textDecoration: "none" }}
+            style={{ color: "white", textDecoration: "none" }}
           >
             Dashboard
           </Link>
@@ -28,13 +28,13 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
           <Nav.Dropdown title="upload player stats">
             <Link
               to={"uploadplayerstats/ss"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               <Nav.Dropdown.Item>via screenshot</Nav.Dropdown.Item>
             </Link>
             <Link
               to={"uploadplayerstats/ma"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               <Nav.Dropdown.Item>manually</Nav.Dropdown.Item>
             </Link>
@@ -46,13 +46,13 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
           <Nav.Dropdown title="upload team stats">
             <Link
               to={"uploadteamstats/ss"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               <Nav.Dropdown.Item>via screenshot</Nav.Dropdown.Item>
             </Link>
             <Link
               to={"uploadteamstats/ma"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               <Nav.Dropdown.Item>manually</Nav.Dropdown.Item>
             </Link>
@@ -62,7 +62,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
           <Nav.Item as={"div"} eventKey="manage player ">
             <Link
               to={"manageplayer"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               manage player
             </Link>{" "}
@@ -72,7 +72,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
           <Nav.Item as={"div"} eventKey="manage team ">
             <Link
               to={"manageteam"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               manage team{" "}
             </Link>
@@ -82,13 +82,13 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
           <Dropdown eventKey="post" title={"post"} size={"sm"}>
             <Link
               to={"news"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               <DropdownItem>News</DropdownItem>{" "}
             </Link>
             <Link
               to={"transfer"}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{ color: "white", textDecoration: "none" }}
             >
               <DropdownItem>Transfer</DropdownItem>
             </Link>
@@ -105,7 +105,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
 };
 
 const UserNav = ({ user }) => {
-  const [active, setActive] = useState("home");
+  const [active, setActive] = useState("dashboard");
   return (
     <>
       <CustomNav
