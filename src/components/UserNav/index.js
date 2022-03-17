@@ -6,12 +6,13 @@ import NavItem from "rsuite/esm/Nav/NavItem";
 import { Link } from "react-router-dom";
 import SearchPlayer from "../SearchPlayers";
 import FlexboxGridItem from "rsuite/esm/FlexboxGrid/FlexboxGridItem";
+import { useAuthenticator, withAuthenticator } from "@aws-amplify/ui-react";
 
 const CustomNav = ({ active, onSelect, user, ...props }) => {
   return (
     <div style={{ display: "flex" }}>
       <Nav {...props} activeKey={active} onSelect={onSelect}>
-        <Nav.Item disabled>{`${user?.name}:${user?.role?.role}`}</Nav.Item>
+        <Nav.Item disabled>{`${user?.username}:${"coming soon"}`}</Nav.Item>
 
         <Nav.Item as={"div"} eventKey="dashboard" icon={<AiFillHome />}>
           <Link
@@ -25,7 +26,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
         {
           // <Nav.Item as={"div"} eventKey="upload player stats">
 
-          <Nav.Dropdown title="upload player stats">
+          <Nav.Dropdown title="upload player stats" style={{ zIndex: 0 }}>
             <Link
               to={"uploadplayerstats/ss"}
               style={{ color: "white", textDecoration: "none" }}
@@ -43,7 +44,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
           // </Nav.Item>
         }
         {user?.role?.role !== "player" && (
-          <Nav.Dropdown title="upload team stats">
+          <Nav.Dropdown title="upload team stats" style={{ zIndex: 0 }}>
             <Link
               to={"uploadteamstats/ss"}
               style={{ color: "white", textDecoration: "none" }}

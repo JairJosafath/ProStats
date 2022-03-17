@@ -1,5 +1,5 @@
 import { List, Panel } from "rsuite";
-
+import { withAuthenticator } from "@aws-amplify/ui-react";
 const ManagePlayer = () => {
   return (
     <>
@@ -55,4 +55,4 @@ const ManagePlayer = () => {
   );
 };
 
-export default ManagePlayer;
+export default withAuthenticator(ManagePlayer);

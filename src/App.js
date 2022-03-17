@@ -1,35 +1,45 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+
+//Styles
+import "./App.css";
+import "@aws-amplify/ui-react/styles.css";
+
+//Amplify
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Amplify, API, Auth } from "aws-amplify";
+import awsExports from "./aws-exports";
+
+//Components
 import NavbarCustom from "./components/NavbarCustom";
 import UserNav from "./components/UserNav";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CustomProvider } from "rsuite";
+import banner from "./img/banner.png";
+
+//Containers
 import Home from "./containers/Home";
 import Standings from "./containers/Standings";
 import Transfers from "./containers/Transfers";
 import Fixtures from "./containers/Fixtures";
-import { useState } from "react";
-import users from "./backend/user/users";
 import Dashboard from "./containers/Dashboard";
 import UploadPlayerStats from "./containers/UploadPlayerStats";
 import UploadTeamStats from "./containers/UploadTeamStats";
 import ManagePlayer from "./containers/ManagePlayer";
 import ManageTeam from "./containers/ManageTeam";
-import Transfer from "./containers/Post/Transfer";
-import News from "./containers/Post/News";
+import PostTransfer from "./containers/Post/PostTransfer";
+import PostNews from "./containers/Post/PostNews";
+import News from "./containers/News";
 import Account from "./containers/Account";
 import Preferences from "./containers/Preferences";
-import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
-import { CustomProvider } from "rsuite";
-import banner from "./img/banner.png";
+import SignInCustom from "./containers/SignInCustom";
+
+//queries
+import { createPlayer } from "./graphql/mutations";
 
 Amplify.configure(awsExports);
 
 function App(props) {
-  const [signedIn, setSignedIn] = useState(false);
-  const [user, setUser] = useState("");
-  const [brightness, setBrightness] = useState(1);
   const [league, setLeague] = useState({
     name: "league",
     header: banner,
@@ -90,18 +100,40 @@ function App(props) {
   const [tournament, setTournament] = useState(league.tournaments.items[0]);
   const [tournaments, setTournaments] = useState(league.tournaments.items);
   const [indexT, setIndexT] = useState(0);
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
+
+  console.log("usercreds", user);
+
   useEffect(() => {
-    if (signedIn === true) setUser(users[0]);
-    else setUser("guest");
-  }, [signedIn]);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", () => {
-        console.log(brightness - window.pageYOffset / 300);
-        return setBrightness(brightness - window.pageYOffset / 300);
-      });
+    if (user) {
+      userCheck(user.attributes);
+
+      const createPlayerInput = {
+        name: user.username,
+      };
+
+      const cp = async () => {
+        if (
+          user.attributes["custom:player_id"] === "" ||
+          !user.attributes["custom:player_id"]
+        ) {
+          const playerID = await API.graphql({
+            query: createPlayer,
+            variables: { input: createPlayerInput },
+            authMode: "AMAZON_COGNITO_USER_POOLS",
+          });
+          console.log("newly created ID", playerID);
+          Auth.updateUserAttributes(user, {
+            "custom:player_id": playerID.data.createPlayer.id,
+          });
+        }
+      };
+
+      cp();
+
+      userCheck(user.attributes);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     setTournaments(league.tournaments.items);
@@ -118,6 +150,7 @@ function App(props) {
               left: 0,
               top: 0,
               height: 300,
+              opacity: 0,
               background: "#023e8a",
               width: "100vw",
             }}
@@ -126,8 +159,7 @@ function App(props) {
             style={{
               objectFit: "cover",
               height: 300,
-              filter: `brightness(${brightness * 100}%) `,
-              opacity: `${brightness}`,
+
               width: "100vw",
             }}
             src={league.header}
@@ -135,15 +167,14 @@ function App(props) {
           />
         </>
       )}
+
       <BrowserRouter>
         <NavbarCustom
-          user={user}
-          signedIn={signedIn}
-          setSignedIn={setSignedIn}
           league={league}
           setLeague={setLeague}
+          loggedIn={user ? true : false}
         />
-        {signedIn && user && (
+        {user && (
           <>
             <UserNav user={user} />
           </>
@@ -171,23 +202,52 @@ function App(props) {
           />
           <Route path="/transfers" element={<Transfers />} />
           <Route path="/fixtures" element={<Fixtures />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={user ? <Dashboard /> : <SignInCustom />}
+          />
           <Route
             path="/uploadplayerstats/:type"
             element={<UploadPlayerStats />}
           />
-          <Route path="/uploadteamstats/:type" element={<UploadTeamStats />} />
-          <Route path="/manageplayer" element={<ManagePlayer />} />
-          <Route path="/manageteam" element={<ManageTeam />} />
-          <Route path="/transfer" element={<Transfer />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/preferences" element={<Preferences />} />
-          <Route path="/account" element={<Account />} />
+          <Route
+            path="/uploadteamstats/:type"
+            element={user ? <UploadTeamStats /> : <SignInCustom />}
+          />
+          <Route
+            path="/manageplayer"
+            element={user ? <ManagePlayer /> : <SignInCustom />}
+          />
+          <Route
+            path="/manageteam"
+            element={user ? <ManageTeam /> : <SignInCustom />}
+          />
+          <Route
+            path="/transfer"
+            element={user ? <PostTransfer /> : <SignInCustom />}
+          />
+          <Route
+            path="/news"
+            element={user ? <PostNews /> : <SignInCustom />}
+          />
+          <Route
+            path="/preferences"
+            element={user ? <Preferences /> : <SignInCustom />}
+          />
+          <Route
+            path="/account"
+            element={user ? <Account /> : <SignInCustom />}
+          />
+          <Route path="/signIn" element={<SignInCustom />} />
         </Routes>
       </BrowserRouter>
+      <News league={league} />
       <CustomProvider theme="dark">{props.children}</CustomProvider>
     </>
   );
 }
 
+const userCheck = (attributes) => {
+  console.log("attributes", attributes["custom:player_id"]);
+};
 export default App;

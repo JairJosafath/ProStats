@@ -8,6 +8,7 @@ import {
   Col,
   Input,
 } from "rsuite";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useRef, useEffect } from "react";
 import playerStats from "../../backend/db/playerStats";
 
@@ -60,4 +61,4 @@ const UploadPlayerStats = () => {
   );
 };
 
-export default UploadPlayerStats;
+export default withAuthenticator(UploadPlayerStats);

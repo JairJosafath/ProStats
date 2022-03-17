@@ -1,5 +1,5 @@
 import { List, Panel } from "rsuite";
-
+import { withAuthenticator } from "@aws-amplify/ui-react";
 const ManageTeam = () => {
   return (
     <>
@@ -56,4 +56,4 @@ const ManageTeam = () => {
   );
 };
 
-export default ManageTeam;
+export default withAuthenticator(ManageTeam);

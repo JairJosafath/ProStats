@@ -220,6 +220,7 @@ const LeagueTable = ({
             ))}
           </Dropdown>
           <Table
+            style={{ zIndex: 0 }}
             height={600}
             data={getData(table.items)}
             id="table"

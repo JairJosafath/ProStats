@@ -3,15 +3,20 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import styled from "styled-components";
 import "rsuite/dist/rsuite.min.css";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Authenticator } from "@aws-amplify/ui-react";
+
 const Backdrop = styled.div`
   background: var(--primary-col);
 `;
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Authenticator.Provider>
+      <App />
+    </Authenticator.Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import NavItem from "rsuite/esm/Nav/NavItem";
 import * as queries from "../../graphql/queries";
 import { API } from "aws-amplify";
+import { Auth } from "aws-amplify";
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
+import { useNavigate } from "react-router-dom";
 
 const query = `
 query MyQuery {
@@ -67,15 +70,15 @@ query MyQuery {
 `;
 
 const NavBarInstance = ({
-  signedIn,
-  setSignedIn,
   onSelect,
   activeKey,
-  user,
+  loggedIn,
   league,
   setLeague,
   ...props
 }) => {
+  const { signOut } = useAuthenticator();
+  let navigate = useNavigate();
   const [leagues, setLeagues] = useState([]);
 
   console.log("innav", league);
@@ -161,9 +164,9 @@ const NavBarInstance = ({
       </Nav>
 
       <Nav pullRight>
-        {signedIn ? (
+        {loggedIn ? (
           <Dropdown
-            title={user ? user.name : "Profile"}
+            title={false ? "user.name" : "Profile"}
             style={{ color: "white" }}
           >
             <Dropdown.Item eventKey="d">
@@ -176,16 +179,20 @@ const NavBarInstance = ({
                 Preferences
               </Link>
             </Dropdown.Item>
-            <Dropdown.Item eventKey="f" onClick={() => setSignedIn(!signedIn)}>
-              <Link to={"/"} style={{ textDecoration: "none" }}>
-                Log Out
-              </Link>
+            <Dropdown.Item
+              eventKey="f"
+              onClick={() => {
+                navigate("/");
+                signOut();
+              }}
+            >
+              Log Out
             </Dropdown.Item>
           </Dropdown>
         ) : (
-          <NavItem as={"div"} onClick={() => setSignedIn(!signedIn)}>
+          <NavItem as={"div"}>
             <Link
-              to={"dashboard"}
+              to={"signIn"}
               style={{ color: "white", textDecoration: "none" }}
             >
               Sign in
@@ -197,7 +204,13 @@ const NavBarInstance = ({
   );
 };
 
-const NavbarCustom = ({ setSignedIn, signedIn, league, setLeague }) => {
+const NavbarCustom = ({
+  setSignedIn,
+  signedIn,
+  league,
+  setLeague,
+  loggedIn,
+}) => {
   const [activeKey, setActiveKey] = useState(null);
   return (
     <NavBarInstance
@@ -205,10 +218,9 @@ const NavbarCustom = ({ setSignedIn, signedIn, league, setLeague }) => {
       activeKey={activeKey}
       onSelect={setActiveKey}
       style={style}
-      signedIn={signedIn}
-      setSignedIn={setSignedIn}
       league={league}
       setLeague={setLeague}
+      loggedIn={loggedIn}
     />
   );
 };
@@ -218,7 +230,7 @@ const style = {
   position: "sticky",
   top: 0,
   left: 0,
-  zIndex: 7,
+  zIndex: 1,
 };
 
 export default NavbarCustom;
