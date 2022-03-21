@@ -3,11 +3,11 @@ import { AiFillHome } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavItem from "rsuite/esm/Nav/NavItem";
-import * as queries from "../../graphql/queries";
 import { API } from "aws-amplify";
 import { Auth } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
+import useGetFavoriteLeague from "../../hooks/useGetFavoriteLeagues";
 
 const query = `
 query MyQuery {
@@ -16,6 +16,10 @@ query MyQuery {
       id
       name
       header
+      newsModerators
+      requestModerators
+      tournamentModerators
+      transferModerator
       tournaments {
         items {
           name
@@ -77,25 +81,27 @@ const NavBarInstance = ({
   setLeague,
   ...props
 }) => {
-  const { signOut } = useAuthenticator();
+  const { user, signOut } = useAuthenticator();
   let navigate = useNavigate();
-  const [leagues, setLeagues] = useState([]);
+  const [leagues, loadingLEagues, errorLeagues] = useGetFavoriteLeague();
 
-  console.log("innav", league);
-  useEffect(() => {
-    const getLeagues = async () => {
-      const AllLeagues = await API.graphql({
-        query: query,
-      });
+  // const [leagues, setLeagues] = useState([]);
 
-      setLeagues(AllLeagues.data.listLeagues.items);
+  // console.log("innav", league);
+  // useEffect(() => {
+  //   const getLeagues = async () => {
+  //     const AllLeagues = await API.graphql({
+  //       query: query,
+  //     });
 
-      console.log("allleagues", leagues);
-      // console.log(leagues);
-      // leagues.map((league) => console.log(league.name));
-    };
-    getLeagues();
-  }, []);
+  //     setLeagues(AllLeagues.data.listLeagues.items);
+
+  //     console.log("allleagues", leagues);
+  //     // console.log(leagues);
+  //     // leagues.map((league) => console.log(league.name));
+  //   };
+  //   getLeagues();
+  // }, []);
 
   return (
     <Navbar {...props}>
@@ -106,6 +112,7 @@ const NavBarInstance = ({
       </Link>
       <Nav onSelect={onSelect} activeKey={activeKey}>
         <Link
+          key={"standings"}
           to={"standings"}
           style={{ color: "white", textDecoration: "none" }}
         >
@@ -115,6 +122,7 @@ const NavBarInstance = ({
         </Link>
 
         <Link
+          key={"transfers"}
           to={"transfers"}
           style={{ color: "white", textDecoration: "none" }}
         >
@@ -124,6 +132,7 @@ const NavBarInstance = ({
         </Link>
 
         <Link
+          key={"fixtures"}
           to={"fixtures"}
           style={{ color: "white", textDecoration: "none" }}
         >
@@ -166,7 +175,7 @@ const NavBarInstance = ({
       <Nav pullRight>
         {loggedIn ? (
           <Dropdown
-            title={false ? "user.name" : "Profile"}
+            title={user ? user.username : "Profile"}
             style={{ color: "white" }}
           >
             <Dropdown.Item eventKey="d">
@@ -175,7 +184,7 @@ const NavBarInstance = ({
               </Link>
             </Dropdown.Item>
             <Dropdown.Item eventKey="e">
-              <Link to={"preferences"} style={{ textDecoration: "none" }}>
+              <Link to={`preferences`} style={{ textDecoration: "none" }}>
                 Preferences
               </Link>
             </Dropdown.Item>
@@ -230,7 +239,7 @@ const style = {
   position: "sticky",
   top: 0,
   left: 0,
-  zIndex: 1,
+  zIndex: 20,
 };
 
 export default NavbarCustom;

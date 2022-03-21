@@ -2616,6 +2616,7 @@ export const getTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -2633,6 +2634,7 @@ export const listTeamMembers = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        teamManager
       }
       nextToken
     }
@@ -2699,6 +2701,7 @@ export const getTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -2716,6 +2719,7 @@ export const listTeamCaptains = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        teamManager
       }
       nextToken
     }
@@ -2851,6 +2855,7 @@ export const getTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -2868,6 +2873,7 @@ export const listTeamTournaments = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        teamManager
       }
       nextToken
     }

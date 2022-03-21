@@ -8,11 +8,11 @@ import SearchPlayer from "../SearchPlayers";
 import FlexboxGridItem from "rsuite/esm/FlexboxGrid/FlexboxGridItem";
 import { useAuthenticator, withAuthenticator } from "@aws-amplify/ui-react";
 
-const CustomNav = ({ active, onSelect, user, ...props }) => {
+const CustomNav = ({ active, onSelect, user, roles, ...props }) => {
   return (
     <div style={{ display: "flex" }}>
       <Nav {...props} activeKey={active} onSelect={onSelect}>
-        <Nav.Item disabled>{`${user?.username}:${"coming soon"}`}</Nav.Item>
+        <Nav.Item disabled>{`${user?.username}:${roles[0]}`}</Nav.Item>
 
         <Nav.Item as={"div"} eventKey="dashboard" icon={<AiFillHome />}>
           <Link
@@ -43,7 +43,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
 
           // </Nav.Item>
         }
-        {user?.role?.role !== "player" && (
+        {!roles.includes("player") && (
           <Nav.Dropdown title="upload team stats" style={{ zIndex: 0 }}>
             <Link
               to={"uploadteamstats/ss"}
@@ -69,7 +69,7 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
             </Link>{" "}
           </Nav.Item>
         }
-        {user?.role?.role !== "player" && (
+        {!roles.includes("player") && (
           <Nav.Item as={"div"} eventKey="manage team ">
             <Link
               to={"manageteam"}
@@ -79,7 +79,12 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
             </Link>
           </Nav.Item>
         )}
-        {(user?.role?.role === "admin" || user?.role?.role === "mod") && (
+        {(roles.includes("admin") ||
+          roles.includes("mod") ||
+          roles.includes("newsMod") ||
+          roles.includes("transferMod") ||
+          roles.includes("reqMod") ||
+          roles.includes("tournMod")) && (
           <Dropdown eventKey="post" title={"post"} size={"sm"}>
             <Link
               to={"news"}
@@ -105,12 +110,13 @@ const CustomNav = ({ active, onSelect, user, ...props }) => {
   );
 };
 
-const UserNav = ({ user }) => {
+const UserNav = ({ user, roles }) => {
   const [active, setActive] = useState("dashboard");
   return (
     <>
       <CustomNav
         user={user}
+        roles={roles}
         appearance="subtle"
         active={active}
         onSelect={setActive}

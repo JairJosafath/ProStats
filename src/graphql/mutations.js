@@ -5252,6 +5252,7 @@ export const createTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5319,6 +5320,7 @@ export const updateTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5386,6 +5388,7 @@ export const deleteTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5453,6 +5456,7 @@ export const createTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5520,6 +5524,7 @@ export const updateTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5587,6 +5592,7 @@ export const deleteTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5843,6 +5849,7 @@ export const createTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5889,6 +5896,7 @@ export const updateTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5935,6 +5943,7 @@ export const deleteTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;

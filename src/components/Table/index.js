@@ -75,11 +75,7 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
         display: "inline-block",
       }}
     >
-      <img
-        src={rowData[dataKey].logo || "fcb.png"}
-        width="40"
-        alt="club logo"
-      />
+      <img src={rowData[dataKey].logo || ""} width="40" alt="club logo" />
     </div>
   </Cell>
 );

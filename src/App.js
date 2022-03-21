@@ -41,28 +41,28 @@ Amplify.configure(awsExports);
 
 function App(props) {
   const [league, setLeague] = useState({
-    name: "league",
-    header: banner,
+    name: null,
+    header: null,
     tournaments: {
       items: [
         {
-          name: "testingg",
+          name: null,
           table: {
             items: [
               {
-                cleanSheats: 0,
-                gamesDrawn: 0,
-                gamesLost: 0,
-                gamesPlayed: 0,
-                gamesWon: 0,
-                goalDifference: 0,
-                goalsAgainst: 0,
-                goalsFor: 0,
-                points: 0,
-                record: ["D", "D"],
+                cleanSheats: null,
+                gamesDrawn: null,
+                gamesLost: null,
+                gamesPlayed: null,
+                gamesWon: null,
+                goalDifference: null,
+                goalsAgainst: null,
+                goalsFor: null,
+                points: null,
+                record: [null, null],
                 team: {
-                  logo: "logo",
-                  team: "name",
+                  logo: null,
+                  team: null,
                 },
               },
             ],
@@ -70,24 +70,24 @@ function App(props) {
           playerTable: {
             items: [
               {
-                assists: 0,
-                beat: 0,
-                blocks: 0,
-                expectedAssists: 0,
-                goals: 0,
-                interceptions: 0,
-                matchRating: 0,
-                nutmeg: 0,
+                assists: null,
+                beat: null,
+                blocks: null,
+                expectedAssists: null,
+                goals: null,
+                interceptions: null,
+                matchRating: null,
+                nutmeg: null,
                 player: {
-                  name: 0,
+                  name: null,
                 },
-                playerOfTheMatch: 0,
-                playerTableStatPlayerId: 0,
-                saves: 0,
-                skillmoveBeat: 0,
-                tacklesWon: 0,
-                tournamentPlayerTableId: 0,
-                id: 0,
+                playerOfTheMatch: null,
+                playerTableStatPlayerId: null,
+                saves: null,
+                skillmoveBeat: null,
+                tacklesWon: null,
+                tournamentPlayerTableId: null,
+                id: null,
               },
             ],
           },
@@ -95,21 +95,23 @@ function App(props) {
       ],
     },
   });
-  // console.log("show", league.tournaments.items);
-  // console.log("showAll", league.tournaments);
+
   const [tournament, setTournament] = useState(league.tournaments.items[0]);
   const [tournaments, setTournaments] = useState(league.tournaments.items);
   const [indexT, setIndexT] = useState(0);
   const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const [roles, setRoles] = useState(["player"]);
 
-  console.log("usercreds", user);
+  useEffect(() => {
+    setTournaments(league.tournaments.items);
+    setTournament(tournaments[indexT]);
+  }, [league, tournament, tournaments, indexT]);
 
   useEffect(() => {
     if (user) {
-      userCheck(user.attributes);
-
       const createPlayerInput = {
         name: user.username,
+        username: user.username,
       };
 
       const cp = async () => {
@@ -122,7 +124,7 @@ function App(props) {
             variables: { input: createPlayerInput },
             authMode: "AMAZON_COGNITO_USER_POOLS",
           });
-          console.log("newly created ID", playerID);
+
           Auth.updateUserAttributes(user, {
             "custom:player_id": playerID.data.createPlayer.id,
           });
@@ -130,15 +132,44 @@ function App(props) {
       };
 
       cp();
-
-      userCheck(user.attributes);
     }
-  }, [user]);
+  }, [user, league]);
 
   useEffect(() => {
-    setTournaments(league.tournaments.items);
-    setTournament(tournaments[indexT]);
-  }, [league, tournament, tournaments, indexT]);
+    if (user) {
+      let addingroles = ["player"];
+
+      if (league.leagueAdmin === user.username) {
+        //give admin role
+
+        addingroles.push("admin");
+      }
+
+      if (league.newsModerators?.includes(user.username)) {
+        //give newsModerators role
+
+        addingroles.push("newsMod");
+      }
+
+      if (league.requestModerators?.includes(user.username)) {
+        //give reqModerators role
+
+        addingroles.push("reqMod");
+      }
+      if (league.tournamentModerators?.includes(user.username)) {
+        addingroles.push("tournMod");
+        //give tournamentModerators role
+      }
+
+      if (league.transferModerators?.includes(user.username)) {
+        //give transferModerators role
+
+        addingroles.push("transferMod");
+      }
+
+      setRoles(addingroles);
+    }
+  }, [league]);
 
   return (
     <>
@@ -173,10 +204,11 @@ function App(props) {
           league={league}
           setLeague={setLeague}
           loggedIn={user ? true : false}
+          user={user ? user : "geust"}
         />
         {user && (
           <>
-            <UserNav user={user} />
+            <UserNav user={user} roles={roles} />
           </>
         )}
 
@@ -231,8 +263,14 @@ function App(props) {
             element={user ? <PostNews /> : <SignInCustom />}
           />
           <Route
-            path="/preferences"
-            element={user ? <Preferences /> : <SignInCustom />}
+            path={`/preferences`}
+            element={
+              user ? (
+                <Preferences playerID={user.attributes["custom:player_id"]} />
+              ) : (
+                <SignInCustom />
+              )
+            }
           />
           <Route
             path="/account"
@@ -247,7 +285,4 @@ function App(props) {
   );
 }
 
-const userCheck = (attributes) => {
-  console.log("attributes", attributes["custom:player_id"]);
-};
 export default App;

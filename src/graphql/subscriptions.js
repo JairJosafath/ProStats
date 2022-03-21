@@ -596,8 +596,8 @@ export const onDeletePlayer = /* GraphQL */ `
   }
 `;
 export const onCreateTeam = /* GraphQL */ `
-  subscription OnCreateTeam($owner: String) {
-    onCreateTeam(owner: $owner) {
+  subscription OnCreateTeam($owner: String, $teamManager: String) {
+    onCreateTeam(owner: $owner, teamManager: $teamManager) {
       id
       name
       logo
@@ -714,8 +714,8 @@ export const onCreateTeam = /* GraphQL */ `
   }
 `;
 export const onUpdateTeam = /* GraphQL */ `
-  subscription OnUpdateTeam($owner: String) {
-    onUpdateTeam(owner: $owner) {
+  subscription OnUpdateTeam($owner: String, $teamManager: String) {
+    onUpdateTeam(owner: $owner, teamManager: $teamManager) {
       id
       name
       logo
@@ -832,8 +832,8 @@ export const onUpdateTeam = /* GraphQL */ `
   }
 `;
 export const onDeleteTeam = /* GraphQL */ `
-  subscription OnDeleteTeam($owner: String) {
-    onDeleteTeam(owner: $owner) {
+  subscription OnDeleteTeam($owner: String, $teamManager: String) {
+    onDeleteTeam(owner: $owner, teamManager: $teamManager) {
       id
       name
       logo
@@ -4955,8 +4955,8 @@ export const onDeleteLeagueModerators = /* GraphQL */ `
   }
 `;
 export const onCreateTeamMembers = /* GraphQL */ `
-  subscription OnCreateTeamMembers($owner: String) {
-    onCreateTeamMembers(owner: $owner) {
+  subscription OnCreateTeamMembers($owner: String, $teamManager: String) {
+    onCreateTeamMembers(owner: $owner, teamManager: $teamManager) {
       id
       playerID
       teamID
@@ -5015,12 +5015,13 @@ export const onCreateTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onUpdateTeamMembers = /* GraphQL */ `
-  subscription OnUpdateTeamMembers($owner: String) {
-    onUpdateTeamMembers(owner: $owner) {
+  subscription OnUpdateTeamMembers($owner: String, $teamManager: String) {
+    onUpdateTeamMembers(owner: $owner, teamManager: $teamManager) {
       id
       playerID
       teamID
@@ -5079,12 +5080,13 @@ export const onUpdateTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onDeleteTeamMembers = /* GraphQL */ `
-  subscription OnDeleteTeamMembers($owner: String) {
-    onDeleteTeamMembers(owner: $owner) {
+  subscription OnDeleteTeamMembers($owner: String, $teamManager: String) {
+    onDeleteTeamMembers(owner: $owner, teamManager: $teamManager) {
       id
       playerID
       teamID
@@ -5143,12 +5145,13 @@ export const onDeleteTeamMembers = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onCreateTeamCaptains = /* GraphQL */ `
-  subscription OnCreateTeamCaptains($owner: String) {
-    onCreateTeamCaptains(owner: $owner) {
+  subscription OnCreateTeamCaptains($owner: String, $teamManager: String) {
+    onCreateTeamCaptains(owner: $owner, teamManager: $teamManager) {
       id
       playerID
       teamID
@@ -5207,12 +5210,13 @@ export const onCreateTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onUpdateTeamCaptains = /* GraphQL */ `
-  subscription OnUpdateTeamCaptains($owner: String) {
-    onUpdateTeamCaptains(owner: $owner) {
+  subscription OnUpdateTeamCaptains($owner: String, $teamManager: String) {
+    onUpdateTeamCaptains(owner: $owner, teamManager: $teamManager) {
       id
       playerID
       teamID
@@ -5271,12 +5275,13 @@ export const onUpdateTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onDeleteTeamCaptains = /* GraphQL */ `
-  subscription OnDeleteTeamCaptains($owner: String) {
-    onDeleteTeamCaptains(owner: $owner) {
+  subscription OnDeleteTeamCaptains($owner: String, $teamManager: String) {
+    onDeleteTeamCaptains(owner: $owner, teamManager: $teamManager) {
       id
       playerID
       teamID
@@ -5335,6 +5340,7 @@ export const onDeleteTeamCaptains = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
@@ -5540,8 +5546,8 @@ export const onDeletePlayersAndFixtures = /* GraphQL */ `
   }
 `;
 export const onCreateTeamTournaments = /* GraphQL */ `
-  subscription OnCreateTeamTournaments($owner: String) {
-    onCreateTeamTournaments(owner: $owner) {
+  subscription OnCreateTeamTournaments($owner: String, $teamManager: String) {
+    onCreateTeamTournaments(owner: $owner, teamManager: $teamManager) {
       id
       teamID
       tournamentID
@@ -5579,12 +5585,13 @@ export const onCreateTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onUpdateTeamTournaments = /* GraphQL */ `
-  subscription OnUpdateTeamTournaments($owner: String) {
-    onUpdateTeamTournaments(owner: $owner) {
+  subscription OnUpdateTeamTournaments($owner: String, $teamManager: String) {
+    onUpdateTeamTournaments(owner: $owner, teamManager: $teamManager) {
       id
       teamID
       tournamentID
@@ -5622,12 +5629,13 @@ export const onUpdateTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;
 export const onDeleteTeamTournaments = /* GraphQL */ `
-  subscription OnDeleteTeamTournaments($owner: String) {
-    onDeleteTeamTournaments(owner: $owner) {
+  subscription OnDeleteTeamTournaments($owner: String, $teamManager: String) {
+    onDeleteTeamTournaments(owner: $owner, teamManager: $teamManager) {
       id
       teamID
       tournamentID
@@ -5665,6 +5673,7 @@ export const onDeleteTeamTournaments = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      teamManager
     }
   }
 `;

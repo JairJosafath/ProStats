@@ -123,6 +123,7 @@ type Team
       { allow: private, operations: [read] }
       { allow: owner }
       { allow: public, operations: [read] }
+      { allow: owner, ownerField: "teamManager" }
     ]
   ) {
   id: ID!
