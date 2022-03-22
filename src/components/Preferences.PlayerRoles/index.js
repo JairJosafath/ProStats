@@ -14,7 +14,7 @@ import {
 
 import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
 import useCreateTeam from "../../hooks/useCreateTeam";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
   const [overflow, setOverflow] = useState(true);
@@ -40,7 +40,7 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
       playerManagesId: player.id,
       teamManager: player.username,
     });
-    setTeam(valueName, "", valueAbout);
+    // setTeam(valueName, "", valueAbout);
 
     console.log(`team\nname: ${valueName}, about: ${valueAbout}`);
     // console.log("created", createdTeam);
@@ -112,20 +112,16 @@ const NewLeagueModal = ({ open, setOpen, setCreateLeague, player }) => {
   const handleClose = () => setOpen(false);
   const handleOK = () => {
     console.log("player update when OK", player);
-    // setCreateLeague({
-    //   name: valueName,
-    //   slogan: valueAbout,
-    //   playerManagesId: player.id,
-    //   teamManager: [JSON.stringify(player.username)],
-    // });
-    setLeague({
+    setCreateLeague({
       name: valueName,
-      slogan: valueAbout,
+      description: valueAbout,
+      playerAdminsId: player.id,
+      leagueAdmin: player.username,
     });
 
     console.log("league inofo", league);
 
-    //console.log(`team\nname: ${valueName}, about: ${valueAbout}`);
+    console.log(`league\nname: ${valueName}, descr: ${valueAbout}`);
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);
@@ -185,10 +181,12 @@ const PlayerRoles = ({
   setCreateTeam,
   setCreateLeague,
 }) => {
+  const nav = useNavigate();
   const [openLeague, setOpenLeague] = useState(false);
   const [openTeam, setOpenTeam] = useState(false);
   const handleEditLeague = (id, role) => {
     console.log(`edit league with id: ${id} as ${role}`);
+    nav(`/leaguedashboard/${id}`);
   };
   const handleDeleteLeague = (id, role) => {
     console.log(`delete league with id: ${id} as ${role}`);

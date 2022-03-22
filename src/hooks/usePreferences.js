@@ -23,6 +23,7 @@ const usePreferences = () => {
 
   //will be used to temporarily hold team data to be created
   const [createTeam, setCreateTeam] = useState(false);
+  const [createLeague, setCreateLeague] = useState(false);
 
   const fetchPlayer = async () => {
     setLoading(true);
@@ -72,6 +73,17 @@ const usePreferences = () => {
       setCreateTeam(false);
     }
   };
+  const createLeaguFunct = async () => {
+    if (createLeague) {
+      setLoading(true);
+      apiSettings.createLeague(createLeague).catch((err) => {
+        console.log(err);
+        setError(true);
+        setLoading(false);
+      });
+      setCreateLeague(false);
+    }
+  };
   useEffect(() => {
     //might be improved to loading object with specific component name
     fetchPlayer();
@@ -86,6 +98,10 @@ const usePreferences = () => {
     createTeamFunct();
     fetchPlayer();
   }, [createTeam]);
+  useEffect(() => {
+    createLeaguFunct();
+    fetchPlayer();
+  }, [createLeague]);
   return {
     loading,
     setLoading,
@@ -102,6 +118,7 @@ const usePreferences = () => {
     playerTemp,
     setPlayerTemp,
     setCreateTeam,
+    setCreateLeague,
   };
 };
 

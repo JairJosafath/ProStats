@@ -36,10 +36,20 @@ import SignInCustom from "./containers/SignInCustom";
 
 //queries
 import { createPlayer } from "./graphql/mutations";
+import LeagueDashboard from "./containers/LeagueDashboard";
+import LDashboard from "./containers/LeagueDashboard/Dashboard";
+import LTeamStats from "./containers/LeagueDashboard/TeamStats";
+import LPlayerStats from "./containers/LeagueDashboard/PlayerStats";
+import LTournaments from "./containers/LeagueDashboard/Tournaments";
+import LRoles from "./containers/LeagueDashboard/Roles";
+import LNews from "./containers/LeagueDashboard/News";
+import LTransfer from "./containers/LeagueDashboard/Transfer";
+import LRequests from "./containers/LeagueDashboard/Requests";
 
 Amplify.configure(awsExports);
 
 function App(props) {
+  const [show, setShow] = useState(false);
   const [league, setLeague] = useState({
     name: null,
     header: null,
@@ -206,7 +216,7 @@ function App(props) {
           loggedIn={user ? true : false}
           user={user ? user : "geust"}
         />
-        {user && (
+        {user && show && (
           <>
             <UserNav user={user} roles={roles} />
           </>
@@ -263,6 +273,21 @@ function App(props) {
             element={user ? <PostNews /> : <SignInCustom />}
           />
           <Route
+            path="/leaguedashboard/:id"
+            element={user ? <LeagueDashboard /> : <SignInCustom />}
+          >
+            <Route path="dashboard" element={<LDashboard />} />
+            <Route path="teamstats" element={<LTeamStats />} />
+            <Route path="playerstats" element={<LPlayerStats />} />
+            <Route path="tournaments" element={<LTournaments />} />
+            <Route path="teams" element={<LTeamStats />} />
+            <Route path="roles" element={<LRoles />} />
+            <Route path="news" element={<LNews />} />
+            <Route path="transfer" element={<LTransfer />} />
+            <Route path="requests" element={<LRequests />} />
+            {/* <Route path="dashboard" element={<LDashboard/>}/> */}
+          </Route>
+          <Route
             path={`/preferences`}
             element={
               user ? (
@@ -279,7 +304,7 @@ function App(props) {
           <Route path="/signIn" element={<SignInCustom />} />
         </Routes>
       </BrowserRouter>
-      <News league={league} />
+      {/* <News league={league} /> */}
       <CustomProvider theme="dark">{props.children}</CustomProvider>
     </>
   );

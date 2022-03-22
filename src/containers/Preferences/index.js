@@ -86,11 +86,10 @@ const Preferences = ({ playerID }) => {
     playerTemp,
     setPlayerTemp,
     setCreateTeam,
+    setCreateLeague,
   } = usePreferences();
   useEffect(() => {
-    console.log(`before:${player}`);
     setPlayerId(playerID);
-    console.log(`before:${player}`);
   }, [playerID]);
 
   return (
@@ -112,6 +111,7 @@ const Preferences = ({ playerID }) => {
           playerTemp={playerTemp}
           setPlayerTemp={setPlayerTemp}
           setCreateTeam={setCreateTeam}
+          setCreateLeague={setCreateLeague}
         />
       )}
 
