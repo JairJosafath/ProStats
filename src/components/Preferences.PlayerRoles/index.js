@@ -186,7 +186,7 @@ const PlayerRoles = ({
   const [openTeam, setOpenTeam] = useState(false);
   const handleEditLeague = (id, role) => {
     console.log(`edit league with id: ${id} as ${role}`);
-    nav(`/leaguedashboard/${id}`);
+    nav(`/leaguedashboard/${id}/dashboard`);
   };
   const handleDeleteLeague = (id, role) => {
     console.log(`delete league with id: ${id} as ${role}`);

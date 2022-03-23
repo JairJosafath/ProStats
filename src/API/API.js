@@ -118,6 +118,84 @@ const getLeagueQuery = /* GraphQL */ `
     }
   }
 `;
+const getLeagueForDashboardQuery = /* GraphQL */ `
+  query GetLeague($id: ID = "") {
+    getLeague(id: $id) {
+      id
+      name
+      header
+      newsModerators
+      requestModerators
+      tournamentModerators
+      transferModerator
+      leagueAdmin
+      logo
+      newsModerators
+      requestModerators
+      tournamentModerators
+      transferModerator
+      status
+      tournaments {
+        items {
+          id
+          name
+        }
+      }
+      teams {
+        items {
+          id
+          name
+        }
+      }
+      tournaments {
+        items {
+          name
+          table {
+            items {
+              cleanSheats
+              gamesDrawn
+              gamesLost
+              gamesWon
+              gamesPlayed
+              goalDifference
+              goalsAgainst
+              goalsFor
+              points
+              record
+              team {
+                logo
+                name
+                id
+              }
+            }
+          }
+          playerTable {
+            items {
+              assists
+              beat
+              blocks
+              expectedAssists
+              goals
+              interceptions
+              matchRating
+              nutmeg
+              player {
+                name
+              }
+              playerOfTheMatch
+              playerTableStatPlayerId
+              saves
+              skillmoveBeat
+              tacklesWon
+              tournamentPlayerTableId
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 const getTeamQuery = /* GraphQL */ `
   query GetTeam($id: ID!) {
     getTeam(id: $id) {
@@ -175,6 +253,17 @@ const createLeagueQuery = /* GraphQL */ `
   }
 `;
 
+export const createTournamentQuery = /* GraphQL */ `
+  mutation CreateTournament(
+    $input: CreateTournamentInput!
+    $condition: ModelTournamentConditionInput
+  ) {
+    createTournament(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
 const apiSettings = {
   //Gets
   getPlayer: async (id) => {
@@ -194,6 +283,20 @@ const apiSettings = {
     console.log("querying db for league");
     const { data } = await API.graphql({
       query: getLeagueQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getLeague;
+  },
+  getLeagueForDashboard: async (id) => {
+    console.log("querying db for league");
+    const { data } = await API.graphql({
+      query: getLeagueForDashboardQuery,
       variables: {
         id,
       },
@@ -238,6 +341,18 @@ const apiSettings = {
     console.log("input", input);
     const result = await API.graphql({
       query: createTeamQuery,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  createTournament: async (input) => {
+    console.log("mutation: createTournament");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createTournamentQuery,
       variables: {
         input,
       },

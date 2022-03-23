@@ -14,8 +14,8 @@ const headerStyles = {
   color: " #fff",
 };
 
-const SideNavCustom = () => {
-  const [activeKey, setActiveKey] = useState("");
+const SideNavCustom = ({ leagueID }) => {
+  const [activeKey, setActiveKey] = useState("dashboard");
   const [showNav, setShowNav] = useState("default");
   const [drop, setDrop] = useState(false);
   useEffect(() => {
@@ -63,7 +63,7 @@ const SideNavCustom = () => {
           <Sidenav.Body>
             <Nav activeKey={activeKey} onSelect={setActiveKey}>
               <Nav.Item as="div" eventKey="dashboard">
-                <Link to="dashboard">
+                <Link to={`dashboard`}>
                   <div
                     style={activeKey !== "dashboard" ? { color: "#aaa" } : {}}
                   >
@@ -75,7 +75,7 @@ const SideNavCustom = () => {
                 Manage
               </Nav.Item>
               <Nav.Item as="div" eventKey="teamstats">
-                <Link to="teamstats">
+                <Link to={`teamstats`}>
                   <div
                     style={activeKey !== "teamstats" ? { color: "#aaa" } : {}}
                   >
