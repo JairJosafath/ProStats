@@ -6,7 +6,7 @@ const teamStats = {
         val: "",
       },
       {
-        attr: "possession %",
+        attr: "possession percentage",
         val: "",
       },
       {
@@ -294,7 +294,7 @@ const teamStats = {
         val: "",
       },
       {
-        attr: "possession %",
+        attr: "possession percentage",
         val: "",
       },
       {

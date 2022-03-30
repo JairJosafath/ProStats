@@ -205,6 +205,13 @@ type Fixture
   playerStats: [PlayerStats] @hasMany
   tournamentMod: [String]
   playersPlayed: [Player] @manyToMany(relationName: "PlayersAndFixtures")
+  tournamentID: ID
+    @index(
+      name: "byTournament"
+      sortKeyFields: ["round"]
+      queryField: "fixtureByTournamentandRound"
+    )
+  tournament: Tournament @belongsTo(fields: ["tournamentID"])
 }
 
 type PlayerStats

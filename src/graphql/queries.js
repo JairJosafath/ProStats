@@ -557,6 +557,21 @@ export const getFixture = /* GraphQL */ `
       playersPlayed {
         nextToken
       }
+      tournamentID
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        newsTournamentTagsId
+        owner
+      }
       createdAt
       updatedAt
       teamHomefixturesId
@@ -586,6 +601,49 @@ export const listFixtures = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
+        createdAt
+        updatedAt
+        teamHomefixturesId
+        teamAwayfixturesId
+        tournamentFixturesId
+        playerTournamentFixturesId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const fixtureByTournamentandRound = /* GraphQL */ `
+  query FixtureByTournamentandRound(
+    $tournamentID: ID!
+    $round: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFixtureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fixtureByTournamentandRound(
+      tournamentID: $tournamentID
+      round: $round
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        season
+        round
+        homeID
+        awayID
+        homeScore
+        awayScore
+        homeResult
+        awayResult
+        tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -654,6 +712,7 @@ export const getPlayerStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -886,6 +945,7 @@ export const getTeamStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2778,6 +2838,7 @@ export const getPlayersAndFixtures = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId

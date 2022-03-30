@@ -1204,6 +1204,21 @@ export const createFixture = /* GraphQL */ `
       playersPlayed {
         nextToken
       }
+      tournamentID
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        newsTournamentTagsId
+        owner
+      }
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1273,6 +1288,21 @@ export const updateFixture = /* GraphQL */ `
       tournamentMod
       playersPlayed {
         nextToken
+      }
+      tournamentID
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        newsTournamentTagsId
+        owner
       }
       createdAt
       updatedAt
@@ -1344,6 +1374,21 @@ export const deleteFixture = /* GraphQL */ `
       playersPlayed {
         nextToken
       }
+      tournamentID
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        newsTournamentTagsId
+        owner
+      }
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1413,6 +1458,7 @@ export const createPlayerStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1575,6 +1621,7 @@ export const updatePlayerStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1737,6 +1784,7 @@ export const deletePlayerStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1861,6 +1909,7 @@ export const createTeamStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2074,6 +2123,7 @@ export const updateTeamStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2287,6 +2337,7 @@ export const deleteTeamStats = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5652,6 +5703,7 @@ export const createPlayersAndFixtures = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5722,6 +5774,7 @@ export const updatePlayersAndFixtures = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5792,6 +5845,7 @@ export const deletePlayersAndFixtures = /* GraphQL */ `
         homeResult
         awayResult
         tournamentMod
+        tournamentID
         createdAt
         updatedAt
         teamHomefixturesId

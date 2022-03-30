@@ -8,21 +8,40 @@ const LeagueDashboard = () => {
   const {
     league,
     setLeague,
+    tournament,
+    setTournament,
     leagueId,
     setLeagueId,
     createTournament,
     setCreateTournament,
+    setTournamentAddTeam,
+    setTournamentRemoveTeam,
+    setCreateTrophy,
+    setCreateFixtures,
+    setDeleteAllFixtures,
+    setGetFixturesByTournamentandRound,
+    fixturesByTournamentAndRound,
+    setCreateTeamStats,
+    setUpdateTeamStats,
+    setCreateTableStat,
+    setUpdateTableStat,
   } = useLeagueDashboard();
 
   useEffect(() => {
     setLeagueId(id);
   }, [id]);
-  console.log("in leaguedashboard mom", league?.tournaments.items);
+
   // console.log("test", leagueID);
   return (
     <>
       <div style={{ display: "flex" }}>
-        <SideNavCustom leagueID={id} style={{ flex: "1" }} />
+        <SideNavCustom
+          leagueID={id}
+          league={league}
+          style={{ flex: "1" }}
+          tournament={tournament}
+          setTournament={setTournament}
+        />
         <div style={{ flex: "4" }}>
           <Outlet
             context={{
@@ -30,6 +49,19 @@ const LeagueDashboard = () => {
               setLeague,
               createTournament,
               setCreateTournament,
+              setTournamentAddTeam,
+              setTournamentRemoveTeam,
+              setCreateTrophy,
+              tournament,
+              setTournament,
+              setCreateFixtures,
+              setDeleteAllFixtures,
+              setGetFixturesByTournamentandRound,
+              fixturesByTournamentAndRound,
+              setCreateTeamStats,
+              setUpdateTeamStats,
+              setCreateTableStat,
+              setUpdateTableStat,
             }}
           />
         </div>

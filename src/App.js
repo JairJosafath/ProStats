@@ -45,6 +45,7 @@ import LRoles from "./containers/LeagueDashboard/Roles";
 import LNews from "./containers/LeagueDashboard/News";
 import LTransfer from "./containers/LeagueDashboard/Transfer";
 import LRequests from "./containers/LeagueDashboard/Requests";
+import LTeams from "./containers/LeagueDashboard/Teams";
 
 Amplify.configure(awsExports);
 
@@ -280,7 +281,7 @@ function App(props) {
             <Route path="teamstats" element={<LTeamStats />} />
             <Route path="playerstats" element={<LPlayerStats />} />
             <Route path="tournaments" element={<LTournaments />} />
-            <Route path="teams" element={<LTeamStats />} />
+            <Route path="teams" element={<LTeams />} />
             <Route path="roles" element={<LRoles />} />
             <Route path="news" element={<LNews />} />
             <Route path="transfer" element={<LTransfer />} />
