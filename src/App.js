@@ -289,6 +289,21 @@ function App(props) {
             {/* <Route path="dashboard" element={<LDashboard/>}/> */}
           </Route>
           <Route
+            path="/teamdashboard/:id"
+            element={user ? <LeagueDashboard /> : <SignInCustom />}
+          >
+            <Route path="dashboard" element={<LDashboard />} />
+            <Route path="teamstats" element={<LTeamStats />} />
+            <Route path="playerstats" element={<LPlayerStats />} />
+            <Route path="tournaments" element={<LTournaments />} />
+            <Route path="teams" element={<LTeams />} />
+            <Route path="roles" element={<LRoles />} />
+            <Route path="news" element={<LNews />} />
+            <Route path="transfer" element={<LTransfer />} />
+            <Route path="requests" element={<LRequests />} />
+            {/* <Route path="dashboard" element={<LDashboard/>}/> */}
+          </Route>
+          <Route
             path={`/preferences`}
             element={
               user ? (
