@@ -60,9 +60,6 @@ export const onCreateLeague = /* GraphQL */ `
       transfers {
         nextToken
       }
-      requestsfromTeam {
-        nextToken
-      }
       requeststoTeam {
         nextToken
       }
@@ -160,9 +157,6 @@ export const onUpdateLeague = /* GraphQL */ `
       transfers {
         nextToken
       }
-      requestsfromTeam {
-        nextToken
-      }
       requeststoTeam {
         nextToken
       }
@@ -258,9 +252,6 @@ export const onDeleteLeague = /* GraphQL */ `
         nextToken
       }
       transfers {
-        nextToken
-      }
-      requestsfromTeam {
         nextToken
       }
       requeststoTeam {
@@ -673,9 +664,6 @@ export const onCreateTeam = /* GraphQL */ `
       requestsfromLeague {
         nextToken
       }
-      requeststoLeague {
-        nextToken
-      }
       requestsfromPlayer {
         nextToken
       }
@@ -791,9 +779,6 @@ export const onUpdateTeam = /* GraphQL */ `
       requestsfromLeague {
         nextToken
       }
-      requeststoLeague {
-        nextToken
-      }
       requestsfromPlayer {
         nextToken
       }
@@ -907,9 +892,6 @@ export const onDeleteTeam = /* GraphQL */ `
         nextToken
       }
       requestsfromLeague {
-        nextToken
-      }
-      requeststoLeague {
         nextToken
       }
       requestsfromPlayer {
@@ -3206,8 +3188,6 @@ export const onCreateRequestLeague2Team = /* GraphQL */ `
       updatedAt
       leagueRequeststoTeamId
       teamRequestsfromLeagueId
-      requestLeague2TeamFromId
-      requestLeague2TeamToId
       owner
     }
   }
@@ -3258,8 +3238,6 @@ export const onUpdateRequestLeague2Team = /* GraphQL */ `
       updatedAt
       leagueRequeststoTeamId
       teamRequestsfromLeagueId
-      requestLeague2TeamFromId
-      requestLeague2TeamToId
       owner
     }
   }
@@ -3310,164 +3288,6 @@ export const onDeleteRequestLeague2Team = /* GraphQL */ `
       updatedAt
       leagueRequeststoTeamId
       teamRequestsfromLeagueId
-      requestLeague2TeamFromId
-      requestLeague2TeamToId
-      owner
-    }
-  }
-`;
-export const onCreateRequestTeam2League = /* GraphQL */ `
-  subscription OnCreateRequestTeam2League($owner: String) {
-    onCreateRequestTeam2League(owner: $owner) {
-      id
-      from {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        teamCaptain
-        createdAt
-        updatedAt
-        leagueTeamsId
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      to {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      status
-      createdAt
-      updatedAt
-      leagueRequestsfromTeamId
-      teamRequeststoLeagueId
-      requestTeam2LeagueFromId
-      requestTeam2LeagueToId
-      owner
-    }
-  }
-`;
-export const onUpdateRequestTeam2League = /* GraphQL */ `
-  subscription OnUpdateRequestTeam2League($owner: String) {
-    onUpdateRequestTeam2League(owner: $owner) {
-      id
-      from {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        teamCaptain
-        createdAt
-        updatedAt
-        leagueTeamsId
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      to {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      status
-      createdAt
-      updatedAt
-      leagueRequestsfromTeamId
-      teamRequeststoLeagueId
-      requestTeam2LeagueFromId
-      requestTeam2LeagueToId
-      owner
-    }
-  }
-`;
-export const onDeleteRequestTeam2League = /* GraphQL */ `
-  subscription OnDeleteRequestTeam2League($owner: String) {
-    onDeleteRequestTeam2League(owner: $owner) {
-      id
-      from {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        teamCaptain
-        createdAt
-        updatedAt
-        leagueTeamsId
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      to {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      status
-      createdAt
-      updatedAt
-      leagueRequestsfromTeamId
-      teamRequeststoLeagueId
-      requestTeam2LeagueFromId
-      requestTeam2LeagueToId
       owner
     }
   }
@@ -4641,13 +4461,13 @@ export const onCreatePlayerTableStat = /* GraphQL */ `
       goals
       assists
       beat
-      skillmoveBeat
+      skillmove_beat
       nutmeg
-      matchRating
+      match_rating
       playerOfTheMatch
-      expectedAssists
+      expected_assists
       interceptions
-      tacklesWon
+      tackles_won
       blocks
       saves
       createdAt
@@ -4714,13 +4534,13 @@ export const onUpdatePlayerTableStat = /* GraphQL */ `
       goals
       assists
       beat
-      skillmoveBeat
+      skillmove_beat
       nutmeg
-      matchRating
+      match_rating
       playerOfTheMatch
-      expectedAssists
+      expected_assists
       interceptions
-      tacklesWon
+      tackles_won
       blocks
       saves
       createdAt
@@ -4787,13 +4607,13 @@ export const onDeletePlayerTableStat = /* GraphQL */ `
       goals
       assists
       beat
-      skillmoveBeat
+      skillmove_beat
       nutmeg
-      matchRating
+      match_rating
       playerOfTheMatch
-      expectedAssists
+      expected_assists
       interceptions
-      tacklesWon
+      tackles_won
       blocks
       saves
       createdAt

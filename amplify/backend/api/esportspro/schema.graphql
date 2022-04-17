@@ -33,7 +33,7 @@ type League
   transfers: [Transfer] @hasMany
 
   #not in classic
-  requestsfromTeam: [RequestTeam2League] @hasMany
+  # requestsfromTeam: [RequestTeam2League] @hasMany
 
   requeststoTeam: [RequestLeague2Team] @hasMany
 
@@ -141,7 +141,7 @@ type Team
 
   requestsfromLeague: [RequestLeague2Team] @hasMany
 
-  requeststoLeague: [RequestTeam2League] @hasMany
+  # requeststoLeague: [RequestTeam2League] @hasMany
   requestsfromPlayer: [RequestPlayer2Team] @hasMany
 
   requeststoPlayer: [RequestTeam2Player] @hasMany
@@ -194,7 +194,17 @@ type Fixture
   season: Int
   round: Int
   homeID: ID!
+    @index(
+      name: "byHome"
+      sortKeyFields: ["tournamentID"]
+      queryField: "fixtureByTournamentandHomeTeam"
+    )
   awayID: ID!
+    @index(
+      name: "byAway"
+      sortKeyFields: ["tournamentID"]
+      queryField: "fixtureByTournamentandAwayTeam"
+    )
   homeTeam: Team @belongsTo(fields: ["homeID"])
   awayTeam: Team @belongsTo(fields: ["awayID"])
   homeScore: Int
@@ -598,24 +608,24 @@ type RequestLeague2Team
     ]
   ) {
   id: ID!
-  from: League @hasOne
-  to: Team @hasOne
+  from: League @belongsTo
+  to: Team @belongsTo
   status: String
 }
-type RequestTeam2League
-  @model
-  @auth(
-    rules: [
-      { allow: private, operations: [read] }
-      { allow: owner }
-      { allow: public, operations: [read] }
-    ]
-  ) {
-  id: ID!
-  from: Team @hasOne
-  to: League @hasOne
-  status: String
-}
+# type RequestTeam2League
+#   @model
+#   @auth(
+#     rules: [
+#       { allow: private, operations: [read] }
+#       { allow: owner }
+#       { allow: public, operations: [read] }
+#     ]
+#   ) {
+#   id: ID!
+#   from: Team @hasOne
+#   to: League @hasOne
+#   status: String
+# }
 type RequestTeam2Player
   @model
   @auth(
@@ -777,13 +787,13 @@ type PlayerTableStat
   goals: Int
   assists: Int
   beat: Int
-  skillmoveBeat: Int
+  skillmove_beat: Int
   nutmeg: Int
-  matchRating: Float
+  match_rating: Float
   playerOfTheMatch: Int
-  expectedAssists: Float
+  expected_assists: Float
   interceptions: Int
-  tacklesWon: Int
+  tackles_won: Int
   blocks: Int
   saves: Int
 }

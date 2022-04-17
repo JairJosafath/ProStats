@@ -36,7 +36,13 @@ const SideNavCustom = ({
     }
   }, [showNav]);
   useEffect(() => {
-    setTournament(league?.tournaments?.items[0]);
+    setTournament(
+      tournament
+        ? league?.tournaments?.items.filter(
+            (tournamenta) => tournamenta.id === tournament?.id
+          )[0]
+        : league?.tournaments?.items[0]
+    );
     console.log("tour in side", tournament);
   }, [league]);
 

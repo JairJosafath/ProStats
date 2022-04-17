@@ -25,6 +25,15 @@ const LeagueDashboard = () => {
     setUpdateTeamStats,
     setCreateTableStat,
     setUpdateTableStat,
+    setCreatePlayerStats,
+    setUpdatePlayerStats,
+    setCreatePlayerTableStat,
+    setUpdatePlayerTableStat,
+    setGetTournamentByID,
+    leagueRequests,
+    setGetLeagueRequests,
+    setCreateRequestFromLeagueToTeam,
+    setDeleteL2TRequest,
   } = useLeagueDashboard();
 
   useEffect(() => {
@@ -62,6 +71,15 @@ const LeagueDashboard = () => {
               setUpdateTeamStats,
               setCreateTableStat,
               setUpdateTableStat,
+              setCreatePlayerStats,
+              setUpdatePlayerStats,
+              setCreatePlayerTableStat,
+              setUpdatePlayerTableStat,
+              setGetTournamentByID,
+              leagueRequests,
+              setGetLeagueRequests,
+              setCreateRequestFromLeagueToTeam,
+              setDeleteL2TRequest,
             }}
           />
         </div>

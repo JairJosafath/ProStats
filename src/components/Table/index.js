@@ -84,7 +84,7 @@ const RecordCell = ({ rowData, dataKey, ...props }) => {
   return (
     <>
       <Cell {...props} style={{ paddingTop: 10, display: "flex" }}>
-        {rowData[dataKey].map((record, index) =>
+        {rowData[dataKey].slice(-5).map((record, index) =>
           record === "W" ? (
             <div
               key={index}

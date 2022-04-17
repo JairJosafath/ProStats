@@ -25,12 +25,24 @@ const useLeagueDashboard = () => {
   const [createTableStat, setCreateTableStat] = useState(false);
   const [updateTableStat, setUpdateTableStat] = useState(false);
 
+  const [createPlayerStats, setCreatePlayerStats] = useState(false);
+  const [updatePlayerStats, setUpdatePlayerStats] = useState(false);
+  const [createPlayerTableStat, setCreatePlayerTableStat] = useState(false);
+  const [updatePlayerTableStat, setUpdatePlayerTableStat] = useState(false);
+
   const [tournament, setTournament] = useState();
+  const [getTournamentByID, setGetTournamentByID] = useState(false);
 
   const [getFixturesByTournamentandRound, setGetFixturesByTournamentandRound] =
     useState(false);
   const [fixturesByTournamentAndRound, setFixturesByTournamentAndRound] =
     useState();
+  const [getLeagueRequests, setGetLeagueRequests] = useState(false);
+  const [leagueRequests, setLeagueRequests] = useState();
+  const [createRequestLeague2Team, setCreateRequestFromLeagueToTeam] =
+    useState();
+
+  const [deleteL2TRequest, setDeleteL2TRequest] = useState(false);
 
   const fetchLeague = async () => {
     setLoading(true);
@@ -127,6 +139,17 @@ const useLeagueDashboard = () => {
       setCreateTeamStats(false);
     }
   };
+  const createPlayerStatsFunct = async () => {
+    if (createPlayerStats) {
+      setLoading(true);
+      apiSettings.createPlayerStats(createPlayerStats).catch((err) => {
+        console.log("errOr", err);
+        setError(true);
+        setLoading(false);
+      });
+      setCreatePlayerStats(false);
+    }
+  };
   const updateTeamStatsFunct = async () => {
     if (updateTeamStats) {
       setLoading(true);
@@ -136,6 +159,39 @@ const useLeagueDashboard = () => {
         setLoading(false);
       });
       setUpdateTeamStats(false);
+    }
+  };
+  const updatePlayerStatsFunct = async () => {
+    if (updatePlayerStats) {
+      setLoading(true);
+      apiSettings.updatePlayerStats(updatePlayerStats).catch((err) => {
+        console.log("errOr", err);
+        setError(true);
+        setLoading(false);
+      });
+      setUpdatePlayerStats(false);
+    }
+  };
+  const createPlayerTableStatFunct = async () => {
+    if (createPlayerTableStat) {
+      setLoading(true);
+      apiSettings.createPlayerTableStat(createPlayerTableStat).catch((err) => {
+        console.log("errOr", err);
+        setError(true);
+        setLoading(false);
+      });
+      setCreatePlayerTableStat(false);
+    }
+  };
+  const updatePlayerTableStatFunct = async () => {
+    if (updatePlayerTableStat) {
+      setLoading(true);
+      apiSettings.updatePlayerTableStat(updatePlayerTableStat).catch((err) => {
+        console.log("errOr", err);
+        setError(true);
+        setLoading(false);
+      });
+      setUpdatePlayerTableStat(false);
     }
   };
   const createTableStatFunct = async () => {
@@ -184,6 +240,50 @@ const useLeagueDashboard = () => {
       setDeleteAllFixtures(false);
     }
   };
+  const deleteL2TRequestFunct = async () => {
+    if (deleteL2TRequest) {
+      setLoading(true);
+      apiSettings
+        .deleteLeague2TeamRequest(deleteL2TRequest)
+        .then(() => {
+          setGetLeagueRequests(league.id);
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setDeleteL2TRequest(false);
+    }
+  };
+  const getTournamentByIDFunct = async () => {
+    if (getTournamentByID) {
+      setLoading(true);
+      const result = await apiSettings
+        .getTournament(getTournamentByID)
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setTournament(result);
+      setGetTournamentByID(false);
+    }
+  };
+  const getLeagueRequestsFunct = async () => {
+    if (getLeagueRequests) {
+      setLoading(true);
+      const result = await apiSettings
+        .getLeagueRequests(getLeagueRequests)
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setLeagueRequests(result);
+      setGetLeagueRequests(false);
+    }
+  };
   const getFixturesByTournamentandRoundFunct = async () => {
     if (getFixturesByTournamentandRound) {
       setLoading(true);
@@ -196,6 +296,23 @@ const useLeagueDashboard = () => {
         });
       setFixturesByTournamentAndRound(result);
       setGetFixturesByTournamentandRound(false);
+      setLoading(false);
+    }
+  };
+
+  const createRequestLeague2TeamFunct = async () => {
+    if (createRequestLeague2Team) {
+      setLoading(true);
+      apiSettings
+        .createRequestLeague2Team(createRequestLeague2Team)
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+
+      setLoading(false);
+      setCreateRequestFromLeagueToTeam(false);
     }
   };
 
@@ -270,6 +387,8 @@ const useLeagueDashboard = () => {
     setError(false);
 
     updateTeamStatsFunct();
+    fetchLeague();
+
     getFixturesByTournamentandRoundFunct();
     setError(false);
   }, [updateTeamStats]);
@@ -277,6 +396,7 @@ const useLeagueDashboard = () => {
     setError(false);
 
     createTableStatFunct();
+    fetchLeague();
 
     setError(false);
   }, [createTableStat]);
@@ -284,9 +404,63 @@ const useLeagueDashboard = () => {
     setError(false);
 
     updateTableStatFunct();
+    fetchLeague();
 
     setError(false);
   }, [updateTableStat]);
+  useEffect(() => {
+    setError(false);
+
+    createPlayerStatsFunct();
+    getFixturesByTournamentandRoundFunct();
+    setError(false);
+  }, [createPlayerStats]);
+  useEffect(() => {
+    setError(false);
+
+    updatePlayerStatsFunct();
+    fetchLeague();
+
+    getFixturesByTournamentandRoundFunct();
+    setError(false);
+  }, [updatePlayerStats]);
+  useEffect(() => {
+    setError(false);
+
+    createPlayerTableStatFunct();
+    fetchLeague();
+
+    setError(false);
+  }, [createPlayerTableStat]);
+  useEffect(() => {
+    setError(false);
+
+    updatePlayerTableStatFunct();
+    fetchLeague();
+
+    setError(false);
+  }, [updatePlayerTableStat]);
+  useEffect(() => {
+    setError(false);
+
+    getTournamentByIDFunct();
+    fetchLeague();
+
+    setError(false);
+  }, [getTournamentByID]);
+
+  useEffect(() => {
+    getLeagueRequestsFunct();
+  }, [getLeagueRequests]);
+
+  useEffect(() => {
+    createRequestLeague2TeamFunct();
+    setGetLeagueRequests(leagueId);
+  }, [createRequestLeague2Team]);
+
+  useEffect(() => {
+    deleteL2TRequestFunct();
+  }, [deleteL2TRequest]);
 
   return {
     league,
@@ -306,8 +480,17 @@ const useLeagueDashboard = () => {
     setUpdateTeamStats,
     setCreateTableStat,
     setUpdateTableStat,
+    setCreatePlayerStats,
+    setUpdatePlayerStats,
+    setCreatePlayerTableStat,
+    setUpdatePlayerTableStat,
     tournament,
     setTournament,
+    setGetTournamentByID,
+    leagueRequests,
+    setGetLeagueRequests,
+    setCreateRequestFromLeagueToTeam,
+    setDeleteL2TRequest,
   };
 };
 export default useLeagueDashboard;

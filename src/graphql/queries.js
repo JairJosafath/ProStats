@@ -60,9 +60,6 @@ export const getLeague = /* GraphQL */ `
       transfers {
         nextToken
       }
-      requestsfromTeam {
-        nextToken
-      }
       requeststoTeam {
         nextToken
       }
@@ -354,9 +351,6 @@ export const getTeam = /* GraphQL */ `
       requestsfromLeague {
         nextToken
       }
-      requeststoLeague {
-        nextToken
-      }
       requestsfromPlayer {
         nextToken
       }
@@ -589,6 +583,90 @@ export const listFixtures = /* GraphQL */ `
     $nextToken: String
   ) {
     listFixtures(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        season
+        round
+        homeID
+        awayID
+        homeScore
+        awayScore
+        homeResult
+        awayResult
+        tournamentMod
+        tournamentID
+        createdAt
+        updatedAt
+        teamHomefixturesId
+        teamAwayfixturesId
+        tournamentFixturesId
+        playerTournamentFixturesId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const fixtureByTournamentandHomeTeam = /* GraphQL */ `
+  query FixtureByTournamentandHomeTeam(
+    $homeID: ID!
+    $tournamentID: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFixtureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fixtureByTournamentandHomeTeam(
+      homeID: $homeID
+      tournamentID: $tournamentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        season
+        round
+        homeID
+        awayID
+        homeScore
+        awayScore
+        homeResult
+        awayResult
+        tournamentMod
+        tournamentID
+        createdAt
+        updatedAt
+        teamHomefixturesId
+        teamAwayfixturesId
+        tournamentFixturesId
+        playerTournamentFixturesId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const fixtureByTournamentandAwayTeam = /* GraphQL */ `
+  query FixtureByTournamentandAwayTeam(
+    $awayID: ID!
+    $tournamentID: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFixtureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fixtureByTournamentandAwayTeam(
+      awayID: $awayID
+      tournamentID: $tournamentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         name
@@ -1709,8 +1787,6 @@ export const getRequestLeague2Team = /* GraphQL */ `
       updatedAt
       leagueRequeststoTeamId
       teamRequestsfromLeagueId
-      requestLeague2TeamFromId
-      requestLeague2TeamToId
       owner
     }
   }
@@ -1733,86 +1809,6 @@ export const listRequestLeague2Teams = /* GraphQL */ `
         updatedAt
         leagueRequeststoTeamId
         teamRequestsfromLeagueId
-        requestLeague2TeamFromId
-        requestLeague2TeamToId
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getRequestTeam2League = /* GraphQL */ `
-  query GetRequestTeam2League($id: ID!) {
-    getRequestTeam2League(id: $id) {
-      id
-      from {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        teamCaptain
-        createdAt
-        updatedAt
-        leagueTeamsId
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      to {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      status
-      createdAt
-      updatedAt
-      leagueRequestsfromTeamId
-      teamRequeststoLeagueId
-      requestTeam2LeagueFromId
-      requestTeam2LeagueToId
-      owner
-    }
-  }
-`;
-export const listRequestTeam2Leagues = /* GraphQL */ `
-  query ListRequestTeam2Leagues(
-    $filter: ModelRequestTeam2LeagueFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRequestTeam2Leagues(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-        leagueRequestsfromTeamId
-        teamRequeststoLeagueId
-        requestTeam2LeagueFromId
-        requestTeam2LeagueToId
         owner
       }
       nextToken
@@ -2473,13 +2469,13 @@ export const getPlayerTableStat = /* GraphQL */ `
       goals
       assists
       beat
-      skillmoveBeat
+      skillmove_beat
       nutmeg
-      matchRating
+      match_rating
       playerOfTheMatch
-      expectedAssists
+      expected_assists
       interceptions
-      tacklesWon
+      tackles_won
       blocks
       saves
       createdAt
@@ -2506,13 +2502,13 @@ export const listPlayerTableStats = /* GraphQL */ `
         goals
         assists
         beat
-        skillmoveBeat
+        skillmove_beat
         nutmeg
-        matchRating
+        match_rating
         playerOfTheMatch
-        expectedAssists
+        expected_assists
         interceptions
-        tacklesWon
+        tackles_won
         blocks
         saves
         createdAt

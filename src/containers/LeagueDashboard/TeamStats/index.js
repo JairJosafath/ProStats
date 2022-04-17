@@ -159,6 +159,7 @@ const LTeamStats = () => {
     setUpdateTeamStats,
     setCreateTableStat,
     setUpdateTableStat,
+    setGetTournamentByID,
   } = useOutletContext();
 
   const [showStats, setShowStats] = useState(false); //toggle between stats and fixtures
@@ -167,54 +168,55 @@ const LTeamStats = () => {
   const [currentFixture, setCurrentFixture] = useState(); //to access selected fixture data
   const [teamstatsTracker, setTeamstatsTracker] = useState(tracker); //track changes onchange
   const [updateFixtures, setUpdateFixtures] = useState(false);
-  // const [deleteAllFixtureStats, setDeleteAllFixtureStats] = useState(false);
+  const [deleteAllFixtureStats, setDeleteAllFixtureStats] = useState(false);
+  const [tempData, setTempData] = useState({});
 
-  // useEffect(() => {
-  //   if (!deleteAllFixtureStats) return;
-  //   setGetFixturesByTournamentandRound({
-  //     tournamentID: tournament?.id,
-  //     condition: { eq: 2 },
-  //   });
+  useEffect(() => {
+    if (!deleteAllFixtureStats) return;
+    setGetFixturesByTournamentandRound({
+      tournamentID: tournament?.id,
+      condition: { eq: 1 },
+    });
 
-  //   let mutationString = "";
-  //   const statsIDs = fixturesByTournamentAndRound?.items.map(
-  //     (fixture, index) => {
-  //       if (fixture.teamStats.items[0]) {
-  //         const temp = `
-  //     mutation${index}tt: deleteTeamStats(
-  //       input: {id:"${fixture.teamStats.items[0].id}"}
-  //     ){
-  //       id
-  //     }
-  //     `;
-  //         mutationString += temp;
-  //         return fixture.teamStats.items[0].id;
-  //       }
-  //       return "nothing";
-  //     }
-  //   );
-  //   const tableIDs = tournament?.table.items.map((tableStat, index) => {
-  //     const temp = `
-  //     mutation${index}: deleteTableStat(
-  //       input: {id:"${tableStat.id}"}
-  //     ){
-  //       id
-  //     }
-  //     `;
-  //     mutationString += temp;
-  //     return tableStat.id;
-  //   });
+    let mutationString = "";
+    const statsIDs = fixturesByTournamentAndRound?.items.map(
+      (fixture, index) => {
+        if (fixture.teamStats.items[0]) {
+          const temp = `
+      mutation${index}tt: deleteTeamStats(
+        input: {id:"${fixture.teamStats.items[0].id}"}
+      ){
+        id
+      }
+      `;
+          mutationString += temp;
+          return fixture.teamStats.items[0].id;
+        }
+        return "nothing";
+      }
+    );
+    const tableIDs = tournament?.table.items.map((tableStat, index) => {
+      const temp = `
+      mutation${index}: deleteTableStat(
+        input: {id:"${tableStat.id}"}
+      ){
+        id
+      }
+      `;
+      mutationString += temp;
+      return tableStat.id;
+    });
 
-  //   console.log("mutation reset", mutationString);
-  //   console.log("fixturestatsIDs", statsIDs);
-  //   console.log("tablestatsID", tableIDs);
+    console.log("mutation reset", mutationString);
+    console.log("fixturestatsIDs", statsIDs);
+    console.log("tablestatsID", tableIDs);
 
-  //   const mutation = /* GraphQL */ `
-  //     mutation ResetTableAndFixtures{
+    const mutation = /* GraphQL */ `
+      mutation ResetTableAndFixtures{
 
-  //     }
-  //   `;
-  // }, [deleteAllFixtureStats]);
+      }
+    `;
+  }, [deleteAllFixtureStats]);
 
   //if tournament changes update the fixture component
   useEffect(() => {
@@ -231,6 +233,7 @@ const LTeamStats = () => {
           tournamentID: tournament?.id,
           condition: { eq: activePage },
         });
+        setShowStats(false);
       }, 300);
 
       setUpdateFixtures(false);
@@ -251,17 +254,17 @@ const LTeamStats = () => {
 
   return (
     <>
-      {/* <Button
+      <Button
         onClick={() => {
           setDeleteAllFixtureStats(!deleteAllFixtureStats);
         }}
       >
         reset
-      </Button> */}
+      </Button>
       <div style={{ display: "flex" }}>
         {!showStats && (
           <Panel header={`Fixtures round ${activePage}`} style={{ flex: 1 }}>
-            {tournament?.fixtures?.items.length === 0 && (
+            {fixturesByTournamentAndRound?.items.length === 0 && (
               <Button
                 onClick={() => {
                   console.log(":gen fixtures");
@@ -484,265 +487,155 @@ const LTeamStats = () => {
                     );
 
                     if (currentFixture?.teamStats?.items[0]) {
-                      const oldStats = currentFixture;
-                      //rollback changes of past stats on standings
-                      const homeTS = tournament?.table?.items.filter(
+                      // const oldTeamStats = currentFixture?.teamStats?.items[0];
+                      const homeTableStat = tournament?.table?.items.filter(
                         (tableStat) =>
-                          tableStat.team.id === currentFixture.homeID
+                          tableStat.team.id === currentFixture?.homeID
                       )[0];
-                      const awayTS = tournament?.table?.items.filter(
+                      const awayTableStat = tournament?.table?.items.filter(
                         (tableStat) =>
-                          tableStat.team.id === currentFixture.awayID
+                          tableStat.team.id === currentFixture?.awayID
                       )[0];
 
-                      let awayGoals = parseInt(
+                      console.log("temporary Object", temp);
+                      console.log("old tables", {
+                        homeTableStat,
+                        awayTableStat,
+                      });
+
+                      //check for cleansheets
+                      if (currentFixture?.awayScore === 0) {
+                        homeTableStat.cleanSheats--;
+                      }
+                      if (currentFixture?.homeScore === 0) {
+                        awayTableStat.cleanSheats--;
+                      }
+
+                      //check W,D,L count and points upddate
+                      if (
+                        currentFixture?.awayScore === currentFixture?.homeScore
+                      ) {
+                        homeTableStat.gamesDrawn--;
+                        if (homeTableStat.gamesDrawn < 0)
+                          homeTableStat.gamesDrawn = 0;
+                        awayTableStat.gamesDrawn--;
+                        if (awayTableStat.gamesDrawn < 0)
+                          awayTableStat.gamesDrawn = 0;
+                        homeTableStat.points--;
+                        awayTableStat.points--;
+                      } else if (
+                        currentFixture?.awayScore > currentFixture?.homeScore
+                      ) {
+                        awayTableStat.gamesWon--;
+                        homeTableStat.gamesLost--;
+                        awayTableStat.points -= 3;
+                      } else if (
+                        currentFixture?.awayScore < currentFixture?.homeScore
+                      ) {
+                        awayTableStat.gamesLost--;
+                        homeTableStat.gamesWon--;
+                        homeTableStat.points -= 3;
+                      }
+
+                      //update goal diff, for and against
+                      homeTableStat.goalDifference -=
+                        currentFixture.homeScore - currentFixture.awayScore;
+                      awayTableStat.goalDifference -=
+                        currentFixture.awayScore - currentFixture.homeScore;
+
+                      homeTableStat.goalsAgainst -= currentFixture.awayScore;
+                      awayTableStat.goalsAgainst -= currentFixture.homeScore;
+
+                      homeTableStat.goalsFor -= currentFixture.homeScore;
+                      awayTableStat.goalsFor -= currentFixture.awayScore;
+
+                      //update with new results
+                      //check for cleansheets
+                      const awayGoals = parseInt(
                         teamstatsTracker.away.summary.filter(
                           (stat) => stat.attr === "goals"
                         )[0].val
                       );
-                      let homeGoals = parseInt(
+                      const homeGoals = parseInt(
                         teamstatsTracker.home.summary.filter(
                           (stat) => stat.attr === "goals"
                         )[0].val
                       );
-                      const result =
+                      if (awayGoals === 0) {
+                        homeTableStat.cleanSheats++;
+                      }
+                      if (homeGoals === 0) {
+                        awayTableStat.cleanSheats++;
+                      }
+
+                      //check W,D,L count and points upddate
+                      if (awayGoals === homeGoals) {
+                        homeTableStat.gamesDrawn++;
+                        awayTableStat.gamesDrawn++;
+                        homeTableStat.points++;
+                        awayTableStat.points++;
+                      } else if (awayGoals > homeGoals) {
+                        awayTableStat.gamesWon++;
+                        homeTableStat.gamesLost++;
+                        awayTableStat.points += 3;
+                      } else if (awayGoals < homeGoals) {
+                        awayTableStat.gamesLost++;
+                        homeTableStat.gamesWon++;
+                        homeTableStat.points += 3;
+                      }
+
+                      //update goal diff, for and against
+                      homeTableStat.goalDifference =
+                        homeTableStat.goalDifference + homeGoals - awayGoals;
+                      awayTableStat.goalDifference =
+                        awayTableStat.goalDifference + awayGoals - homeGoals;
+
+                      homeTableStat.goalsAgainst =
+                        homeTableStat.goalsAgainst + awayGoals < 0
+                          ? 0
+                          : homeTableStat.goalsAgainst + awayGoals;
+                      awayTableStat.goalsAgainst =
+                        awayTableStat.goalsAgainst + homeGoals < 0
+                          ? 0
+                          : awayTableStat.goalsAgainst + homeGoals;
+
+                      homeTableStat.goalsFor =
+                        homeTableStat.goalsFor + homeGoals < 0
+                          ? 0
+                          : homeTableStat.goalsFor + homeGoals;
+                      awayTableStat.goalsFor =
+                        awayTableStat.goalsFor + awayGoals < 0
+                          ? 0
+                          : awayTableStat.goalsFor + awayGoals;
+
+                      console.log("updated tables", {
+                        homeTableStat,
+                        awayTableStat,
+                      });
+                      //update record
+                      homeTableStat.record[activePage - 1] =
                         (homeGoals > awayGoals && "W") ||
-                        (homeGoals === awayGoals && "D") ||
-                        (homeGoals < awayGoals && "L");
+                        (homeGoals < awayGoals && "L") ||
+                        "D";
+                      awayTableStat.record[activePage - 1] =
+                        (awayGoals > homeGoals && "W") ||
+                        (awayGoals < homeGoals && "L") ||
+                        "D";
 
-                      const oldResult =
-                        (oldStats.homeScore > oldStats.awayScore && "W") ||
-                        (oldStats.homeScore === oldStats.awayScore && "D") ||
-                        (oldStats.homeScore < oldStats.awayScore && "L");
-
-                      const homeUpdate = () => {
-                        // if awaygoalsOld ===0 && awaygoalsNew === 0, do not change.
-                        // if awaygoalsOld >0 && awaygoalsNew >0, do not change
-                        //if awaygoalsOld ===0 and new !=0 , do -1
-                        //if awaygoaldOld !=0 and new ===0 , do +1
-                        const cleanSheatsHome = () => {
-                          if (
-                            (parseInt(awayGoals) === 0 &&
-                              oldStats.awayScore === 0) ||
-                            (parseInt(awayGoals) !== 0 &&
-                              oldStats.awayScore !== 0)
-                          )
-                            return 0;
-                          else if (
-                            parseInt(awayGoals) !== 0 &&
-                            oldStats.awayScore === 0
-                          )
-                            return -1;
-                          else if (
-                            parseInt(awayGoals) === 0 &&
-                            oldStats.awayScore !== 0
-                          )
-                            return 1;
-                        };
-
-                        //if oldresult and new result are the same do not change
-                        //otherwise if old was D, -1
-                        const gamesDrawnHome = () => {
-                          if (result === oldResult) return 0;
-                          else if (result === "D") return -1;
-                          return 0;
-                        };
-                        const gamesLostHome = () => {
-                          if (result === oldResult) return 0;
-                          else if (result === "L") return -1;
-                          return 0;
-                        };
-                        const gamesWonHome = () => {
-                          if (result === oldResult) return 0;
-                          else if (result === "W") return -1;
-                          return 0;
-                        };
-                        const goalDifferenceHome = () => {
-                          const oldDiff =
-                            parseInt(homeGoals) - parseInt(awayGoals);
-                          const newDiff =
-                            oldStats.homeScore - oldStats.awayScore;
-                          return newDiff - oldDiff;
-                        };
-
-                        const goalForHome = () => {
-                          const oldfor = homeGoals;
-                          const newFor = oldStats.homeScore;
-                          return newFor - oldfor;
-                        };
-                        const goalAgainstHome = () => {
-                          const oldAgainst = awayGoals;
-                          const newAgainst = oldStats.awayScore;
-                          return newAgainst - oldAgainst;
-                        };
-                        const pointsHome = () => {
-                          if (result === oldResult) return 0;
-                          if (oldResult === "W" && result === "D") return -2;
-                          if (oldResult === "W" && result === "L") return -3;
-
-                          if (oldResult === "D" && result === "W") return 2;
-                          if (oldResult === "D" && result === "L") return -1;
-
-                          if (oldResult === "L" && result === "D") return 1;
-                          if (oldResult === "L" && result === "W") return 3;
-                        };
-                        const recordHome = () => {
-                          let arr = homeTS.record;
-                          arr[parseInt(currentFixture.round) - 1] = result;
-                          return arr;
-                        };
-
-                        return {
-                          id: homeTS.id,
-                          cleanSheats: homeTS.cleanSheats + cleanSheatsHome(),
-                          gamesDrawn:
-                            homeTS.gamesDrawn + gamesDrawnHome() < 0
-                              ? 0
-                              : homeTS.gamesDrawn + gamesDrawnHome(),
-                          gamesLost:
-                            homeTS.gamesLost + gamesLostHome() < 0
-                              ? 0
-                              : homeTS.gamesLost + gamesLostHome(),
-                          gamesWon:
-                            homeTS.gamesWon + gamesWonHome() < 0
-                              ? 0
-                              : homeTS.gamesWon + gamesWonHome(),
-                          goalDifference:
-                            homeTS.goalDifference + goalDifferenceHome(),
-                          goalsAgainst: homeTS.goalsAgainst + goalAgainstHome(),
-                          goalsFor: homeTS.goalsFor + goalForHome(),
-                          points: homeTS.points + pointsHome(),
-                          record: recordHome(),
-                        };
-                      };
-                      const awayUpdate = () => {
-                        const result2 =
-                          (homeGoals > awayGoals && "L") ||
-                          (homeGoals === awayGoals && "D") ||
-                          (homeGoals < awayGoals && "W");
-                        // if awaygoalsOld ===0 && awaygoalsNew === 0, do not change.
-                        // if awaygoalsOld >0 && awaygoalsNew >0, do not change
-                        //if awaygoalsOld ===0 and new !=0 , do -1
-                        //if awaygoaldOld !=0 and new ===0 , do +1
-                        const cleanSheatsAway = () => {
-                          if (
-                            (parseInt(homeGoals) === 0 &&
-                              oldStats.homeScore === 0) ||
-                            (parseInt(homeGoals) !== 0 &&
-                              oldStats.homeScore !== 0)
-                          )
-                            return 0;
-                          else if (
-                            parseInt(homeGoals) !== 0 &&
-                            oldStats.homeScore === 0
-                          )
-                            return -1;
-                          else if (
-                            parseInt(homeGoals) === 0 &&
-                            oldStats.homeScore !== 0
-                          )
-                            return 1;
-                        };
-
-                        //if oldresult and new result are the same do not change
-                        //otherwise if old was D, -1
-                        const gamesDrawnAway = () => {
-                          if (result === oldResult) return 0;
-                          else if (result === "D") return -1;
-                          return 0;
-                        };
-                        const gamesLostAway = () => {
-                          if (result === oldResult) return 0;
-                          else if (result === "W") return -1;
-                          return 0;
-                        };
-                        const gamesWonAway = () => {
-                          if (result === oldResult) return 0;
-                          else if (result === "L") return -1;
-                          return 0;
-                        };
-                        const goalDifferenceAway = () => {
-                          const oldDiff = awayGoals - homeGoals;
-                          const newDiff =
-                            oldStats.awayScore - oldStats.homeScore;
-                          return newDiff - oldDiff;
-                        };
-
-                        const goalForAway = () => {
-                          const oldfor = awayGoals;
-                          const newFor = oldStats.awayScore;
-                          return newFor - oldfor;
-                        };
-                        const goalAgainstAway = () => {
-                          const oldAgainst = homeGoals;
-                          const newAgainst = oldStats.homeScore;
-                          return newAgainst - oldAgainst;
-                        };
-                        const pointsAway = () => {
-                          console.log(
-                            `result: ${result}\noldresult: ${oldResult}`
-                          );
-                          if (result2 === oldResult) return 0;
-                          if (oldResult === "W" && result2 === "D") return -2;
-                          if (oldResult === "W" && result2 === "L") return -3;
-
-                          if (oldResult === "D" && result2 === "W") return 2;
-                          if (oldResult === "D" && result2 === "L") return -1;
-
-                          if (oldResult === "L" && result2 === "D") return 1;
-                          if (oldResult === "L" && result2 === "W") return 3;
-                        };
-                        const recordAway = () => {
-                          let arr = awayTS.record;
-                          arr[parseInt(currentFixture.round) - 1] = result2;
-                          return arr;
-                        };
-
-                        return {
-                          id: awayTS.id,
-                          cleanSheats: awayTS.cleanSheats + cleanSheatsAway(),
-                          gamesDrawn:
-                            awayTS.gamesDrawn + gamesDrawnAway() < 0
-                              ? 0
-                              : awayTS.gamesDrawn + gamesDrawnAway(),
-                          gamesLost:
-                            awayTS.gamesLost + gamesLostAway() < 0
-                              ? 0
-                              : awayTS.gamesLost + gamesLostAway(),
-                          gamesWon:
-                            awayTS.gamesWon + gamesWonAway() < 0
-                              ? 0
-                              : awayTS.gamesWon + gamesWonAway(),
-                          goalDifference:
-                            awayTS.goalDifference + goalDifferenceAway(),
-                          goalsAgainst: awayTS.goalsAgainst + goalAgainstAway(),
-                          goalsFor: awayTS.goalsFor + goalForAway(),
-                          points: awayTS.points + pointsAway(),
-                          record: recordAway(),
-                        };
-                      };
-
-                      const updateFixture = {
-                        id: currentFixture?.id,
-                        homeScore: parseInt(homeGoals),
-                        awayScore: parseInt(awayGoals),
-                      };
-                      setUpdateTeamStats({
-                        id: currentFixture?.teamStats?.items[0].id,
+                      setCreateTeamStats({
                         teamStatsAway_teamId: currentFixture.awayID,
                         teamStatsHome_teamId: currentFixture.homeID,
                         fixtureTeamStatsId: currentFixture.id,
                         ...temp,
                       });
-
-                      console.log("update object", {
-                        home: homeUpdate(),
-                        away: awayUpdate(),
-                        fixture: updateFixture,
-                      });
+                      const updateFixture = {
+                        id: currentFixture?.id,
+                        homeScore: parseInt(homeGoals),
+                        awayScore: parseInt(awayGoals),
+                      };
                       setUpdateTableStat({
-                        home: homeUpdate(),
-                        away: awayUpdate(),
+                        home: homeTableStat,
+                        away: awayTableStat,
                         fixture: updateFixture,
                       });
                     } else {
@@ -872,7 +765,10 @@ const LTeamStats = () => {
                           gamesLost:
                             parseInt(awayTS.gamesLost) +
                             (parseInt(homeGoals) > parseInt(awayGoals) ? 1 : 0),
-                          gamesPlayed: parseInt(awayTS.gamesPlayed) + 1,
+                          gamesPlayed:
+                            parseInt(awayTS.gamesPlayed) + 1
+                              ? parseInt(awayTS.gamesPlayed) + 1
+                              : 1,
                           gamesWon:
                             parseInt(awayTS.gamesWon) +
                             (parseInt(homeGoals) < parseInt(awayGoals) ? 1 : 0),
@@ -941,6 +837,9 @@ const LTeamStats = () => {
                     setTeamstatsTracker({ ...teamStats });
 
                     setUpdateFixtures(true);
+
+                    setGetTournamentByID(tournament?.id);
+
                     setShowStats(false);
                   }}
                 >

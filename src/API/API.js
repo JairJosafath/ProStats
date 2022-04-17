@@ -18,6 +18,14 @@ import {
   deleteTeamTournamentsQuery,
   createTableStatQuery,
   updateTableStatQuery,
+  getTournamentQuery,
+  updatePlayerStats,
+  updatePlayerTableStat,
+  createPlayerStatsMutation,
+  updatePlayerStatsMutation,
+  getLeagueRequestsQuery,
+  createRequestLeague2TeamMutation,
+  deleteRequestLeague2TeamMutation,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -80,6 +88,20 @@ const apiSettings = {
 
     return data.getLeague;
   },
+  getLeagueRequests: async (id) => {
+    console.log("querying db for league requests");
+    const { data } = await API.graphql({
+      query: getLeagueRequestsQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getLeague;
+  },
   getTeam: async (id) => {
     console.log("querying db for team");
     const { data } = await API.graphql({
@@ -94,8 +116,33 @@ const apiSettings = {
 
     return data.getPlayer;
   },
+  getTournament: async (id) => {
+    console.log("querying db for tournament");
+    const { data } = await API.graphql({
+      query: getTournamentQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getTournament;
+  },
 
   //Update
+  updatePlayerStat: async (input) => {
+    console.log("mutation: updatePlayerStat");
+    const result = await API.graphql({
+      query: updatePlayerStatsMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   updatePlayer: async (input) => {
     console.log("mutation: updatePlayer");
     const result = await API.graphql({
@@ -124,8 +171,6 @@ const apiSettings = {
           goalsFor: ${input.home.goalsFor}
           points: ${input.home.points}
           record: [${input.home.record.map((record) => `"${record}"`)}]
-          tableStatTeamId: "${input.home.tableStatTeamId}"
-          tournamentTableId: "${input.home.tournamentTableId}"
         }
       ){
         id
@@ -143,8 +188,6 @@ const apiSettings = {
           goalsFor: ${input.away.goalsFor}
           points: ${input.away.points}
           record: [${input.away.record.map((record) => `"${record}"`)}]
-          tableStatTeamId: "${input.away.tableStatTeamId}"
-          tournamentTableId: "${input.away.tournamentTableId}"
         }
       ){
         id
@@ -159,6 +202,39 @@ const apiSettings = {
       ){
         id
       }
+    }
+  `;
+    console.log("inputQuery", temp);
+    const result = await API.graphql({
+      query: temp,
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  updatePlayerTableStat: async (input) => {
+    console.log("mutation: updatePlayerTableStat");
+    const temp = /* GraphQL */ `
+    mutation UpdatePlayerTableStat {
+      homeMutation: updatePlayerTableStat(
+        input: {
+          id:"${input.id}"
+          goals:${input.goals}
+          assists:${input.assists}
+          beat:${input.beat}
+          skillmove_beat:${input.skillmove_beat}
+          nutmeg:${input.nutmeg}
+          match_rating:${input.match_rating}
+          playerOfTheMatch:${input.playerOfTheMatch}
+          expected_assists:${input.expected_assists}
+          interceptions:${input.interceptions}
+          tackles_won:${input.tackles_won}
+          blocks:${input.blocks}
+          saves:${input.saves}
+        }
+      ){
+        id
+      }
+     
     }
   `;
     console.log("inputQuery", temp);
@@ -192,6 +268,18 @@ const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  updatePlayerStats: async (input) => {
+    console.log("mutation: updatePlayerStats");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: updatePlayerStatsMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   updateTournamentAddTeam: async (input) => {
     console.log("mutation: updateTournament, addTeam");
     console.log("input", input);
@@ -217,6 +305,18 @@ const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  createRequestLeague2Team: async (input) => {
+    console.log("mutation: request2Team");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createRequestLeague2TeamMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   createTeamStats: async (input) => {
     console.log("mutation: createTeamStats");
     console.log("input", input);
@@ -225,6 +325,52 @@ const apiSettings = {
       variables: {
         input,
       },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  createPlayerStats: async (input) => {
+    console.log("mutation: createPlayerStats");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createPlayerStatsMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  createPlayerTableStat: async (input) => {
+    console.log("mutation: createPlayerTableStat");
+    const temp = /* GraphQL */ `
+    mutation CreatePlayerTableStat {
+      homeMutation: createPlayerTableStat(
+        input: {
+          tournamentPlayerTableId:"${input.tournamentPlayerTableId}"
+          playerTableStatPlayerId:"${input.playerTableStatPlayerId}"
+          goals:${input.goals}
+          assists:${input.assists}
+          beat:${input.beat}
+          skillmove_beat:${input.skillmove_beat}
+          nutmeg:${input.nutmeg}
+          match_rating:${input.match_rating}
+          playerOfTheMatch:${input.playerOfTheMatch}
+          expected_assists:${input.expected_assists}
+          interceptions:${input.interceptions}
+          tackles_won:${input.tackles_won}
+          blocks:${input.blocks}
+          saves:${input.saves}
+        }
+      ){
+        id
+      }
+     
+    }
+  `;
+    console.log("inputQuery", temp);
+    const result = await API.graphql({
+      query: temp,
       authMode: defaultAuth,
     }).catch((error) => console.log(error));
     return result;
@@ -266,6 +412,16 @@ const apiSettings = {
           record: ["${input.away.record[0]}"]
           tableStatTeamId: "${input.away.tableStatTeamId}"
           tournamentTableId: "${input.away.tournamentTableId}"
+        }
+      ){
+        id
+      }
+      updateFixture: updateFixture(
+        input:{
+          id:"${input.fixture.id}"
+          homeScore:${input.fixture.homeScore}
+          awayScore:${input.fixture.awayScore}
+
         }
       ){
         id
@@ -369,6 +525,19 @@ const apiSettings = {
   },
 
   //removeOrdelete
+
+  deleteLeague2TeamRequest: async (input) => {
+    console.log("mutation: delete L2T req");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deleteRequestLeague2TeamMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   removeTeamfromTournament: async (input) => {
     console.log("mutation: updateTournament, removeTeam");
     console.log("input", input);

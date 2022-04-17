@@ -71,7 +71,7 @@ const playerStats = {
   ],
   possession: [
     {
-      attr: "possession %",
+      attr: "possession percentage",
       val: "",
     },
     {
@@ -83,7 +83,7 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "dribble success rate %",
+      attr: "dribble success rate percentage",
       val: "",
     },
     {
@@ -99,15 +99,15 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "regular dribble %",
+      attr: "regular dribble percentage",
       val: "",
     },
     {
-      attr: "shield dribble %",
+      attr: "shield dribble percentage",
       val: "",
     },
     {
-      attr: "strafe dribble %",
+      attr: "strafe dribble percentage",
       val: "",
     },
     {
@@ -153,7 +153,7 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "shot accuracy %",
+      attr: "shot accuracy percentage",
       val: "",
     },
     {
@@ -207,7 +207,7 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "pass accuraccy %",
+      attr: "pass accuraccy percentage",
       val: "",
     },
     {
@@ -249,7 +249,7 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "standing tackles success rate %",
+      attr: "standing tackles success rate percentage",
       val: "",
     },
     {
@@ -261,7 +261,7 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "sliding tackles success rate %",
+      attr: "sliding tackles success rate percentage",
       val: "",
     },
     {
@@ -315,7 +315,7 @@ const playerStats = {
       val: "",
     },
     {
-      attr: "save success rate %",
+      attr: "save success rate percentage",
       val: "",
     },
     {

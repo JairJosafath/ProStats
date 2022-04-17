@@ -66,9 +66,11 @@ export const getLeagueQuery = /* GraphQL */ `
       leagueAdmin
       tournaments {
         items {
+          id
           name
           table {
             items {
+              id
               cleanSheats
               gamesDrawn
               gamesLost
@@ -88,6 +90,7 @@ export const getLeagueQuery = /* GraphQL */ `
           }
           playerTable {
             items {
+              id
               assists
               beat
               blocks
@@ -97,6 +100,7 @@ export const getLeagueQuery = /* GraphQL */ `
               matchRating
               nutmeg
               player {
+                id
                 name
               }
               playerOfTheMatch
@@ -170,23 +174,26 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
           }
           playerTable {
             items {
-              assists
-              beat
-              blocks
-              expectedAssists
-              goals
-              interceptions
-              matchRating
-              nutmeg
               player {
+                id
                 name
               }
+              goals
+              assists
+              beat
+              skillmove_beat
+              nutmeg
+              match_rating
               playerOfTheMatch
-              playerTableStatPlayerId
+              expected_assists
+              interceptions
+              tackles_won
+              blocks
               saves
-              skillmoveBeat
-              tacklesWon
+              createdAt
+              updatedAt
               tournamentPlayerTableId
+              playerTableStatPlayerId
               id
             }
           }
@@ -196,6 +203,15 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
               team {
                 id
                 name
+                member {
+                  items {
+                    id
+                    player {
+                      name
+                      id
+                    }
+                  }
+                }
               }
             }
           }
@@ -365,9 +381,27 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
       items {
         awayTeam {
           name
+          member {
+            items {
+              id
+              player {
+                id
+                name
+              }
+            }
+          }
         }
         homeTeam {
           name
+          member {
+            items {
+              id
+              player {
+                id
+                name
+              }
+            }
+          }
         }
         awayID
         awayResult
@@ -380,6 +414,108 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
         teamAwayfixturesId
         teamHomefixturesId
         id
+
+        playerStats {
+          items {
+            id
+            matchRating
+            OVR
+            position
+            name
+            version
+            player {
+              id
+              name
+            }
+            verified
+            summary_goals
+            summary_assists
+            summary_shots
+            summary_shot_accuracy
+            summary_passes
+            summary_pass_accuraccy
+            summary_dribbles
+            summary_dribble_accuracy
+            summary_tackles
+            summary_tackle_success_rate
+            summary_offsides
+            summary_fouls_committed
+            summary_possession_won
+            summary_possession_lost
+            summary_minutes_played_vs_team_average
+            summary_distance_covered_vs_team_average
+            summary_distance_sprinted_vs_team_average
+            possession_possession_percentage
+            possession_dribbles
+            possession_dribblescompleted
+            possession_dribble_success_rate_percentage
+            possession_distance_dribbled
+            possession_fouls_won
+            possession_penalties_won
+            possession_regular_dribble_percentage
+            possession_shield_dribble_percentage
+            possession_strafe_dribble_percentage
+            possession_beat
+            possession_skillmove_beat
+            possession_nutmeg
+            possession_knock_ons
+            shooting_goals
+            shooting_expected_goals
+            shooting_shots
+            shooting_shots_on_target
+            shooting_shots_off_target
+            shooting_shots_blocked
+            shooting_shot_accuracy_percentage
+            shooting_normal
+            shooting_finesse
+            shooting_header
+            shooting_low
+            shooting_volley
+            shooting_chip
+            shooting_set_pieces
+            passing_assists
+            passing_expected_assists
+            passing_passes
+            passing_completed
+            passing_intercepted
+            passing_pass_accuraccy_percentage
+            passing_offside_passes
+            passing_ground
+            passing_lob
+            passing_through
+            passing_lofted_through
+            passing_cross
+            passing_set_pieces
+            defending_standing_tackles
+            defending_standing_tackles_won
+            defending_standing_tackles_success_rate_percentage
+            defending_sliding_tackles
+            defending_sliding_tackles_won
+            defending_sliding_tackles_success_rate_percentage
+            defending_interceptions
+            defending_blocks
+            defending_clearances
+            defending_air_duels_won
+            defending_beaten_by_opponent
+            defending_fouls_committed
+            defending_penalties_committed
+            defending_own_goals
+            goalkeeping_shots_against
+            goalkeeping_shots_on_target
+            goalkeeping_saves
+            goalkeeping_goals_conceded
+            goalkeeping_save_success_rate_percentage
+            goalkeeping_shootout_saves
+            goalkeeping_shootout_goals_conceded
+            goalkeeping_normal
+            goalkeeping_finesse
+            goalkeeping_header
+            goalkeeping_low
+            goalkeeping_volley
+            goalkeeping_chip
+            goalkeeping_set_pieces
+          }
+        }
         teamStats {
           items {
             away_defending_air_duels_won
@@ -566,6 +702,153 @@ export const updateTableStatQuery = /* GraphQL */ `
     $condition: ModelTableStatConditionInput
   ) {
     updateTableStat(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const getTournamentQuery = /* GraphQL */ `
+  query GetTournament($id: ID!) {
+    getTournament(id: $id) {
+      id
+      name
+      team {
+        items {
+          id
+          team {
+            id
+            name
+          }
+        }
+      }
+      table {
+        items {
+          id
+          cleanSheats
+          gamesDrawn
+          gamesLost
+          gamesWon
+          gamesPlayed
+          goalDifference
+          goalsAgainst
+          goalsFor
+          points
+          record
+          team {
+            logo
+            name
+            id
+          }
+        }
+      }
+      playerTable {
+        items {
+          assists
+          beat
+          blocks
+          expectedAssists
+          goals
+          interceptions
+          matchRating
+          nutmeg
+          player {
+            id
+            name
+          }
+          playerOfTheMatch
+          playerTableStatPlayerId
+          saves
+          skillmoveBeat
+          tacklesWon
+          tournamentPlayerTableId
+          id
+        }
+      }
+    }
+  }
+`;
+export const createPlayerStatsMutation = /* GraphQL */ `
+  mutation CreatePlayerStats(
+    $input: CreatePlayerStatsInput!
+    $condition: ModelPlayerStatsConditionInput
+  ) {
+    createPlayerStats(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const updatePlayerStatsMutation = /* GraphQL */ `
+  mutation UpdatePlayerStats(
+    $input: UpdatePlayerStatsInput!
+    $condition: ModelPlayerStatsConditionInput
+  ) {
+    updatePlayerStats(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const updatePlayerTableStatMutation = /* GraphQL */ `
+  mutation UpdatePlayerTableStat(
+    $input: UpdatePlayerTableStatInput!
+    $condition: ModelPlayerTableStatConditionInput
+  ) {
+    updatePlayerTableStat(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const createPlayerTableStatMutation = /* GraphQL */ `
+  mutation CreatePlayerTableStat(
+    $input: CreatePlayerTableStatInput!
+    $condition: ModelPlayerTableStatConditionInput
+  ) {
+    createPlayerTableStat(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const getLeagueRequestsQuery = /* GraphQL */ `
+  query GetLeague($id: ID = "") {
+    getLeague(id: $id) {
+      requeststoTeam {
+        items {
+          id
+          status
+          to {
+            name
+            id
+            manager {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const createRequestLeague2TeamMutation = /* GraphQL */ `
+  mutation CreateRequestLeague2Team(
+    $input: CreateRequestLeague2TeamInput!
+    $condition: ModelRequestLeague2TeamConditionInput
+  ) {
+    createRequestLeague2Team(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const deleteRequestLeague2TeamMutation = /* GraphQL */ `
+  mutation DeleteRequestLeague2Team(
+    $input: DeleteRequestLeague2TeamInput!
+    $condition: ModelRequestLeague2TeamConditionInput
+  ) {
+    deleteRequestLeague2Team(input: $input, condition: $condition) {
       id
     }
   }

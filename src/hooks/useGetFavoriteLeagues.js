@@ -93,23 +93,26 @@ query MyQuery {
           }
           playerTable {
             items {
-              assists
-              beat
-              blocks
-              expectedAssists
-              goals
-              interceptions
-              matchRating
-              nutmeg
+          
               player {
                 name
               }
+              goals
+              assists
+              beat
+              skillmove_beat
+              nutmeg
+              match_rating
               playerOfTheMatch
-              playerTableStatPlayerId
+              expected_assists
+              interceptions
+              tackles_won
+              blocks
               saves
-              skillmoveBeat
-              tacklesWon
+              createdAt
+              updatedAt
               tournamentPlayerTableId
+              playerTableStatPlayerId
               id
             }
           }
