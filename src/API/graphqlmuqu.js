@@ -853,3 +853,462 @@ export const deleteRequestLeague2TeamMutation = /* GraphQL */ `
     }
   }
 `;
+
+export const getTeamForDashboardQuery = /* GraphQL */ `
+  query GetTeam($id: ID!) {
+    getTeam(id: $id) {
+      id
+      name
+      league {
+        id
+        name
+        status
+
+        tournamentModerators
+
+        requestModerators
+        transferModerator
+        leagueAdmin
+
+        playerAdminsId
+      }
+
+      status
+
+      tournaments {
+        items {
+          id
+          tournament {
+            id
+            name
+          }
+        }
+      }
+
+      requestsfromLeague {
+        nextToken
+      }
+
+      requeststoPlayer {
+        nextToken
+      }
+      teamStats {
+        nextToken
+      }
+
+      teamManager
+      teamCaptain
+
+      leagueTeamsId
+    }
+  }
+`;
+
+export const fixtureByTournamentandHomeTeamQuery = /* GraphQL */ `
+  query FixtureByTournamentandHomeTeam(
+    $homeID: ID!
+    $tournamentID: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFixtureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fixtureByTournamentandHomeTeam(
+      homeID: $homeID
+      tournamentID: $tournamentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        season
+        round
+
+        homeScore
+        awayScore
+        homeResult
+        awayResult
+        tournamentMod
+        tournamentID
+        createdAt
+        updatedAt
+
+        tournamentFixturesId
+        playerTournamentFixturesId
+        owner
+        awayTeam {
+          name
+          id
+        }
+        homeTeam {
+          name
+          id
+        }
+
+        teamStats {
+          items {
+            teamTeamStatsId
+            fixtureTeamStatsId
+            teamStatsHome_teamId
+            teamStatsAway_teamId
+            away_defending_air_duels_won
+            away_defending_average_sliding_tackles_distance
+            away_defending_average_standing_tackles_distance
+            away_defending_beaten_by_opponent
+            away_defending_blocks
+            away_defending_clearances
+            away_defending_fouls_committed
+            away_defending_interceptions
+            away_defending_penalties_committed
+            away_defending_red_cards
+            away_defending_saves
+            away_defending_sliding_tackles
+            away_defending_sliding_tackles_won
+            away_defending_standing_tackles
+            away_defending_standing_tackles_won
+            away_defending_yellow_cards
+            away_name
+            away_passing_breakaway
+            away_passing_completed
+            away_passing_cross
+            away_passing_down_wing
+            away_passing_first_time
+            away_passing_ground
+            away_passing_intercepted
+            away_passing_key_pass
+            away_passing_lob
+            away_passing_lofted_through
+            away_passing_other
+            away_passing_offside
+            away_passing_pass_and_go
+            away_passing_set_pieces
+            away_passing_through
+            away_passing_total_passes
+            away_possession_minute_15
+            away_possession_minute_30
+            away_possession_minute_45
+            away_possession_minute_60
+            away_possession_minute_75
+            away_possession_minute_90
+            away_shooting_blocked
+            away_shooting_chip
+            away_shooting_far_side
+            away_shooting_finesse
+            away_shooting_header
+            away_shooting_inside_the_box
+            away_shooting_low
+            away_shooting_near_side
+            away_shooting_normal
+            away_shooting_off_target
+            away_shooting_on_target
+            away_shooting_outside_the_box
+            away_shooting_set_pieces
+            away_shooting_total_shots
+            away_shooting_volley
+            away_summary_corners
+            away_summary_expected_goals
+            away_summary_fouls_committed
+            away_summary_free_kicks
+            away_summary_goals
+            away_summary_interceptions
+            away_summary_offsides
+            away_summary_penalty_kicks
+            away_summary_possession_percentage
+            away_summary_red_cards
+            away_summary_saves
+            away_summary_shots
+            away_summary_spasses
+            away_summary_tackles
+            away_summary_tackles_won
+            away_summary_yellow_cards
+            home_defending_air_duels_won
+            home_defending_average_sliding_tackles_distance
+            home_defending_average_standing_tackles_distance
+            home_defending_beaten_by_opponent
+            home_defending_blocks
+            home_defending_clearances
+            home_defending_fouls_committed
+            home_defending_interceptions
+            home_defending_penalties_committed
+            home_defending_red_cards
+            home_defending_saves
+            home_defending_sliding_tackles
+            home_defending_sliding_tackles_won
+            home_defending_standing_tackles
+            home_defending_yellow_cards
+            home_defending_standing_tackles_won
+            home_name
+            home_passing_breakaway
+            home_passing_completed
+            home_passing_cross
+            home_passing_down_wing
+            home_passing_first_time
+            home_passing_ground
+            home_passing_intercepted
+            home_passing_key_pass
+            home_passing_lob
+            home_passing_lofted_through
+            home_passing_offside
+            home_passing_other
+            home_passing_pass_and_go
+            home_passing_set_pieces
+            home_passing_through
+            home_passing_total_passes
+            home_possession_minute_15
+            home_possession_minute_30
+            home_possession_minute_45
+            home_possession_minute_60
+            home_possession_minute_75
+            home_possession_minute_90
+            home_shooting_blocked
+            home_shooting_chip
+            home_shooting_far_side
+            home_shooting_finesse
+            home_shooting_header
+            home_shooting_inside_the_box
+            home_shooting_low
+            home_shooting_near_side
+            home_shooting_normal
+            home_shooting_on_target
+            home_shooting_off_target
+            home_shooting_outside_the_box
+            home_shooting_set_pieces
+            home_shooting_total_shots
+            home_shooting_volley
+            home_summary_corners
+            home_summary_expected_goals
+            home_summary_fouls_committed
+            home_summary_free_kicks
+            home_summary_goals
+            home_summary_interceptions
+            home_summary_offsides
+            home_summary_penalty_kicks
+            home_summary_possession_percentage
+            home_summary_red_cards
+            home_summary_saves
+            home_summary_shots
+            home_summary_spasses
+            home_summary_tackles
+            home_summary_tackles_won
+            home_summary_yellow_cards
+            verified
+            id
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
+
+export const fixtureByTournamentandAwayTeamQuery = /* GraphQL */ `
+  query FixtureByTournamentandAwayTeam(
+    $awayID: ID!
+    $tournamentID: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFixtureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fixtureByTournamentandAwayTeam(
+      awayID: $awayID
+      tournamentID: $tournamentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        season
+        round
+
+        homeScore
+        awayScore
+        homeResult
+        awayResult
+        tournamentMod
+        tournamentID
+        createdAt
+        updatedAt
+
+        tournamentFixturesId
+        playerTournamentFixturesId
+        owner
+        awayTeam {
+          name
+          id
+        }
+        homeTeam {
+          name
+          id
+        }
+        teamStats {
+          items {
+            teamTeamStatsId
+            fixtureTeamStatsId
+            teamStatsHome_teamId
+            teamStatsAway_teamId
+            away_defending_air_duels_won
+            away_defending_average_sliding_tackles_distance
+            away_defending_average_standing_tackles_distance
+            away_defending_beaten_by_opponent
+            away_defending_blocks
+            away_defending_clearances
+            away_defending_fouls_committed
+            away_defending_interceptions
+            away_defending_penalties_committed
+            away_defending_red_cards
+            away_defending_saves
+            away_defending_sliding_tackles
+            away_defending_sliding_tackles_won
+            away_defending_standing_tackles
+            away_defending_standing_tackles_won
+            away_defending_yellow_cards
+            away_name
+            away_passing_breakaway
+            away_passing_completed
+            away_passing_cross
+            away_passing_down_wing
+            away_passing_first_time
+            away_passing_ground
+            away_passing_intercepted
+            away_passing_key_pass
+            away_passing_lob
+            away_passing_lofted_through
+            away_passing_other
+            away_passing_offside
+            away_passing_pass_and_go
+            away_passing_set_pieces
+            away_passing_through
+            away_passing_total_passes
+            away_possession_minute_15
+            away_possession_minute_30
+            away_possession_minute_45
+            away_possession_minute_60
+            away_possession_minute_75
+            away_possession_minute_90
+            away_shooting_blocked
+            away_shooting_chip
+            away_shooting_far_side
+            away_shooting_finesse
+            away_shooting_header
+            away_shooting_inside_the_box
+            away_shooting_low
+            away_shooting_near_side
+            away_shooting_normal
+            away_shooting_off_target
+            away_shooting_on_target
+            away_shooting_outside_the_box
+            away_shooting_set_pieces
+            away_shooting_total_shots
+            away_shooting_volley
+            away_summary_corners
+            away_summary_expected_goals
+            away_summary_fouls_committed
+            away_summary_free_kicks
+            away_summary_goals
+            away_summary_interceptions
+            away_summary_offsides
+            away_summary_penalty_kicks
+            away_summary_possession_percentage
+            away_summary_red_cards
+            away_summary_saves
+            away_summary_shots
+            away_summary_spasses
+            away_summary_tackles
+            away_summary_tackles_won
+            away_summary_yellow_cards
+            home_defending_air_duels_won
+            home_defending_average_sliding_tackles_distance
+            home_defending_average_standing_tackles_distance
+            home_defending_beaten_by_opponent
+            home_defending_blocks
+            home_defending_clearances
+            home_defending_fouls_committed
+            home_defending_interceptions
+            home_defending_penalties_committed
+            home_defending_red_cards
+            home_defending_saves
+            home_defending_sliding_tackles
+            home_defending_sliding_tackles_won
+            home_defending_standing_tackles
+            home_defending_yellow_cards
+            home_defending_standing_tackles_won
+            home_name
+            home_passing_breakaway
+            home_passing_completed
+            home_passing_cross
+            home_passing_down_wing
+            home_passing_first_time
+            home_passing_ground
+            home_passing_intercepted
+            home_passing_key_pass
+            home_passing_lob
+            home_passing_lofted_through
+            home_passing_offside
+            home_passing_other
+            home_passing_pass_and_go
+            home_passing_set_pieces
+            home_passing_through
+            home_passing_total_passes
+            home_possession_minute_15
+            home_possession_minute_30
+            home_possession_minute_45
+            home_possession_minute_60
+            home_possession_minute_75
+            home_possession_minute_90
+            home_shooting_blocked
+            home_shooting_chip
+            home_shooting_far_side
+            home_shooting_finesse
+            home_shooting_header
+            home_shooting_inside_the_box
+            home_shooting_low
+            home_shooting_near_side
+            home_shooting_normal
+            home_shooting_on_target
+            home_shooting_off_target
+            home_shooting_outside_the_box
+            home_shooting_set_pieces
+            home_shooting_total_shots
+            home_shooting_volley
+            home_summary_corners
+            home_summary_expected_goals
+            home_summary_fouls_committed
+            home_summary_free_kicks
+            home_summary_goals
+            home_summary_interceptions
+            home_summary_offsides
+            home_summary_penalty_kicks
+            home_summary_possession_percentage
+            home_summary_red_cards
+            home_summary_saves
+            home_summary_shots
+            home_summary_spasses
+            home_summary_tackles
+            home_summary_tackles_won
+            home_summary_yellow_cards
+            verified
+            id
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const updateFixtureMutation = /* GraphQL */ `
+  mutation UpdateFixture(
+    $input: UpdateFixtureInput!
+    $condition: ModelFixtureConditionInput
+  ) {
+    updateFixture(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;

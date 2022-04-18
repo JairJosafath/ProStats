@@ -1,6 +1,6 @@
 import { Uploader, toaster, Message, Loader, Avatar, Button } from "rsuite";
 import { useState, useEffect } from "react";
-import apiSettings from "../../API/API";
+import { apiSettings } from "../../API/API";
 function previewFile(file, callback) {
   const reader = new FileReader();
   reader.onloadend = () => {

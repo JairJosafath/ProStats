@@ -16,22 +16,22 @@ import {
   createLeagueQuery,
   createTrophyQuery,
   deleteTeamTournamentsQuery,
-  createTableStatQuery,
-  updateTableStatQuery,
   getTournamentQuery,
-  updatePlayerStats,
-  updatePlayerTableStat,
   createPlayerStatsMutation,
   updatePlayerStatsMutation,
   getLeagueRequestsQuery,
   createRequestLeague2TeamMutation,
   deleteRequestLeague2TeamMutation,
+  getTeamForDashboardQuery,
+  fixtureByTournamentandHomeTeamQuery,
+  fixtureByTournamentandAwayTeamQuery,
+  updateFixtureMutation,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
 const defaultAuth = "AMAZON_COGNITO_USER_POOLS";
 
-const apiSettings = {
+export const apiSettings = {
   //Gets
   getPlayer: async (id) => {
     console.log("querying db for player");
@@ -621,4 +621,61 @@ const apiSettings = {
   },
 };
 
-export default apiSettings;
+export const apiSettingsTD = {
+  getTeamForDashboard: async (id) => {
+    console.log("querying db for league");
+    const { data } = await API.graphql({
+      query: getTeamForDashboardQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getTeam;
+  },
+  getTeamFixturesHome: async (input) => {
+    console.log("querying db for teamfixtures", input);
+    const { data } = await API.graphql({
+      query: fixtureByTournamentandHomeTeamQuery,
+      variables: {
+        ...input,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.fixtureByTournamentandHomeTeam;
+  },
+  getTeamFixturesAway: async (input) => {
+    console.log("querying db for teamfixtures", input);
+    const { data } = await API.graphql({
+      query: fixtureByTournamentandAwayTeamQuery,
+      variables: {
+        ...input,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.fixtureByTournamentandAwayTeam;
+  },
+  updateFixture: async (input) => {
+    console.log("mutation:update fixtures", input);
+    const { data } = await API.graphql({
+      query: updateFixtureMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.fixtureByTournamentandAwayTeam;
+  },
+};

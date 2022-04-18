@@ -11,7 +11,7 @@ import {
   updateLeague,
   updateTeam,
 } from "../../graphql/mutations";
-import apiSettings from "../../API/API";
+import { apiSettings } from "../../API/API";
 
 const updateplayerQuery = /* GraphQL */ `
   mutation UpdatePlayer(

@@ -1,5 +1,13 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { Button, FlexboxGrid, Input, List, Modal, Panel } from "rsuite";
+import {
+  Button,
+  FlexboxGrid,
+  IconButton,
+  Input,
+  List,
+  Modal,
+  Panel,
+} from "rsuite";
 import UploadPhotoCustom from "../../components/UploadPhotoCustom";
 // import useGetCurrentplayer from "../../hooks/useGetCurrentplayer";
 import awsmobile from "../../aws-exports";
@@ -212,6 +220,7 @@ const PlayerRoles = ({
   };
   const handleEditTeam = (id, role) => {
     console.log(`edit Team with id: ${id} as ${role}`);
+    nav(`/teamDashboard/${id}/dashboard`);
   };
   const handleDeleteTeam = (id, role) => {
     console.log(`delete Team with id: ${id} as ${role}`);
@@ -268,13 +277,20 @@ const PlayerRoles = ({
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleEditLeague(league.id, "admin");
-                              }}
                             >
-                              <MdModeEdit
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="blue"
+                                size="xs"
+                                icon={
+                                  <MdModeEdit
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleEditLeague(league.id, "admin");
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>
@@ -284,13 +300,20 @@ const PlayerRoles = ({
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleDeleteLeague(league.id, "admin");
-                              }}
                             >
-                              <MdDelete
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="red"
+                                size="xs"
+                                icon={
+                                  <MdDelete
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleDeleteLeague(league.id, "admin");
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>
@@ -316,13 +339,20 @@ const PlayerRoles = ({
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleEditLeague(league.league.id, "mod");
-                              }}
                             >
-                              <MdModeEdit
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="blue"
+                                size="xs"
+                                icon={
+                                  <MdModeEdit
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleEditLeague(league.league.id, "mod");
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>
@@ -332,13 +362,20 @@ const PlayerRoles = ({
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleLeaveLeague(league.id);
-                              }}
                             >
-                              <MdExitToApp
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="red"
+                                size="xs"
+                                icon={
+                                  <MdExitToApp
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleLeaveLeague(league.id);
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>
@@ -386,13 +423,20 @@ const PlayerRoles = ({
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleEditTeam(team.id, "manager");
-                              }}
                             >
-                              <MdModeEdit
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="blue"
+                                size="xs"
+                                icon={
+                                  <MdModeEdit
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleEditTeam(team.id, "manager");
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>
@@ -402,13 +446,20 @@ const PlayerRoles = ({
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleDeleteTeam(team.id, "manager");
-                              }}
                             >
-                              <MdDelete
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="red"
+                                size="xs"
+                                icon={
+                                  <MdDelete
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleDeleteTeam(team.id, "manager");
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>

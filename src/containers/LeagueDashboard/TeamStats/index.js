@@ -17,6 +17,8 @@ import { IoMdArrowBack } from "react-icons/io";
 import teamStats from "../../../backend/db/teamStats";
 import { createTableStat } from "../../../graphql/mutations";
 import { useTimeout } from "rsuite/esm/utils";
+import ControlledInput from "../../../components/ControlledInput";
+import StatPanel from "../../../components/StatPanel";
 
 //used to navigate the different stat types
 const typeDataTeam = [
@@ -30,121 +32,6 @@ const typeDataTeam = [
 //copy of the teamstats object
 const tracker = { ...teamStats };
 
-//use of controlled inputs so we can handle changes mapped to the teamstats object
-const ControlledInput = ({
-  teamstatsTracker,
-  stadium,
-  type,
-  attr,
-  val,
-  setTeamstatsTracker,
-  currentFixture,
-  ...props
-}) => {
-  const [value, setValue] = useState(
-    currentFixture?.teamStats?.items[0]
-      ? currentFixture?.teamStats?.items[0][
-          `${stadium}_${type}_${attr.replaceAll(" ", "_")}`
-        ]
-      : ""
-  );
-  useEffect(() => {
-    teamstatsTracker[stadium][type].filter(
-      (stat) => stat.attr === attr
-    )[0].val = value;
-    setTeamstatsTracker(teamstatsTracker);
-  }, [value, teamstatsTracker, stadium, type, attr, val, currentFixture]);
-  return (
-    <Input value={value} {...props} onChange={setValue} placeholder="0"></Input>
-  );
-};
-
-//component that handels type of stats to be shown in the stat grid
-const StatPanel = ({
-  typeDataTeamState,
-  currentFixture,
-  teamstatsTracker,
-  setTeamstatsTracker,
-  stadium,
-}) => {
-  return (
-    <FlexboxGrid justify={"space between"}>
-      <StatRow
-        stadium={stadium}
-        typeDataTeamState={typeDataTeamState}
-        currentFixture={currentFixture}
-        teamstatsTracker={teamstatsTracker}
-        setTeamstatsTracker={setTeamstatsTracker}
-        start={0}
-        end={0.33 * teamStats[stadium][typeDataTeamState].length}
-      />
-      <StatRow
-        stadium={stadium}
-        typeDataTeamState={typeDataTeamState}
-        currentFixture={currentFixture}
-        teamstatsTracker={teamstatsTracker}
-        setTeamstatsTracker={setTeamstatsTracker}
-        start={0.33 * teamStats[stadium][typeDataTeamState].length}
-        end={0.67 * teamStats[stadium][typeDataTeamState].length}
-      />
-      <StatRow
-        stadium={stadium}
-        typeDataTeamState={typeDataTeamState}
-        currentFixture={currentFixture}
-        teamstatsTracker={teamstatsTracker}
-        setTeamstatsTracker={setTeamstatsTracker}
-        start={0.67 * teamStats[stadium][typeDataTeamState].length}
-        end={teamStats[stadium][typeDataTeamState].length}
-      />
-    </FlexboxGrid>
-  );
-};
-
-//controls the different rows in the statpanel
-const StatRow = ({
-  stadium,
-  typeDataTeamState,
-  currentFixture,
-  teamstatsTracker,
-  setTeamstatsTracker,
-  start,
-  end,
-}) => {
-  return (
-    <FlexboxGrid.Item colspan={7}>
-      <List hover>
-        {teamStats[stadium][typeDataTeamState].slice(start, end).map((stat) => {
-          return (
-            <List.Item>
-              <FlexboxGrid justify={"space-around"}>
-                <FlexboxGrid.Item colspan={16} style={{ minHeight: 50 }}>
-                  {stat.attr}
-                </FlexboxGrid.Item>
-                <FlexboxGrid.Item>
-                  <ControlledInput
-                    currentFixture={currentFixture}
-                    type={typeDataTeamState}
-                    attr={stat.attr}
-                    val={stat.val}
-                    teamstatsTracker={teamstatsTracker}
-                    setTeamstatsTracker={setTeamstatsTracker}
-                    stadium={stadium}
-                    size="sm"
-                    style={{
-                      width: 60,
-                      marginLeft: 7,
-                    }}
-                    placeholder="value"
-                  />
-                </FlexboxGrid.Item>
-              </FlexboxGrid>
-            </List.Item>
-          );
-        })}
-      </List>
-    </FlexboxGrid.Item>
-  );
-};
 const LTeamStats = () => {
   //outletcontext provided by leaguedasbhoard mother component
   const {

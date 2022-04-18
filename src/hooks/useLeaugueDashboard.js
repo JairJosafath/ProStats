@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import apiSettings from "../API/API";
+import { apiSettings } from "../API/API";
 
 const useLeagueDashboard = () => {
   const [loading, setLoading] = useState(false);

@@ -36,6 +36,8 @@ import SignInCustom from "./containers/SignInCustom";
 
 //queries
 import { createPlayer } from "./graphql/mutations";
+
+//Containers
 import LeagueDashboard from "./containers/LeagueDashboard";
 import LDashboard from "./containers/LeagueDashboard/Dashboard";
 import LTeamStats from "./containers/LeagueDashboard/TeamStats";
@@ -46,6 +48,16 @@ import LNews from "./containers/LeagueDashboard/News";
 import LTransfer from "./containers/LeagueDashboard/Transfer";
 import LRequests from "./containers/LeagueDashboard/Requests";
 import LTeams from "./containers/LeagueDashboard/Teams";
+import TeamDashboard from "./containers/TeamDashboard";
+import TDashboard from "./containers/TeamDashboard/Dashboard";
+import TTeamStats from "./containers/TeamDashboard/TeamStats";
+import TPlayerStats from "./containers/TeamDashboard/PlayerStats";
+import TPlayers from "./containers/TeamDashboard/Players";
+// import TTournaments from "./containers/TeamDashboard/Tournaments";
+import TRoles from "./containers/TeamDashboard/Roles";
+import TLeagues from "./containers/TeamDashboard/Leagues";
+
+// import TTeams from "./containers/TeamDashboard/Teams";
 
 Amplify.configure(awsExports);
 
@@ -290,17 +302,17 @@ function App(props) {
           </Route>
           <Route
             path="/teamdashboard/:id"
-            element={user ? <LeagueDashboard /> : <SignInCustom />}
+            element={user ? <TeamDashboard /> : <SignInCustom />}
           >
-            <Route path="dashboard" element={<LDashboard />} />
-            <Route path="teamstats" element={<LTeamStats />} />
-            <Route path="playerstats" element={<LPlayerStats />} />
-            <Route path="tournaments" element={<LTournaments />} />
-            <Route path="teams" element={<LTeams />} />
-            <Route path="roles" element={<LRoles />} />
-            <Route path="news" element={<LNews />} />
-            <Route path="transfer" element={<LTransfer />} />
-            <Route path="requests" element={<LRequests />} />
+            <Route path="dashboard" element={<TDashboard />} />
+            <Route path="teamstats" element={<TTeamStats />} />
+            <Route path="playerstats" element={<TPlayerStats />} />
+            {/* <Route path="tournaments" element={<TTournaments />} />
+            <Route path="teams" element={<TTeams />} /> */}
+            <Route path="roles" element={<TRoles />} />
+            <Route path="leagues" element={<TLeagues />} />
+            <Route path="players" element={<TPlayers />} />
+
             {/* <Route path="dashboard" element={<LDashboard/>}/> */}
           </Route>
           <Route
