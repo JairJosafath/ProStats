@@ -56,6 +56,10 @@ import TPlayers from "./containers/TeamDashboard/Players";
 // import TTournaments from "./containers/TeamDashboard/Tournaments";
 import TRoles from "./containers/TeamDashboard/Roles";
 import TLeagues from "./containers/TeamDashboard/Leagues";
+import PlayerDashboard from "./containers/PlayerDashboard";
+import PDashboard from "./containers/PlayerDashboard/Dashboard";
+import PPlayerStats from "./containers/PlayerDashboard/PlayerStats";
+import PTeams from "./containers/PlayerDashboard/Teams";
 
 // import TTeams from "./containers/TeamDashboard/Teams";
 
@@ -312,6 +316,17 @@ function App(props) {
             <Route path="roles" element={<TRoles />} />
             <Route path="leagues" element={<TLeagues />} />
             <Route path="players" element={<TPlayers />} />
+
+            {/* <Route path="dashboard" element={<LDashboard/>}/> */}
+          </Route>
+          <Route
+            path="/playerdashboard/:id"
+            element={user ? <PlayerDashboard /> : <SignInCustom />}
+          >
+            <Route path="dashboard" element={<PDashboard />} />
+
+            <Route path="playerstats" element={<PPlayerStats />} />
+            <Route path="teams" element={<PTeams />} />
 
             {/* <Route path="dashboard" element={<LDashboard/>}/> */}
           </Route>

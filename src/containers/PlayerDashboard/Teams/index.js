@@ -1,9 +1,9 @@
-const PlayerDashboard = () => {
+const PTeams = () => {
   return (
     <>
-      <h3>PlayerDashboard</h3>
+      <h3>PTeams</h3>
     </>
   );
 };
 
-export default PlayerDashboard;
+export default PTeams;

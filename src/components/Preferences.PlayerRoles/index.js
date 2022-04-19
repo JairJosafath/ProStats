@@ -218,9 +218,10 @@ const PlayerRoles = ({
   const handleLeaveLeague = (id) => {
     console.log(`leaving league with id: ${id}`);
   };
-  const handleEditTeam = (id, role) => {
+  const handleEditTeam = (id, role, playerId) => {
     console.log(`edit Team with id: ${id} as ${role}`);
-    nav(`/teamDashboard/${id}/dashboard`);
+    if (role === "manager") nav(`/teamDashboard/${id}/dashboard`);
+    if (role === "member") nav(`/playerDashboard/${id}+${playerId}/dashboard`);
   };
   const handleDeleteTeam = (id, role) => {
     console.log(`delete Team with id: ${id} as ${role}`);
@@ -435,7 +436,7 @@ const PlayerRoles = ({
                                   />
                                 }
                                 onClick={(e) => {
-                                  handleEditTeam(team.id, "manager");
+                                  handleEditTeam(team.id, "manager", false);
                                 }}
                               />
                             </div>
@@ -487,7 +488,7 @@ const PlayerRoles = ({
                                 width: "4em",
                               }}
                               onClick={(e) => {
-                                handleEditTeam(team.team.id, "captain");
+                                handleEditTeam(team.team.id, "captain", false);
                               }}
                             >
                               <MdModeEdit
@@ -529,20 +530,53 @@ const PlayerRoles = ({
                           <FlexboxGrid.Item colspan={7}>
                             Member
                           </FlexboxGrid.Item>
-                          <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
                           <FlexboxGrid.Item colspan={3}>
                             <div
                               style={{
                                 display: "flex",
                                 width: "4em",
                               }}
-                              onClick={(e) => {
-                                handleLeaveTeam(team.id, "member");
+                            >
+                              <IconButton
+                                appearance="subtle"
+                                color="blue"
+                                size="xs"
+                                icon={
+                                  <MdModeEdit
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleEditTeam(
+                                    team.team.id,
+                                    "member",
+                                    player.id
+                                  );
+                                }}
+                              />
+                            </div>
+                          </FlexboxGrid.Item>
+                          <FlexboxGrid.Item colspan={3}>
+                            <div
+                              style={{
+                                display: "flex",
+                                width: "4em",
                               }}
                             >
-                              <MdExitToApp
-                                style={{ margin: "0 auto" }}
-                                size={"1.5em"}
+                              <IconButton
+                                appearance="subtle"
+                                color="red"
+                                size="xs"
+                                icon={
+                                  <MdExitToApp
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  handleLeaveTeam(team.team.id, "member");
+                                }}
                               />
                             </div>
                           </FlexboxGrid.Item>

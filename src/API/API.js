@@ -31,6 +31,7 @@ import {
   updateRequestTeam2PlayerMutation,
   getTeamRequestsQuery,
   getTeamRequestsDashboardQuery,
+  getPlayerForDashboardQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -628,7 +629,7 @@ export const apiSettings = {
 
 export const apiSettingsTD = {
   getTeamForDashboard: async (id) => {
-    console.log("querying db for league");
+    console.log("querying db for league", id);
     const { data } = await API.graphql({
       query: getTeamForDashboardQuery,
       variables: {
@@ -640,6 +641,20 @@ export const apiSettingsTD = {
     });
 
     return data.getTeam;
+  },
+  getPlayerForDashboard: async (id) => {
+    console.log("querying db for player", id);
+    const { data } = await API.graphql({
+      query: getPlayerForDashboardQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getPlayer;
   },
   getTeamFixturesHome: async (input) => {
     console.log("querying db for teamfixtures", input);

@@ -21,54 +21,6 @@ import PlayerRoles from "../../components/Preferences.PlayerRoles";
 //Hooks
 import usePreferences from "../../hooks/usePreferences";
 
-const PlayerInfo = ({ playerID }) => {
-  // const [file, setFile] = useState(null);
-  // const [valueName, setValueName] = useState("");
-  // const [valueAbout, setValueAbout] = useState("");
-  // // const [createdTeam,loadingCreateTeam,errorCreateTeam]=useCreateTeam()
-
-  // useEffect(() => {
-  //   setValueName(playerInfo?.name);
-  //   setValueAbout(playerInfo?.slogan);
-  // }, [playerInfo]);
-
-  return (
-    <>
-      {/* <PlayerInfoFrame
-        playerInfo={playerInfo}
-        file={file}
-        setFile={setFile}
-        valueName={valueName}
-        setValueName={setValueName}
-        valueAbout={valueAbout}
-        setValueAbout={setValueAbout}
-        playerID={playerID}
-      />
-
-      <PlayerRoles playerInfo={playerInfo} />
-
-      <Panel header="Favorite Leagues">
-        <FlexboxGrid justify="space-around">
-          <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={8}>
-            <div>
-              <label>Leagues</label>
-              <List hover>
-                <List.Item>League1 </List.Item>
-                <List.Item>League2</List.Item>
-
-                <List.Item>League3</List.Item>
-                <List.Item>League4</List.Item>
-              </List>
-            </div>
-          </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
-        </FlexboxGrid>
-      </Panel> */}
-    </>
-  );
-};
-
 const Preferences = ({ playerID }) => {
   const {
     loading,
@@ -114,25 +66,6 @@ const Preferences = ({ playerID }) => {
           setCreateLeague={setCreateLeague}
         />
       )}
-
-      {/* <Panel header="Favorite Leagues">
-        <FlexboxGrid justify="space-around">
-          <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={8}>
-            <div>
-              <label>Leagues</label>
-              <List hover>
-                <List.Item>League1 </List.Item>
-                <List.Item>League2</List.Item>
-
-                <List.Item>League3</List.Item>
-                <List.Item>League4</List.Item>
-              </List>
-            </div>
-          </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
-        </FlexboxGrid>
-      </Panel> */}
     </>
   );
 };

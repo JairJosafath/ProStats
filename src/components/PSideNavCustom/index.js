@@ -14,13 +14,7 @@ const headerStyles = {
   color: " #fff",
 };
 
-const SideNavCustom = ({
-  leagueID,
-  league,
-  tournament,
-  setTournament,
-  fixturesByTournamentAndRound,
-}) => {
+const PSideNavCustom = ({ team, player, tournament, setTournament }) => {
   const [activeKey, setActiveKey] = useState("dashboard");
   const [showNav, setShowNav] = useState("default");
   const [drop, setDrop] = useState(false);
@@ -38,20 +32,20 @@ const SideNavCustom = ({
   useEffect(() => {
     setTournament(
       tournament
-        ? league?.tournaments?.items.filter(
+        ? team?.tournaments?.items.filter(
             (tournamenta) => tournamenta.id === tournament?.id
-          )[0]
-        : league?.tournaments?.items[0]
+          )[0]?.tournament
+        : team?.tournaments?.items[0]?.tournament
     );
-    console.log("tour in side", tournament);
-  }, [league]);
+    console.log("team chosen in nav", tournament);
+  }, [team]);
 
-  useEffect(() => {
-    setTournament(
-      league?.tournaments?.items.filter((tour) => tour.id === tournament.id)[0]
-    );
-    console.log("does tis even help?");
-  }, [fixturesByTournamentAndRound]);
+  // useEffect(() => {
+  //   setTournament(
+  //     league?.tournaments?.items.filter((tour) => tour.id === tournament.id)[0]
+  //   );
+  //   console.log("does tis even help?");
+  // }, [fixturesByTournamentAndRound]);
   return (
     <div style={{ width: 240, height: "90vh", background: "black" }}>
       <Sidenav
@@ -61,7 +55,8 @@ const SideNavCustom = ({
       >
         <Sidenav.Header>
           <div style={headerStyles}>
-            {league?.name}
+            <p>{team?.name}</p>
+            {player?.name}
             <Dropdown
               open={drop}
               title={tournament ? tournament.name : "choose tournament"}
@@ -73,19 +68,21 @@ const SideNavCustom = ({
               }}
             >
               {tournament &&
-                league?.tournaments?.items.map((tournament1) => (
+                team?.tournaments?.items.map((tournament1) => (
                   <Dropdown.Item
                     style={{
                       background:
-                        tournament.name === tournament1.name ? "blue" : "",
+                        tournament.name === tournament1.tournament.name
+                          ? "blue"
+                          : "",
                     }}
                     onClick={() => {
                       console.log("item clicked");
                       setShowNav("show");
-                      setTournament(tournament1);
+                      setTournament(tournament1.tournament);
                     }}
                   >
-                    {tournament1?.name}
+                    {tournament1?.tournament?.name}
                   </Dropdown.Item>
                 ))}
             </Dropdown>
@@ -106,17 +103,8 @@ const SideNavCustom = ({
               <Nav.Item panel style={panelStyles}>
                 Manage
               </Nav.Item>
-              <Nav.Item as="div" eventKey="teamstats">
-                <Link to={`teamstats`}>
-                  <div
-                    style={activeKey !== "teamstats" ? { color: "#aaa" } : {}}
-                  >
-                    Team Stats
-                  </div>
-                </Link>
-              </Nav.Item>
               <Nav.Item as="div" eventKey="playerstats">
-                <Link to="playerstats">
+                <Link to={`playerstats`}>
                   <div
                     style={activeKey !== "playerstats" ? { color: "#aaa" } : {}}
                   >
@@ -124,15 +112,7 @@ const SideNavCustom = ({
                   </div>
                 </Link>
               </Nav.Item>
-              <Nav.Item as="div" eventKey="tournaments">
-                <Link to="tournaments">
-                  <div
-                    style={activeKey !== "tournaments" ? { color: "#aaa" } : {}}
-                  >
-                    Tournaments
-                  </div>
-                </Link>
-              </Nav.Item>
+
               <Nav.Item as="div" eventKey="teams">
                 <Link to="teams">
                   <div style={activeKey !== "teams" ? { color: "#aaa" } : {}}>
@@ -140,15 +120,24 @@ const SideNavCustom = ({
                   </div>
                 </Link>
               </Nav.Item>
-              <Nav.Item as="div" eventKey="roles">
+
+              {/* <Nav.Item as="div" eventKey="roles">
                 <Link to="roles">
                   <div style={activeKey !== "roles" ? { color: "#aaa" } : {}}>
                     Roles
                   </div>
                 </Link>
               </Nav.Item>
-
-              <Nav.Item panel style={panelStyles}>
+              <Nav.Item as="div" eventKey="requests">
+                <Link to="requests">
+                  <div
+                    style={activeKey !== "requests" ? { color: "#aaa" } : {}}
+                  >
+                    Requests
+                  </div>
+                </Link>
+              </Nav.Item> */}
+              {/* <Nav.Item panel style={panelStyles}>
                 Post
               </Nav.Item>
               <Nav.Item as="div" eventKey="news">
@@ -158,6 +147,15 @@ const SideNavCustom = ({
                   </div>
                 </Link>
               </Nav.Item>
+              <Nav.Item as="div" eventKey="transfer">
+                <Link to="transfer">
+                  <div
+                    style={activeKey !== "transfer" ? { color: "#aaa" } : {}}
+                  >
+                    Transfer
+                  </div>
+                </Link>
+              </Nav.Item> */}
             </Nav>
           </Sidenav.Body>
         )}
@@ -166,7 +164,7 @@ const SideNavCustom = ({
   );
 };
 
-export default SideNavCustom;
+export default PSideNavCustom;
 
 /*
     <Dropdown eventKey="3" title="Advanced">

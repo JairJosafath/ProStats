@@ -28,6 +28,7 @@ export const getPlayerQuery = /* GraphQL */ `
         items {
           id
           team {
+            id
             name
             status
           }
@@ -1592,6 +1593,14 @@ export const getTeamRequestsDashboardQuery = /* GraphQL */ `
           }
         }
       }
+    }
+  }
+`;
+export const getPlayerForDashboardQuery = /* GraphQL */ `
+  query GetPlayer($id: ID!) {
+    getPlayer(id: $id) {
+      id
+      name
     }
   }
 `;
