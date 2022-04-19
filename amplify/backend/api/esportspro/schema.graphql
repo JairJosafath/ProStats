@@ -222,6 +222,7 @@ type Fixture
       queryField: "fixtureByTournamentandRound"
     )
   tournament: Tournament @belongsTo(fields: ["tournamentID"])
+  status: String
 }
 
 type PlayerStats
@@ -242,6 +243,7 @@ type PlayerStats
   player: Player @belongsTo
   fixture: Fixture @belongsTo
   verified: Boolean
+  status: String
   summary_goals: Int
   summary_assists: Int
   summary_shots: Int
@@ -636,8 +638,8 @@ type RequestTeam2Player
     ]
   ) {
   id: ID!
-  from: Team @hasOne
-  to: Player @hasOne
+  from: Team @belongsTo
+  to: Player @belongsTo
   status: String
 }
 

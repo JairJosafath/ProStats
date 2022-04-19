@@ -15,6 +15,15 @@ const TeamDashboard = () => {
     setUpdateFixture,
     setCreateTeamStats,
     setUpdateTeamStats,
+    setCreatePlayerStats,
+    setUpdatePlayerStats,
+    setCreateRequestFromTeamToPlayer,
+    setUpdateRequestFromTeamToPlayer,
+    teamRequests,
+    teamRequestsDashboard,
+    setGetTeamRequestsDahboard,
+    setGetTeamRequests,
+    setDeleteRequestFromTeamToPlayer,
   } = useTeamDashoard();
   useEffect(() => {
     setTeamId(id);
@@ -45,6 +54,15 @@ const TeamDashboard = () => {
               setUpdateFixture,
               setCreateTeamStats,
               setUpdateTeamStats,
+              setCreatePlayerStats,
+              setUpdatePlayerStats,
+              setCreateRequestFromTeamToPlayer,
+              setUpdateRequestFromTeamToPlayer,
+              teamRequestsDashboard,
+              teamRequests,
+              setGetTeamRequestsDahboard,
+              setGetTeamRequests,
+              setDeleteRequestFromTeamToPlayer,
             }}
           />
         </div>

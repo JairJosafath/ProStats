@@ -379,6 +379,7 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
+        status
         awayTeam {
           name
           member {
@@ -417,6 +418,7 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
 
         playerStats {
           items {
+            status
             id
             matchRating
             OVR
@@ -900,6 +902,15 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
       teamCaptain
 
       leagueTeamsId
+      member {
+        items {
+          id
+          player {
+            name
+            id
+          }
+        }
+      }
     }
   }
 `;
@@ -926,7 +937,7 @@ export const fixtureByTournamentandHomeTeamQuery = /* GraphQL */ `
         name
         season
         round
-
+        status
         homeScore
         awayScore
         homeResult
@@ -948,6 +959,108 @@ export const fixtureByTournamentandHomeTeamQuery = /* GraphQL */ `
           id
         }
 
+        playerStats {
+          items {
+            status
+            id
+            matchRating
+            OVR
+            position
+            name
+            version
+            player {
+              id
+              name
+            }
+            verified
+            summary_goals
+            summary_assists
+            summary_shots
+            summary_shot_accuracy
+            summary_passes
+            summary_pass_accuraccy
+            summary_dribbles
+            summary_dribble_accuracy
+            summary_tackles
+            summary_tackle_success_rate
+            summary_offsides
+            summary_fouls_committed
+            summary_possession_won
+            summary_possession_lost
+            summary_minutes_played_vs_team_average
+            summary_distance_covered_vs_team_average
+            summary_distance_sprinted_vs_team_average
+            possession_possession_percentage
+            possession_dribbles
+            possession_dribblescompleted
+            possession_dribble_success_rate_percentage
+            possession_distance_dribbled
+            possession_fouls_won
+            possession_penalties_won
+            possession_regular_dribble_percentage
+            possession_shield_dribble_percentage
+            possession_strafe_dribble_percentage
+            possession_beat
+            possession_skillmove_beat
+            possession_nutmeg
+            possession_knock_ons
+            shooting_goals
+            shooting_expected_goals
+            shooting_shots
+            shooting_shots_on_target
+            shooting_shots_off_target
+            shooting_shots_blocked
+            shooting_shot_accuracy_percentage
+            shooting_normal
+            shooting_finesse
+            shooting_header
+            shooting_low
+            shooting_volley
+            shooting_chip
+            shooting_set_pieces
+            passing_assists
+            passing_expected_assists
+            passing_passes
+            passing_completed
+            passing_intercepted
+            passing_pass_accuraccy_percentage
+            passing_offside_passes
+            passing_ground
+            passing_lob
+            passing_through
+            passing_lofted_through
+            passing_cross
+            passing_set_pieces
+            defending_standing_tackles
+            defending_standing_tackles_won
+            defending_standing_tackles_success_rate_percentage
+            defending_sliding_tackles
+            defending_sliding_tackles_won
+            defending_sliding_tackles_success_rate_percentage
+            defending_interceptions
+            defending_blocks
+            defending_clearances
+            defending_air_duels_won
+            defending_beaten_by_opponent
+            defending_fouls_committed
+            defending_penalties_committed
+            defending_own_goals
+            goalkeeping_shots_against
+            goalkeeping_shots_on_target
+            goalkeeping_saves
+            goalkeeping_goals_conceded
+            goalkeeping_save_success_rate_percentage
+            goalkeeping_shootout_saves
+            goalkeeping_shootout_goals_conceded
+            goalkeeping_normal
+            goalkeeping_finesse
+            goalkeeping_header
+            goalkeeping_low
+            goalkeeping_volley
+            goalkeeping_chip
+            goalkeeping_set_pieces
+          }
+        }
         teamStats {
           items {
             teamTeamStatsId
@@ -1126,7 +1239,7 @@ export const fixtureByTournamentandAwayTeamQuery = /* GraphQL */ `
         name
         season
         round
-
+        status
         homeScore
         awayScore
         homeResult
@@ -1146,6 +1259,108 @@ export const fixtureByTournamentandAwayTeamQuery = /* GraphQL */ `
         homeTeam {
           name
           id
+        }
+        playerStats {
+          items {
+            status
+            id
+            matchRating
+            OVR
+            position
+            name
+            version
+            player {
+              id
+              name
+            }
+            verified
+            summary_goals
+            summary_assists
+            summary_shots
+            summary_shot_accuracy
+            summary_passes
+            summary_pass_accuraccy
+            summary_dribbles
+            summary_dribble_accuracy
+            summary_tackles
+            summary_tackle_success_rate
+            summary_offsides
+            summary_fouls_committed
+            summary_possession_won
+            summary_possession_lost
+            summary_minutes_played_vs_team_average
+            summary_distance_covered_vs_team_average
+            summary_distance_sprinted_vs_team_average
+            possession_possession_percentage
+            possession_dribbles
+            possession_dribblescompleted
+            possession_dribble_success_rate_percentage
+            possession_distance_dribbled
+            possession_fouls_won
+            possession_penalties_won
+            possession_regular_dribble_percentage
+            possession_shield_dribble_percentage
+            possession_strafe_dribble_percentage
+            possession_beat
+            possession_skillmove_beat
+            possession_nutmeg
+            possession_knock_ons
+            shooting_goals
+            shooting_expected_goals
+            shooting_shots
+            shooting_shots_on_target
+            shooting_shots_off_target
+            shooting_shots_blocked
+            shooting_shot_accuracy_percentage
+            shooting_normal
+            shooting_finesse
+            shooting_header
+            shooting_low
+            shooting_volley
+            shooting_chip
+            shooting_set_pieces
+            passing_assists
+            passing_expected_assists
+            passing_passes
+            passing_completed
+            passing_intercepted
+            passing_pass_accuraccy_percentage
+            passing_offside_passes
+            passing_ground
+            passing_lob
+            passing_through
+            passing_lofted_through
+            passing_cross
+            passing_set_pieces
+            defending_standing_tackles
+            defending_standing_tackles_won
+            defending_standing_tackles_success_rate_percentage
+            defending_sliding_tackles
+            defending_sliding_tackles_won
+            defending_sliding_tackles_success_rate_percentage
+            defending_interceptions
+            defending_blocks
+            defending_clearances
+            defending_air_duels_won
+            defending_beaten_by_opponent
+            defending_fouls_committed
+            defending_penalties_committed
+            defending_own_goals
+            goalkeeping_shots_against
+            goalkeeping_shots_on_target
+            goalkeeping_saves
+            goalkeeping_goals_conceded
+            goalkeeping_save_success_rate_percentage
+            goalkeeping_shootout_saves
+            goalkeeping_shootout_goals_conceded
+            goalkeeping_normal
+            goalkeeping_finesse
+            goalkeeping_header
+            goalkeeping_low
+            goalkeeping_volley
+            goalkeeping_chip
+            goalkeeping_set_pieces
+          }
         }
         teamStats {
           items {
@@ -1309,6 +1524,74 @@ export const updateFixtureMutation = /* GraphQL */ `
   ) {
     updateFixture(input: $input, condition: $condition) {
       id
+    }
+  }
+`;
+export const createRequestTeam2PlayerMutation = /* GraphQL */ `
+  mutation CreateRequestTeam2Player(
+    $input: CreateRequestTeam2PlayerInput!
+    $condition: ModelRequestTeam2PlayerConditionInput
+  ) {
+    createRequestTeam2Player(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+export const deleteRequestTeam2PlayerMutation = /* GraphQL */ `
+  mutation DeleteRequestTeam2Player(
+    $input: DeleteRequestTeam2PlayerInput!
+    $condition: ModelRequestTeam2PlayerConditionInput
+  ) {
+    deleteRequestTeam2Player(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const updateRequestTeam2PlayerMutation = /* GraphQL */ `
+  mutation UpdateRequestTeam2Player(
+    $input: UpdateRequestTeam2PlayerInput!
+    $condition: ModelRequestTeam2PlayerConditionInput
+  ) {
+    updateRequestTeam2Player(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const getTeamRequestsQuery = /* GraphQL */ `
+  query GetTeam($id: ID!) {
+    getTeam(id: $id) {
+      id
+      requeststoPlayer {
+        items {
+          id
+          status
+          to {
+            id
+            name
+            username
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getTeamRequestsDashboardQuery = /* GraphQL */ `
+  query GetTeam($id: ID!) {
+    getTeam(id: $id) {
+      id
+      requestsfromLeague {
+        items {
+          from {
+            name
+            admin {
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;

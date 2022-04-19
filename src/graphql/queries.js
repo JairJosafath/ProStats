@@ -566,6 +566,7 @@ export const getFixture = /* GraphQL */ `
         newsTournamentTagsId
         owner
       }
+      status
       createdAt
       updatedAt
       teamHomefixturesId
@@ -596,6 +597,7 @@ export const listFixtures = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -638,6 +640,7 @@ export const fixtureByTournamentandHomeTeam = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -680,6 +683,7 @@ export const fixtureByTournamentandAwayTeam = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -722,6 +726,7 @@ export const fixtureByTournamentandRound = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -791,6 +796,7 @@ export const getPlayerStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -800,6 +806,7 @@ export const getPlayerStats = /* GraphQL */ `
         owner
       }
       verified
+      status
       summary_goals
       summary_assists
       summary_shots
@@ -909,6 +916,7 @@ export const listPlayerStats = /* GraphQL */ `
         name
         version
         verified
+        status
         summary_goals
         summary_assists
         summary_shots
@@ -1024,6 +1032,7 @@ export const getTeamStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1876,8 +1885,6 @@ export const getRequestTeam2Player = /* GraphQL */ `
       updatedAt
       playerRequestsfromTeamId
       teamRequeststoPlayerId
-      requestTeam2PlayerFromId
-      requestTeam2PlayerToId
       owner
     }
   }
@@ -1900,8 +1907,6 @@ export const listRequestTeam2Players = /* GraphQL */ `
         updatedAt
         playerRequestsfromTeamId
         teamRequeststoPlayerId
-        requestTeam2PlayerFromId
-        requestTeam2PlayerToId
         owner
       }
       nextToken
@@ -2835,6 +2840,7 @@ export const getPlayersAndFixtures = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId

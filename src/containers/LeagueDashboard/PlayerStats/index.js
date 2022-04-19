@@ -11,7 +11,9 @@ import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import playerStats from "../../../backend/db/playerStats";
-
+import StatPanel from "../../../components/StatPanel.PlayerStats";
+import { Icon } from "@rsuite/icons";
+import { MdVerified, MdPendingActions } from "react-icons/md";
 const typeDataPlayer = [
   "summary",
   "passing",
@@ -21,193 +23,6 @@ const typeDataPlayer = [
   "goalkeeping",
 ];
 const tracker = { ...playerStats };
-
-//use of controlled inputs so we can handle changes mapped to the playerstats object
-const ControlledInput = ({
-  playerstatsTracker,
-  stadium,
-  type,
-  attr,
-  val,
-  setPlayerstatsTracker,
-  currentFixture,
-  tempObject,
-  setTempObject,
-  currentPlayer,
-  ...props
-}) => {
-  // const [playerTemp, setPlayerTemp] = useState({});
-  const [value, setValue] = useState(
-    currentFixture?.playerStats?.items?.filter(
-      (stats) => stats.player.id === currentPlayer?.id
-    )[0]
-      ? currentFixture?.playerStats?.items?.filter(
-          (stats) => stats.player.id === currentPlayer?.id
-        )[0][`${type}_${attr.replaceAll(" ", "_")}`]
-      : ""
-  );
-
-  // useEffect(() => {
-  //   if (tempObject)
-  //     setValue(
-  //       // tempObject[currentPlayer?.name][`${type}_${attr.replaceAll(" ", "_")}`]
-  //       tempObject[`${type}_${attr.replaceAll(" ", "_")}`]
-  //     );
-  // }, []);
-  // useEffect(() => {
-  //   if (tempObject === {})
-  //     setValue(
-  //       currentFixture?.playerStats?.items[0]
-  //         ? currentFixture?.playerStats?.items[0][
-  //             `${type}_${attr.replaceAll(" ", "_")}`
-  //           ]
-  //         : tempObject[`${type}_${attr.replaceAll(" ", "_")}`]
-  //     );
-  // }, [tempObject]);
-  useEffect(() => {
-    playerstatsTracker[type].filter((stat) => stat.attr === attr)[0].val =
-      value;
-    // console.log(
-    //   "what does this look like",
-    //   playerstatsTracker[type].filter((stat) => stat.attr === attr)
-    // );
-    setPlayerstatsTracker(playerstatsTracker);
-
-    // console.log("current player", tempObject);
-
-    // typeDataPlayer.map((type) =>
-    //   playerstatsTracker[type].map((stat) => {
-    //     try {
-    //       if (stat.val) {
-    //         tempObject[`${type}_${stat.attr.replaceAll(" ", "_")}`] = parseInt(
-    //           stat.val
-    //         );
-    //       }
-    //     } catch (error) {}
-    //   })
-    // );
-
-    // setTempObject(tempObject);
-    // console.log("temp obj ps", tempObject);
-    // console.log("tracker", playerstatsTracker);
-  }, [currentPlayer, value]);
-  // useEffect(() => {
-  //   // if (tempObject[currentPlayer?.name] === {}) {
-  //   //   setValue("");
-  //   // }
-  // }, [currentPlayer]);
-  return (
-    <Input value={value} {...props} onChange={setValue} placeholder="0"></Input>
-  );
-};
-
-//controls the different rows in the statpanel
-const StatRow = ({
-  stadium,
-  typeDataPlayerState,
-  currentFixture,
-  playerstatsTracker,
-  setPlayerstatsTracker,
-  start,
-  end,
-  tempObject,
-  setTempObject,
-  currentPlayer,
-}) => {
-  return (
-    <FlexboxGrid.Item colspan={7}>
-      <List hover>
-        {playerStats[typeDataPlayerState].slice(start, end).map((stat) => {
-          return (
-            <List.Item>
-              <FlexboxGrid justify={"space-around"}>
-                <FlexboxGrid.Item colspan={16} style={{ minHeight: 50 }}>
-                  {stat.attr}
-                </FlexboxGrid.Item>
-                <FlexboxGrid.Item>
-                  <ControlledInput
-                    tempObject={tempObject}
-                    setTempObject={setTempObject}
-                    currentFixture={currentFixture}
-                    type={typeDataPlayerState}
-                    attr={stat.attr}
-                    val={stat.val}
-                    playerstatsTracker={playerstatsTracker}
-                    setPlayerstatsTracker={setPlayerstatsTracker}
-                    stadium={stadium}
-                    size="sm"
-                    style={{
-                      width: 60,
-                      marginLeft: 7,
-                    }}
-                    placeholder="value"
-                    currentPlayer={currentPlayer}
-                  />
-                </FlexboxGrid.Item>
-              </FlexboxGrid>
-            </List.Item>
-          );
-        })}
-      </List>
-    </FlexboxGrid.Item>
-  );
-};
-//component that handels type of stats to be shown in the stat grid
-const StatPanel = ({
-  typeDataPlayerState,
-  currentFixture,
-  playerstatsTracker,
-  setPlayerstatsTracker,
-  stadium,
-  currentPlayer,
-  tempObject,
-  setTempObject,
-}) => {
-  // useEffect(() => {
-  //   tempObject[currentPlayer?.name] = {};
-  // }, []);
-
-  return (
-    <FlexboxGrid justify={"space between"}>
-      <StatRow
-        tempObject={tempObject}
-        setTempObject={setTempObject}
-        stadium={stadium}
-        typeDataPlayerState={typeDataPlayerState}
-        currentFixture={currentFixture}
-        playerstatsTracker={playerstatsTracker}
-        setPlayerstatsTracker={setPlayerstatsTracker}
-        start={0}
-        end={0.33 * playerStats[typeDataPlayerState].length}
-        currentPlayer={currentPlayer}
-      />
-      <StatRow
-        tempObject={tempObject}
-        setTempObject={setTempObject}
-        stadium={stadium}
-        typeDataPlayerState={typeDataPlayerState}
-        currentFixture={currentFixture}
-        playerstatsTracker={playerstatsTracker}
-        setPlayerstatsTracker={setPlayerstatsTracker}
-        start={0.33 * playerStats[typeDataPlayerState].length}
-        end={0.67 * playerStats[typeDataPlayerState].length}
-        currentPlayer={currentPlayer}
-      />
-      <StatRow
-        tempObject={tempObject}
-        setTempObject={setTempObject}
-        stadium={stadium}
-        typeDataPlayerState={typeDataPlayerState}
-        currentFixture={currentFixture}
-        playerstatsTracker={playerstatsTracker}
-        setPlayerstatsTracker={setPlayerstatsTracker}
-        start={0.67 * playerStats[typeDataPlayerState].length}
-        end={playerStats[typeDataPlayerState].length}
-        currentPlayer={currentPlayer}
-      />
-    </FlexboxGrid>
-  );
-};
 
 const LPlayerStats = () => {
   const {
@@ -401,7 +216,27 @@ const LPlayerStats = () => {
                       setCurrentPlayer(membership.player);
                     }}
                   >
-                    {membership.player.name}
+                    <FlexboxGrid>
+                      <FlexboxGrid.Item colspan={10}>
+                        {membership.player.name}
+                      </FlexboxGrid.Item>
+                      <FlexboxGrid.Item colspan={10}>
+                        {currentFixture?.playerStats?.items?.filter(
+                          (stats) => stats.player.id === membership?.player?.id
+                        )[0]?.status === "pending" && (
+                          <Icon
+                            as={MdPendingActions}
+                            size="1.5em"
+                            fill="yellow"
+                          />
+                        )}
+                        {currentFixture?.playerStats?.items?.filter(
+                          (stats) => stats.player.id === membership?.player?.id
+                        )[0]?.status === "verified" && (
+                          <Icon as={MdVerified} size="1.5em" fill="green" />
+                        )}
+                      </FlexboxGrid.Item>
+                    </FlexboxGrid>
                   </List.Item>
                 ))}
               </List>
@@ -530,6 +365,7 @@ const LPlayerStats = () => {
                             )[0].id,
                             playerPlayerStatsId: currentPlayer.id,
                             fixturePlayerStatsId: currentFixture.id,
+                            status: "verified",
                             ...temp,
                           });
                           const playerTable =
@@ -603,6 +439,8 @@ const LPlayerStats = () => {
                           setCreatePlayerStats({
                             playerPlayerStatsId: currentPlayer.id,
                             fixturePlayerStatsId: currentFixture.id,
+                            status: "verified",
+
                             ...temp,
                           });
                           if (

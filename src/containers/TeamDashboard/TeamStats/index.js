@@ -11,6 +11,8 @@ import {
   Panel,
 } from "rsuite";
 import { IoMdArrowBack } from "react-icons/io";
+import { MdVerified, MdPendingActions } from "react-icons/md";
+import { Icon } from "@rsuite/icons";
 
 //Util
 import teamStats from "../../../backend/db/teamStats";
@@ -53,10 +55,14 @@ const TTeamStats = () => {
         tournamentID: { eq: tournament?.id },
         homeID: team?.id,
       });
-      // const TF = teamFixtures?.sort(
-      //   (fixture1, fixture2) => fixture1.round - fixture2.round
+
+      // console.log("us", teamFixtures);
+      // console.log(
+      //   "s",
+      //   teamFixtures?.sort(
+      //     (fixture1, fixture2) => fixture2.round - fixture1.round
+      //   )
       // );
-      // console.log("TF", TF);
     }
   }, [team, tournament]);
 
@@ -75,7 +81,7 @@ const TTeamStats = () => {
           <List hover>
             {teamFixtures &&
               teamFixtures
-                ?.sort((fixture1, fixture2) => fixture1.round - fixture2)
+                ?.sort((fixture1, fixture2) => fixture1.round - fixture2.round)
                 .slice((activePage - 1) * 10, (activePage - 1) * 10 + 10)
                 .map((fixture) => {
                   return (
@@ -83,7 +89,7 @@ const TTeamStats = () => {
                       key={fixture?.id}
                       style={{
                         background:
-                          currentFixture?.id === fixture?.id ? "blue" : "",
+                          currentFixture?.id === fixture?.id ? "" : "",
                       }}
                       onClick={() => {
                         setShowStats(false);
@@ -96,7 +102,7 @@ const TTeamStats = () => {
                       }}
                     >
                       <FlexboxGrid justify="space-between">
-                        <FlexboxGrid.Item colspan={8}>
+                        <FlexboxGrid.Item colspan={6}>
                           {fixture?.homeTeam?.name}
                         </FlexboxGrid.Item>
 
@@ -108,8 +114,20 @@ const TTeamStats = () => {
                           {fixture?.awayScore}
                         </FlexboxGrid.Item>
 
-                        <FlexboxGrid.Item colspan={8}>
+                        <FlexboxGrid.Item colspan={6}>
                           {fixture?.awayTeam?.name}
+                        </FlexboxGrid.Item>
+                        <FlexboxGrid.Item colspan={2}>
+                          {fixture?.status === "pending" && (
+                            <Icon
+                              as={MdPendingActions}
+                              size="1.5em"
+                              fill="yellow"
+                            />
+                          )}
+                          {fixture?.status === "verified" && (
+                            <Icon as={MdVerified} size="1.5em" fill="green" />
+                          )}
                         </FlexboxGrid.Item>
                       </FlexboxGrid>
                     </List.Item>
@@ -148,101 +166,111 @@ const TTeamStats = () => {
             })}
           </Dropdown>
 
-          <Panel header={`Home: ${currentFixture?.homeTeam?.name}`} collapsible>
-            {typeDataTeamState === typeDataTeam[0] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"home"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[1] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"home"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[2] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"home"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[3] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"home"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[4] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"home"}
-              />
-            )}
-          </Panel>
+          {currentFixture?.homeTeam?.id === team?.id && (
+            <Panel
+              header={`Home: ${currentFixture?.homeTeam?.name}`}
+              collapsible
+            >
+              {typeDataTeamState === typeDataTeam[0] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"home"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[1] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"home"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[2] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"home"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[3] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"home"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[4] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"home"}
+                />
+              )}
+            </Panel>
+          )}
 
-          <Panel header={`Away: ${currentFixture?.awayTeam?.name}`} collapsible>
-            {typeDataTeamState === typeDataTeam[0] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"away"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[1] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"away"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[2] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"away"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[3] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"away"}
-              />
-            )}
-            {typeDataTeamState === typeDataTeam[4] && (
-              <StatPanel
-                typeDataTeamState={typeDataTeamState}
-                currentFixture={currentFixture}
-                teamstatsTracker={teamstatsTracker}
-                setTeamstatsTracker={setTeamstatsTracker}
-                stadium={"away"}
-              />
-            )}
-          </Panel>
+          {currentFixture?.awayTeam?.id === team?.id && (
+            <Panel
+              header={`Away: ${currentFixture?.awayTeam?.name}`}
+              collapsible
+            >
+              {typeDataTeamState === typeDataTeam[0] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"away"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[1] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"away"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[2] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"away"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[3] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"away"}
+                />
+              )}
+              {typeDataTeamState === typeDataTeam[4] && (
+                <StatPanel
+                  typeDataTeamState={typeDataTeamState}
+                  currentFixture={currentFixture}
+                  teamstatsTracker={teamstatsTracker}
+                  setTeamstatsTracker={setTeamstatsTracker}
+                  stadium={"away"}
+                />
+              )}
+            </Panel>
+          )}
 
           <FlexboxGrid justify="space-around">
             <FlexboxGrid.Item colspan={9}></FlexboxGrid.Item>
@@ -297,24 +325,27 @@ const TTeamStats = () => {
                     // setGetTournamentByID(tournament?.id);
                   }
 
-                  if (
-                    temp[`away_summary_goals`] &&
-                    temp[`home_summary_goals`]
-                  ) {
+                  // if (
+                  //   temp[`away_summary_goals`] &&
+                  //   temp[`home_summary_goals`]
+                  // ) {
+                  //   setUpdateFixture({
+                  //     id: currentFixture?.id,
+                  //     homeScore: temp[`home_summary_goals`],
+                  //     awayScore: temp[`away_summary_goals`],
+                  //   });
+                  // } else
+                  if (temp[`away_summary_goals`]) {
                     setUpdateFixture({
                       id: currentFixture?.id,
-                      homeScore: temp[`home_summary_goals`],
                       awayScore: temp[`away_summary_goals`],
-                    });
-                  } else if (temp[`away_summary_goals`]) {
-                    setUpdateFixture({
-                      id: currentFixture?.id,
-                      awayScore: temp[`away_summary_goals`],
+                      status: "pending",
                     });
                   } else if (temp[`home_summary_goals`]) {
                     setUpdateFixture({
                       id: currentFixture?.id,
                       homeScore: temp[`home_summary_goals`],
+                      status: "pending",
                     });
                   }
                   setShowStats(false);

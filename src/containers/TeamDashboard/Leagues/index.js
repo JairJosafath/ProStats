@@ -1,9 +1,5 @@
 const TLeagues = () => {
-  return (
-    <>
-      <h3>team Leagues</h3>
-    </>
-  );
+  return <></>;
 };
 
 export default TLeagues;

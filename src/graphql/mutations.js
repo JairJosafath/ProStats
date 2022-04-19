@@ -1201,6 +1201,7 @@ export const createFixture = /* GraphQL */ `
         newsTournamentTagsId
         owner
       }
+      status
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1286,6 +1287,7 @@ export const updateFixture = /* GraphQL */ `
         newsTournamentTagsId
         owner
       }
+      status
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1371,6 +1373,7 @@ export const deleteFixture = /* GraphQL */ `
         newsTournamentTagsId
         owner
       }
+      status
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1441,6 +1444,7 @@ export const createPlayerStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1450,6 +1454,7 @@ export const createPlayerStats = /* GraphQL */ `
         owner
       }
       verified
+      status
       summary_goals
       summary_assists
       summary_shots
@@ -1604,6 +1609,7 @@ export const updatePlayerStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1613,6 +1619,7 @@ export const updatePlayerStats = /* GraphQL */ `
         owner
       }
       verified
+      status
       summary_goals
       summary_assists
       summary_shots
@@ -1767,6 +1774,7 @@ export const deletePlayerStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1776,6 +1784,7 @@ export const deletePlayerStats = /* GraphQL */ `
         owner
       }
       verified
+      status
       summary_goals
       summary_assists
       summary_shots
@@ -1892,6 +1901,7 @@ export const createTeamStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2106,6 +2116,7 @@ export const updateTeamStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2320,6 +2331,7 @@ export const deleteTeamStats = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -3482,8 +3494,6 @@ export const createRequestTeam2Player = /* GraphQL */ `
       updatedAt
       playerRequestsfromTeamId
       teamRequeststoPlayerId
-      requestTeam2PlayerFromId
-      requestTeam2PlayerToId
       owner
     }
   }
@@ -3552,8 +3562,6 @@ export const updateRequestTeam2Player = /* GraphQL */ `
       updatedAt
       playerRequestsfromTeamId
       teamRequeststoPlayerId
-      requestTeam2PlayerFromId
-      requestTeam2PlayerToId
       owner
     }
   }
@@ -3622,8 +3630,6 @@ export const deleteRequestTeam2Player = /* GraphQL */ `
       updatedAt
       playerRequestsfromTeamId
       teamRequeststoPlayerId
-      requestTeam2PlayerFromId
-      requestTeam2PlayerToId
       owner
     }
   }
@@ -5515,6 +5521,7 @@ export const createPlayersAndFixtures = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5586,6 +5593,7 @@ export const updatePlayersAndFixtures = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5657,6 +5665,7 @@ export const deletePlayersAndFixtures = /* GraphQL */ `
         awayResult
         tournamentMod
         tournamentID
+        status
         createdAt
         updatedAt
         teamHomefixturesId

@@ -26,6 +26,11 @@ import {
   fixtureByTournamentandHomeTeamQuery,
   fixtureByTournamentandAwayTeamQuery,
   updateFixtureMutation,
+  createRequestTeam2PlayerMutation,
+  deleteRequestTeam2PlayerMutation,
+  updateRequestTeam2PlayerMutation,
+  getTeamRequestsQuery,
+  getTeamRequestsDashboardQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -197,7 +202,7 @@ export const apiSettings = {
           id:"${input.fixture.id}"
           homeScore:${input.fixture.homeScore}
           awayScore:${input.fixture.awayScore}
-
+          status:"${input.fixture.status}"
         }
       ){
         id
@@ -421,7 +426,7 @@ export const apiSettings = {
           id:"${input.fixture.id}"
           homeScore:${input.fixture.homeScore}
           awayScore:${input.fixture.awayScore}
-
+          status:"${input.fixture.status}"
         }
       ){
         id
@@ -677,5 +682,70 @@ export const apiSettingsTD = {
     });
 
     return data.fixtureByTournamentandAwayTeam;
+  },
+  createRequestTeam2Player: async (input) => {
+    console.log("mutation: teamrequest2player");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createRequestTeam2PlayerMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+
+  deleteTeam2PlayerRequest: async (input) => {
+    console.log("mutation: delete T2P req");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deleteRequestTeam2PlayerMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  updateTeam2PlayerRequest: async (input) => {
+    console.log("mutation: update L2T req");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: updateRequestTeam2PlayerMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  getTeamRequests: async (id) => {
+    console.log("querying db for Team requests");
+    const { data } = await API.graphql({
+      query: getTeamRequestsQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getTeam;
+  },
+  getTeamRequestsDashboard: async (id) => {
+    console.log("querying db for Team requests", id);
+    const { data } = await API.graphql({
+      query: getTeamRequestsDashboardQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getTeam;
   },
 };

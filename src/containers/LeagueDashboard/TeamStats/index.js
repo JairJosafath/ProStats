@@ -11,7 +11,9 @@ import {
   Pagination,
   Panel,
 } from "rsuite";
+import { Icon } from "@rsuite/icons";
 import { IoMdArrowBack } from "react-icons/io";
+import { MdVerified, MdPendingActions } from "react-icons/md";
 
 //Util
 import teamStats from "../../../backend/db/teamStats";
@@ -171,8 +173,7 @@ const LTeamStats = () => {
                 return (
                   <List.Item
                     style={{
-                      background:
-                        currentFixture?.id === fixture?.id ? "blue" : "",
+                      background: currentFixture?.id === fixture?.id ? "" : "",
                     }}
                     onClick={() => {
                       setShowStats(false);
@@ -185,8 +186,8 @@ const LTeamStats = () => {
                     }}
                   >
                     <FlexboxGrid justify="space-between">
-                      <FlexboxGrid.Item colspan={8}>
-                        {fixture?.homeTeam.name}
+                      <FlexboxGrid.Item colspan={6}>
+                        {fixture?.homeTeam?.name}
                       </FlexboxGrid.Item>
 
                       <FlexboxGrid.Item colspan={3}>
@@ -197,8 +198,20 @@ const LTeamStats = () => {
                         {fixture?.awayScore}
                       </FlexboxGrid.Item>
 
-                      <FlexboxGrid.Item colspan={8}>
-                        {fixture?.awayTeam.name}
+                      <FlexboxGrid.Item colspan={6}>
+                        {fixture?.awayTeam?.name}
+                      </FlexboxGrid.Item>
+                      <FlexboxGrid.Item colspan={2}>
+                        {fixture?.status === "pending" && (
+                          <Icon
+                            as={MdPendingActions}
+                            size="1.5em"
+                            fill="yellow"
+                          />
+                        )}
+                        {fixture?.status === "verified" && (
+                          <Icon as={MdVerified} size="1.5em" fill="green" />
+                        )}
                       </FlexboxGrid.Item>
                     </FlexboxGrid>
                   </List.Item>
@@ -519,6 +532,7 @@ const LTeamStats = () => {
                         id: currentFixture?.id,
                         homeScore: parseInt(homeGoals),
                         awayScore: parseInt(awayGoals),
+                        status: "verified",
                       };
                       setUpdateTableStat({
                         home: homeTableStat,
@@ -557,6 +571,7 @@ const LTeamStats = () => {
                         id: currentFixture?.id,
                         homeScore: parseInt(homeGoals),
                         awayScore: parseInt(awayGoals),
+                        status: "verified",
                       };
                       const homePoints = () => {
                         switch (result) {

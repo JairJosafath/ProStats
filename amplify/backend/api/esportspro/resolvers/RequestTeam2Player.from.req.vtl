@@ -1,7 +1,7 @@
 #if( $ctx.source.deniedField )
   #return($util.toJson(null))
 #end
-#if( $util.isNull($ctx.source.requestTeam2PlayerFromId) )
+#if( $util.isNull($ctx.source.teamRequeststoPlayerId) )
   #return
 #else
   #set( $GetRequest = {
@@ -14,7 +14,7 @@
       "#partitionKey": "id"
   },
   "expressionValues": {
-      ":partitionValue": $util.parseJson($util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($ctx.source.requestTeam2PlayerFromId, "___xamznone____")))
+      ":partitionValue": $util.parseJson($util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($ctx.source.teamRequeststoPlayerId, "___xamznone____")))
   }
 }))
   #if( !$util.isNullOrEmpty($ctx.stash.authFilter) )
