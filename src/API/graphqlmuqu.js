@@ -21,6 +21,10 @@ export const getPlayerQuery = /* GraphQL */ `
             name
             id
             status
+            league {
+              id
+              name
+            }
           }
         }
       }
@@ -31,6 +35,10 @@ export const getPlayerQuery = /* GraphQL */ `
             id
             name
             status
+            league {
+              id
+              name
+            }
           }
         }
       }
@@ -49,6 +57,25 @@ export const getPlayerQuery = /* GraphQL */ `
           name
           id
           status
+          league {
+            id
+            name
+          }
+          requestsfromLeague {
+            items {
+              id
+              status
+              from {
+                id
+                name
+
+                admin {
+                  id
+                  name
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -845,6 +872,16 @@ export const createRequestLeague2TeamMutation = /* GraphQL */ `
     }
   }
 `;
+export const updateRequestLeague2TeamMutation = /* GraphQL */ `
+  mutation UpdateRequestLeague2Team(
+    $input: UpdateRequestLeague2TeamInput!
+    $condition: ModelRequestLeague2TeamConditionInput
+  ) {
+    updateRequestLeague2Team(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
 
 export const deleteRequestLeague2TeamMutation = /* GraphQL */ `
   mutation DeleteRequestLeague2Team(
@@ -1601,6 +1638,38 @@ export const getPlayerForDashboardQuery = /* GraphQL */ `
     getPlayer(id: $id) {
       id
       name
+    }
+  }
+`;
+
+export const createTeamMembersMutation = /* GraphQL */ `
+  mutation CreateTeamMembers(
+    $input: CreateTeamMembersInput!
+    $condition: ModelTeamMembersConditionInput
+  ) {
+    createTeamMembers(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+export const deleteTeamMembersMutation = /* GraphQL */ `
+  mutation DeleteTeamMembers(
+    $input: DeleteTeamMembersInput!
+    $condition: ModelTeamMembersConditionInput
+  ) {
+    deleteTeamMembers(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const updateTeam = /* GraphQL */ `
+  mutation UpdateTeam(
+    $input: UpdateTeamInput!
+    $condition: ModelTeamConditionInput
+  ) {
+    updateTeam(input: $input, condition: $condition) {
+      id
     }
   }
 `;

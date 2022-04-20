@@ -32,6 +32,10 @@ import {
   getTeamRequestsQuery,
   getTeamRequestsDashboardQuery,
   getPlayerForDashboardQuery,
+  updateRequestLeague2TeamMutation,
+  createTeamMembersMutation,
+  updateTeamQuery,
+  deleteTeamMembersMutation,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -262,6 +266,18 @@ export const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  updateTeam: async (input) => {
+    console.log("mutation: updateTeam");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: updateTeamQuery,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   updateTeamStats: async (input) => {
     console.log("mutation: updateTeamStats");
     console.log("input", input);
@@ -323,11 +339,48 @@ export const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  updateRequestLeague2Team: async (input) => {
+    console.log("mutation: updaterequest2Team");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: updateRequestLeague2TeamMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+
   createTeamStats: async (input) => {
     console.log("mutation: createTeamStats");
     console.log("input", input);
     const result = await API.graphql({
       query: createTeamStatsQuery,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  createTeamMembers: async (input) => {
+    console.log("mutation: createTeamMember", input);
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createTeamMembersMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  deleteTeamMembers: async (input) => {
+    console.log("mutation: deleteTeamMember", input);
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deleteTeamMembersMutation,
       variables: {
         input,
       },
