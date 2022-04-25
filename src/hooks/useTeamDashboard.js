@@ -17,6 +17,7 @@ const useTeamDashboard = () => {
   const [updatePlayerStats, setUpdatePlayerStats] = useState(false);
   const [getTeamRequestsDahboard, setGetTeamRequestsDahboard] = useState(false);
 
+  const [activeRound, setActiveRound] = useState(1);
   const [createRequestFromTeamToPlayer, setCreateRequestFromTeamToPlayer] =
     useState(false);
   const [updateRequestFromTeamToPlayer, setUpdateRequestFromTeamToPlayer] =
@@ -26,7 +27,43 @@ const useTeamDashboard = () => {
   const [getTeamRequests, setGetTeamRequests] = useState(false);
   const [teamRequests, setTeamRequests] = useState(false);
   const [teamRequestsDashboard, setTeamRequestsDashboard] = useState(false);
+  const [getUsernameTeamReq, setGetUsernameTeamReq] = useState(false);
+  const [username, setUsername] = useState(false);
 
+  const getUsernameTeamReqTeamReqFunct = async () => {
+    setLoading(true);
+    if (getUsernameTeamReq) {
+      const data = await apiSettingsTD
+        .getPlayerUsername(getUsernameTeamReq.playerId)
+        .then((data) => {
+          setUsername(data);
+          setCreateRequestFromTeamToPlayer({
+            status: "pending",
+            teamRequeststoPlayerId: getUsernameTeamReq.teamRequeststoPlayerId,
+            playerRequestsfromTeamId: getUsernameTeamReq.playerId,
+            members: [data.username],
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+
+      console.log("err", error);
+      if (!error) {
+        // setLeagueTemp({
+        //   name: league.name,
+        //   logo: league.logo,
+        //   description: league.description,
+        //   id: league.id,
+        //   header: league.header,
+        // });
+        setLoading(false);
+        setGetUsernameTeamReq(false);
+      }
+    }
+  };
   const getTeam = async () => {
     setLoading(true);
     if (teamId) {
@@ -258,6 +295,9 @@ const useTeamDashboard = () => {
     getTeam();
   }, [teamId]);
   useEffect(() => {
+    getUsernameTeamReqTeamReqFunct();
+  }, [getUsernameTeamReq]);
+  useEffect(() => {
     getTeamFixturesFunct();
   }, [getTeamFixtures]);
   useEffect(() => {
@@ -291,6 +331,17 @@ const useTeamDashboard = () => {
   useEffect(() => {
     deleteRequestFromTeamToPlayerFunct();
   }, [deleteRequestFromTeamToPlayer]);
+
+  useEffect(() => {
+    setTournament(
+      tournament
+        ? team?.tournaments?.items.filter(
+            (tournamenta) => tournamenta.id === tournament?.id
+          )[0]?.tournament
+        : team?.tournaments?.items[0]?.tournament
+    );
+    console.log("team chosen in nav", tournament);
+  }, [team]);
   return {
     setTeamId,
     team,
@@ -310,6 +361,9 @@ const useTeamDashboard = () => {
     teamRequests,
     setGetTeamRequests,
     setDeleteRequestFromTeamToPlayer,
+    setActiveRound,
+    setGetUsernameTeamReq,
+    username,
   };
 };
 

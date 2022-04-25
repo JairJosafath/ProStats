@@ -594,24 +594,7 @@ export const onCreateTeam = /* GraphQL */ `
       logo
       slogan
       league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
+        nextToken
       }
       manager {
         id
@@ -689,10 +672,10 @@ export const onCreateTeam = /* GraphQL */ `
         nextToken
       }
       teamManager
+      moderators
       teamCaptain
       createdAt
       updatedAt
-      leagueTeamsId
       playerManagesId
       newsTeamTagsId
       teamLevelTeamId
@@ -709,24 +692,7 @@ export const onUpdateTeam = /* GraphQL */ `
       logo
       slogan
       league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
+        nextToken
       }
       manager {
         id
@@ -804,10 +770,10 @@ export const onUpdateTeam = /* GraphQL */ `
         nextToken
       }
       teamManager
+      moderators
       teamCaptain
       createdAt
       updatedAt
-      leagueTeamsId
       playerManagesId
       newsTeamTagsId
       teamLevelTeamId
@@ -824,24 +790,7 @@ export const onDeleteTeam = /* GraphQL */ `
       logo
       slogan
       league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
+        nextToken
       }
       manager {
         id
@@ -919,10 +868,10 @@ export const onDeleteTeam = /* GraphQL */ `
         nextToken
       }
       teamManager
+      moderators
       teamCaptain
       createdAt
       updatedAt
-      leagueTeamsId
       playerManagesId
       newsTeamTagsId
       teamLevelTeamId
@@ -1106,10 +1055,10 @@ export const onCreateFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1123,10 +1072,10 @@ export const onCreateFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1163,6 +1112,7 @@ export const onCreateFixture = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1189,10 +1139,10 @@ export const onUpdateFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1206,10 +1156,10 @@ export const onUpdateFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1246,6 +1196,7 @@ export const onUpdateFixture = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1272,10 +1223,10 @@ export const onDeleteFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1289,10 +1240,10 @@ export const onDeleteFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1329,6 +1280,7 @@ export const onDeleteFixture = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       teamHomefixturesId
@@ -1397,6 +1349,7 @@ export const onCreatePlayerStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1559,6 +1512,7 @@ export const onUpdatePlayerStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1721,6 +1675,7 @@ export const onDeletePlayerStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1845,6 +1800,7 @@ export const onCreateTeamStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1862,10 +1818,10 @@ export const onCreateTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1879,10 +1835,10 @@ export const onCreateTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2057,6 +2013,7 @@ export const onUpdateTeamStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2074,10 +2031,10 @@ export const onUpdateTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2091,10 +2048,10 @@ export const onUpdateTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2269,6 +2226,7 @@ export const onDeleteTeamStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2286,10 +2244,10 @@ export const onDeleteTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2303,10 +2261,10 @@ export const onDeleteTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2692,10 +2650,10 @@ export const onCreateTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2709,10 +2667,10 @@ export const onCreateTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2796,10 +2754,10 @@ export const onUpdateTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2813,10 +2771,10 @@ export const onUpdateTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2900,10 +2858,10 @@ export const onDeleteTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2917,10 +2875,10 @@ export const onDeleteTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3185,10 +3143,10 @@ export const onCreateRequestLeague2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3196,6 +3154,7 @@ export const onCreateRequestLeague2Team = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       leagueRequeststoTeamId
@@ -3235,10 +3194,10 @@ export const onUpdateRequestLeague2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3246,6 +3205,7 @@ export const onUpdateRequestLeague2Team = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       leagueRequeststoTeamId
@@ -3285,10 +3245,10 @@ export const onDeleteRequestLeague2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3296,6 +3256,7 @@ export const onDeleteRequestLeague2Team = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       leagueRequeststoTeamId
@@ -3315,10 +3276,10 @@ export const onCreateRequestTeam2Player = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3361,6 +3322,7 @@ export const onCreateRequestTeam2Player = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       playerRequestsfromTeamId
@@ -3380,10 +3342,10 @@ export const onUpdateRequestTeam2Player = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3426,6 +3388,7 @@ export const onUpdateRequestTeam2Player = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       playerRequestsfromTeamId
@@ -3445,10 +3408,10 @@ export const onDeleteRequestTeam2Player = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3491,6 +3454,7 @@ export const onDeleteRequestTeam2Player = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       playerRequestsfromTeamId
@@ -3545,10 +3509,10 @@ export const onCreateRequestPlayer2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3612,10 +3576,10 @@ export const onUpdateRequestPlayer2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -3679,10 +3643,10 @@ export const onDeleteRequestPlayer2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -4277,10 +4241,10 @@ export const onCreateTableStat = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -4330,10 +4294,10 @@ export const onUpdateTableStat = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -4383,10 +4347,10 @@ export const onDeleteTableStat = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -4831,6 +4795,156 @@ export const onDeleteLeagueModerators = /* GraphQL */ `
     }
   }
 `;
+export const onCreateLeagueTeams = /* GraphQL */ `
+  subscription OnCreateLeagueTeams($owner: String, $teamManager: String) {
+    onCreateLeagueTeams(owner: $owner, teamManager: $teamManager) {
+      id
+      leagueID
+      teamID
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+      teamManager
+    }
+  }
+`;
+export const onUpdateLeagueTeams = /* GraphQL */ `
+  subscription OnUpdateLeagueTeams($owner: String, $teamManager: String) {
+    onUpdateLeagueTeams(owner: $owner, teamManager: $teamManager) {
+      id
+      leagueID
+      teamID
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+      teamManager
+    }
+  }
+`;
+export const onDeleteLeagueTeams = /* GraphQL */ `
+  subscription OnDeleteLeagueTeams($owner: String, $teamManager: String) {
+    onDeleteLeagueTeams(owner: $owner, teamManager: $teamManager) {
+      id
+      leagueID
+      teamID
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+      teamManager
+    }
+  }
+`;
 export const onCreateTeamMembers = /* GraphQL */ `
   subscription OnCreateTeamMembers($owner: String, $teamManager: String) {
     onCreateTeamMembers(owner: $owner, teamManager: $teamManager) {
@@ -4879,10 +4993,10 @@ export const onCreateTeamMembers = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -4944,10 +5058,10 @@ export const onUpdateTeamMembers = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5009,10 +5123,10 @@ export const onDeleteTeamMembers = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5074,10 +5188,10 @@ export const onCreateTeamCaptains = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5139,10 +5253,10 @@ export const onUpdateTeamCaptains = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5204,10 +5318,10 @@ export const onDeleteTeamCaptains = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5222,8 +5336,8 @@ export const onDeleteTeamCaptains = /* GraphQL */ `
   }
 `;
 export const onCreatePlayersAndFixtures = /* GraphQL */ `
-  subscription OnCreatePlayersAndFixtures($owner: String) {
-    onCreatePlayersAndFixtures(owner: $owner) {
+  subscription OnCreatePlayersAndFixtures($owner: String, $members: String) {
+    onCreatePlayersAndFixtures(owner: $owner, members: $members) {
       id
       playerID
       fixtureID
@@ -5276,6 +5390,7 @@ export const onCreatePlayersAndFixtures = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5287,12 +5402,13 @@ export const onCreatePlayersAndFixtures = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      members
     }
   }
 `;
 export const onUpdatePlayersAndFixtures = /* GraphQL */ `
-  subscription OnUpdatePlayersAndFixtures($owner: String) {
-    onUpdatePlayersAndFixtures(owner: $owner) {
+  subscription OnUpdatePlayersAndFixtures($owner: String, $members: String) {
+    onUpdatePlayersAndFixtures(owner: $owner, members: $members) {
       id
       playerID
       fixtureID
@@ -5345,6 +5461,7 @@ export const onUpdatePlayersAndFixtures = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5356,12 +5473,13 @@ export const onUpdatePlayersAndFixtures = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      members
     }
   }
 `;
 export const onDeletePlayersAndFixtures = /* GraphQL */ `
-  subscription OnDeletePlayersAndFixtures($owner: String) {
-    onDeletePlayersAndFixtures(owner: $owner) {
+  subscription OnDeletePlayersAndFixtures($owner: String, $members: String) {
+    onDeletePlayersAndFixtures(owner: $owner, members: $members) {
       id
       playerID
       fixtureID
@@ -5414,6 +5532,7 @@ export const onDeletePlayersAndFixtures = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -5425,6 +5544,7 @@ export const onDeletePlayersAndFixtures = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      members
     }
   }
 `;
@@ -5441,10 +5561,10 @@ export const onCreateTeamTournaments = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5485,10 +5605,10 @@ export const onUpdateTeamTournaments = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -5529,10 +5649,10 @@ export const onDeleteTeamTournaments = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId

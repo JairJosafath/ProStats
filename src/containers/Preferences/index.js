@@ -44,6 +44,10 @@ const Preferences = ({ playerID }) => {
     setCreateTeamMember,
     setUpdateTeam,
     setDeleteTeamMember,
+    setCreateTeamLeague,
+    setUpdateLeague,
+    setDeleteTeamLeague,
+    setDeleteTeam,
   } = usePreferences();
   useEffect(() => {
     setPlayerId(playerID);
@@ -74,6 +78,10 @@ const Preferences = ({ playerID }) => {
           setCreateTeamMember={setCreateTeamMember}
           setUpdateTeam={setUpdateTeam}
           setDeleteTeamMember={setDeleteTeamMember}
+          setCreateTeamLeague={setCreateTeamLeague}
+          setUpdateLeague={setUpdateLeague}
+          setDeleteTeamLeague={setDeleteTeamLeague}
+          setDeleteTeam={setDeleteTeam}
         />
       )}
     </>

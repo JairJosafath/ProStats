@@ -35,23 +35,13 @@ const SideNavCustom = ({
       setDrop(false);
     }
   }, [showNav]);
-  useEffect(() => {
-    setTournament(
-      tournament
-        ? league?.tournaments?.items.filter(
-            (tournamenta) => tournamenta.id === tournament?.id
-          )[0]
-        : league?.tournaments?.items[0]
-    );
-    console.log("tour in side", tournament);
-  }, [league]);
 
-  useEffect(() => {
-    setTournament(
-      league?.tournaments?.items.filter((tour) => tour.id === tournament.id)[0]
-    );
-    console.log("does tis even help?");
-  }, [fixturesByTournamentAndRound]);
+  // useEffect(() => {
+  //   setTournament(
+  //     league?.tournaments?.items.filter((tour) => tour.id === tournament.id)[0]
+  //   );
+  //   console.log("does tis even help?");
+  // }, [fixturesByTournamentAndRound]);
   return (
     <div style={{ width: 240, height: "90vh", background: "black" }}>
       <Sidenav

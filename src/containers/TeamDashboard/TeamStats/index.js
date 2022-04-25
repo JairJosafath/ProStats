@@ -46,7 +46,7 @@ const TTeamStats = () => {
   const [currentFixture, setCurrentFixture] = useState(); //to access selected fixture data
   const [activePage, setActivePage] = useState(1); //pagination
   const [typeDataTeamState, setTypeDataTeamState] = useState(typeDataTeam[0]); //keep track which datatype is being used
-  const [teamstatsTracker, setTeamstatsTracker] = useState(tracker); //track changes onchange
+  const [teamstatsTracker, setTeamstatsTracker] = useState({}); //track changes onchange
 
   //if tournament changes update the fixture component
   useEffect(() => {
@@ -68,7 +68,7 @@ const TTeamStats = () => {
 
   useEffect(() => {
     //when fixtures are selected update the stats based on the fixture
-    setTeamstatsTracker({ ...teamStats });
+    setTeamstatsTracker({});
     typeDataTeam.map(
       (type) => setTimeout(() => setTypeDataTeamState(type), 1000) //bug fix for not updating !showing stats
     );
@@ -149,6 +149,7 @@ const TTeamStats = () => {
             size={"1.5em"}
             style={{ display: "block", margin: 6 }}
             onClick={() => {
+              setTeamstatsTracker({});
               setShowStats(false);
             }}
           />
@@ -280,25 +281,25 @@ const TTeamStats = () => {
                   console.log("save rex");
                   console.log("huge test right here", teamstatsTracker);
 
-                  const temp = {};
-                  console.log("temp obj", temp);
+                  // const temp = {};
+                  // console.log("temp obj", temp);
 
-                  typeDataTeam.map((type) =>
-                    teamstatsTracker.home[type].map((stat) => {
-                      if (stat.val) {
-                        temp[`home_${type}_${stat.attr.replaceAll(" ", "_")}`] =
-                          parseInt(stat.val);
-                      }
-                    })
-                  );
-                  typeDataTeam.map((type) =>
-                    teamstatsTracker.away[type].map((stat) => {
-                      if (stat.val) {
-                        temp[`away_${type}_${stat.attr.replaceAll(" ", "_")}`] =
-                          parseInt(stat.val);
-                      }
-                    })
-                  );
+                  // typeDataTeam.map((type) =>
+                  //   teamstatsTracker.home[type].map((stat) => {
+                  //     if (stat.val) {
+                  //       temp[`home_${type}_${stat.attr.replaceAll(" ", "_")}`] =
+                  //         parseInt(stat.val);
+                  //     }
+                  //   })
+                  // );
+                  // typeDataTeam.map((type) =>
+                  //   teamstatsTracker.away[type].map((stat) => {
+                  //     if (stat.val) {
+                  //       temp[`away_${type}_${stat.attr.replaceAll(" ", "_")}`] =
+                  //         parseInt(stat.val);
+                  //     }
+                  //   })
+                  // );
                   // console.log(temp, "temp");
 
                   if (currentFixture?.teamStats?.items[0]) {
@@ -309,16 +310,16 @@ const TTeamStats = () => {
                       teamStatsAway_teamId: currentFixture.awayTeam.id,
                       teamStatsHome_teamId: currentFixture.homeTeam.id,
                       fixtureTeamStatsId: currentFixture.id,
-                      ...temp,
+                      ...teamstatsTracker,
                     });
                   } else {
                     setCreateTeamStats({
                       teamStatsAway_teamId: currentFixture.awayTeam.id,
                       teamStatsHome_teamId: currentFixture.homeTeam.id,
                       fixtureTeamStatsId: currentFixture.id,
-                      ...temp,
+                      ...teamstatsTracker,
                     });
-                    setTeamstatsTracker({ ...teamStats });
+                    setTeamstatsTracker({});
 
                     // setUpdateFixtures(true);
 
@@ -335,19 +336,20 @@ const TTeamStats = () => {
                   //     awayScore: temp[`away_summary_goals`],
                   //   });
                   // } else
-                  if (temp[`away_summary_goals`]) {
+                  if (teamstatsTracker[`away_summary_goals`]) {
                     setUpdateFixture({
                       id: currentFixture?.id,
-                      awayScore: temp[`away_summary_goals`],
+                      awayScore: teamstatsTracker[`away_summary_goals`],
                       status: "pending",
                     });
-                  } else if (temp[`home_summary_goals`]) {
+                  } else if (teamstatsTracker[`home_summary_goals`]) {
                     setUpdateFixture({
                       id: currentFixture?.id,
-                      homeScore: temp[`home_summary_goals`],
+                      homeScore: teamstatsTracker[`home_summary_goals`],
                       status: "pending",
                     });
                   }
+                  setTeamstatsTracker({});
                   setShowStats(false);
                 }}
               >
@@ -357,7 +359,7 @@ const TTeamStats = () => {
             <FlexboxGrid.Item>
               <Button
                 onClick={() => {
-                  setTeamstatsTracker(teamStats);
+                  setTeamstatsTracker({});
                 }}
               >
                 Reset

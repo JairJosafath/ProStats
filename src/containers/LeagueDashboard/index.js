@@ -34,6 +34,11 @@ const LeagueDashboard = () => {
     setGetLeagueRequests,
     setCreateRequestFromLeagueToTeam,
     setDeleteL2TRequest,
+    setCreateTableStat2,
+    setUpdateTableStat2,
+    setUpdateFixture,
+    setActiveRound,
+    setGetUsernameLeagueReq,
   } = useLeagueDashboard();
 
   useEffect(() => {
@@ -80,6 +85,11 @@ const LeagueDashboard = () => {
               setGetLeagueRequests,
               setCreateRequestFromLeagueToTeam,
               setDeleteL2TRequest,
+              setCreateTableStat2,
+              setUpdateTableStat2,
+              setUpdateFixture,
+              setActiveRound,
+              setGetUsernameLeagueReq,
             }}
           />
         </div>

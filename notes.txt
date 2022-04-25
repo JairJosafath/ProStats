@@ -1,0 +1,18 @@
+1. fix updating existing stats from the league manager dashboard, to push stats to standings (fixed)
+
+2. when stats update, smooth refresh (fixed)
+
+3. more detailed statTrackers so the stats don't get lost when switching to other stat types (fixed)
+
+4. update mutations&queries between leagues and teams, since its changed to a many to many relationship (mostly fixed)
+
+5. remove team name from drop down when adding to tournament (fixed)
+
+6. preferences refresh fix (fixed)
+
+
+
+AuthRules
+
+team 2 player request v
+league 2 team request can be modified by moderators v

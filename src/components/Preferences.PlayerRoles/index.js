@@ -44,7 +44,11 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
   //   useCreateTeam(team);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setValueName("");
+    setValueAbout("");
+  };
   const handleOK = () => {
     console.log("player update when OK", player);
     setCreateTeam({
@@ -59,6 +63,8 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);
+    setValueName("");
+    setValueAbout("");
   };
 
   return (
@@ -189,8 +195,6 @@ const NewLeagueModal = ({ open, setOpen, setCreateLeague, player }) => {
 const PlayerRoles = ({
   player,
   setPlayer,
-  playerTemp,
-  setPlayerTemp,
   setCreateTeam,
   setCreateLeague,
   setUpdateRequestFromLeague,
@@ -198,6 +202,10 @@ const PlayerRoles = ({
   setCreateTeamMember,
   setUpdateTeam,
   setDeleteTeamMember,
+  setCreateTeamLeague,
+  setUpdateLeague,
+  setDeleteTeamLeague,
+  setDeleteTeam,
 }) => {
   const nav = useNavigate();
   const [openLeague, setOpenLeague] = useState(false);
@@ -213,56 +221,72 @@ const PlayerRoles = ({
         }, 1000 * i);
       }
   }, [player]);
+  const handleLeaveLeague = (id) => {
+    setDeleteTeamLeague({ id });
+
+    console.log("delete TeamLeague with id", id);
+  };
   const handleEditLeague = (id, role) => {
     console.log(`edit league with id: ${id} as ${role}`);
     nav(`/leaguedashboard/${id}/dashboard`);
   };
   const handleDeleteLeague = (id, role) => {
     console.log(`delete league with id: ${id} as ${role}`);
-    const deleteLeagueFN = async () => {
-      //delete all connections first
+    setUpdateLeague({
+      id,
+      name: "deleted league",
+      playerAdminsId: "null",
+    });
+    // const deleteLeagueFN = async () => {
+    //   //delete all connections first
 
-      // or make league inactive
-      const result = await API.graphql({
-        query: updateLeague,
-        variables: { input: { id: id, status: "disabled" } },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      }).catch((error) => {
-        console.log("error when deleting", error);
-      });
+    //   // or make league inactive
+    //   const result = await API.graphql({
+    //     query: updateLeague,
+    //     variables: { input: { id: id, status: "disabled" } },
+    //     authMode: "AMAZON_COGNITO_USER_POOLS",
+    //   }).catch((error) => {
+    //     console.log("error when deleting", error);
+    //   });
 
-      console.log("res", result);
-    };
+    //   console.log("res", result);
+    // };
 
-    deleteLeagueFN();
+    // deleteLeagueFN();
   };
-  const handleLeaveLeague = (id) => {
-    console.log(`leaving league with id: ${id}`);
-  };
+  // const handleLeaveLeague = (id) => {
+  //   console.log(`leaving league with id: ${id}`);
+  // };
   const handleEditTeam = (id, role, playerId) => {
     console.log(`edit Team with id: ${id} as ${role}`);
     if (role === "manager") nav(`/teamDashboard/${id}/dashboard`);
     if (role === "member") nav(`/playerDashboard/${id}+${playerId}/dashboard`);
   };
   const handleDeleteTeam = (id, role) => {
+    //remove team from players (admins,mods, mark it deleted) and rename it to created team
+    setUpdateTeam({
+      id,
+      playerManagesId: "null",
+      name: "deleted Team",
+    });
     console.log(`delete Team with id: ${id} as ${role}`);
 
-    const deleteTeamFN = async () => {
-      //delete all connections first
+    //   const deleteTeamFN = async () => {
+    //     //delete all connections first
 
-      // or make Team inactive
-      const result = await API.graphql({
-        query: updateTeam,
-        variables: { input: { id: id, status: "disabled" } },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      }).catch((error) => {
-        console.log("error when deleting", error);
-      });
+    //     // or make Team inactive
+    //     const result = await API.graphql({
+    //       query: updateTeam,
+    //       variables: { input: { id: id, status: "disabled" } },
+    //       authMode: "AMAZON_COGNITO_USER_POOLS",
+    //     }).catch((error) => {
+    //       console.log("error when deleting", error);
+    //     });
 
-      console.log("res", result);
-    };
-    deleteTeamFN();
-    window.location.reload();
+    //     console.log("res", result);
+    //   };
+    //   deleteTeamFN();
+    // window.location.reload();
   };
   const handleLeaveTeam = (id) => {
     console.log(`leaving Team with id: ${id}`);
@@ -287,10 +311,10 @@ const PlayerRoles = ({
                   <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
                 </FlexboxGrid>
                 {/* Admin */}
-                {player?.admins?.items?.map((league) => {
+                {player?.admins?.items?.map((league, index) => {
                   return (
-                    league.status !== "disabled" && (
-                      <List.Item key={league.id}>
+                    league.status !== "qw" && (
+                      <List.Item key={`${league.id}${index}`}>
                         <FlexboxGrid justify="space-between">
                           <FlexboxGrid.Item colspan={7}>
                             {league.name}
@@ -350,7 +374,7 @@ const PlayerRoles = ({
                 {/* Mod */}
                 {player?.moderates?.items?.map((league) => {
                   return (
-                    league.league.status !== "disabled" && (
+                    league.league.status !== "qw" && (
                       <List.Item key={`${league.league.id}-Mod`}>
                         <FlexboxGrid justify="space-between">
                           <FlexboxGrid.Item colspan={7}>
@@ -432,180 +456,563 @@ const PlayerRoles = ({
                   <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
                   <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
                 </FlexboxGrid>
-                {/* Manager */}
-                {player?.manages?.items?.map((team) => {
-                  return (
-                    team.status !== "disabled" && (
-                      <List.Item key={`${team.id}-Man`}>
-                        <FlexboxGrid justify="space-around">
-                          <FlexboxGrid.Item colspan={7}>
-                            {team.name}
-                          </FlexboxGrid.Item>
-                          <FlexboxGrid.Item colspan={4}>
-                            Manager
-                          </FlexboxGrid.Item>
-                          <FlexboxGrid.Item colspan={4}>
-                            {team?.league?.name}
-                          </FlexboxGrid.Item>
-                          <FlexboxGrid.Item colspan={1}>
-                            {team?.requestsfromLeague?.items.filter(
-                              (request) => request.status === "pending"
-                            )[0] && (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  width: "4em",
+                {/**Member request */}
+
+                {player &&
+                  player.requestsfromTeam.items.filter(
+                    (request) => request.status === "pending"
+                  )[0] && (
+                    <List.Item
+                      style={{
+                        background: "rgba(30,100,200,.5)",
+                      }}
+                      onClick={(e) => {
+                        setShowRequests(!showRequests);
+                      }}
+                    >
+                      <FlexboxGrid justify="space-around">
+                        <FlexboxGrid.Item colspan={13}>
+                          Request to join a team
+                        </FlexboxGrid.Item>
+
+                        <FlexboxGrid.Item colspan={1}>
+                          <div
+                            style={{
+                              display: "flex",
+                              width: "4em",
+                            }}
+                          >
+                            <Animation.Bounce in={requestShow}>
+                              <IconButton
+                                appearance={"subtle"}
+                                color="orange"
+                                size="xs"
+                                icon={
+                                  <FaExclamation
+                                    color="green"
+                                    style={{ margin: "0 auto" }}
+                                    size={"1.5em"}
+                                  />
+                                }
+                                onClick={(e) => {
+                                  setShowRequests(!showRequests);
                                 }}
-                              >
-                                <Animation.Bounce in={requestShow}>
+                              />
+                            </Animation.Bounce>
+                          </div>
+                        </FlexboxGrid.Item>
+                        <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
+                        <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
+                      </FlexboxGrid>
+                      {showRequests && (
+                        <Panel
+                          header={"requests"}
+                          style={{
+                            background: "rgba(30,100,200,.3)",
+                          }}
+                        >
+                          <List hover>
+                            {player.requestsfromTeam.items
+                              .filter((request) => request.status === "pending")
+                              .map((request) => (
+                                <List.Item
+                                  style={{
+                                    padding: 10,
+                                    background: "rgba(30,100,200,.1)",
+                                  }}
+                                >
+                                  <FlexboxGrid justify="space=between">
+                                    <FlexboxGrid.Item colspan={8}>
+                                      {request.from?.name}
+                                    </FlexboxGrid.Item>
+                                    <FlexboxGrid.Item
+                                      colspan={8}
+                                    ></FlexboxGrid.Item>
+                                    <FlexboxGrid.Item colspan={4}>
+                                      <IconButton
+                                        appearance="subtle"
+                                        color="green"
+                                        size="xs"
+                                        icon={
+                                          <BsCheckCircleFill
+                                            color={"green"}
+                                            style={{
+                                              margin: "0 auto",
+                                            }}
+                                            size={"1.5em"}
+                                          />
+                                        }
+                                        onClick={(e) => {
+                                          setUpdateRequestFromTEam({
+                                            id: request.id,
+                                            status: "accepted",
+                                          });
+                                          // setCreateTeamMember({
+                                          //   playerID: player.id,
+                                          //   teamID: team.id,
+                                          // });
+                                          setCreateTeamMember({
+                                            teamID: request.from.id,
+                                            playerID: player.id,
+                                          });
+                                          setShowRequests(!showRequests);
+                                        }}
+                                      />
+                                    </FlexboxGrid.Item>
+                                    <FlexboxGrid.Item colspan={4}>
+                                      <IconButton
+                                        appearance="subtle"
+                                        color="red"
+                                        size="xs"
+                                        icon={
+                                          <BsFillXCircleFill
+                                            // color={"red"}
+                                            style={{
+                                              margin: "0 auto",
+                                            }}
+                                            size={"1.5em"}
+                                          />
+                                        }
+                                        onClick={(e) => {
+                                          setUpdateRequestFromTEam({
+                                            id: request.id,
+                                            status: "declined",
+                                          });
+                                          setShowRequests(!showRequests);
+                                        }}
+                                      />
+                                    </FlexboxGrid.Item>
+                                  </FlexboxGrid>
+                                </List.Item>
+                              ))}
+                          </List>
+                        </Panel>
+                      )}
+                    </List.Item>
+                  )}
+                {/* Manager */}
+                {player &&
+                  player.manages.items.map((team, index) => {
+                    return (
+                      <>
+                        {team?.league?.items[0] &&
+                          team?.requestsfromLeague?.items.filter(
+                            (request) => request.status === "pending"
+                          )[0] && (
+                            //showRequests
+                            <List.Item
+                              style={{
+                                background: "rgba(30,100,200,.5)",
+                              }}
+                              onClick={(e) => {
+                                setShowRequests(!showRequests);
+                              }}
+                              key={`${team.id}-Man${index}`}
+                            >
+                              <FlexboxGrid justify="space-around">
+                                <FlexboxGrid.Item colspan={7}>
+                                  {team.name}
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item colspan={4}>
+                                  Request
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item
+                                  colspan={4}
+                                ></FlexboxGrid.Item>
+                                <FlexboxGrid.Item colspan={1}>
+                                  {team?.requestsfromLeague?.items.filter(
+                                    (request) => request.status === "pending"
+                                  )[0] && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        width: "4em",
+                                      }}
+                                    >
+                                      <Animation.Bounce in={requestShow}>
+                                        <IconButton
+                                          appearance={"subtle"}
+                                          color="orange"
+                                          size="xs"
+                                          icon={
+                                            <FaExclamation
+                                              color="green"
+                                              style={{ margin: "0 auto" }}
+                                              size={"1.5em"}
+                                            />
+                                          }
+                                          onClick={(e) => {
+                                            setShowRequests(!showRequests);
+                                          }}
+                                        />
+                                      </Animation.Bounce>
+                                    </div>
+                                  )}
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item
+                                  colspan={1}
+                                ></FlexboxGrid.Item>
+                                <FlexboxGrid.Item
+                                  colspan={1}
+                                ></FlexboxGrid.Item>
+                              </FlexboxGrid>
+                              {showRequests &&
+                                team?.requestsfromLeague?.items.filter(
+                                  (request) => request.status === "pending"
+                                )[0] && (
+                                  <Panel
+                                    header={"requests"}
+                                    style={{
+                                      background: "rgba(30,100,200,.3)",
+                                    }}
+                                  >
+                                    <List hover>
+                                      {team?.requestsfromLeague?.items
+                                        .filter(
+                                          (request) =>
+                                            request.status === "pending"
+                                        )
+                                        .map((request) => (
+                                          <List.Item
+                                            style={{
+                                              padding: 10,
+                                              background: "rgba(30,100,200,.1)",
+                                            }}
+                                          >
+                                            <FlexboxGrid justify="space=between">
+                                              <FlexboxGrid.Item colspan={8}>
+                                                {request.from.name}
+                                              </FlexboxGrid.Item>
+                                              <FlexboxGrid.Item colspan={8}>
+                                                {request.from.admin.name}
+                                              </FlexboxGrid.Item>
+                                              <FlexboxGrid.Item colspan={4}>
+                                                <IconButton
+                                                  appearance="subtle"
+                                                  color="green"
+                                                  size="xs"
+                                                  icon={
+                                                    <BsCheckCircleFill
+                                                      color={"green"}
+                                                      style={{
+                                                        margin: "0 auto",
+                                                      }}
+                                                      size={"1.5em"}
+                                                    />
+                                                  }
+                                                  onClick={(e) => {
+                                                    setUpdateRequestFromLeague({
+                                                      id: request.id,
+                                                      status: "accepted",
+                                                    });
+                                                    // setCreateTeamMember({
+                                                    //   playerID: player.id,
+                                                    //   teamID: team.id,
+                                                    // });
+                                                    setCreateTeamLeague({
+                                                      teamID: team.id,
+                                                      leagueID: request.from.id,
+                                                    });
+                                                    setShowRequests(
+                                                      !showRequests
+                                                    );
+                                                  }}
+                                                />
+                                              </FlexboxGrid.Item>
+                                              <FlexboxGrid.Item colspan={4}>
+                                                <IconButton
+                                                  appearance="subtle"
+                                                  color="red"
+                                                  size="xs"
+                                                  icon={
+                                                    <BsFillXCircleFill
+                                                      // color={"red"}
+                                                      style={{
+                                                        margin: "0 auto",
+                                                      }}
+                                                      size={"1.5em"}
+                                                    />
+                                                  }
+                                                  onClick={(e) => {
+                                                    setUpdateRequestFromLeague({
+                                                      id: request.id,
+                                                      status: "declined",
+                                                    });
+                                                    setShowRequests(
+                                                      !showRequests
+                                                    );
+                                                  }}
+                                                />
+                                              </FlexboxGrid.Item>
+                                            </FlexboxGrid>
+                                          </List.Item>
+                                        ))}
+                                    </List>
+                                  </Panel>
+                                )}
+                            </List.Item>
+                          )}
+                        {team?.league?.items[0] ? (
+                          team?.league?.items?.map((teamLeague, index) => (
+                            <List.Item key={`${"teamLeague.id"} ${index}`}>
+                              <FlexboxGrid justify="space-around">
+                                <FlexboxGrid.Item colspan={7}>
+                                  {team.name}
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item colspan={4}>
+                                  Manager
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item colspan={4}>
+                                  {teamLeague.league.name}
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item
+                                  colspan={1}
+                                ></FlexboxGrid.Item>
+                                <FlexboxGrid.Item colspan={1}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      width: "4em",
+                                    }}
+                                  >
+                                    <IconButton
+                                      appearance="subtle"
+                                      color="blue"
+                                      size="xs"
+                                      icon={
+                                        <MdModeEdit
+                                          style={{ margin: "0 auto" }}
+                                          size={"1.5em"}
+                                        />
+                                      }
+                                      onClick={(e) => {
+                                        handleEditTeam(
+                                          team.id,
+                                          "manager",
+                                          false
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                </FlexboxGrid.Item>
+                                <FlexboxGrid.Item colspan={1}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      width: "4em",
+                                    }}
+                                  >
+                                    <IconButton
+                                      appearance="subtle"
+                                      color="red"
+                                      size="xs"
+                                      icon={
+                                        <MdExitToApp
+                                          style={{ margin: "0 auto" }}
+                                          size={"1.5em"}
+                                        />
+                                      }
+                                      onClick={(e) => {
+                                        handleLeaveLeague(teamLeague.id);
+                                        // handleDeleteTeam(team.id, "manager");
+                                      }}
+                                    />
+                                  </div>
+                                </FlexboxGrid.Item>
+                              </FlexboxGrid>
+                            </List.Item>
+                          ))
+                        ) : (
+                          <List.Item key={`${team.id}-Man${index}`}>
+                            <FlexboxGrid justify="space-around">
+                              <FlexboxGrid.Item colspan={7}>
+                                {team.name}
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={4}>
+                                Manager
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={4}></FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={1}>
+                                {team?.requestsfromLeague?.items.filter(
+                                  (request) => request.status === "pending"
+                                )[0] && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      width: "4em",
+                                    }}
+                                  >
+                                    <Animation.Bounce in={requestShow}>
+                                      <IconButton
+                                        appearance={"subtle"}
+                                        color="orange"
+                                        size="xs"
+                                        icon={
+                                          <FaExclamation
+                                            color="green"
+                                            style={{ margin: "0 auto" }}
+                                            size={"1.5em"}
+                                          />
+                                        }
+                                        onClick={(e) => {
+                                          setShowRequests(!showRequests);
+                                        }}
+                                      />
+                                    </Animation.Bounce>
+                                  </div>
+                                )}
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={1}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    width: "4em",
+                                  }}
+                                >
                                   <IconButton
-                                    appearance={"subtle"}
-                                    color="orange"
+                                    appearance="subtle"
+                                    color="blue"
                                     size="xs"
                                     icon={
-                                      <FaExclamation
-                                        color="green"
+                                      <MdModeEdit
                                         style={{ margin: "0 auto" }}
                                         size={"1.5em"}
                                       />
                                     }
                                     onClick={(e) => {
-                                      setShowRequests(!showRequests);
+                                      handleEditTeam(team.id, "manager", false);
                                     }}
                                   />
-                                </Animation.Bounce>
-                              </div>
-                            )}
-                          </FlexboxGrid.Item>
-                          <FlexboxGrid.Item colspan={1}>
-                            <div
-                              style={{
-                                display: "flex",
-                                width: "4em",
-                              }}
-                            >
-                              <IconButton
-                                appearance="subtle"
-                                color="blue"
-                                size="xs"
-                                icon={
-                                  <MdModeEdit
-                                    style={{ margin: "0 auto" }}
-                                    size={"1.5em"}
+                                </div>
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={1}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    width: "4em",
+                                  }}
+                                >
+                                  <IconButton
+                                    appearance="subtle"
+                                    color="red"
+                                    size="xs"
+                                    icon={
+                                      <MdDelete
+                                        style={{ margin: "0 auto" }}
+                                        size={"1.5em"}
+                                      />
+                                    }
+                                    onClick={(e) => {
+                                      handleDeleteTeam(team.id, "manager");
+                                    }}
                                   />
-                                }
-                                onClick={(e) => {
-                                  handleEditTeam(team.id, "manager", false);
-                                }}
-                              />
-                            </div>
-                          </FlexboxGrid.Item>
-                          <FlexboxGrid.Item colspan={1}>
-                            <div
-                              style={{
-                                display: "flex",
-                                width: "4em",
-                              }}
-                            >
-                              <IconButton
-                                appearance="subtle"
-                                color="red"
-                                size="xs"
-                                icon={
-                                  <MdDelete
-                                    style={{ margin: "0 auto" }}
-                                    size={"1.5em"}
-                                  />
-                                }
-                                onClick={(e) => {
-                                  handleDeleteTeam(team.id, "manager");
-                                }}
-                              />
-                            </div>
-                          </FlexboxGrid.Item>
-                        </FlexboxGrid>
-                        {showRequests &&
-                          team?.requestsfromLeague?.items.filter(
-                            (request) => request.status === "pending"
-                          )[0] && (
-                            <Panel header={"requests"} collapsible>
-                              <List hover>
-                                {team?.requestsfromLeague?.items
-                                  .filter(
-                                    (request) => request.status === "pending"
-                                  )
-                                  .map((request) => (
-                                    <List.Item>
-                                      <FlexboxGrid justify="space=between">
-                                        <FlexboxGrid.Item colspan={8}>
-                                          {request.from.name}
-                                        </FlexboxGrid.Item>
-                                        <FlexboxGrid.Item colspan={8}>
-                                          {request.from.admin.name}
-                                        </FlexboxGrid.Item>
-                                        <FlexboxGrid.Item colspan={4}>
-                                          <IconButton
-                                            appearance="subtle"
-                                            color="green"
-                                            size="xs"
-                                            icon={
-                                              <BsCheckCircleFill
-                                                color={"green"}
-                                                style={{ margin: "0 auto" }}
-                                                size={"1.5em"}
+                                </div>
+                              </FlexboxGrid.Item>
+                            </FlexboxGrid>
+                            {showRequests &&
+                              team?.requestsfromLeague?.items.filter(
+                                (request) => request.status === "pending"
+                              )[0] && (
+                                <Panel
+                                  header={"requests"}
+                                  style={{
+                                    background: "rgba(30,100,200,.3)",
+                                  }}
+                                >
+                                  <List hover>
+                                    {team?.requestsfromLeague?.items
+                                      .filter(
+                                        (request) =>
+                                          request.status === "pending"
+                                      )
+                                      .map((request) => (
+                                        <List.Item
+                                          style={{
+                                            padding: 10,
+                                            background: "rgba(30,100,200,.1)",
+                                          }}
+                                        >
+                                          <FlexboxGrid justify="space=between">
+                                            <FlexboxGrid.Item colspan={8}>
+                                              {request.from.name}
+                                            </FlexboxGrid.Item>
+                                            <FlexboxGrid.Item colspan={8}>
+                                              {request.from.admin.name}
+                                            </FlexboxGrid.Item>
+                                            <FlexboxGrid.Item colspan={4}>
+                                              <IconButton
+                                                appearance="subtle"
+                                                color="green"
+                                                size="xs"
+                                                icon={
+                                                  <BsCheckCircleFill
+                                                    color={"green"}
+                                                    style={{
+                                                      margin: "0 auto",
+                                                    }}
+                                                    size={"1.5em"}
+                                                  />
+                                                }
+                                                onClick={(e) => {
+                                                  setUpdateRequestFromLeague({
+                                                    id: request.id,
+                                                    status: "accepted",
+                                                  });
+                                                  // setCreateTeamMember({
+                                                  //   playerID: player.id,
+                                                  //   teamID: team.id,
+                                                  // });
+                                                  setCreateTeamLeague({
+                                                    teamID: team.id,
+                                                    leagueID: request.from.id,
+                                                  });
+                                                  setShowRequests(
+                                                    !showRequests
+                                                  );
+                                                }}
                                               />
-                                            }
-                                            onClick={(e) => {
-                                              setUpdateRequestFromLeague({
-                                                id: request.id,
-                                                status: "accepted",
-                                              });
-                                              // setCreateTeamMember({
-                                              //   playerID: player.id,
-                                              //   teamID: team.id,
-                                              // });
-                                              setUpdateTeam({
-                                                id: team.id,
-                                                leagueTeamsId: request.from.id,
-                                              });
-                                            }}
-                                          />
-                                        </FlexboxGrid.Item>
-                                        <FlexboxGrid.Item colspan={4}>
-                                          <IconButton
-                                            appearance="subtle"
-                                            color="red"
-                                            size="xs"
-                                            icon={
-                                              <BsFillXCircleFill
-                                                // color={"red"}
-                                                style={{ margin: "0 auto" }}
-                                                size={"1.5em"}
+                                            </FlexboxGrid.Item>
+                                            <FlexboxGrid.Item colspan={4}>
+                                              <IconButton
+                                                appearance="subtle"
+                                                color="red"
+                                                size="xs"
+                                                icon={
+                                                  <BsFillXCircleFill
+                                                    // color={"red"}
+                                                    style={{
+                                                      margin: "0 auto",
+                                                    }}
+                                                    size={"1.5em"}
+                                                  />
+                                                }
+                                                onClick={(e) => {
+                                                  setUpdateRequestFromLeague({
+                                                    id: request.id,
+                                                    status: "declined",
+                                                  });
+                                                  setShowRequests(
+                                                    !showRequests
+                                                  );
+                                                }}
                                               />
-                                            }
-                                            onClick={(e) => {
-                                              setUpdateRequestFromLeague({
-                                                id: request.id,
-                                                status: "declined",
-                                              });
-                                            }}
-                                          />
-                                        </FlexboxGrid.Item>
-                                      </FlexboxGrid>
-                                    </List.Item>
-                                  ))}
-                              </List>
-                            </Panel>
-                          )}
-                      </List.Item>
-                    )
-                  );
-                })}
+                                            </FlexboxGrid.Item>
+                                          </FlexboxGrid>
+                                        </List.Item>
+                                      ))}
+                                  </List>
+                                </Panel>
+                              )}
+                          </List.Item>
+                        )}
+                      </>
+                    );
+                  })}
                 {/* Captain */}
-                {player?.captains?.items?.map((team) => {
+                {player?.captains?.items?.map((team, index) => {
                   return (
-                    team.team.status !== "disabled" && (
-                      <List.Item key={`${team.team.id}-Man`}>
+                    team.team.status !== "qw" && (
+                      <List.Item key={`${team.team.id}-Man${index}`}>
                         <FlexboxGrid justify="space-between">
                           <FlexboxGrid.Item colspan={7}>
                             {team.team.name}
@@ -652,10 +1059,11 @@ const PlayerRoles = ({
                   );
                 })}
                 {/* Member */}
-                {player?.teams?.items?.map((team) => {
+
+                {player?.teams?.items?.map((team, index) => {
                   return (
-                    team.team.status !== "disabled" && (
-                      <List.Item key={`${team.team.id}-Man`}>
+                    team.team.status !== "qw" && (
+                      <List.Item key={`${team.team.id}-Man${index}`}>
                         <FlexboxGrid justify="space-around">
                           <FlexboxGrid.Item colspan={7}>
                             {team.team.name}

@@ -281,24 +281,7 @@ export const getTeam = /* GraphQL */ `
       logo
       slogan
       league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
+        nextToken
       }
       manager {
         id
@@ -376,10 +359,10 @@ export const getTeam = /* GraphQL */ `
         nextToken
       }
       teamManager
+      moderators
       teamCaptain
       createdAt
       updatedAt
-      leagueTeamsId
       playerManagesId
       newsTeamTagsId
       teamLevelTeamId
@@ -402,10 +385,10 @@ export const listTeams = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -510,10 +493,10 @@ export const getFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -527,10 +510,10 @@ export const getFixture = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -567,6 +550,7 @@ export const getFixture = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       teamHomefixturesId
@@ -598,6 +582,7 @@ export const listFixtures = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -641,6 +626,7 @@ export const fixtureByTournamentandHomeTeam = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -684,6 +670,7 @@ export const fixtureByTournamentandAwayTeam = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -727,6 +714,7 @@ export const fixtureByTournamentandRound = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -797,6 +785,7 @@ export const getPlayerStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1033,6 +1022,7 @@ export const getTeamStats = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -1050,10 +1040,10 @@ export const getTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1067,10 +1057,10 @@ export const getTeamStats = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1521,10 +1511,10 @@ export const getTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1538,10 +1528,10 @@ export const getTransfer = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1781,10 +1771,10 @@ export const getRequestLeague2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1792,6 +1782,7 @@ export const getRequestLeague2Team = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       leagueRequeststoTeamId
@@ -1814,6 +1805,7 @@ export const listRequestLeague2Teams = /* GraphQL */ `
       items {
         id
         status
+        members
         createdAt
         updatedAt
         leagueRequeststoTeamId
@@ -1835,10 +1827,10 @@ export const getRequestTeam2Player = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -1881,6 +1873,7 @@ export const getRequestTeam2Player = /* GraphQL */ `
         owner
       }
       status
+      members
       createdAt
       updatedAt
       playerRequestsfromTeamId
@@ -1903,6 +1896,7 @@ export const listRequestTeam2Players = /* GraphQL */ `
       items {
         id
         status
+        members
         createdAt
         updatedAt
         playerRequestsfromTeamId
@@ -1959,10 +1953,10 @@ export const getRequestPlayer2Team = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2361,10 +2355,10 @@ export const getTableStat = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2616,6 +2610,76 @@ export const listLeagueModerators = /* GraphQL */ `
     }
   }
 `;
+export const getLeagueTeams = /* GraphQL */ `
+  query GetLeagueTeams($id: ID!) {
+    getLeagueTeams(id: $id) {
+      id
+      leagueID
+      teamID
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+      teamManager
+    }
+  }
+`;
+export const listLeagueTeams = /* GraphQL */ `
+  query ListLeagueTeams(
+    $filter: ModelLeagueTeamsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLeagueTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        leagueID
+        teamID
+        createdAt
+        updatedAt
+        owner
+        teamManager
+      }
+      nextToken
+    }
+  }
+`;
 export const getTeamMembers = /* GraphQL */ `
   query GetTeamMembers($id: ID!) {
     getTeamMembers(id: $id) {
@@ -2664,10 +2728,10 @@ export const getTeamMembers = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2749,10 +2813,10 @@ export const getTeamCaptains = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId
@@ -2841,6 +2905,7 @@ export const getPlayersAndFixtures = /* GraphQL */ `
         tournamentMod
         tournamentID
         status
+        members
         createdAt
         updatedAt
         teamHomefixturesId
@@ -2852,6 +2917,7 @@ export const getPlayersAndFixtures = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      members
     }
   }
 `;
@@ -2873,6 +2939,7 @@ export const listPlayersAndFixtures = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        members
       }
       nextToken
     }
@@ -2891,10 +2958,10 @@ export const getTeamTournaments = /* GraphQL */ `
         slogan
         status
         teamManager
+        moderators
         teamCaptain
         createdAt
         updatedAt
-        leagueTeamsId
         playerManagesId
         newsTeamTagsId
         teamLevelTeamId

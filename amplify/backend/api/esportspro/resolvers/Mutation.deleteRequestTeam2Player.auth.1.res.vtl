@@ -15,6 +15,15 @@ $util.unauthorized()
       #set( $isAuthorized = true )
     #end
   #end
+  #if( !$isAuthorized )
+    #set( $ownerEntity1 = $util.defaultIfNull($ctx.result.members, null) )
+    #set( $ownerClaim1 = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+    #foreach( $allowedOwner in $ownerEntity1 )
+      #if( $allowedOwner == $ownerClaim1 )
+        #set( $isAuthorized = true )
+      #end
+    #end
+  #end
 #end
 #if( !$isAuthorized )
 $util.unauthorized()

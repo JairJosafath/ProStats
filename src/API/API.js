@@ -1,4 +1,14 @@
 import { API, Storage } from "aws-amplify";
+import {} from "../graphql/mutations";
+import {
+  fixtureByTournamentandAwayTeam,
+  fixtureByTournamentandHomeTeam,
+  fixtureByTournamentandRound,
+  getLeague,
+  getPlayer,
+  getTeam,
+  getTournament,
+} from "../graphql/queries";
 import {
   getPlayerQuery,
   fixtureByTournamentandRoundQuery,
@@ -36,6 +46,14 @@ import {
   createTeamMembersMutation,
   updateTeamQuery,
   deleteTeamMembersMutation,
+  createTableStatMutation,
+  updateTableStatMutation,
+  createTeamLeagueMutation,
+  updateLeagueMutation,
+  deleteTeamLeagueMutation,
+  deleteTeamMutation,
+  getPlayerUsernameQuery,
+  getTeamModsQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -46,7 +64,7 @@ export const apiSettings = {
   getPlayer: async (id) => {
     console.log("querying db for player");
     const { data } = await API.graphql({
-      query: getPlayerQuery,
+      query: getPlayer,
       variables: {
         id,
       },
@@ -59,7 +77,7 @@ export const apiSettings = {
   getFixtureByRoundandTournament: async (input) => {
     console.log("querying fixtures by tournament and round");
     const { data } = await API.graphql({
-      query: fixtureByTournamentandRoundQuery,
+      query: fixtureByTournamentandRound,
       variables: {
         tournamentID: input.tournamentID,
         round: input.condition,
@@ -73,7 +91,7 @@ export const apiSettings = {
   getLeague: async (id) => {
     console.log("querying db for league");
     const { data } = await API.graphql({
-      query: getLeagueQuery,
+      query: getLeague,
       variables: {
         id,
       },
@@ -87,7 +105,7 @@ export const apiSettings = {
   getLeagueForDashboard: async (id) => {
     console.log("querying db for league");
     const { data } = await API.graphql({
-      query: getLeagueForDashboardQuery,
+      query: getLeague,
       variables: {
         id,
       },
@@ -101,7 +119,7 @@ export const apiSettings = {
   getLeagueRequests: async (id) => {
     console.log("querying db for league requests");
     const { data } = await API.graphql({
-      query: getLeagueRequestsQuery,
+      query: getLeague,
       variables: {
         id,
       },
@@ -115,7 +133,7 @@ export const apiSettings = {
   getTeam: async (id) => {
     console.log("querying db for team");
     const { data } = await API.graphql({
-      query: getTeamQuery,
+      query: getTeam,
       variables: {
         id,
       },
@@ -129,7 +147,7 @@ export const apiSettings = {
   getTournament: async (id) => {
     console.log("querying db for tournament");
     const { data } = await API.graphql({
-      query: getTournamentQuery,
+      query: getTournament,
       variables: {
         id,
       },
@@ -153,6 +171,17 @@ export const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  updateLeague: async (input) => {
+    console.log("mutation: updateLeague");
+    const result = await API.graphql({
+      query: updateLeagueMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   updatePlayer: async (input) => {
     console.log("mutation: updatePlayer");
     const result = await API.graphql({
@@ -167,7 +196,7 @@ export const apiSettings = {
   updateTableStat: async (input) => {
     console.log("mutation: updateTableStat");
     const temp = /* GraphQL */ `
-    mutation CreateTableStat {
+    mutation UpdateTableStat {
       homeMutation: updateTableStat(
         input: {
           id: "${input.home.id}"
@@ -217,6 +246,28 @@ export const apiSettings = {
     console.log("inputQuery", temp);
     const result = await API.graphql({
       query: temp,
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  createTableStat2: async (input) => {
+    console.log("mutation: createTablestatV2");
+    const result = await API.graphql({
+      query: createTableStatMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  updateTableStat2: async (input) => {
+    console.log("mutation: updateTablestatV2");
+    const result = await API.graphql({
+      query: updateTableStatMutation,
+      variables: {
+        input,
+      },
       authMode: defaultAuth,
     }).catch((error) => console.log(error));
     return result;
@@ -376,6 +427,42 @@ export const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  createTeamLeague: async (input) => {
+    console.log("mutation: createTeamLeague", input);
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createTeamLeagueMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  deleteTeamLeague: async (input) => {
+    console.log("mutation: deleteTeamLeague", input);
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deleteTeamLeagueMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  deleteTeam: async (input) => {
+    console.log("mutation: deleteTeam", input);
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deleteTeamMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   deleteTeamMembers: async (input) => {
     console.log("mutation: deleteTeamMember", input);
     console.log("input", input);
@@ -525,7 +612,9 @@ export const apiSettings = {
         }", tournamentFixturesId: "${tournamentID}",
         tournamentID: "${tournamentID}"
         ,
-        round: ${match.round}, name: "${index2}"}
+        round: ${match.round}, name: "${index2}" , members:[${match.members.map(
+          (member) => `"${member}"`
+        )}]}
   ) {
     id
   }
@@ -684,7 +773,7 @@ export const apiSettingsTD = {
   getTeamForDashboard: async (id) => {
     console.log("querying db for league", id);
     const { data } = await API.graphql({
-      query: getTeamForDashboardQuery,
+      query: getTeam,
       variables: {
         id,
       },
@@ -698,7 +787,7 @@ export const apiSettingsTD = {
   getPlayerForDashboard: async (id) => {
     console.log("querying db for player", id);
     const { data } = await API.graphql({
-      query: getPlayerForDashboardQuery,
+      query: getPlayer,
       variables: {
         id,
       },
@@ -709,10 +798,38 @@ export const apiSettingsTD = {
 
     return data.getPlayer;
   },
+  getPlayerUsername: async (id) => {
+    console.log("querying db for player username", id);
+    const { data } = await API.graphql({
+      query: getPlayer,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getPlayer;
+  },
+  getTeamModUsernames: async (id) => {
+    console.log("querying db for teammods", id);
+    const { data } = await API.graphql({
+      query: getTeam,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getTeam;
+  },
   getTeamFixturesHome: async (input) => {
     console.log("querying db for teamfixtures", input);
     const { data } = await API.graphql({
-      query: fixtureByTournamentandHomeTeamQuery,
+      query: fixtureByTournamentandHomeTeam,
       variables: {
         ...input,
       },
@@ -726,7 +843,7 @@ export const apiSettingsTD = {
   getTeamFixturesAway: async (input) => {
     console.log("querying db for teamfixtures", input);
     const { data } = await API.graphql({
-      query: fixtureByTournamentandAwayTeamQuery,
+      query: fixtureByTournamentandAwayTeam,
       variables: {
         ...input,
       },
@@ -791,7 +908,7 @@ export const apiSettingsTD = {
   getTeamRequests: async (id) => {
     console.log("querying db for Team requests");
     const { data } = await API.graphql({
-      query: getTeamRequestsQuery,
+      query: getTeam,
       variables: {
         id,
       },
@@ -805,7 +922,7 @@ export const apiSettingsTD = {
   getTeamRequestsDashboard: async (id) => {
     console.log("querying db for Team requests", id);
     const { data } = await API.graphql({
-      query: getTeamRequestsDashboardQuery,
+      query: getTeam,
       variables: {
         id,
       },

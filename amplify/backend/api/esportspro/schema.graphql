@@ -22,7 +22,7 @@ type League
   description: String
   header: String #not in classic
   moderators: [Player] @manyToMany(relationName: "LeagueModerators")
-  teams: [Team] @hasMany
+  teams: [Team] @manyToMany(relationName: "LeagueTeams")
   #max ten in classic
   tournaments: [Tournament] @hasMany
 
@@ -130,7 +130,7 @@ type Team
   name: String
   logo: String
   slogan: String
-  league: League @belongsTo
+  league: [League] @manyToMany(relationName: "LeagueTeams")
   manager: Player @belongsTo
   status: String
   captains: [Player] @manyToMany(relationName: "TeamCaptains")
@@ -152,7 +152,7 @@ type Team
   awayfixtures: [Fixture] @hasMany
 
   teamManager: String
-
+  moderators: [String]
   teamCaptain: [String]
 }
 
@@ -186,6 +186,7 @@ type Fixture
     rules: [
       { allow: private, operations: [read] }
       { allow: owner }
+      { allow: owner, ownerField: "members", provider: userPools }
       { allow: public, operations: [read] }
     ]
   ) {
@@ -223,6 +224,7 @@ type Fixture
     )
   tournament: Tournament @belongsTo(fields: ["tournamentID"])
   status: String
+  members: [String]
 }
 
 type PlayerStats
@@ -606,6 +608,7 @@ type RequestLeague2Team
     rules: [
       { allow: private, operations: [read] }
       { allow: owner }
+      { allow: owner, ownerField: "members", provider: userPools }
       { allow: public, operations: [read] }
     ]
   ) {
@@ -613,6 +616,15 @@ type RequestLeague2Team
   from: League @belongsTo
   to: Team @belongsTo
   status: String
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "members" }
+        { allow: private, operations: [read] }
+        { allow: owner }
+        { allow: public, operations: [read] }
+      ]
+    )
+  members: [String]
 }
 # type RequestTeam2League
 #   @model
@@ -634,13 +646,19 @@ type RequestTeam2Player
     rules: [
       { allow: private, operations: [read] }
       { allow: owner }
+      { allow: owner, ownerField: "members", provider: userPools }
       { allow: public, operations: [read] }
     ]
   ) {
   id: ID!
+
   from: Team @belongsTo
+
   to: Player @belongsTo
+
   status: String
+
+  members: [String]
 }
 
 type RequestPlayer2Team

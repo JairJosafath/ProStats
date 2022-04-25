@@ -34,16 +34,6 @@ const TSideNavCustom = ({
       setDrop(false);
     }
   }, [showNav]);
-  useEffect(() => {
-    setTournament(
-      tournament
-        ? team?.tournaments?.items.filter(
-            (tournamenta) => tournamenta.id === tournament?.id
-          )[0]?.tournament
-        : team?.tournaments?.items[0]?.tournament
-    );
-    console.log("team chosen in nav", tournament);
-  }, [team]);
 
   // useEffect(() => {
   //   setTournament(

@@ -19,9 +19,49 @@ const NewRequest = ({
   open,
   setCreateRequestFromLeagueToTeam,
   leagueID,
+  setGetUsername,
+  username,
+  setGetUsernameLeagueReq,
 }) => {
   const [teamId, setTeamId] = useState("");
+  const [searchPlayer, setSearchPlayer] = useState(false);
+  useEffect(() => {
+    if (searchPlayer) {
+      setTeamId(teamId);
+      // if (searchPlayer) {
+      //   const search = async () => {
+      //     apiSettingsTD
+      //       .getPlayerUsername(teamId)
+      //       .then((data) => {
+      //         console.log("the player is", data);
+      //       })
+      //       .catch(() => {
+      //         console.log("error");
+      //       });
+      //   };
+      //   search();
+      //   setOpen(false);
+      // }
+      console.log(username, "is the username");
+      console.log("id", teamId);
 
+      setGetUsernameLeagueReq({
+        status: "pending",
+        leagueRequeststoTeamId: leagueID,
+        teamRequestsfromLeagueId: teamId,
+      });
+
+      // if (username)
+      //   setCreateRequestFromTeamToPlayer({
+      //     status: "pending",
+      //     teamRequeststoTeamId: teamID,
+      //     playerRequestsfromTeamId: teamId,
+      //     members: [username],
+      //   });
+      setSearchPlayer(false);
+      setOpen(false);
+    }
+  }, [searchPlayer]);
   return (
     <>
       <Modal open={open}>
@@ -35,14 +75,8 @@ const NewRequest = ({
         <Modal.Footer>
           <Button
             onClick={() => {
-              setCreateRequestFromLeagueToTeam({
-                status: "pending",
-                leagueRequeststoTeamId: leagueID,
-                teamRequestsfromLeagueId: teamId,
-              });
-
-              setTeamId("");
-              setOpen(false);
+              setSearchPlayer(true);
+              setOpen(true);
             }}
           >
             Add
@@ -69,6 +103,9 @@ const LTeams = () => {
     setGetLeagueRequests,
     setCreateRequestFromLeagueToTeam,
     setDeleteL2TRequest,
+    setGetUsername,
+    username,
+    setGetUsernameLeagueReq,
   } = useOutletContext();
   const [open, setOpen] = useState(false);
 
@@ -93,6 +130,8 @@ const LTeams = () => {
           setOpen={setOpen}
           setCreateRequestFromLeagueToTeam={setCreateRequestFromLeagueToTeam}
           leagueID={league?.id}
+          setGetUsernameLeagueReq={setGetUsernameLeagueReq}
+          username={username}
         />
       )}
       <div style={{ display: "flex" }}>
@@ -100,7 +139,7 @@ const LTeams = () => {
           <h5>{"teams in " + league?.name}</h5>
           <List autoScroll={true} style={{ height: 600 }}>
             {league?.teams?.items.map((team) => (
-              <List.Item>{team.name}</List.Item>
+              <List.Item>{team.team.name}</List.Item>
             ))}
           </List>
         </div>
@@ -140,7 +179,7 @@ const LTeams = () => {
                 <List.Item key={request.id}>
                   <FlexboxGrid justify="space-between">
                     <FlexboxGrid.Item colspan={6}>
-                      {request.to.name}
+                      {request.to?.name}
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item colspan={6}>
                       {request.to?.manager?.name}

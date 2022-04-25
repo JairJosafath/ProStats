@@ -24,6 +24,8 @@ const TeamDashboard = () => {
     setGetTeamRequestsDahboard,
     setGetTeamRequests,
     setDeleteRequestFromTeamToPlayer,
+    setGetUsernameTeamReq,
+    username,
   } = useTeamDashoard();
   useEffect(() => {
     setTeamId(id);
@@ -63,6 +65,8 @@ const TeamDashboard = () => {
               setGetTeamRequestsDahboard,
               setGetTeamRequests,
               setDeleteRequestFromTeamToPlayer,
+              setGetUsernameTeamReq,
+              username,
             }}
           />
         </div>

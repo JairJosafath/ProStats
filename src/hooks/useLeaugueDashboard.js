@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { apiSettings } from "../API/API";
+import { apiSettings, apiSettingsTD } from "../API/API";
 
 const useLeagueDashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -24,11 +24,15 @@ const useLeagueDashboard = () => {
   const [updateTeamStats, setUpdateTeamStats] = useState(false);
   const [createTableStat, setCreateTableStat] = useState(false);
   const [updateTableStat, setUpdateTableStat] = useState(false);
-
+  const [createTableStat2, setCreateTableStat2] = useState(false);
+  const [updateTableStat2, setUpdateTableStat2] = useState(false);
+  const [activeRound, setActiveRound] = useState(1);
   const [createPlayerStats, setCreatePlayerStats] = useState(false);
   const [updatePlayerStats, setUpdatePlayerStats] = useState(false);
   const [createPlayerTableStat, setCreatePlayerTableStat] = useState(false);
   const [updatePlayerTableStat, setUpdatePlayerTableStat] = useState(false);
+  const [updateFixture, setUpdateFixture] = useState(false);
+  const [getUsernameLeagueReq, setGetUsernameLeagueReq] = useState(false);
 
   const [tournament, setTournament] = useState();
   const [getTournamentByID, setGetTournamentByID] = useState(false);
@@ -40,10 +44,46 @@ const useLeagueDashboard = () => {
   const [getLeagueRequests, setGetLeagueRequests] = useState(false);
   const [leagueRequests, setLeagueRequests] = useState();
   const [createRequestLeague2Team, setCreateRequestFromLeagueToTeam] =
-    useState();
+    useState(false);
 
   const [deleteL2TRequest, setDeleteL2TRequest] = useState(false);
 
+  const getUsernameLeagueReqFunct = async () => {
+    setLoading(true);
+    if (getUsernameLeagueReq) {
+      const data = await apiSettingsTD
+        .getTeamModUsernames(getUsernameLeagueReq.teamRequestsfromLeagueId)
+
+        .then((data) => {
+          console.log("this is the data", data);
+          setCreateRequestFromLeagueToTeam({
+            status: "pending",
+            teamRequestsfromLeagueId:
+              getUsernameLeagueReq.teamRequestsfromLeagueId,
+            leagueRequeststoTeamId: getUsernameLeagueReq.leagueRequeststoTeamId,
+            members: data.moderators,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+
+      console.log("err", error);
+      if (!error) {
+        // setLeagueTemp({
+        //   name: league.name,
+        //   logo: league.logo,
+        //   description: league.description,
+        //   id: league.id,
+        //   header: league.header,
+        // });
+        setLoading(false);
+        setGetUsernameLeagueReq(false);
+      }
+    }
+  };
   const fetchLeague = async () => {
     setLoading(true);
     if (leagueId) {
@@ -142,11 +182,19 @@ const useLeagueDashboard = () => {
   const createPlayerStatsFunct = async () => {
     if (createPlayerStats) {
       setLoading(true);
-      apiSettings.createPlayerStats(createPlayerStats).catch((err) => {
-        console.log("errOr", err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .createPlayerStats(createPlayerStats)
+        .then(() => {
+          setGetFixturesByTournamentandRound({
+            tournamentID: tournament?.id,
+            condition: { eq: activeRound },
+          });
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
       setCreatePlayerStats(false);
     }
   };
@@ -164,11 +212,19 @@ const useLeagueDashboard = () => {
   const updatePlayerStatsFunct = async () => {
     if (updatePlayerStats) {
       setLoading(true);
-      apiSettings.updatePlayerStats(updatePlayerStats).catch((err) => {
-        console.log("errOr", err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .updatePlayerStats(updatePlayerStats)
+        .then(() => {
+          setGetFixturesByTournamentandRound({
+            tournamentID: tournament?.id,
+            condition: { eq: activeRound },
+          });
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
       setUpdatePlayerStats(false);
     }
   };
@@ -197,7 +253,45 @@ const useLeagueDashboard = () => {
   const createTableStatFunct = async () => {
     if (createTableStat) {
       setLoading(true);
-      apiSettings.createTableStat(createTableStat).catch((err) => {
+      apiSettings
+        .createTableStat(createTableStat)
+        .then(() => {
+          setGetFixturesByTournamentandRound({
+            tournamentID: tournament?.id,
+            condition: { eq: activeRound },
+          });
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setCreateTableStat(false);
+    }
+  };
+  const updateTableStatFunct = async () => {
+    if (updateTableStat) {
+      setLoading(true);
+      apiSettings
+        .updateTableStat(updateTableStat)
+        .then(() => {
+          setGetFixturesByTournamentandRound({
+            tournamentID: tournament?.id,
+            condition: { eq: activeRound },
+          });
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setUpdateTableStat(false);
+    }
+  };
+  const createTableStatFunct2 = async () => {
+    if (createTableStat2) {
+      setLoading(true);
+      apiSettings.createTableStat2(createTableStat).catch((err) => {
         console.log("errOr", err);
         setError(true);
         setLoading(false);
@@ -205,10 +299,10 @@ const useLeagueDashboard = () => {
       setCreateTableStat(false);
     }
   };
-  const updateTableStatFunct = async () => {
-    if (updateTableStat) {
+  const updateTableStatFunct2 = async () => {
+    if (updateTableStat2) {
       setLoading(true);
-      apiSettings.updateTableStat(updateTableStat).catch((err) => {
+      apiSettings.updateTableStat2(updateTableStat).catch((err) => {
         console.log("errOr", err);
         setError(true);
         setLoading(false);
@@ -316,10 +410,29 @@ const useLeagueDashboard = () => {
     }
   };
 
+  const updateFixtureFunct = async () => {
+    if (updateFixture) {
+      setLoading(true);
+      apiSettingsTD
+        .updateFixture(updateFixture)
+        .then(() => {})
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setUpdateFixture(false);
+    }
+  };
   useEffect(() => {
     setError(false);
     fetchLeague();
   }, [leagueId]);
+  useEffect(() => {
+    setError(false);
+    updateFixtureFunct();
+    fetchLeague();
+  }, [updateFixture]);
 
   useEffect(() => {
     setError(false);
@@ -412,7 +525,7 @@ const useLeagueDashboard = () => {
     setError(false);
 
     createPlayerStatsFunct();
-    getFixturesByTournamentandRoundFunct();
+    // getFixturesByTournamentandRoundFunct();
     setError(false);
   }, [createPlayerStats]);
   useEffect(() => {
@@ -421,7 +534,7 @@ const useLeagueDashboard = () => {
     updatePlayerStatsFunct();
     fetchLeague();
 
-    getFixturesByTournamentandRoundFunct();
+    // getFixturesByTournamentandRoundFunct();
     setError(false);
   }, [updatePlayerStats]);
   useEffect(() => {
@@ -461,7 +574,21 @@ const useLeagueDashboard = () => {
   useEffect(() => {
     deleteL2TRequestFunct();
   }, [deleteL2TRequest]);
+  useEffect(() => {
+    console.log("tour in side one", league);
 
+    setTournament(
+      tournament
+        ? league?.tournaments?.items.filter(
+            (tournamenta) => tournamenta.id === tournament?.id
+          )[0]
+        : league?.tournaments?.items[0]
+    );
+    console.log("tour in side", tournament);
+  }, [league, tournament]);
+  useEffect(() => {
+    getUsernameLeagueReqFunct();
+  }, [getUsernameLeagueReq]);
   return {
     league,
     setLeague,
@@ -480,6 +607,8 @@ const useLeagueDashboard = () => {
     setUpdateTeamStats,
     setCreateTableStat,
     setUpdateTableStat,
+    setCreateTableStat2,
+    setUpdateTableStat2,
     setCreatePlayerStats,
     setUpdatePlayerStats,
     setCreatePlayerTableStat,
@@ -491,6 +620,9 @@ const useLeagueDashboard = () => {
     setGetLeagueRequests,
     setCreateRequestFromLeagueToTeam,
     setDeleteL2TRequest,
+    setUpdateFixture,
+    setActiveRound,
+    setGetUsernameLeagueReq,
   };
 };
 export default useLeagueDashboard;

@@ -100,7 +100,10 @@ const AddTeamModal = ({
   //   useCreateTeam(team);
   const [selected, setSelected] = useState();
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setSelected();
+  };
 
   const handleOK = () => {
     setTournamentAddTeam({
@@ -112,14 +115,16 @@ const AddTeamModal = ({
 
     //console.log(`tourney\nname: ${valueName}, slogan: ${valueAbout}`);
     // console.log("created", createdTeam);
+    setSelected();
     setOpen(false);
+    setSelected();
   };
 
   const leagueteams = league?.teams?.items;
   const tourneyteams = tournament?.team?.items;
   const chooseteams = leagueteams?.filter((team) => {
     for (let i = 0; i < tourneyteams?.length; i++) {
-      if (team.id === tourneyteams[i]?.team.id) return false;
+      if (team.team.id === tourneyteams[i]?.team.id) return false;
     }
     return true;
   });
@@ -135,8 +140,11 @@ const AddTeamModal = ({
             <FlexboxGrid.Item colspan={12}>
               <Dropdown title={selected ? selected.name : "Add Team"}>
                 {chooseteams?.map((team, index) => (
-                  <Dropdown.Item key={index} onClick={() => setSelected(team)}>
-                    {team.name}
+                  <Dropdown.Item
+                    key={index}
+                    onClick={() => setSelected(team.team)}
+                  >
+                    {team.team.name}
                   </Dropdown.Item>
                 ))}
               </Dropdown>

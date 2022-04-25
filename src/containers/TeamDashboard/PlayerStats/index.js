@@ -36,16 +36,26 @@ const TPlayerStats = () => {
   } = useOutletContext();
   const [showStats, setShowStats] = useState(false);
   const [activePage, setActivePage] = useState(1);
-  const [currentFixture, setCurrentFixture] = useState(false);
+  const [currentFixture, setCurrentFixture] = useState();
   const [selectedTeam, setSelectedTEam] = useState(false);
   const [typeDataPlayerState, setTypeDataPlayerState] = useState(
     typeDataPlayer[0]
   );
   const [updateFixtures, setUpdateFixtures] = useState(false);
 
-  const [playerstatsTracker, setPlayerstatsTracker] = useState(tracker); //track changes onchange
+  const [playerstatsTracker, setPlayerstatsTracker] = useState({}); //track changes onchange
   const [currentPlayer, setCurrentPlayer] = useState(false);
   const [tempObject, setTempObject] = useState({});
+
+  useEffect(() => {
+    if (currentFixture)
+      setCurrentFixture(
+        teamFixtures?.filter(
+          (fixture) => fixture?.round === currentFixture.round
+        )[0]
+      );
+  }, [teamFixtures]);
+
   //if tournament changes update the fixture component
   useEffect(() => {
     if (tournament && team) {
@@ -53,6 +63,8 @@ const TPlayerStats = () => {
         tournamentID: { eq: tournament?.id },
         homeID: team?.id,
       });
+      setShowStats(false);
+
       // const TF = teamFixtures?.sort(
       //   (fixture1, fixture2) => fixture1.round - fixture2.round
       // );
@@ -62,7 +74,7 @@ const TPlayerStats = () => {
 
   useEffect(() => {
     //when fixtures are selected update the stats based on the fixture
-    setPlayerstatsTracker({ ...playerStats });
+    setPlayerstatsTracker({});
     typeDataPlayer.map(
       (type) => setTimeout(() => setTypeDataPlayerState(type), 1000) //bug fix for not updating !showing stats
     );
@@ -86,7 +98,6 @@ const TPlayerStats = () => {
                           currentFixture?.id === fixture?.id ? "blue" : "",
                       }}
                       onClick={() => {
-                        setShowStats(false);
                         setTimeout(() => {
                           setShowStats(true);
                           setTypeDataPlayerState(typeDataPlayer[0]);
@@ -260,20 +271,20 @@ const TPlayerStats = () => {
                         console.log("save rex");
                         console.log("huge test right here", playerstatsTracker);
 
-                        const temp = {};
-                        console.log("temp obj", temp);
+                        // const temp = {};
+                        // console.log("temp obj", temp);
 
-                        typeDataPlayer.map((type) =>
-                          playerstatsTracker[type].map((stat) => {
-                            if (stat.val) {
-                              temp[
-                                `${type}_${stat.attr.replaceAll(" ", "_")}`
-                              ] = parseInt(stat.val);
-                            }
-                          })
-                        );
+                        // typeDataPlayer.map((type) =>
+                        //   playerstatsTracker[type].map((stat) => {
+                        //     if (stat.val) {
+                        //       temp[
+                        //         `${type}_${stat.attr.replaceAll(" ", "_")}`
+                        //       ] = parseInt(stat.val);
+                        //     }
+                        //   })
+                        // );
 
-                        console.log("temp obj ps", temp);
+                        console.log("temp obj ps", playerstatsTracker);
 
                         // setTeamstatsTracker({ ...teamStats });
 
@@ -295,7 +306,7 @@ const TPlayerStats = () => {
                             playerPlayerStatsId: currentPlayer.id,
                             fixturePlayerStatsId: currentFixture.id,
                             status: "pending",
-                            ...temp,
+                            ...playerstatsTracker,
                           });
                         } else {
                           //create the playerStat
@@ -303,11 +314,11 @@ const TPlayerStats = () => {
                             playerPlayerStatsId: currentPlayer.id,
                             fixturePlayerStatsId: currentFixture.id,
                             status: "pending",
-                            ...temp,
+                            ...playerstatsTracker,
                           });
                         }
 
-                        setShowStats(false);
+                        // setShowStats(false);
                       }}
                     >
                       Save

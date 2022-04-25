@@ -36,15 +36,23 @@ const PPlayerStats = () => {
   } = useOutletContext();
   const [showStats, setShowStats] = useState(false);
   const [activePage, setActivePage] = useState(1);
-  const [currentFixture, setCurrentFixture] = useState(false);
+  const [currentFixture, setCurrentFixture] = useState();
   const [typeDataPlayerState, setTypeDataPlayerState] = useState(
     typeDataPlayer[0]
   );
   const [updateFixtures, setUpdateFixtures] = useState(false);
 
-  const [playerstatsTracker, setPlayerstatsTracker] = useState(tracker); //track changes onchange
+  const [playerstatsTracker, setPlayerstatsTracker] = useState({}); //track changes onchange
   const [tempObject, setTempObject] = useState({});
 
+  useEffect(() => {
+    if (currentFixture)
+      setCurrentFixture(
+        teamFixtures?.filter(
+          (fixture) => fixture?.round === currentFixture.round
+        )[0]
+      );
+  }, [teamFixtures]);
   useEffect(() => {
     console.log(tournament);
     if (tournament && team)
@@ -57,6 +65,9 @@ const PPlayerStats = () => {
     // );
     // console.log("TF", TF);
   }, [team, tournament, player]);
+  useEffect(() => {
+    setPlayerstatsTracker({});
+  }, [currentFixture]);
   return (
     <>
       {!showStats && (
@@ -238,20 +249,20 @@ const PPlayerStats = () => {
                         console.log("save rex");
                         console.log("huge test right here", playerstatsTracker);
 
-                        const temp = {};
-                        console.log("temp obj", temp);
+                        // const temp = {};
+                        // console.log("temp obj", temp);
 
-                        typeDataPlayer.map((type) =>
-                          playerstatsTracker[type].map((stat) => {
-                            if (stat.val) {
-                              temp[
-                                `${type}_${stat.attr.replaceAll(" ", "_")}`
-                              ] = parseInt(stat.val);
-                            }
-                          })
-                        );
+                        // typeDataPlayer.map((type) =>
+                        //   playerstatsTracker[type].map((stat) => {
+                        //     if (stat.val) {
+                        //       temp[
+                        //         `${type}_${stat.attr.replaceAll(" ", "_")}`
+                        //       ] = parseInt(stat.val);
+                        //     }
+                        //   })
+                        // );
 
-                        console.log("temp obj ps", temp);
+                        console.log("temp obj ps", playerstatsTracker);
 
                         // setTeamstatsTracker({ ...teamStats });
 
@@ -273,7 +284,7 @@ const PPlayerStats = () => {
                             playerPlayerStatsId: player.id,
                             fixturePlayerStatsId: currentFixture.id,
                             status: "pending",
-                            ...temp,
+                            ...playerstatsTracker,
                           });
                         } else {
                           //create the playerStat
@@ -281,11 +292,11 @@ const PPlayerStats = () => {
                             playerPlayerStatsId: player.id,
                             fixturePlayerStatsId: currentFixture.id,
                             status: "pending",
-                            ...temp,
+                            ...playerstatsTracker,
                           });
                         }
 
-                        setShowStats(false);
+                        // setShowStats(false);
                       }}
                     >
                       Save
@@ -295,6 +306,7 @@ const PPlayerStats = () => {
                     <Button
                       onClick={() => {
                         console.log("reset");
+                        setPlayerstatsTracker({});
                       }}
                     >
                       Reset

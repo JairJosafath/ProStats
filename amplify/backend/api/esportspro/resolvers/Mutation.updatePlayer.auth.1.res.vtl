@@ -18,10 +18,16 @@ $util.unauthorized()
   #if( !$isAuthorized )
     #set( $ownerEntity0 = $util.defaultIfNull($ctx.result.owner, null) )
     #set( $ownerClaim0 = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
-    #set( $ownerAllowedFields0 = [] )
-    #set( $ownerNullAllowedFields0 = [] )
+    #set( $ownerAllowedFields0 = ["id","username","name","image","slogan","status","admins","moderates","teams","manages","captains","playerTournaments","hostplayerTournaments","trophies","playerLevel","leaguemembership1","leaguemembership2","leaguemembership3","teammembership2","teammembership1","teammembership3","leagueadmin1","leagueadmin2","leagueadmin3","leaguemod1","leaguemod2","leaguemod3","teamcaptain1","teamcaptain2","teamcaptain3","teammanager2","teammanager1","teammanager3","requestsfromTeam","requeststoTeam","fixturesPlayedIn","playerStats","playerSubscription","news","newsPlayerTagsId","playerLevelPlayersId","playerTournamentPlayersId","playerTournamentStandingLeaderboardId","playerPlayerLevelId","playerPlayerSubscriptionId"] )
+    #set( $ownerNullAllowedFields0 = ["id","username","name","image","slogan","status","admins","moderates","teams","manages","captains","playerTournaments","hostplayerTournaments","trophies","playerLevel","leaguemembership1","leaguemembership2","leaguemembership3","teammembership2","teammembership1","teammembership3","leagueadmin1","leagueadmin2","leagueadmin3","leaguemod1","leaguemod2","leaguemod3","teamcaptain1","teamcaptain2","teamcaptain3","teammanager2","teammanager1","teammanager3","requestsfromTeam","requeststoTeam","fixturesPlayedIn","playerStats","playerSubscription","news"] )
+    #set( $isAuthorizedOnAllFields0 = true )
     #if( $ownerEntity0 == $ownerClaim0 )
-      #set( $isAuthorized = true )
+      #if( $isAuthorizedOnAllFields0 )
+        #set( $isAuthorized = true )
+      #else
+        $util.qr($allowedFields.addAll($ownerAllowedFields0))
+        $util.qr($nullAllowedFields.addAll($ownerNullAllowedFields0))
+      #end
     #end
   #end
 #end

@@ -13,14 +13,55 @@ import { MdCancel } from "react-icons/md";
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { apiSettings, apiSettingsTD } from "../../../API/API";
 
 const NewRequest = ({
   setOpen,
   open,
   setCreateRequestFromTeamToPlayer,
   teamID,
+  setGetUsernameTeamReq,
+  username,
 }) => {
   const [playerId, setPlayerId] = useState("");
+  const [searchPlayer, setSearchPlayer] = useState(false);
+  useEffect(() => {
+    if (searchPlayer) {
+      setPlayerId(playerId);
+      // if (searchPlayer) {
+      //   const search = async () => {
+      //     apiSettingsTD
+      //       .getPlayerUsername(playerId)
+      //       .then((data) => {
+      //         console.log("the player is", data);
+      //       })
+      //       .catch(() => {
+      //         console.log("error");
+      //       });
+      //   };
+      //   search();
+      //   setOpen(false);
+      // }
+      console.log(username, "is the username");
+      console.log("id", playerId);
+
+      setGetUsernameTeamReq({
+        playerId,
+        status: "pending",
+        teamRequeststoPlayerId: teamID,
+      });
+
+      // if (username)
+      //   setCreateRequestFromTeamToPlayer({
+      //     status: "pending",
+      //     teamRequeststoPlayerId: teamID,
+      //     playerRequestsfromTeamId: playerId,
+      //     members: [username],
+      //   });
+      setSearchPlayer(false);
+      setOpen(false);
+    }
+  }, [searchPlayer]);
 
   return (
     <>
@@ -35,14 +76,8 @@ const NewRequest = ({
         <Modal.Footer>
           <Button
             onClick={() => {
-              setCreateRequestFromTeamToPlayer({
-                status: "pending",
-                teamRequeststoPlayerId: teamID,
-                playerRequestsfromTeamId: playerId,
-              });
-
-              setPlayerId("");
-              setOpen(false);
+              setSearchPlayer(true);
+              setOpen(true);
             }}
           >
             Add
@@ -64,10 +99,12 @@ const TPlayers = () => {
   const {
     team,
     setCreateRequestFromTeamToPlayer,
-    setUpdateRequestFromTeamToPlayer,
+    setGetUsernameTeamReq,
     setGetTeamRequests,
     teamRequests,
     setDeleteRequestFromTeamToPlayer,
+    setGetUsername,
+    username,
   } = useOutletContext();
   const [open, setOpen] = useState(false);
 
@@ -82,6 +119,8 @@ const TPlayers = () => {
           setOpen={setOpen}
           setCreateRequestFromTeamToPlayer={setCreateRequestFromTeamToPlayer}
           teamID={team?.id}
+          setGetUsernameTeamReq={setGetUsernameTeamReq}
+          username={username}
         />
       )}
       <div style={{ display: "flex" }}>
