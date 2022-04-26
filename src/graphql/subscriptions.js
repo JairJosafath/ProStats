@@ -48,12 +48,13 @@ export const onCreateLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -145,12 +146,13 @@ export const onUpdateLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -242,12 +244,13 @@ export const onDeleteLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -307,7 +310,7 @@ export const onCreatePlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -405,7 +408,7 @@ export const onUpdatePlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -503,7 +506,7 @@ export const onDeletePlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -593,9 +596,6 @@ export const onCreateTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -635,13 +635,16 @@ export const onCreateTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -691,9 +694,6 @@ export const onUpdateTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -733,13 +733,16 @@ export const onUpdateTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -789,9 +792,6 @@ export const onDeleteTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -831,13 +831,16 @@ export const onDeleteTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -880,6 +883,360 @@ export const onDeleteTeam = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTeamMembership = /* GraphQL */ `
+  subscription OnCreateTeamMembership($owner: String) {
+    onCreateTeamMembership(owner: $owner) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const onUpdateTeamMembership = /* GraphQL */ `
+  subscription OnUpdateTeamMembership($owner: String) {
+    onUpdateTeamMembership(owner: $owner) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const onDeleteTeamMembership = /* GraphQL */ `
+  subscription OnDeleteTeamMembership($owner: String) {
+    onDeleteTeamMembership(owner: $owner) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const onCreateLeagueMembership = /* GraphQL */ `
+  subscription OnCreateLeagueMembership($owner: String) {
+    onCreateLeagueMembership(owner: $owner) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
+export const onUpdateLeagueMembership = /* GraphQL */ `
+  subscription OnUpdateLeagueMembership($owner: String) {
+    onUpdateLeagueMembership(owner: $owner) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
+export const onDeleteLeagueMembership = /* GraphQL */ `
+  subscription OnDeleteLeagueMembership($owner: String) {
+    onDeleteLeagueMembership(owner: $owner) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
 export const onCreateTournament = /* GraphQL */ `
   subscription OnCreateTournament($owner: String) {
     onCreateTournament(owner: $owner) {
@@ -904,6 +1261,7 @@ export const onCreateTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -957,6 +1315,7 @@ export const onUpdateTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -1010,6 +1369,7 @@ export const onDeleteTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -1809,6 +2169,7 @@ export const onCreateTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -2022,6 +2383,7 @@ export const onUpdateTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -2235,6 +2597,7 @@ export const onDeleteTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -2685,6 +3048,7 @@ export const onCreateTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -2789,6 +3153,7 @@ export const onUpdateTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -2893,6 +3258,7 @@ export const onDeleteTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -3123,6 +3489,7 @@ export const onCreateRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -3174,6 +3541,7 @@ export const onUpdateRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -3225,6 +3593,7 @@ export const onDeleteRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4607,6 +4976,7 @@ export const onCreateLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4674,6 +5044,7 @@ export const onUpdateLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4741,6 +5112,7 @@ export const onDeleteLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4792,351 +5164,6 @@ export const onDeleteLeagueModerators = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-    }
-  }
-`;
-export const onCreateLeagueTeams = /* GraphQL */ `
-  subscription OnCreateLeagueTeams($owner: String, $teamManager: String) {
-    onCreateLeagueTeams(owner: $owner, teamManager: $teamManager) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const onUpdateLeagueTeams = /* GraphQL */ `
-  subscription OnUpdateLeagueTeams($owner: String, $teamManager: String) {
-    onUpdateLeagueTeams(owner: $owner, teamManager: $teamManager) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const onDeleteLeagueTeams = /* GraphQL */ `
-  subscription OnDeleteLeagueTeams($owner: String, $teamManager: String) {
-    onDeleteLeagueTeams(owner: $owner, teamManager: $teamManager) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const onCreateTeamMembers = /* GraphQL */ `
-  subscription OnCreateTeamMembers($owner: String, $teamManager: String) {
-    onCreateTeamMembers(owner: $owner, teamManager: $teamManager) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const onUpdateTeamMembers = /* GraphQL */ `
-  subscription OnUpdateTeamMembers($owner: String, $teamManager: String) {
-    onUpdateTeamMembers(owner: $owner, teamManager: $teamManager) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const onDeleteTeamMembers = /* GraphQL */ `
-  subscription OnDeleteTeamMembers($owner: String, $teamManager: String) {
-    onDeleteTeamMembers(owner: $owner, teamManager: $teamManager) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
     }
   }
 `;

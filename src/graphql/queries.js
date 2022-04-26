@@ -48,12 +48,13 @@ export const getLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -112,6 +113,7 @@ export const listLeagues = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -144,7 +146,7 @@ export const getPlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -280,9 +282,6 @@ export const getTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -322,13 +321,16 @@ export const getTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -399,6 +401,170 @@ export const listTeams = /* GraphQL */ `
     }
   }
 `;
+export const getTeamMembership = /* GraphQL */ `
+  query GetTeamMembership($id: ID!) {
+    getTeamMembership(id: $id) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const listTeamMemberships = /* GraphQL */ `
+  query ListTeamMemberships(
+    $filter: ModelTeamMembershipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTeamMemberships(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        moderators
+        createdAt
+        updatedAt
+        playerTeamMembershipsId
+        teamTeamMembershipsId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getLeagueMembership = /* GraphQL */ `
+  query GetLeagueMembership($id: ID!) {
+    getLeagueMembership(id: $id) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
+export const listLeagueMemberships = /* GraphQL */ `
+  query ListLeagueMemberships(
+    $filter: ModelLeagueMembershipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLeagueMemberships(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        moderators
+        createdAt
+        updatedAt
+        leagueLeagueMembershipsId
+        teamLeagueMembershipsId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getTournament = /* GraphQL */ `
   query GetTournament($id: ID!) {
     getTournament(id: $id) {
@@ -423,6 +589,7 @@ export const getTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -1031,6 +1198,7 @@ export const getTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -1226,6 +1394,7 @@ export const listTeamStats = /* GraphQL */ `
         id
         version
         verified
+        members
         home_name
         away_name
         home_summary_goals
@@ -1546,6 +1715,7 @@ export const getTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -1751,6 +1921,7 @@ export const getRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -2533,6 +2704,7 @@ export const getLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -2605,161 +2777,6 @@ export const listLeagueModerators = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getLeagueTeams = /* GraphQL */ `
-  query GetLeagueTeams($id: ID!) {
-    getLeagueTeams(id: $id) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const listLeagueTeams = /* GraphQL */ `
-  query ListLeagueTeams(
-    $filter: ModelLeagueTeamsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listLeagueTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        leagueID
-        teamID
-        createdAt
-        updatedAt
-        owner
-        teamManager
-      }
-      nextToken
-    }
-  }
-`;
-export const getTeamMembers = /* GraphQL */ `
-  query GetTeamMembers($id: ID!) {
-    getTeamMembers(id: $id) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const listTeamMembers = /* GraphQL */ `
-  query ListTeamMembers(
-    $filter: ModelTeamMembersFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTeamMembers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        playerID
-        teamID
-        createdAt
-        updatedAt
-        owner
-        teamManager
       }
       nextToken
     }

@@ -112,9 +112,17 @@ const usePreferences = () => {
   };
   const createTeamMemberFunct = async () => {
     if (createTeamMember) {
+      console.log("fresh member obj", createTeamMember);
+
       setLoading(true);
-      apiSettings
-        .createTeamMembers(createTeamMember)
+      const data = await apiSettingsTD
+        .getTeamModUsernames(createTeamMember.teamTeamMembershipsId)
+        .then((data) => {
+          createTeamMember["moderators"] = data.moderators;
+          console.log("updated tea,member", createTeamMember);
+          apiSettings.createTeamMembers(createTeamMember);
+        })
+
         .then(() => setPlayerId(player.id))
         .catch((err) => {
           console.log(err);

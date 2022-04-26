@@ -22,10 +22,12 @@ type League
   description: String
   header: String #not in classic
   moderators: [Player] @manyToMany(relationName: "LeagueModerators")
-  teams: [Team] @manyToMany(relationName: "LeagueTeams")
+  # teams: [Team] @manyToMany(relationName: "LeagueTeams")
   #max ten in classic
   tournaments: [Tournament] @hasMany
+  leagueMemberships: [LeagueMembership] @hasMany
 
+  moderatornames: [String]
   #max one in classic
   news: [News] @hasMany
 
@@ -69,7 +71,8 @@ type Player
   status: String #active, inactive, warned, disabled
   admins: [League] @hasMany
   moderates: [League] @manyToMany(relationName: "LeagueModerators") #max one in classic
-  teams: [Team] @manyToMany(relationName: "TeamMembers")
+  # teams: [Team] @manyToMany(relationName: "TeamMembers")
+  teamMemberships: [TeamMembership] @hasMany
   #
   manages: [Team] @hasMany #max one in classic
   captains: [Team] @manyToMany(relationName: "TeamCaptains")
@@ -130,15 +133,15 @@ type Team
   name: String
   logo: String
   slogan: String
-  league: [League] @manyToMany(relationName: "LeagueTeams")
+  # league: [League] @manyToMany(relationName: "LeagueTeams")
   manager: Player @belongsTo
   status: String
   captains: [Player] @manyToMany(relationName: "TeamCaptains")
-  member: [Player] @manyToMany(relationName: "TeamMembers")
+  # member: [Player] @manyToMany(relationName: "TeamMembers")
   tournaments: [Tournament] @manyToMany(relationName: "TeamTournaments")
-
   trophies: [Trophy] @hasMany
-
+  teamMemberships: [TeamMembership] @hasMany
+  leagueMemberships: [LeagueMembership] @hasMany
   requestsfromLeague: [RequestLeague2Team] @hasMany
 
   # requeststoLeague: [RequestTeam2League] @hasMany
@@ -156,6 +159,38 @@ type Team
   teamCaptain: [String]
 }
 
+type TeamMembership
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+      { allow: owner, ownerField: "moderators" }
+    ]
+  ) {
+  id: ID!
+  status: String
+  team: Team @belongsTo
+  player: Player @belongsTo
+  moderators: [String]
+}
+type LeagueMembership
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: owner }
+      { allow: public, operations: [read] }
+      { allow: owner, ownerField: "moderators" }
+    ]
+  ) {
+  id: ID!
+  status: String
+  league: League @belongsTo
+  team: Team @belongsTo
+  moderators: [String]
+}
 type Tournament
   @model
   @auth(
@@ -341,12 +376,14 @@ type TeamStats
       { allow: private, operations: [read] }
       { allow: owner }
       { allow: public, operations: [read] }
+      { allow: owner, ownerField: "members", provider: userPools }
     ]
   ) {
   id: ID!
   version: Int
   verified: Boolean
   fixture: Fixture
+  members: [String]
   home_name: String
   away_name: String
   home_team: Team @hasOne

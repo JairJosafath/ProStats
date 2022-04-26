@@ -138,7 +138,7 @@ const LTeams = () => {
         <div style={{ flex: "1", margin: 10 }}>
           <h5>{"teams in " + league?.name}</h5>
           <List autoScroll={true} style={{ height: 600 }}>
-            {league?.teams?.items.map((team) => (
+            {league?.leagueMemberships?.items.map((team) => (
               <List.Item>{team.team.name}</List.Item>
             ))}
           </List>

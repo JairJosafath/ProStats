@@ -17,6 +17,8 @@ const useTeamDashboard = () => {
   const [updatePlayerStats, setUpdatePlayerStats] = useState(false);
   const [getTeamRequestsDahboard, setGetTeamRequestsDahboard] = useState(false);
 
+  const [updateTeam, setUpdateTeam] = useState(false);
+  const [deleteTeamMember, setDeleteTeamMember] = useState(false);
   const [activeRound, setActiveRound] = useState(1);
   const [createRequestFromTeamToPlayer, setCreateRequestFromTeamToPlayer] =
     useState(false);
@@ -175,6 +177,22 @@ const useTeamDashboard = () => {
       setCreateTeamStats(false);
     }
   };
+  const updateTeamFunct = async () => {
+    if (updateTeam) {
+      setLoading(true);
+      apiSettings
+        .updateTeam(updateTeam)
+        .then(() => {
+          setTeamId(team.id);
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setUpdateTeam(false);
+    }
+  };
   const updateTeamStatsFunct = async () => {
     if (updateTeamStats) {
       setLoading(true);
@@ -272,6 +290,22 @@ const useTeamDashboard = () => {
       setDeleteRequestFromTeamToPlayer(false);
     }
   };
+  const deleteTeamMemberFunct = async () => {
+    if (deleteTeamMember) {
+      setLoading(true);
+      apiSettings
+        .deleteTeamMembers(deleteTeamMember)
+        .then(() => {
+          setTeamId(team?.id);
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setDeleteTeamMember(false);
+    }
+  };
   const updateFixtureFunct = async () => {
     if (updateFixture) {
       setLoading(true);
@@ -317,6 +351,9 @@ const useTeamDashboard = () => {
     createTeamStatsFunct();
   }, [createTeamStats]);
   useEffect(() => {
+    updateTeamFunct();
+  }, [updateTeam]);
+  useEffect(() => {
     updatePlayerStatsFunct();
   }, [updatePlayerStats]);
   useEffect(() => {
@@ -331,6 +368,9 @@ const useTeamDashboard = () => {
   useEffect(() => {
     deleteRequestFromTeamToPlayerFunct();
   }, [deleteRequestFromTeamToPlayer]);
+  useEffect(() => {
+    deleteTeamMemberFunct();
+  }, [deleteTeamMember]);
 
   useEffect(() => {
     setTournament(
@@ -364,6 +404,8 @@ const useTeamDashboard = () => {
     setActiveRound,
     setGetUsernameTeamReq,
     username,
+    setUpdateTeam,
+    setDeleteTeamMember,
   };
 };
 

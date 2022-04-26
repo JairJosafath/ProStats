@@ -21,7 +21,7 @@ export const getPlayerQuery = /* GraphQL */ `
             name
             id
             status
-            league {
+            leagueMemberships {
               items {
                 league {
                   name
@@ -32,14 +32,14 @@ export const getPlayerQuery = /* GraphQL */ `
           }
         }
       }
-      teams {
+      teamMemberships {
         items {
           id
           team {
             id
             name
             status
-            league {
+            leagueMemberships {
               items {
                 id
                 league {
@@ -67,7 +67,7 @@ export const getPlayerQuery = /* GraphQL */ `
           id
           status
 
-          league {
+          leagueMemberships {
             items {
               id
               league {
@@ -98,7 +98,7 @@ export const getPlayerQuery = /* GraphQL */ `
           from {
             id
             name
-            league {
+            leagueMemberships {
               items {
                 league {
                   id
@@ -195,7 +195,7 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
       tournamentModerators
       transferModerator
       status
-      teams {
+      leagueMemberships {
         items {
           id
           team {
@@ -268,7 +268,7 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
                 id
                 name
                 moderators
-                member {
+                teamMemberships {
                   items {
                     id
                     player {
@@ -328,6 +328,16 @@ export const getTeamModsQuery = /* GraphQL */ `
       id
       name
       moderators
+      status
+    }
+  }
+`;
+export const getLeagueModsQuery = /* GraphQL */ `
+  query GetLeague($id: ID!) {
+    getLeague(id: $id) {
+      id
+      name
+      moderatornames
       status
     }
   }
@@ -458,7 +468,7 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
         status
         awayTeam {
           name
-          member {
+          teamMemberships {
             items {
               id
               player {
@@ -470,7 +480,7 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
         }
         homeTeam {
           name
-          member {
+          teamMemberships {
             items {
               id
               player {
@@ -948,7 +958,7 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
     getTeam(id: $id) {
       id
       name
-      league {
+      leagueMemberships {
         items {
           id
           league {
@@ -966,7 +976,7 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
           }
         }
       }
-
+      moderators
       status
 
       tournaments {
@@ -993,12 +1003,13 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
       teamManager
       teamCaptain
 
-      member {
+      teamMemberships {
         items {
           id
           player {
             name
             id
+            username
           }
         }
       }
@@ -1705,31 +1716,31 @@ export const getPlayerUsernameQuery = /* GraphQL */ `
 `;
 
 export const createTeamMembersMutation = /* GraphQL */ `
-  mutation CreateTeamMembers(
-    $input: CreateTeamMembersInput!
-    $condition: ModelTeamMembersConditionInput
+  mutation CreateTeamMembership(
+    $input: CreateTeamMembershipInput!
+    $condition: ModelTeamMembershipConditionInput
   ) {
-    createTeamMembers(input: $input, condition: $condition) {
+    createTeamMembership(input: $input, condition: $condition) {
       id
     }
   }
 `;
 export const createTeamLeagueMutation = /* GraphQL */ `
-  mutation CreateLeagueTeams(
-    $input: CreateLeagueTeamsInput!
-    $condition: ModelLeagueTeamsConditionInput
+  mutation CreateLeagueMembership(
+    $input: CreateLeagueMembershipInput!
+    $condition: ModelLeagueMembershipConditionInput
   ) {
-    createLeagueTeams(input: $input, condition: $condition) {
+    createLeagueMembership(input: $input, condition: $condition) {
       id
     }
   }
 `;
 export const deleteTeamLeagueMutation = /* GraphQL */ `
-  mutation DeleteLeagueTeams(
-    $input: DeleteLeagueTeamsInput!
-    $condition: ModelLeagueTeamsConditionInput
+  mutation DeleteLeagueMembership(
+    $input: DeleteLeagueMembershipInput!
+    $condition: ModelLeagueMembershipConditionInput
   ) {
-    deleteLeagueTeams(input: $input, condition: $condition) {
+    deleteLeagueMembership(input: $input, condition: $condition) {
       id
     }
   }
@@ -1745,11 +1756,11 @@ export const deleteTeamMutation = /* GraphQL */ `
   }
 `;
 export const deleteTeamMembersMutation = /* GraphQL */ `
-  mutation DeleteTeamMembers(
-    $input: DeleteTeamMembersInput!
-    $condition: ModelTeamMembersConditionInput
+  mutation DeleteTeamMembership(
+    $input: DeleteTeamMembershipInput!
+    $condition: ModelTeamMembershipConditionInput
   ) {
-    deleteTeamMembers(input: $input, condition: $condition) {
+    deleteTeamMembership(input: $input, condition: $condition) {
       id
     }
   }

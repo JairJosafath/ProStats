@@ -51,12 +51,13 @@ export const createLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -151,12 +152,13 @@ export const updateLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -251,12 +253,13 @@ export const deleteLeague = /* GraphQL */ `
       moderators {
         nextToken
       }
-      teams {
-        nextToken
-      }
       tournaments {
         nextToken
       }
+      leagueMemberships {
+        nextToken
+      }
+      moderatornames
       news {
         nextToken
       }
@@ -319,7 +322,7 @@ export const createPlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -420,7 +423,7 @@ export const updatePlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -521,7 +524,7 @@ export const deletePlayer = /* GraphQL */ `
       moderates {
         nextToken
       }
-      teams {
+      teamMemberships {
         nextToken
       }
       manages {
@@ -614,9 +617,6 @@ export const createTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -656,13 +656,16 @@ export const createTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -715,9 +718,6 @@ export const updateTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -757,13 +757,16 @@ export const updateTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -816,9 +819,6 @@ export const deleteTeam = /* GraphQL */ `
       name
       logo
       slogan
-      league {
-        nextToken
-      }
       manager {
         id
         username
@@ -858,13 +858,16 @@ export const deleteTeam = /* GraphQL */ `
       captains {
         nextToken
       }
-      member {
-        nextToken
-      }
       tournaments {
         nextToken
       }
       trophies {
+        nextToken
+      }
+      teamMemberships {
+        nextToken
+      }
+      leagueMemberships {
         nextToken
       }
       requestsfromLeague {
@@ -907,6 +910,378 @@ export const deleteTeam = /* GraphQL */ `
     }
   }
 `;
+export const createTeamMembership = /* GraphQL */ `
+  mutation CreateTeamMembership(
+    $input: CreateTeamMembershipInput!
+    $condition: ModelTeamMembershipConditionInput
+  ) {
+    createTeamMembership(input: $input, condition: $condition) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const updateTeamMembership = /* GraphQL */ `
+  mutation UpdateTeamMembership(
+    $input: UpdateTeamMembershipInput!
+    $condition: ModelTeamMembershipConditionInput
+  ) {
+    updateTeamMembership(input: $input, condition: $condition) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const deleteTeamMembership = /* GraphQL */ `
+  mutation DeleteTeamMembership(
+    $input: DeleteTeamMembershipInput!
+    $condition: ModelTeamMembershipConditionInput
+  ) {
+    deleteTeamMembership(input: $input, condition: $condition) {
+      id
+      status
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      player {
+        id
+        username
+        name
+        image
+        slogan
+        status
+        leaguemembership1
+        leaguemembership2
+        leaguemembership3
+        teammembership2
+        teammembership1
+        teammembership3
+        leagueadmin1
+        leagueadmin2
+        leagueadmin3
+        leaguemod1
+        leaguemod2
+        leaguemod3
+        teamcaptain1
+        teamcaptain2
+        teamcaptain3
+        teammanager2
+        teammanager1
+        teammanager3
+        createdAt
+        updatedAt
+        newsPlayerTagsId
+        playerLevelPlayersId
+        playerTournamentPlayersId
+        playerTournamentStandingLeaderboardId
+        playerPlayerLevelId
+        playerPlayerSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      playerTeamMembershipsId
+      teamTeamMembershipsId
+      owner
+    }
+  }
+`;
+export const createLeagueMembership = /* GraphQL */ `
+  mutation CreateLeagueMembership(
+    $input: CreateLeagueMembershipInput!
+    $condition: ModelLeagueMembershipConditionInput
+  ) {
+    createLeagueMembership(input: $input, condition: $condition) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
+export const updateLeagueMembership = /* GraphQL */ `
+  mutation UpdateLeagueMembership(
+    $input: UpdateLeagueMembershipInput!
+    $condition: ModelLeagueMembershipConditionInput
+  ) {
+    updateLeagueMembership(input: $input, condition: $condition) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
+export const deleteLeagueMembership = /* GraphQL */ `
+  mutation DeleteLeagueMembership(
+    $input: DeleteLeagueMembershipInput!
+    $condition: ModelLeagueMembershipConditionInput
+  ) {
+    deleteLeagueMembership(input: $input, condition: $condition) {
+      id
+      status
+      league {
+        id
+        name
+        status
+        logo
+        description
+        header
+        moderatornames
+        tournamentModerators
+        newsModerators
+        requestModerators
+        transferModerator
+        leagueAdmin
+        createdAt
+        updatedAt
+        playerAdminsId
+        leagueLevelLeaguesId
+        leagueLeagueLevelId
+        leagueLeagueSubscriptionId
+        owner
+      }
+      team {
+        id
+        name
+        logo
+        slogan
+        status
+        teamManager
+        moderators
+        teamCaptain
+        createdAt
+        updatedAt
+        playerManagesId
+        newsTeamTagsId
+        teamLevelTeamId
+        teamTeamSubscriptionId
+        owner
+      }
+      moderators
+      createdAt
+      updatedAt
+      leagueLeagueMembershipsId
+      teamLeagueMembershipsId
+      owner
+    }
+  }
+`;
 export const createTournament = /* GraphQL */ `
   mutation CreateTournament(
     $input: CreateTournamentInput!
@@ -934,6 +1309,7 @@ export const createTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -990,6 +1366,7 @@ export const updateTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -1046,6 +1423,7 @@ export const deleteTournament = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -1866,6 +2244,7 @@ export const createTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -2082,6 +2461,7 @@ export const updateTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -2298,6 +2678,7 @@ export const deleteTeamStats = /* GraphQL */ `
         playerTournamentFixturesId
         owner
       }
+      members
       home_name
       away_name
       home_team {
@@ -2760,6 +3141,7 @@ export const createTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -2867,6 +3249,7 @@ export const updateTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -2974,6 +3357,7 @@ export const deleteTransfer = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -3243,6 +3627,7 @@ export const createRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -3297,6 +3682,7 @@ export const updateRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -3351,6 +3737,7 @@ export const deleteRequestLeague2Team = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4826,6 +5213,7 @@ export const createLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4896,6 +5284,7 @@ export const updateLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -4966,6 +5355,7 @@ export const deleteLeagueModerators = /* GraphQL */ `
         logo
         description
         header
+        moderatornames
         tournamentModerators
         newsModerators
         requestModerators
@@ -5017,369 +5407,6 @@ export const deleteLeagueModerators = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-    }
-  }
-`;
-export const createLeagueTeams = /* GraphQL */ `
-  mutation CreateLeagueTeams(
-    $input: CreateLeagueTeamsInput!
-    $condition: ModelLeagueTeamsConditionInput
-  ) {
-    createLeagueTeams(input: $input, condition: $condition) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const updateLeagueTeams = /* GraphQL */ `
-  mutation UpdateLeagueTeams(
-    $input: UpdateLeagueTeamsInput!
-    $condition: ModelLeagueTeamsConditionInput
-  ) {
-    updateLeagueTeams(input: $input, condition: $condition) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const deleteLeagueTeams = /* GraphQL */ `
-  mutation DeleteLeagueTeams(
-    $input: DeleteLeagueTeamsInput!
-    $condition: ModelLeagueTeamsConditionInput
-  ) {
-    deleteLeagueTeams(input: $input, condition: $condition) {
-      id
-      leagueID
-      teamID
-      league {
-        id
-        name
-        status
-        logo
-        description
-        header
-        tournamentModerators
-        newsModerators
-        requestModerators
-        transferModerator
-        leagueAdmin
-        createdAt
-        updatedAt
-        playerAdminsId
-        leagueLevelLeaguesId
-        leagueLeagueLevelId
-        leagueLeagueSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const createTeamMembers = /* GraphQL */ `
-  mutation CreateTeamMembers(
-    $input: CreateTeamMembersInput!
-    $condition: ModelTeamMembersConditionInput
-  ) {
-    createTeamMembers(input: $input, condition: $condition) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const updateTeamMembers = /* GraphQL */ `
-  mutation UpdateTeamMembers(
-    $input: UpdateTeamMembersInput!
-    $condition: ModelTeamMembersConditionInput
-  ) {
-    updateTeamMembers(input: $input, condition: $condition) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
-    }
-  }
-`;
-export const deleteTeamMembers = /* GraphQL */ `
-  mutation DeleteTeamMembers(
-    $input: DeleteTeamMembersInput!
-    $condition: ModelTeamMembersConditionInput
-  ) {
-    deleteTeamMembers(input: $input, condition: $condition) {
-      id
-      playerID
-      teamID
-      player {
-        id
-        username
-        name
-        image
-        slogan
-        status
-        leaguemembership1
-        leaguemembership2
-        leaguemembership3
-        teammembership2
-        teammembership1
-        teammembership3
-        leagueadmin1
-        leagueadmin2
-        leagueadmin3
-        leaguemod1
-        leaguemod2
-        leaguemod3
-        teamcaptain1
-        teamcaptain2
-        teamcaptain3
-        teammanager2
-        teammanager1
-        teammanager3
-        createdAt
-        updatedAt
-        newsPlayerTagsId
-        playerLevelPlayersId
-        playerTournamentPlayersId
-        playerTournamentStandingLeaderboardId
-        playerPlayerLevelId
-        playerPlayerSubscriptionId
-        owner
-      }
-      team {
-        id
-        name
-        logo
-        slogan
-        status
-        teamManager
-        moderators
-        teamCaptain
-        createdAt
-        updatedAt
-        playerManagesId
-        newsTeamTagsId
-        teamLevelTeamId
-        teamTeamSubscriptionId
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-      teamManager
     }
   }
 `;

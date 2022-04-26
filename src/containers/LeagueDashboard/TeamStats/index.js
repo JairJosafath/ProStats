@@ -636,6 +636,7 @@ const LTeamStats = () => {
                         teamStatsAway_teamId: currentFixture.awayID,
                         teamStatsHome_teamId: currentFixture.homeID,
                         fixtureTeamStatsId: currentFixture.id,
+
                         ...teamstatsTracker,
                       });
 

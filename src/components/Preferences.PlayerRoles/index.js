@@ -459,7 +459,7 @@ const PlayerRoles = ({
                 {/**Member request */}
 
                 {player &&
-                  player.requestsfromTeam.items.filter(
+                  player?.requestsfromTeam?.items?.filter(
                     (request) => request.status === "pending"
                   )[0] && (
                     <List.Item
@@ -512,8 +512,10 @@ const PlayerRoles = ({
                           }}
                         >
                           <List hover>
-                            {player.requestsfromTeam.items
-                              .filter((request) => request.status === "pending")
+                            {player?.requestsfromTeam?.items
+                              ?.filter(
+                                (request) => request.status === "pending"
+                              )
                               .map((request) => (
                                 <List.Item
                                   style={{
@@ -552,8 +554,9 @@ const PlayerRoles = ({
                                           //   teamID: team.id,
                                           // });
                                           setCreateTeamMember({
-                                            teamID: request.from.id,
-                                            playerID: player.id,
+                                            teamTeamMembershipsId:
+                                              request.from.id,
+                                            playerTeamMembershipsId: player.id,
                                           });
                                           setShowRequests(!showRequests);
                                         }}
@@ -595,7 +598,7 @@ const PlayerRoles = ({
                   player.manages.items.map((team, index) => {
                     return (
                       <>
-                        {team?.league?.items[0] &&
+                        {team?.leagueMemberships?.items[0] &&
                           team?.requestsfromLeague?.items.filter(
                             (request) => request.status === "pending"
                           )[0] && (
@@ -710,8 +713,10 @@ const PlayerRoles = ({
                                                     //   teamID: team.id,
                                                     // });
                                                     setCreateTeamLeague({
-                                                      teamID: team.id,
-                                                      leagueID: request.from.id,
+                                                      teamLeagueMembershipsId:
+                                                        team.id,
+                                                      leagueLeagueMembershipsId:
+                                                        request.from.id,
                                                     });
                                                     setShowRequests(
                                                       !showRequests
@@ -752,76 +757,78 @@ const PlayerRoles = ({
                                 )}
                             </List.Item>
                           )}
-                        {team?.league?.items[0] ? (
-                          team?.league?.items?.map((teamLeague, index) => (
-                            <List.Item key={`${"teamLeague.id"} ${index}`}>
-                              <FlexboxGrid justify="space-around">
-                                <FlexboxGrid.Item colspan={7}>
-                                  {team.name}
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={4}>
-                                  Manager
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={4}>
-                                  {teamLeague.league.name}
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item
-                                  colspan={1}
-                                ></FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={1}>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      width: "4em",
-                                    }}
-                                  >
-                                    <IconButton
-                                      appearance="subtle"
-                                      color="blue"
-                                      size="xs"
-                                      icon={
-                                        <MdModeEdit
-                                          style={{ margin: "0 auto" }}
-                                          size={"1.5em"}
-                                        />
-                                      }
-                                      onClick={(e) => {
-                                        handleEditTeam(
-                                          team.id,
-                                          "manager",
-                                          false
-                                        );
+                        {team?.leagueMemberships?.items[0] ? (
+                          team?.leagueMemberships?.items?.map(
+                            (teamLeague, index) => (
+                              <List.Item key={`${"teamLeague.id"} ${index}`}>
+                                <FlexboxGrid justify="space-around">
+                                  <FlexboxGrid.Item colspan={7}>
+                                    {team.name}
+                                  </FlexboxGrid.Item>
+                                  <FlexboxGrid.Item colspan={4}>
+                                    Manager
+                                  </FlexboxGrid.Item>
+                                  <FlexboxGrid.Item colspan={4}>
+                                    {teamLeague.league.name}
+                                  </FlexboxGrid.Item>
+                                  <FlexboxGrid.Item
+                                    colspan={1}
+                                  ></FlexboxGrid.Item>
+                                  <FlexboxGrid.Item colspan={1}>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        width: "4em",
                                       }}
-                                    />
-                                  </div>
-                                </FlexboxGrid.Item>
-                                <FlexboxGrid.Item colspan={1}>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      width: "4em",
-                                    }}
-                                  >
-                                    <IconButton
-                                      appearance="subtle"
-                                      color="red"
-                                      size="xs"
-                                      icon={
-                                        <MdExitToApp
-                                          style={{ margin: "0 auto" }}
-                                          size={"1.5em"}
-                                        />
-                                      }
-                                      onClick={(e) => {
-                                        handleLeaveLeague(teamLeague.id);
-                                        // handleDeleteTeam(team.id, "manager");
+                                    >
+                                      <IconButton
+                                        appearance="subtle"
+                                        color="blue"
+                                        size="xs"
+                                        icon={
+                                          <MdModeEdit
+                                            style={{ margin: "0 auto" }}
+                                            size={"1.5em"}
+                                          />
+                                        }
+                                        onClick={(e) => {
+                                          handleEditTeam(
+                                            team.id,
+                                            "manager",
+                                            false
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </FlexboxGrid.Item>
+                                  <FlexboxGrid.Item colspan={1}>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        width: "4em",
                                       }}
-                                    />
-                                  </div>
-                                </FlexboxGrid.Item>
-                              </FlexboxGrid>
-                            </List.Item>
-                          ))
+                                    >
+                                      <IconButton
+                                        appearance="subtle"
+                                        color="red"
+                                        size="xs"
+                                        icon={
+                                          <MdExitToApp
+                                            style={{ margin: "0 auto" }}
+                                            size={"1.5em"}
+                                          />
+                                        }
+                                        onClick={(e) => {
+                                          handleLeaveLeague(teamLeague.id);
+                                          // handleDeleteTeam(team.id, "manager");
+                                        }}
+                                      />
+                                    </div>
+                                  </FlexboxGrid.Item>
+                                </FlexboxGrid>
+                              </List.Item>
+                            )
+                          )
                         ) : (
                           <List.Item key={`${team.id}-Man${index}`}>
                             <FlexboxGrid justify="space-around">
@@ -963,8 +970,10 @@ const PlayerRoles = ({
                                                   //   teamID: team.id,
                                                   // });
                                                   setCreateTeamLeague({
-                                                    teamID: team.id,
-                                                    leagueID: request.from.id,
+                                                    teamLeagueMembershipsId:
+                                                      team.id,
+                                                    leagueLeagueMembershipsId:
+                                                      request.from.id,
                                                   });
                                                   setShowRequests(
                                                     !showRequests
@@ -1060,7 +1069,7 @@ const PlayerRoles = ({
                 })}
                 {/* Member */}
 
-                {player?.teams?.items?.map((team, index) => {
+                {player?.teamMemberships?.items?.map((team, index) => {
                   return (
                     team.team.status !== "qw" && (
                       <List.Item key={`${team.team.id}-Man${index}`}>

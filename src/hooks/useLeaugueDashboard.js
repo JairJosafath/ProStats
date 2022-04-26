@@ -171,6 +171,24 @@ const useLeagueDashboard = () => {
   const createTeamStatsFunct = async () => {
     if (createTeamStats) {
       setLoading(true);
+      const teamModsHome = await apiSettingsTD.getTeamModUsernames(
+        createTeamStats.teamStatsHome_teamId
+      );
+      const teamModsAway = await apiSettingsTD.getTeamModUsernames(
+        createTeamStats.teamStatsAway_teamId
+      );
+
+      const leagueMods = await apiSettingsTD.getLeagueModUsernames(league.id);
+      console.log(teamModsAway.moderators, "teamModsAway");
+      console.log(teamModsHome.moderators, "teamModsHome");
+      console.log(leagueMods.moderatornames, "leagueMods");
+      const mods = [
+        ...(teamModsHome.moderators || ["admin"]),
+        ...(teamModsAway.moderators || ["admin"]),
+        ...(leagueMods.moderatornames || ["admin"]),
+      ];
+      createTeamStats["members"] = mods;
+      console.log(createTeamStats, "updated with members");
       apiSettings.createTeamStats(createTeamStats).catch((err) => {
         console.log("errOr", err);
         setError(true);

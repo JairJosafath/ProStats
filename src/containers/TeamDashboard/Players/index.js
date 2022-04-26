@@ -14,6 +14,8 @@ import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { apiSettings, apiSettingsTD } from "../../../API/API";
+import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
+import PlayerList from "../../../components/PlayerList";
 
 const NewRequest = ({
   setOpen,
@@ -104,10 +106,13 @@ const TPlayers = () => {
     teamRequests,
     setDeleteRequestFromTeamToPlayer,
     setGetUsername,
+    setUpdateTeam,
+    setDeleteTeamMember,
     username,
   } = useOutletContext();
   const [open, setOpen] = useState(false);
 
+  console.log(team, "team");
   useEffect(() => {
     setGetTeamRequests(team?.id);
   }, [team]);
@@ -124,13 +129,13 @@ const TPlayers = () => {
         />
       )}
       <div style={{ display: "flex" }}>
-        <div style={{ flex: "1", margin: 10 }}>
+        <div style={{ flex: "1.4", margin: 10 }}>
           <h5>{"players in " + team?.name}</h5>
-          <List autoScroll={true} style={{ height: 600 }}>
-            {team?.member?.items.map((member) => (
-              <List.Item>{member.player.name}</List.Item>
-            ))}
-          </List>
+          <PlayerList
+            team={team}
+            setUpdateTeam={setUpdateTeam}
+            setDeleteTeamMember={setDeleteTeamMember}
+          />
         </div>
 
         <Panel style={{ flex: "1" }} header={"Requests"}>
