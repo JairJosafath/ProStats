@@ -19,6 +19,7 @@ import { MdVerified, MdPendingActions } from "react-icons/md";
 import teamStats from "../../../backend/db/teamStats";
 import StatPanel from "../../../components/StatPanel";
 import { TeamStats } from "../../../backend/db/teamStatsClass";
+import ListItemCustom from "../../../components/ListCustom";
 //used to navigate the different stat types
 const typeDataTeam = [
   "summary",
@@ -180,7 +181,7 @@ const LTeamStats = () => {
             <List hover>
               {fixturesByTournamentAndRound?.items?.map((fixture) => {
                 return (
-                  <List.Item
+                  <ListItemCustom
                     style={{
                       background: currentFixture?.id === fixture?.id ? "" : "",
                     }}
@@ -223,7 +224,7 @@ const LTeamStats = () => {
                         )}
                       </FlexboxGrid.Item>
                     </FlexboxGrid>
-                  </List.Item>
+                  </ListItemCustom>
                 );
               })}
             </List>

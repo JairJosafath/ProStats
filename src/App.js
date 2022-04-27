@@ -60,6 +60,7 @@ import PlayerDashboard from "./containers/PlayerDashboard";
 import PDashboard from "./containers/PlayerDashboard/Dashboard";
 import PPlayerStats from "./containers/PlayerDashboard/PlayerStats";
 import PTeams from "./containers/PlayerDashboard/Teams";
+import GlobalStyles from "./GlobalStyles";
 
 // import TTeams from "./containers/TeamDashboard/Teams";
 
@@ -348,6 +349,7 @@ function App(props) {
         </Routes>
       </BrowserRouter>
       {/* <News league={league} /> */}
+      <GlobalStyles />
       <CustomProvider theme="dark">{props.children}</CustomProvider>
     </>
   );

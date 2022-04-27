@@ -1,6 +1,7 @@
 import { FlexboxGrid, List } from "rsuite";
 import teamStats from "../../backend/db/teamStats";
 import ControlledInput from "../ControlledInput";
+import ListItemCustom from "../ListCustom";
 
 //used to navigate the different stat types
 const typeDataTeam = [
@@ -26,7 +27,7 @@ const StatRow = ({
       <List hover>
         {teamStats[stadium][typeDataTeamState].slice(start, end).map((stat) => {
           return (
-            <List.Item>
+            <ListItemCustom>
               <FlexboxGrid justify={"space-around"}>
                 <FlexboxGrid.Item colspan={16} style={{ minHeight: 50 }}>
                   {stat.attr}
@@ -49,7 +50,7 @@ const StatRow = ({
                   />
                 </FlexboxGrid.Item>
               </FlexboxGrid>
-            </List.Item>
+            </ListItemCustom>
           );
         })}
       </List>

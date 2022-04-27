@@ -18,6 +18,8 @@ const useTeamDashboard = () => {
   const [getTeamRequestsDahboard, setGetTeamRequestsDahboard] = useState(false);
 
   const [updateTeam, setUpdateTeam] = useState(false);
+  const [updateLeague, setUpdateLeague] = useState(false);
+
   const [deleteTeamMember, setDeleteTeamMember] = useState(false);
   const [activeRound, setActiveRound] = useState(1);
   const [createRequestFromTeamToPlayer, setCreateRequestFromTeamToPlayer] =
@@ -193,6 +195,22 @@ const useTeamDashboard = () => {
       setUpdateTeam(false);
     }
   };
+  const updateLeagueFunct = async () => {
+    if (updateLeague) {
+      setLoading(true);
+      apiSettings
+        .updateLeague(updateLeague)
+        .then(() => {
+          setTeamId(team.id);
+        })
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
+      setUpdateLeague(false);
+    }
+  };
   const updateTeamStatsFunct = async () => {
     if (updateTeamStats) {
       setLoading(true);
@@ -354,6 +372,9 @@ const useTeamDashboard = () => {
     updateTeamFunct();
   }, [updateTeam]);
   useEffect(() => {
+    updateLeagueFunct();
+  }, [updateLeague]);
+  useEffect(() => {
     updatePlayerStatsFunct();
   }, [updatePlayerStats]);
   useEffect(() => {
@@ -406,6 +427,7 @@ const useTeamDashboard = () => {
     username,
     setUpdateTeam,
     setDeleteTeamMember,
+    setUpdateLeague,
   };
 };
 

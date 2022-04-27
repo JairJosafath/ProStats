@@ -2,6 +2,7 @@ import {
   Button,
   Dropdown,
   FlexboxGrid,
+  Grid,
   Input,
   List,
   Pagination,
@@ -14,6 +15,8 @@ import playerStats from "../../../backend/db/playerStats";
 import StatPanel from "../../../components/StatPanel.PlayerStats";
 import { Icon } from "@rsuite/icons";
 import { MdVerified, MdPendingActions } from "react-icons/md";
+import ListItemCustom from "../../../components/ListCustom";
+import FlexItemCustom from "../../../components/FlexItemCustom";
 const typeDataPlayer = [
   "summary",
   "passing",
@@ -122,25 +125,17 @@ const LPlayerStats = () => {
               generate fixtures
             </Button>
           )}
-          <List hover>
+          <List>
             {fixturesByTournamentAndRound?.items?.map((fixture) => {
               return (
-                <List.Item
-                  style={{
-                    background:
-                      currentFixture?.id === fixture?.id ? "blue" : "",
-                  }}
+                <ListItemCustom
+                  disableHover
                   onClick={() => {
                     console.log("nothing for now");
                   }}
                 >
-                  <FlexboxGrid justify="space-between">
-                    <FlexboxGrid.Item
-                      style={
-                        selectedTeam === fixture?.teamHomefixturesId
-                          ? { background: "red" }
-                          : {}
-                      }
+                  <FlexboxGrid justify="center">
+                    <FlexItemCustom
                       colspan={8}
                       onMouseEnter={() => {
                         console.log("hovering", fixture?.homeTeam.name);
@@ -157,23 +152,30 @@ const LPlayerStats = () => {
                         setCurrentFixture(fixture);
                       }}
                     >
-                      {fixture?.homeTeam.name}
-                    </FlexboxGrid.Item>
+                      <FlexboxGrid justify="center">
+                        <FlexboxGrid.Item>
+                          {fixture?.homeTeam.name}
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
+                    </FlexItemCustom>
 
                     <FlexboxGrid.Item colspan={3}>
-                      {fixture?.homeScore}
+                      <FlexboxGrid justify="center">
+                        <FlexboxGrid.Item>
+                          {fixture?.homeScore}
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item>VS</FlexboxGrid.Item>
                     <FlexboxGrid.Item colspan={3}>
-                      {fixture?.awayScore}
+                      <FlexboxGrid justify="center">
+                        <FlexboxGrid.Item>
+                          {fixture?.awayScore}
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
                     </FlexboxGrid.Item>
 
-                    <FlexboxGrid.Item
-                      style={
-                        selectedTeam === fixture?.teamAwayfixturesId
-                          ? { background: "red" }
-                          : {}
-                      }
+                    <FlexItemCustom
                       colspan={8}
                       onMouseEnter={() => {
                         console.log("hovering", fixture?.awayTeam.name);
@@ -190,10 +192,14 @@ const LPlayerStats = () => {
                         setCurrentFixture(fixture);
                       }}
                     >
-                      {fixture?.awayTeam.name}
-                    </FlexboxGrid.Item>
+                      <FlexboxGrid justify="center">
+                        <FlexboxGrid.Item>
+                          {fixture?.awayTeam.name}
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
+                    </FlexItemCustom>
                   </FlexboxGrid>
-                </List.Item>
+                </ListItemCustom>
               );
             })}
           </List>
@@ -222,8 +228,8 @@ const LPlayerStats = () => {
           <div style={{ display: "flex" }}>
             <Panel header={`${selectedTeam?.name} players`} style={{ flex: 1 }}>
               <List>
-                {selectedTeam?.member?.items.map((membership) => (
-                  <List.Item
+                {selectedTeam?.teamMemberships?.items.map((membership) => (
+                  <ListItemCustom
                     onClick={() => {
                       setCurrentPlayer(membership.player);
                     }}
@@ -249,7 +255,7 @@ const LPlayerStats = () => {
                         )}
                       </FlexboxGrid.Item>
                     </FlexboxGrid>
-                  </List.Item>
+                  </ListItemCustom>
                 ))}
               </List>
             </Panel>{" "}

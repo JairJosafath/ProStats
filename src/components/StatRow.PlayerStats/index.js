@@ -1,6 +1,7 @@
 import { FlexboxGrid, List } from "rsuite";
 import playerStats from "../../backend/db/playerStats";
 import ControlledInput from "../ControlledInput.PlayerStats";
+import ListItemCustom from "../ListCustom";
 
 //controls the different rows in the statpanel
 const StatRow = ({
@@ -20,7 +21,7 @@ const StatRow = ({
       <List hover>
         {playerStats[typeDataPlayerState].slice(start, end).map((stat) => {
           return (
-            <List.Item>
+            <ListItemCustom>
               <FlexboxGrid justify={"space-around"}>
                 <FlexboxGrid.Item colspan={16} style={{ minHeight: 50 }}>
                   {stat.attr}
@@ -46,7 +47,7 @@ const StatRow = ({
                   />
                 </FlexboxGrid.Item>
               </FlexboxGrid>
-            </List.Item>
+            </ListItemCustom>
           );
         })}
       </List>

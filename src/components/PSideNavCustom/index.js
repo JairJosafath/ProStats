@@ -47,11 +47,17 @@ const PSideNavCustom = ({ team, player, tournament, setTournament }) => {
   //   console.log("does tis even help?");
   // }, [fixturesByTournamentAndRound]);
   return (
-    <div style={{ width: 240, height: "90vh", background: "black" }}>
+    <div
+      style={{
+        width: 240,
+        height: "90vh",
+        background: "var(--primary-statMe-sidenav)",
+      }}
+    >
       <Sidenav
         // defaultOpenKeys={["3", "4"]}
         appearance="subtle"
-        style={{ background: "black" }}
+        style={{ background: "var(--primary-statMe-sidenav)" }}
       >
         <Sidenav.Header>
           <div style={headerStyles}>

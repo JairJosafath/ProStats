@@ -27,6 +27,7 @@ import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
 import useCreateTeam from "../../hooks/useCreateTeam";
 import { useNavigate } from "react-router-dom";
 import { useTimeout } from "rsuite/esm/utils";
+import ListItemCustom from "../ListCustom";
 
 const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
   const [overflow, setOverflow] = useState(true);
@@ -101,10 +102,10 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
           </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
+          <Button appearanceonClick={handleOK} appearance="primary">
             Ok
           </Button>
-          <Button onClick={handleClose} appearance="subtle">
+          <Button appearanceonClick={handleClose} appearance="subtle">
             Cancel
           </Button>
         </Modal.Footer>
@@ -180,10 +181,10 @@ const NewLeagueModal = ({ open, setOpen, setCreateLeague, player }) => {
           </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
+          <Button appearanceonClick={handleOK} appearance="primary">
             Ok
           </Button>
-          <Button onClick={handleClose} appearance="subtle">
+          <Button appearanceonClick={handleClose} appearance="subtle">
             Cancel
           </Button>
         </Modal.Footer>
@@ -301,7 +302,7 @@ const PlayerRoles = ({
         <FlexboxGrid justify="space-around">
           <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={8}>
-            <div>
+            <div style={{ marginRight: 20 }}>
               <label>Leagues</label>
               <List hover>
                 <FlexboxGrid style={{ margin: 10 }} justify="space-between">
@@ -314,7 +315,7 @@ const PlayerRoles = ({
                 {player?.admins?.items?.map((league, index) => {
                   return (
                     league.status !== "qw" && (
-                      <List.Item key={`${league.id}${index}`}>
+                      <ListItemCustom key={`${league.id}${index}`}>
                         <FlexboxGrid justify="space-between">
                           <FlexboxGrid.Item colspan={7}>
                             {league.name}
@@ -367,7 +368,7 @@ const PlayerRoles = ({
                             </div>
                           </FlexboxGrid.Item>
                         </FlexboxGrid>
-                      </List.Item>
+                      </ListItemCustom>
                     )
                   );
                 })}
@@ -375,7 +376,7 @@ const PlayerRoles = ({
                 {player?.moderates?.items?.map((league) => {
                   return (
                     league.league.status !== "qw" && (
-                      <List.Item key={`${league.league.id}-Mod`}>
+                      <ListItemCustom key={`${league.league.id}-Mod`}>
                         <FlexboxGrid justify="space-between">
                           <FlexboxGrid.Item colspan={7}>
                             {league.league.name}
@@ -429,7 +430,7 @@ const PlayerRoles = ({
                             </div>
                           </FlexboxGrid.Item>
                         </FlexboxGrid>
-                      </List.Item>
+                      </ListItemCustom>
                     )
                   );
                 })}
@@ -462,7 +463,7 @@ const PlayerRoles = ({
                   player?.requestsfromTeam?.items?.filter(
                     (request) => request.status === "pending"
                   )[0] && (
-                    <List.Item
+                    <ListItemCustom
                       style={{
                         background: "rgba(30,100,200,.5)",
                       }}
@@ -517,7 +518,7 @@ const PlayerRoles = ({
                                 (request) => request.status === "pending"
                               )
                               .map((request) => (
-                                <List.Item
+                                <ListItemCustom
                                   style={{
                                     padding: 10,
                                     background: "rgba(30,100,200,.1)",
@@ -586,12 +587,12 @@ const PlayerRoles = ({
                                       />
                                     </FlexboxGrid.Item>
                                   </FlexboxGrid>
-                                </List.Item>
+                                </ListItemCustom>
                               ))}
                           </List>
                         </Panel>
                       )}
-                    </List.Item>
+                    </ListItemCustom>
                   )}
                 {/* Manager */}
                 {player &&
@@ -603,7 +604,7 @@ const PlayerRoles = ({
                             (request) => request.status === "pending"
                           )[0] && (
                             //showRequests
-                            <List.Item
+                            <ListItemCustom
                               style={{
                                 background: "rgba(30,100,200,.5)",
                               }}
@@ -676,7 +677,7 @@ const PlayerRoles = ({
                                             request.status === "pending"
                                         )
                                         .map((request) => (
-                                          <List.Item
+                                          <ListItemCustom
                                             style={{
                                               padding: 10,
                                               background: "rgba(30,100,200,.1)",
@@ -750,17 +751,19 @@ const PlayerRoles = ({
                                                 />
                                               </FlexboxGrid.Item>
                                             </FlexboxGrid>
-                                          </List.Item>
+                                          </ListItemCustom>
                                         ))}
                                     </List>
                                   </Panel>
                                 )}
-                            </List.Item>
+                            </ListItemCustom>
                           )}
                         {team?.leagueMemberships?.items[0] ? (
                           team?.leagueMemberships?.items?.map(
                             (teamLeague, index) => (
-                              <List.Item key={`${"teamLeague.id"} ${index}`}>
+                              <ListItemCustom
+                                key={`${"teamLeague.id"} ${index}`}
+                              >
                                 <FlexboxGrid justify="space-around">
                                   <FlexboxGrid.Item colspan={7}>
                                     {team.name}
@@ -826,11 +829,11 @@ const PlayerRoles = ({
                                     </div>
                                   </FlexboxGrid.Item>
                                 </FlexboxGrid>
-                              </List.Item>
+                              </ListItemCustom>
                             )
                           )
                         ) : (
-                          <List.Item key={`${team.id}-Man${index}`}>
+                          <ListItemCustom key={`${team.id}-Man${index}`}>
                             <FlexboxGrid justify="space-around">
                               <FlexboxGrid.Item colspan={7}>
                                 {team.name}
@@ -933,7 +936,7 @@ const PlayerRoles = ({
                                           request.status === "pending"
                                       )
                                       .map((request) => (
-                                        <List.Item
+                                        <ListItemCustom
                                           style={{
                                             padding: 10,
                                             background: "rgba(30,100,200,.1)",
@@ -1007,12 +1010,12 @@ const PlayerRoles = ({
                                               />
                                             </FlexboxGrid.Item>
                                           </FlexboxGrid>
-                                        </List.Item>
+                                        </ListItemCustom>
                                       ))}
                                   </List>
                                 </Panel>
                               )}
-                          </List.Item>
+                          </ListItemCustom>
                         )}
                       </>
                     );
@@ -1021,7 +1024,7 @@ const PlayerRoles = ({
                 {player?.captains?.items?.map((team, index) => {
                   return (
                     team.team.status !== "qw" && (
-                      <List.Item key={`${team.team.id}-Man${index}`}>
+                      <ListItemCustom key={`${team.team.id}-Man${index}`}>
                         <FlexboxGrid justify="space-between">
                           <FlexboxGrid.Item colspan={7}>
                             {team.team.name}
@@ -1063,7 +1066,7 @@ const PlayerRoles = ({
                             </div>
                           </FlexboxGrid.Item>
                         </FlexboxGrid>
-                      </List.Item>
+                      </ListItemCustom>
                     )
                   );
                 })}
@@ -1072,7 +1075,7 @@ const PlayerRoles = ({
                 {player?.teamMemberships?.items?.map((team, index) => {
                   return (
                     team.team.status !== "qw" && (
-                      <List.Item key={`${team.team.id}-Man${index}`}>
+                      <ListItemCustom key={`${team.team.id}-Man${index}`}>
                         <FlexboxGrid justify="space-around">
                           <FlexboxGrid.Item colspan={7}>
                             {team.team.name}
@@ -1135,13 +1138,14 @@ const PlayerRoles = ({
                             </div>
                           </FlexboxGrid.Item>
                         </FlexboxGrid>
-                      </List.Item>
+                      </ListItemCustom>
                     )
                   );
                 })}
               </List>
             </div>
             <Button
+              appea
               onClick={() => {
                 console.log("create Team");
                 setOpenTeam(true);

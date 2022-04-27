@@ -195,12 +195,14 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
       tournamentModerators
       transferModerator
       status
+      moderatornames
       leagueMemberships {
         items {
           id
           team {
             id
             name
+            slogan
           }
         }
       }

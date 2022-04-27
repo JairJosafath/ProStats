@@ -13,6 +13,7 @@ import { MdCancel } from "react-icons/md";
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import ListItemCustom from "../../../components/ListCustom";
 
 const NewRequest = ({
   setOpen,
@@ -139,7 +140,7 @@ const LTeams = () => {
           <h5>{"teams in " + league?.name}</h5>
           <List autoScroll={true} style={{ height: 600 }}>
             {league?.leagueMemberships?.items.map((team) => (
-              <List.Item>{team.team.name}</List.Item>
+              <ListItemCustom>{team.team.name}</ListItemCustom>
             ))}
           </List>
         </div>
@@ -164,19 +165,16 @@ const LTeams = () => {
               }}
             />
           </Whisper>
-
+          <FlexboxGrid justify="space-between">
+            <FlexboxGrid.Item colspan={6}>Team</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={6}>Manager</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={6}>Status</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
+          </FlexboxGrid>
           <List hover style={{ marginTop: 10 }}>
-            <List.Item key="dummyItem">
-              <FlexboxGrid justify="space-between">
-                <FlexboxGrid.Item colspan={6}>Team</FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={6}>Manager</FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={6}>Status</FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
-              </FlexboxGrid>
-            </List.Item>
             {leagueRequests?.requeststoTeam?.items?.map((request) => (
               <>
-                <List.Item key={request.id}>
+                <ListItemCustom key={request.id}>
                   <FlexboxGrid justify="space-between">
                     <FlexboxGrid.Item colspan={6}>
                       {request.to?.name}
@@ -198,7 +196,7 @@ const LTeams = () => {
                       />
                     </FlexboxGrid.Item>
                   </FlexboxGrid>
-                </List.Item>
+                </ListItemCustom>
               </>
             ))}
           </List>

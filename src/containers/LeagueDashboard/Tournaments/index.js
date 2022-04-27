@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import DropdownItem from "rsuite/esm/Dropdown/DropdownItem";
 import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
 import { map } from "rsuite/esm/utils/ReactChildren";
+import ListItemCustom from "../../../components/ListCustom";
 
 const NewTournamentModal = ({ open, setOpen, setCreateTournament, league }) => {
   const [overflow, setOverflow] = useState(true);
@@ -303,14 +304,14 @@ const LTournaments = () => {
             <List hover>
               {league &&
                 league?.tournaments.items.map((tournament, index) => (
-                  <List.Item
+                  <ListItemCustom
                     key={index}
                     onClick={() => setTournament(tournament)}
                   >
                     <FlexboxGrid>
                       <FlexboxGrid.Item>{tournament.name}</FlexboxGrid.Item>
                     </FlexboxGrid>
-                  </List.Item>
+                  </ListItemCustom>
                 ))}
             </List>
             <Button
@@ -332,7 +333,7 @@ const LTournaments = () => {
             <List hover>
               {tournament &&
                 tournament?.team?.items?.map((team) => (
-                  <List.Item key={team.id}>
+                  <ListItemCustom key={team.id}>
                     <FlexboxGrid justify="space-between">
                       <FlexboxGrid.Item>{team.team.name}</FlexboxGrid.Item>
                       <FlexboxGrid.Item>
@@ -369,7 +370,7 @@ const LTournaments = () => {
                         </div>
                       </FlexboxGrid.Item>
                     </FlexboxGrid>
-                  </List.Item>
+                  </ListItemCustom>
                 ))}
             </List>
             <Button
@@ -387,12 +388,12 @@ const LTournaments = () => {
           <Panel style={{ minWidth: "30vw" }} shaded header={"trophies"}>
             <List>
               {tournament?.trophies?.items.map((trophy, index) => (
-                <List.Item key={index}>
+                <ListItemCustom key={index}>
                   <FlexboxGrid justify="space-between">
                     <FlexboxGrid.Item>{trophy.name}</FlexboxGrid.Item>
                     <FlexboxGrid.Item>{trophy.description}</FlexboxGrid.Item>
                   </FlexboxGrid>
-                </List.Item>
+                </ListItemCustom>
               ))}
             </List>
             <Button

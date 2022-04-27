@@ -9,13 +9,15 @@ import reportWebVitals from "./reportWebVitals";
 import { Authenticator } from "@aws-amplify/ui-react";
 
 const Backdrop = styled.div`
-  background: var(--primary-col);
+  background: var(--primary-statMe-body);
 `;
 
 ReactDOM.render(
   <React.StrictMode>
     <Authenticator.Provider>
-      <App />
+      <Backdrop>
+        <App />
+      </Backdrop>
     </Authenticator.Provider>
   </React.StrictMode>,
   document.getElementById("root")
