@@ -20,6 +20,8 @@ import { createTableStat } from "../../../graphql/mutations";
 import { useTimeout } from "rsuite/esm/utils";
 import ControlledInput from "../../../components/ControlledInput";
 import StatPanel from "../../../components/StatPanel";
+import ListItemCustom from "../../../components/ListCustom";
+import Fixture from "../../../components/Fixture";
 
 //used to navigate the different stat types
 const typeDataTeam = [
@@ -85,52 +87,13 @@ const TTeamStats = () => {
                 .slice((activePage - 1) * 10, (activePage - 1) * 10 + 10)
                 .map((fixture) => {
                   return (
-                    <List.Item
-                      key={fixture?.id}
-                      style={{
-                        background:
-                          currentFixture?.id === fixture?.id ? "" : "",
-                      }}
-                      onClick={() => {
-                        setShowStats(false);
-                        setTimeout(() => {
-                          setShowStats(true);
-                          setTypeDataTeamState(typeDataTeam[0]);
-                        }, 500);
-
-                        setCurrentFixture(fixture);
-                      }}
-                    >
-                      <FlexboxGrid justify="space-between">
-                        <FlexboxGrid.Item colspan={6}>
-                          {fixture?.homeTeam?.name}
-                        </FlexboxGrid.Item>
-
-                        <FlexboxGrid.Item colspan={3}>
-                          {fixture?.homeScore}
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item>VS</FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={3}>
-                          {fixture?.awayScore}
-                        </FlexboxGrid.Item>
-
-                        <FlexboxGrid.Item colspan={6}>
-                          {fixture?.awayTeam?.name}
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={2}>
-                          {fixture?.status === "pending" && (
-                            <Icon
-                              as={MdPendingActions}
-                              size="1.5em"
-                              fill="yellow"
-                            />
-                          )}
-                          {fixture?.status === "verified" && (
-                            <Icon as={MdVerified} size="1.5em" fill="green" />
-                          )}
-                        </FlexboxGrid.Item>
-                      </FlexboxGrid>
-                    </List.Item>
+                    <Fixture
+                      fixture={fixture}
+                      setShowStats={setShowStats}
+                      setTypeDataTeamState={setTypeDataTeamState}
+                      typeDataTeam={typeDataTeam}
+                      setCurrentFixture={setCurrentFixture}
+                    />
                   );
                 })}
           </List>
@@ -317,6 +280,12 @@ const TTeamStats = () => {
                       teamStatsAway_teamId: currentFixture.awayTeam.id,
                       teamStatsHome_teamId: currentFixture.homeTeam.id,
                       fixtureTeamStatsId: currentFixture.id,
+                      members: [
+                        ...(team.moderators ? team.moderators : []),
+                        ...(tournament.league.moderatornames
+                          ? tournament.league.moderatornames
+                          : []),
+                      ],
                       ...teamstatsTracker,
                     });
                     setTeamstatsTracker({});

@@ -963,6 +963,7 @@ export const getPlayerStats = /* GraphQL */ `
       }
       verified
       status
+      moderators
       summary_goals
       summary_assists
       summary_shots
@@ -1073,6 +1074,7 @@ export const listPlayerStats = /* GraphQL */ `
         version
         verified
         status
+        moderators
         summary_goals
         summary_assists
         summary_shots

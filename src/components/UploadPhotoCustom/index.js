@@ -32,6 +32,7 @@ const UploadPhotoCustom = ({
     const img = async () => {
       const data = await apiSettings.getImage(player.image);
       setPlayerImage(data);
+      console.log(data);
     };
     img();
   }, [player]);

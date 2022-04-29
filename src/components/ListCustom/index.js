@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { List } from "rsuite";
 
-const ListItemCustom = ({ disableHover, ...props }) => {
+const ListItemCustom = ({ isSelected, disableHover, ...props }) => {
   const [focus, setFocus] = useState(false);
   return (
     <List.Item
       {...props}
       style={
-        disableHover
-          ? { background: "var(--primary-statMe-listItem)" }
+        isSelected
+          ? {
+              background: "var(--primary-statMe-listItemFocus)",
+              borderRadius: 9,
+            }
+          : disableHover
+          ? { background: "var(--primary-statMe-listItem)", borderRadius: 9 }
           : {
               background: focus
                 ? "var(--primary-statMe-listItemFocus)"
                 : "var(--primary-statMe-listItem)",
+              borderRadius: 9,
             }
       }
       onMouseEnter={() => {

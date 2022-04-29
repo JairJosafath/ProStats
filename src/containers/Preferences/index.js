@@ -55,35 +55,41 @@ const Preferences = ({ playerID }) => {
 
   return (
     <>
-      {player && (
-        <PlayerInfoFrame
-          player={player}
-          setPlayer={setPlayer}
-          playerTemp={playerTemp}
-          setPlayerTemp={setPlayerTemp}
-          setUpdatePlayer={setUpdatePlayer}
-        />
-      )}
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}></div>
+        <div style={{ flex: 3 }}>
+          {player && (
+            <PlayerInfoFrame
+              player={player}
+              setPlayer={setPlayer}
+              playerTemp={playerTemp}
+              setPlayerTemp={setPlayerTemp}
+              setUpdatePlayer={setUpdatePlayer}
+            />
+          )}
 
-      {player && (
-        <PlayerRoles
-          player={player}
-          setPlayer={setPlayer}
-          playerTemp={playerTemp}
-          setPlayerTemp={setPlayerTemp}
-          setCreateTeam={setCreateTeam}
-          setCreateLeague={setCreateLeague}
-          setUpdateRequestFromLeague={setUpdateRequestFromLeague}
-          setUpdateRequestFromTEam={setUpdateRequestFromTEam}
-          setCreateTeamMember={setCreateTeamMember}
-          setUpdateTeam={setUpdateTeam}
-          setDeleteTeamMember={setDeleteTeamMember}
-          setCreateTeamLeague={setCreateTeamLeague}
-          setUpdateLeague={setUpdateLeague}
-          setDeleteTeamLeague={setDeleteTeamLeague}
-          setDeleteTeam={setDeleteTeam}
-        />
-      )}
+          {player && (
+            <PlayerRoles
+              player={player}
+              setPlayer={setPlayer}
+              playerTemp={playerTemp}
+              setPlayerTemp={setPlayerTemp}
+              setCreateTeam={setCreateTeam}
+              setCreateLeague={setCreateLeague}
+              setUpdateRequestFromLeague={setUpdateRequestFromLeague}
+              setUpdateRequestFromTEam={setUpdateRequestFromTEam}
+              setCreateTeamMember={setCreateTeamMember}
+              setUpdateTeam={setUpdateTeam}
+              setDeleteTeamMember={setDeleteTeamMember}
+              setCreateTeamLeague={setCreateTeamLeague}
+              setUpdateLeague={setUpdateLeague}
+              setDeleteTeamLeague={setDeleteTeamLeague}
+              setDeleteTeam={setDeleteTeam}
+            />
+          )}
+        </div>
+        <div style={{ flex: 1 }}></div>
+      </div>
     </>
   );
 };

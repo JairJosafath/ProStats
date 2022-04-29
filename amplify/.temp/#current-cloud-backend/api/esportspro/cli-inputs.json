@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "esportspro",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\jairj\\Workspace2\\ProStats\\amplify\\backend\\api\\esportspro\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 300,
+      "apiKeyExpirationDate": "2023-01-02T15:55:47.613Z",
+      "keyDescription": "public"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authesportspro19acce39"
+      },
+      {
+        "mode": "AWS_IAM"
+      }
+    ]
+  }
+}

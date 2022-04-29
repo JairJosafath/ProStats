@@ -1,6 +1,7 @@
 import { Sidenav, Nav, Dropdown } from "rsuite";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import NavItemCustom from "../NavItemCustom";
 
 const panelStyles = {
   padding: "15px 20px",
@@ -97,71 +98,73 @@ const PSideNavCustom = ({ team, player, tournament, setTournament }) => {
         {showNav !== "hide" && (
           <Sidenav.Body>
             <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              <Nav.Item as="div" eventKey="dashboard">
-                <Link to={`dashboard`}>
-                  <div
-                    style={activeKey !== "dashboard" ? { color: "#aaa" } : {}}
-                  >
-                    Dashboard
-                  </div>
-                </Link>
-              </Nav.Item>
+              <Link to={`dashboard`} style={{ textDecoration: "none" }}>
+                {" "}
+                <NavItemCustom
+                  as="div"
+                  eventKey="dashboard"
+                  isSelected={activeKey === "dashboard" ? true : false}
+                >
+                  <p style={{ padding: "20px 50px 20px 50px" }}> Dashboard</p>
+                </NavItemCustom>
+              </Link>{" "}
               <Nav.Item panel style={panelStyles}>
                 Manage
               </Nav.Item>
-              <Nav.Item as="div" eventKey="playerstats">
-                <Link to={`playerstats`}>
-                  <div
-                    style={activeKey !== "playerstats" ? { color: "#aaa" } : {}}
-                  >
+              <Link to={`playerstats`} style={{ textDecoration: "none" }}>
+                {" "}
+                <NavItemCustom
+                  as="div"
+                  eventKey="playerstats"
+                  isSelected={activeKey === "playerstats" ? true : false}
+                >
+                  <p style={{ padding: "20px 50px 20px 50px" }}>
+                    {" "}
                     Player Stats
-                  </div>
-                </Link>
-              </Nav.Item>
-
-              <Nav.Item as="div" eventKey="teams">
-                <Link to="teams">
-                  <div style={activeKey !== "teams" ? { color: "#aaa" } : {}}>
-                    Teams
-                  </div>
-                </Link>
-              </Nav.Item>
-
-              {/* <Nav.Item as="div" eventKey="roles">
+                  </p>
+                </NavItemCustom>
+              </Link>
+              {/* <Link to="teams" style={{ textDecoration: "none" }}>
+                {" "}
+                <NavItemCustom
+                  as="div"
+                  eventKey="teams"
+                  isSelected={activeKey === "teams" ? true : false}
+                >
+                  <p style={{ padding: "20px 50px 20px 50px" }}> Teams</p>
+                </NavItemCustom>
+              </Link> */}
+              {/* <NavItemCustom as="div" eventKey="roles">
                 <Link to="roles">
                   <div style={activeKey !== "roles" ? { color: "#aaa" } : {}}>
                     Roles
                   </div>
                 </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="requests">
+              </NavItemCustom>
+              <NavItemCustom as="div" eventKey="requests">
                 <Link to="requests">
-                  <div
-                    style={activeKey !== "requests" ? { color: "#aaa" } : {}}
-                  >
+                  
                     Requests
                   </div>
                 </Link>
-              </Nav.Item> */}
-              {/* <Nav.Item panel style={panelStyles}>
+              </NavItemCustom> */}
+              {/* <NavItemCustom panel style={panelStyles}>
                 Post
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="news">
+              </NavItemCustom>
+              <NavItemCustom as="div" eventKey="news">
                 <Link to="news">
                   <div style={activeKey !== "news" ? { color: "#aaa" } : {}}>
                     News
                   </div>
                 </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="transfer">
+              </NavItemCustom>
+              <NavItemCustom as="div" eventKey="transfer">
                 <Link to="transfer">
-                  <div
-                    style={activeKey !== "transfer" ? { color: "#aaa" } : {}}
-                  >
+                  
                     Transfer
                   </div>
                 </Link>
-              </Nav.Item> */}
+              </NavItemCustom> */}
             </Nav>
           </Sidenav.Body>
         )}

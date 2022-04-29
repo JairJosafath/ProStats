@@ -38,20 +38,23 @@ const PlayerDashboard = () => {
           tournament={tournament}
           setTournament={setTournament}
         />
-        <Outlet
-          style={{ flex: 4 }}
-          context={{
-            setTeamId,
-            tournament,
-            team,
-            setPlayerId,
-            player,
-            setGetTeamFixtures,
-            teamFixtures,
-            setCreatePlayerStats,
-            setUpdatePlayerStats,
-          }}
-        />
+        <div style={{ flex: "4" }}>
+          {" "}
+          <Outlet
+            context={{
+              setTeamId,
+              tournament,
+              team,
+              setPlayerId,
+              player,
+              setGetTeamFixtures,
+              teamFixtures,
+              setCreatePlayerStats,
+              setUpdatePlayerStats,
+            }}
+          />
+        </div>
+        <div style={{ flex: 3 }}></div>
       </div>
     </>
   );

@@ -30,7 +30,7 @@ const LUploadPhotoCustom = ({
 
   useEffect(() => {
     const img = async () => {
-      const data = await apiSettings.getImage(league.image);
+      const data = await apiSettings.getImage(league.logo);
       setLeagueImage(data);
     };
     img();

@@ -201,7 +201,7 @@ function App(props) {
 
   return (
     <>
-      {league.header && (
+      {/* {league.header && (
         <>
           <div
             style={{
@@ -225,7 +225,7 @@ function App(props) {
             alt="header"
           />
         </>
-      )}
+      )} */}
 
       <BrowserRouter>
         <NavbarCustom
@@ -240,113 +240,115 @@ function App(props) {
           </>
         )}
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/standings"
-            element={
-              <Standings
-                tournament={tournament}
-                tournaments={tournaments}
-                setTournament={setTournament}
-                setTournaments={setTournaments}
-                league={league}
-                table={tournament ? tournament.table : { items: [] }}
-                indexT={indexT}
-                setIndexT={setIndexT}
-                playerTable={
-                  tournament ? tournament.playerTable : { items: [] }
-                }
-              />
-            }
-          />
-          <Route path="/transfers" element={<Transfers />} />
-          <Route path="/fixtures" element={<Fixtures />} />
-          <Route
-            path="/dashboard"
-            element={user ? <Dashboard /> : <SignInCustom />}
-          />
-          <Route
-            path="/uploadplayerstats/:type"
-            element={<UploadPlayerStats />}
-          />
-          <Route
-            path="/uploadteamstats/:type"
-            element={user ? <UploadTeamStats /> : <SignInCustom />}
-          />
-          <Route
-            path="/manageplayer"
-            element={user ? <ManagePlayer /> : <SignInCustom />}
-          />
-          <Route
-            path="/manageteam"
-            element={user ? <ManageTeam /> : <SignInCustom />}
-          />
-          <Route
-            path="/transfer"
-            element={user ? <PostTransfer /> : <SignInCustom />}
-          />
-          <Route
-            path="/news"
-            element={user ? <PostNews /> : <SignInCustom />}
-          />
-          <Route
-            path="/leaguedashboard/:id"
-            element={user ? <LeagueDashboard /> : <SignInCustom />}
-          >
-            <Route path="dashboard" element={<LDashboard />} />
-            <Route path="teamstats" element={<LTeamStats />} />
-            <Route path="playerstats" element={<LPlayerStats />} />
-            <Route path="tournaments" element={<LTournaments />} />
-            <Route path="teams" element={<LTeams />} />
-            <Route path="roles" element={<LRoles />} />
-            <Route path="news" element={<LNews />} />
-            <Route path="transfer" element={<LTransfer />} />
-            <Route path="requests" element={<LRequests />} />
-            {/* <Route path="dashboard" element={<LDashboard/>}/> */}
-          </Route>
-          <Route
-            path="/teamdashboard/:id"
-            element={user ? <TeamDashboard /> : <SignInCustom />}
-          >
-            <Route path="dashboard" element={<TDashboard />} />
-            <Route path="teamstats" element={<TTeamStats />} />
-            <Route path="playerstats" element={<TPlayerStats />} />
-            {/* <Route path="tournaments" element={<TTournaments />} />
+        <div style={{ minHeight: "90vh" }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/standings"
+              element={
+                <Standings
+                  tournament={tournament}
+                  tournaments={tournaments}
+                  setTournament={setTournament}
+                  setTournaments={setTournaments}
+                  league={league}
+                  table={tournament ? tournament.table : { items: [] }}
+                  indexT={indexT}
+                  setIndexT={setIndexT}
+                  playerTable={
+                    tournament ? tournament.playerTable : { items: [] }
+                  }
+                />
+              }
+            />
+            <Route path="/transfers" element={<Transfers />} />
+            <Route path="/fixtures" element={<Fixtures />} />
+            <Route
+              path="/dashboard"
+              element={user ? <Dashboard /> : <SignInCustom />}
+            />
+            <Route
+              path="/uploadplayerstats/:type"
+              element={<UploadPlayerStats />}
+            />
+            <Route
+              path="/uploadteamstats/:type"
+              element={user ? <UploadTeamStats /> : <SignInCustom />}
+            />
+            <Route
+              path="/manageplayer"
+              element={user ? <ManagePlayer /> : <SignInCustom />}
+            />
+            <Route
+              path="/manageteam"
+              element={user ? <ManageTeam /> : <SignInCustom />}
+            />
+            <Route
+              path="/transfer"
+              element={user ? <PostTransfer /> : <SignInCustom />}
+            />
+            <Route
+              path="/news"
+              element={user ? <PostNews /> : <SignInCustom />}
+            />
+            <Route
+              path="/leaguedashboard/:id"
+              element={user ? <LeagueDashboard /> : <SignInCustom />}
+            >
+              <Route path="dashboard" element={<LDashboard />} />
+              <Route path="teamstats" element={<LTeamStats />} />
+              <Route path="playerstats" element={<LPlayerStats />} />
+              <Route path="tournaments" element={<LTournaments />} />
+              <Route path="teams" element={<LTeams />} />
+              <Route path="roles" element={<LRoles />} />
+              <Route path="news" element={<LNews />} />
+              <Route path="transfer" element={<LTransfer />} />
+              <Route path="requests" element={<LRequests />} />
+              {/* <Route path="dashboard" element={<LDashboard/>}/> */}
+            </Route>
+            <Route
+              path="/teamdashboard/:id"
+              element={user ? <TeamDashboard /> : <SignInCustom />}
+            >
+              <Route path="dashboard" element={<TDashboard />} />
+              <Route path="teamstats" element={<TTeamStats />} />
+              <Route path="playerstats" element={<TPlayerStats />} />
+              {/* <Route path="tournaments" element={<TTournaments />} />
             <Route path="teams" element={<TTeams />} /> */}
-            <Route path="roles" element={<TRoles />} />
-            <Route path="leagues" element={<TLeagues />} />
-            <Route path="players" element={<TPlayers />} />
+              <Route path="roles" element={<TRoles />} />
+              <Route path="leagues" element={<TLeagues />} />
+              <Route path="players" element={<TPlayers />} />
 
-            {/* <Route path="dashboard" element={<LDashboard/>}/> */}
-          </Route>
-          <Route
-            path="/playerdashboard/:id"
-            element={user ? <PlayerDashboard /> : <SignInCustom />}
-          >
-            <Route path="dashboard" element={<PDashboard />} />
+              {/* <Route path="dashboard" element={<LDashboard/>}/> */}
+            </Route>
+            <Route
+              path="/playerdashboard/:id"
+              element={user ? <PlayerDashboard /> : <SignInCustom />}
+            >
+              <Route path="dashboard" element={<PDashboard />} />
 
-            <Route path="playerstats" element={<PPlayerStats />} />
-            <Route path="teams" element={<PTeams />} />
+              <Route path="playerstats" element={<PPlayerStats />} />
+              <Route path="teams" element={<PTeams />} />
 
-            {/* <Route path="dashboard" element={<LDashboard/>}/> */}
-          </Route>
-          <Route
-            path={`/preferences`}
-            element={
-              user ? (
-                <Preferences playerID={user.attributes["custom:player_id"]} />
-              ) : (
-                <SignInCustom />
-              )
-            }
-          />
-          <Route
-            path="/account"
-            element={user ? <Account /> : <SignInCustom />}
-          />
-          <Route path="/signIn" element={<SignInCustom />} />
-        </Routes>
+              {/* <Route path="dashboard" element={<LDashboard/>}/> */}
+            </Route>
+            <Route
+              path={`/preferences`}
+              element={
+                user ? (
+                  <Preferences playerID={user.attributes["custom:player_id"]} />
+                ) : (
+                  <SignInCustom />
+                )
+              }
+            />
+            <Route
+              path="/account"
+              element={user ? <Account /> : <SignInCustom />}
+            />
+            <Route path="/signIn" element={<SignInCustom />} />
+          </Routes>
+        </div>
       </BrowserRouter>
       {/* <News league={league} /> */}
       <GlobalStyles />

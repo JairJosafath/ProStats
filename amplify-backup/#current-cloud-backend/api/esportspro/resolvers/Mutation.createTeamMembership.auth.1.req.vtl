@@ -1,0 +1,69 @@
+## [Start] Authorization Steps. **
+$util.qr($ctx.stash.put("hasAuth", true))
+#set( $inputFields = $util.parseJson($util.toJson($ctx.args.input.keySet())) )
+#set( $isAuthorized = false )
+#set( $allowedFields = [] )
+#if( $util.authType() == "API Key Authorization" )
+$util.unauthorized()
+#end
+#if( $util.authType() == "IAM Authorization" )
+$util.unauthorized()
+#end
+#if( $util.authType() == "User Pool Authorization" )
+  #if( !$isAuthorized )
+    #set( $ownerEntity0 = $util.defaultIfNull($ctx.args.input.owner, null) )
+    #set( $ownerClaim0 = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+    #set( $ownerAllowedFields0 = ["id","status","team","player","moderators","playerTeamMembershipsId","teamTeamMembershipsId"] )
+    #set( $isAuthorizedOnAllFields0 = true )
+    #if( $ownerClaim0 == $ownerEntity0 )
+      #if( $isAuthorizedOnAllFields0 )
+        #set( $isAuthorized = true )
+      #else
+        $util.qr($allowedFields.addAll($ownerAllowedFields0))
+      #end
+    #end
+    #if( $util.isNull($ownerEntity0) && !$ctx.args.input.containsKey("owner") )
+      $util.qr($ctx.args.input.put("owner", $ownerClaim0))
+      #if( $isAuthorizedOnAllFields0 )
+        #set( $isAuthorized = true )
+      #else
+        $util.qr($allowedFields.addAll($ownerAllowedFields0))
+      #end
+    #end
+  #end
+  #if( !$isAuthorized )
+    #set( $ownerEntity1 = $util.defaultIfNull($ctx.args.input.moderators, null) )
+    #set( $ownerClaim1 = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+    #set( $ownerAllowedFields1 = ["id","status","team","player","moderators","playerTeamMembershipsId","teamTeamMembershipsId"] )
+    #set( $isAuthorizedOnAllFields1 = true )
+    #foreach( $allowedOwner in $ownerEntity1 )
+      #if( $allowedOwner == $ownerClaim1 )
+        #if( $isAuthorizedOnAllFields1 )
+          #set( $isAuthorized = true )
+          #break
+        #else
+          $util.qr($allowedFields.addAll($ownerAllowedFields1))
+        #end
+      #end
+    #end
+    #if( $util.isNull($ownerEntity1) && !$ctx.args.input.containsKey("moderators") )
+      $util.qr($ctx.args.input.put("moderators", [$ownerClaim1]))
+      #if( $isAuthorizedOnAllFields1 )
+        #set( $isAuthorized = true )
+      #else
+        $util.qr($allowedFields.addAll($ownerAllowedFields1))
+      #end
+    #end
+  #end
+#end
+#if( !$isAuthorized && $allowedFields.isEmpty() )
+$util.unauthorized()
+#end
+#if( !$isAuthorized )
+  #set( $deniedFields = $util.list.copyAndRemoveAll($inputFields, $allowedFields) )
+  #if( $deniedFields.size() > 0 )
+    $util.error("Unauthorized on ${deniedFields}", "Unauthorized")
+  #end
+#end
+$util.toJson({"version":"2018-05-29","payload":{}})
+## [End] Authorization Steps. **

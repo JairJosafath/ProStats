@@ -16,6 +16,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { apiSettings, apiSettingsTD } from "../../../API/API";
 import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
 import PlayerList from "../../../components/PlayerList";
+import ListItemCustom from "../../../components/ListCustom";
 
 const NewRequest = ({
   setOpen,
@@ -158,19 +159,16 @@ const TPlayers = () => {
               }}
             />
           </Whisper>
-
+          <FlexboxGrid justify="space-between">
+            <FlexboxGrid.Item colspan={6}>Player</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={6}>Username</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={6}>Status</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
+          </FlexboxGrid>
           <List hover style={{ marginTop: 10 }}>
-            <List.Item key="dummyItem">
-              <FlexboxGrid justify="space-between">
-                <FlexboxGrid.Item colspan={6}>Player</FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={6}>Username</FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={6}>Status</FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
-              </FlexboxGrid>
-            </List.Item>
             {teamRequests?.requeststoPlayer?.items?.map((request) => (
               <>
-                <List.Item key={request.id}>
+                <ListItemCustom key={request.id}>
                   <FlexboxGrid justify="space-between">
                     <FlexboxGrid.Item colspan={6}>
                       {request.to.name}
@@ -192,7 +190,7 @@ const TPlayers = () => {
                       />
                     </FlexboxGrid.Item>
                   </FlexboxGrid>
-                </List.Item>
+                </ListItemCustom>
               </>
             ))}
           </List>

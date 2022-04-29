@@ -17,6 +17,7 @@ import { Icon } from "@rsuite/icons";
 import { MdVerified, MdPendingActions } from "react-icons/md";
 import ListItemCustom from "../../../components/ListCustom";
 import FlexItemCustom from "../../../components/FlexItemCustom";
+import AdvancedFixture from "../../../components/FixtureHover/FixtureHover";
 const typeDataPlayer = [
   "summary",
   "passing",
@@ -29,6 +30,7 @@ const tracker = { ...playerStats };
 
 const LPlayerStats = () => {
   const {
+    league,
     tournament,
     fixturesByTournamentAndRound,
     setCreateFixtures,
@@ -60,22 +62,7 @@ const LPlayerStats = () => {
   useEffect(() => {
     setActiveRound(activePage);
   }, [activePage]);
-  const onChangeHandler = () => {
-    const temp = {};
-    console.log("temp obj", temp);
 
-    typeDataPlayer.map((type) =>
-      playerstatsTracker[type].map((stat) => {
-        if (stat.val) {
-          temp[`${type}_${stat.attr.replaceAll(" ", "_")}`] = parseInt(
-            stat.val
-          );
-        }
-      })
-    );
-
-    console.log("temp obj ps", temp);
-  };
   useEffect(() => {
     //when fixtures are selected update the stats based on the fixture
     setPlayerstatsTracker({});
@@ -125,81 +112,17 @@ const LPlayerStats = () => {
               generate fixtures
             </Button>
           )}
-          <List>
+          <List style={{ width: 750 }}>
             {fixturesByTournamentAndRound?.items?.map((fixture) => {
               return (
-                <ListItemCustom
-                  disableHover
-                  onClick={() => {
-                    console.log("nothing for now");
-                  }}
-                >
-                  <FlexboxGrid justify="center">
-                    <FlexItemCustom
-                      colspan={8}
-                      onMouseEnter={() => {
-                        console.log("hovering", fixture?.homeTeam.name);
-                        setSelectedTEam(fixture?.teamHomefixturesId);
-                      }}
-                      onClick={() => {
-                        setShowStats(false);
-                        setTimeout(() => {
-                          setShowStats(true);
-                          setTypeDataPlayerState(typeDataPlayer[0]);
-                          setSelectedTEam(fixture?.homeTeam);
-                        }, 500);
-
-                        setCurrentFixture(fixture);
-                      }}
-                    >
-                      <FlexboxGrid justify="center">
-                        <FlexboxGrid.Item>
-                          {fixture?.homeTeam.name}
-                        </FlexboxGrid.Item>
-                      </FlexboxGrid>
-                    </FlexItemCustom>
-
-                    <FlexboxGrid.Item colspan={3}>
-                      <FlexboxGrid justify="center">
-                        <FlexboxGrid.Item>
-                          {fixture?.homeScore}
-                        </FlexboxGrid.Item>
-                      </FlexboxGrid>
-                    </FlexboxGrid.Item>
-                    <FlexboxGrid.Item>VS</FlexboxGrid.Item>
-                    <FlexboxGrid.Item colspan={3}>
-                      <FlexboxGrid justify="center">
-                        <FlexboxGrid.Item>
-                          {fixture?.awayScore}
-                        </FlexboxGrid.Item>
-                      </FlexboxGrid>
-                    </FlexboxGrid.Item>
-
-                    <FlexItemCustom
-                      colspan={8}
-                      onMouseEnter={() => {
-                        console.log("hovering", fixture?.awayTeam.name);
-                        setSelectedTEam(fixture?.teamAwayfixturesId);
-                      }}
-                      onClick={() => {
-                        setShowStats(false);
-                        setTimeout(() => {
-                          setShowStats(true);
-                          setTypeDataPlayerState(typeDataPlayer[0]);
-                          setSelectedTEam(fixture?.awayTeam);
-                        }, 500);
-
-                        setCurrentFixture(fixture);
-                      }}
-                    >
-                      <FlexboxGrid justify="center">
-                        <FlexboxGrid.Item>
-                          {fixture?.awayTeam.name}
-                        </FlexboxGrid.Item>
-                      </FlexboxGrid>
-                    </FlexItemCustom>
-                  </FlexboxGrid>
-                </ListItemCustom>
+                <AdvancedFixture
+                  setCurrentFixture={setCurrentFixture}
+                  setSelectedTEam={setSelectedTEam}
+                  fixture={fixture}
+                  setShowStats={setShowStats}
+                  setTypeDataPlayerState={setTypeDataPlayerState}
+                  typeDataPlayer={typeDataPlayer}
+                />
               );
             })}
           </List>
@@ -489,6 +412,15 @@ const LPlayerStats = () => {
                             playerPlayerStatsId: currentPlayer.id,
                             fixturePlayerStatsId: currentFixture.id,
                             status: "verified",
+                            moderators: [
+                              currentPlayer.username && currentPlayer.username,
+                              ...(selectedTeam.moderators
+                                ? selectedTeam.moderators
+                                : []),
+                              ...(league.moderatornames
+                                ? league.moderatornames
+                                : []),
+                            ],
 
                             ...playerstatsTracker,
                           });

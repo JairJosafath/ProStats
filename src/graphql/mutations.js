@@ -1786,6 +1786,7 @@ export const createPlayerStats = /* GraphQL */ `
       }
       verified
       status
+      moderators
       summary_goals
       summary_assists
       summary_shots
@@ -1952,6 +1953,7 @@ export const updatePlayerStats = /* GraphQL */ `
       }
       verified
       status
+      moderators
       summary_goals
       summary_assists
       summary_shots
@@ -2118,6 +2120,7 @@ export const deletePlayerStats = /* GraphQL */ `
       }
       verified
       status
+      moderators
       summary_goals
       summary_assists
       summary_shots

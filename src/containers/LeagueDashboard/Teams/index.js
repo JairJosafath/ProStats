@@ -44,7 +44,11 @@ const NewRequest = ({
       //   setOpen(false);
       // }
       console.log(username, "is the username");
-      console.log("id", teamId);
+      // console.log("this is the object request", {
+      //   status: "pending",
+      //   leagueRequeststoTeamId: leagueID,
+      //   teamRequestsfromLeagueId: teamId,
+      // });
 
       setGetUsernameLeagueReq({
         status: "pending",
@@ -139,9 +143,11 @@ const LTeams = () => {
         <div style={{ flex: "1", margin: 10 }}>
           <h5>{"teams in " + league?.name}</h5>
           <List autoScroll={true} style={{ height: 600 }}>
-            {league?.leagueMemberships?.items.map((team) => (
-              <ListItemCustom>{team.team.name}</ListItemCustom>
-            ))}
+            {league?.leagueMemberships?.items
+              .filter((team) => team.team.slogan !== "modTeam")
+              .map((team) => (
+                <ListItemCustom>{team.team.name}</ListItemCustom>
+              ))}
           </List>
         </div>
 

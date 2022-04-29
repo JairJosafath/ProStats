@@ -39,6 +39,10 @@ const LeagueDashboard = () => {
     setUpdateFixture,
     setActiveRound,
     setGetUsernameLeagueReq,
+    setDeleteTournament,
+    setDeleteTrophy,
+    setUpdateLeague,
+    setUpdateTrophy,
   } = useLeagueDashboard();
 
   useEffect(() => {
@@ -90,9 +94,14 @@ const LeagueDashboard = () => {
               setUpdateFixture,
               setActiveRound,
               setGetUsernameLeagueReq,
+              setDeleteTournament,
+              setDeleteTrophy,
+              setUpdateLeague,
+              setUpdateTrophy,
             }}
           />
         </div>
+        <div style={{ flex: 3 }}></div>
       </div>
     </>
   );

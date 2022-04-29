@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 //Style
 import {
+  Avatar,
   Button,
   Dropdown,
   FlexboxGrid,
@@ -20,6 +21,7 @@ import teamStats from "../../../backend/db/teamStats";
 import StatPanel from "../../../components/StatPanel";
 import { TeamStats } from "../../../backend/db/teamStatsClass";
 import ListItemCustom from "../../../components/ListCustom";
+import Fixture from "../../../components/Fixture";
 //used to navigate the different stat types
 const typeDataTeam = [
   "summary",
@@ -151,13 +153,13 @@ const LTeamStats = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => {
           setDeleteAllFixtureStats(!deleteAllFixtureStats);
         }}
       >
         reset
-      </Button>
+      </Button> */}
       <div style={{ display: "flex" }}>
         {!showStats && (
           <Panel header={`Fixtures round ${activePage}`} style={{ flex: 1 }}>
@@ -178,53 +180,16 @@ const LTeamStats = () => {
                 generate fixtures
               </Button>
             )}
-            <List hover>
+            <List hover style={{ width: 750 }}>
               {fixturesByTournamentAndRound?.items?.map((fixture) => {
                 return (
-                  <ListItemCustom
-                    style={{
-                      background: currentFixture?.id === fixture?.id ? "" : "",
-                    }}
-                    onClick={() => {
-                      setShowStats(false);
-                      setTimeout(() => {
-                        setShowStats(true);
-                        setTypeDataTeamState(typeDataTeam[0]);
-                      }, 500);
-
-                      setCurrentFixture(fixture);
-                    }}
-                  >
-                    <FlexboxGrid justify="space-between">
-                      <FlexboxGrid.Item colspan={6}>
-                        {fixture?.homeTeam?.name}
-                      </FlexboxGrid.Item>
-
-                      <FlexboxGrid.Item colspan={3}>
-                        {fixture?.homeScore}
-                      </FlexboxGrid.Item>
-                      <FlexboxGrid.Item>VS</FlexboxGrid.Item>
-                      <FlexboxGrid.Item colspan={3}>
-                        {fixture?.awayScore}
-                      </FlexboxGrid.Item>
-
-                      <FlexboxGrid.Item colspan={6}>
-                        {fixture?.awayTeam?.name}
-                      </FlexboxGrid.Item>
-                      <FlexboxGrid.Item colspan={2}>
-                        {fixture?.status === "pending" && (
-                          <Icon
-                            as={MdPendingActions}
-                            size="1.5em"
-                            fill="yellow"
-                          />
-                        )}
-                        {fixture?.status === "verified" && (
-                          <Icon as={MdVerified} size="1.5em" fill="green" />
-                        )}
-                      </FlexboxGrid.Item>
-                    </FlexboxGrid>
-                  </ListItemCustom>
+                  <Fixture
+                    fixture={fixture}
+                    setShowStats={setShowStats}
+                    setTypeDataTeamState={setTypeDataTeamState}
+                    typeDataTeam={typeDataTeam}
+                    setCurrentFixture={setCurrentFixture}
+                  />
                 );
               })}
             </List>

@@ -14,6 +14,9 @@ import playerStats from "../../../backend/db/playerStats";
 import StatPanel from "../../../components/StatPanel.PlayerStats";
 import { Icon } from "@rsuite/icons";
 import { MdVerified, MdPendingActions } from "react-icons/md";
+import FlexItemCustom from "../../../components/FlexItemCustom";
+import ListItemCustom from "../../../components/ListCustom";
+import Fixture from "../../../components/Fixture";
 
 const typeDataPlayer = [
   "summary",
@@ -47,6 +50,9 @@ const TPlayerStats = () => {
   const [currentPlayer, setCurrentPlayer] = useState(false);
   const [tempObject, setTempObject] = useState({});
 
+  useEffect(() => {
+    console.log("teamcheck", selectedTeam);
+  }, [selectedTeam]);
   useEffect(() => {
     if (currentFixture)
       setCurrentFixture(
@@ -92,39 +98,14 @@ const TPlayerStats = () => {
                 .slice((activePage - 1) * 10, (activePage - 1) * 10 + 10)
                 .map((fixture) => {
                   return (
-                    <List.Item
-                      style={{
-                        background:
-                          currentFixture?.id === fixture?.id ? "blue" : "",
-                      }}
-                      onClick={() => {
-                        setTimeout(() => {
-                          setShowStats(true);
-                          setTypeDataPlayerState(typeDataPlayer[0]);
-                          setSelectedTEam(team);
-                        }, 500);
-
-                        setCurrentFixture(fixture);
-                      }}
-                    >
-                      <FlexboxGrid justify="space-between">
-                        <FlexboxGrid.Item colspan={8}>
-                          {fixture?.homeTeam.name}
-                        </FlexboxGrid.Item>
-
-                        <FlexboxGrid.Item colspan={3}>
-                          {fixture?.homeScore}
-                        </FlexboxGrid.Item>
-                        <FlexboxGrid.Item>VS</FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={3}>
-                          {fixture?.awayScore}
-                        </FlexboxGrid.Item>
-
-                        <FlexboxGrid.Item colspan={8}>
-                          {fixture?.awayTeam.name}
-                        </FlexboxGrid.Item>
-                      </FlexboxGrid>
-                    </List.Item>
+                    <Fixture
+                      setCurrentFixture={setCurrentFixture}
+                      setSelectedTEam={setSelectedTEam}
+                      fixture={fixture}
+                      setShowStats={setShowStats}
+                      setTypeDataPlayerState={setTypeDataPlayerState}
+                      typeDataPlayer={typeDataPlayer}
+                    />
                   );
                 })}
           </List>
@@ -150,8 +131,8 @@ const TPlayerStats = () => {
           <div style={{ display: "flex" }}>
             <Panel header={` players`} style={{ flex: 1 }}>
               <List>
-                {selectedTeam?.member?.items.map((membership) => (
-                  <List.Item
+                {selectedTeam?.teamMemberships?.items.map((membership) => (
+                  <ListItemCustom
                     onClick={() => {
                       setCurrentPlayer(membership.player);
                     }}
@@ -177,7 +158,7 @@ const TPlayerStats = () => {
                         )}
                       </FlexboxGrid.Item>
                     </FlexboxGrid>
-                  </List.Item>
+                  </ListItemCustom>
                 ))}
               </List>
             </Panel>{" "}
@@ -314,6 +295,15 @@ const TPlayerStats = () => {
                             playerPlayerStatsId: currentPlayer.id,
                             fixturePlayerStatsId: currentFixture.id,
                             status: "pending",
+                            moderators: [
+                              currentPlayer.username && currentPlayer.username,
+                              ...(selectedTeam.moderators
+                                ? selectedTeam.moderators
+                                : []),
+                              ...(tournament.league.moderatornames
+                                ? tournament.league.moderatornames
+                                : []),
+                            ],
                             ...playerstatsTracker,
                           });
                         }

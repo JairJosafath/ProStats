@@ -1,0 +1,27 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-esportspro-dev-190345-authRole",
+      "UnauthRoleArn": "arn:aws:iam::852731538992:role/amplify-esportspro-dev-190345-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::852731538992:role/amplify-esportspro-dev-190345-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-esportspro-dev-190345-deployment",
+      "UnauthRoleName": "amplify-esportspro-dev-190345-unauthRole",
+      "StackName": "amplify-esportspro-dev-190345",
+      "StackId": "arn:aws:cloudformation:us-east-1:852731538992:stack/amplify-esportspro-dev-190345/bc7de1b0-9c17-11ec-9d71-0aa4b54d6669",
+      "AmplifyAppId": "d33ttmhwp147yb"
+    },
+    "categories": {
+      "auth": {
+        "esportspro19acce39": {},
+        "true": {}
+      },
+      "function": {
+        "S3Triggera9d31577": {
+          "deploymentBucketName": "amplify-esportspro-dev-190345-deployment",
+          "s3Key": "amplify-builds/S3Triggera9d31577-647972544f756b705158-build.zip"
+        }
+      }
+    }
+  }
+}

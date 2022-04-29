@@ -73,6 +73,12 @@ const usePreferences = () => {
       setLoading(true);
       apiSettings
         .createTeam(createTeam)
+        .then(({ data }) => {
+          apiSettings.createTeamMembers({
+            teamTeamMembershipsId: data.createTeam.id,
+            playerTeamMembershipsId: player.id,
+          });
+        })
         .then(() => setPlayerId(player.id))
         .catch((err) => {
           console.log(err);
@@ -195,10 +201,32 @@ const usePreferences = () => {
     }
   };
   const createLeaguFunct = async () => {
+    let temp;
     if (createLeague) {
       setLoading(true);
       apiSettings
         .createLeague(createLeague)
+        .then((data) => {
+          apiSettings
+            .createTeam({
+              name: `${createLeague.name}-Mods`,
+              slogan: "modTeam",
+              playerManagesId: player.id,
+              teamManager: player.username,
+              moderators: [player.username],
+            })
+            .then((data2) => {
+              console.log("cannot read whattt?", data2);
+              setCreateTeamLeague({
+                teamLeagueMembershipsId: data2.data.createTeam.id,
+                leagueLeagueMembershipsId: data.data.createLeague.id,
+              });
+              setCreateTeamMember({
+                teamTeamMembershipsId: data2.data.createTeam.id,
+                playerTeamMembershipsId: player.id,
+              });
+            });
+        })
         .then(() => setPlayerId(player.id))
         .catch((err) => {
           console.log(err);

@@ -74,6 +74,7 @@ const TeamDashboard = () => {
             }}
           />
         </div>
+        <div style={{ flex: 3 }}></div>
       </div>
     </>
   );

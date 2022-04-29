@@ -1,0 +1,142 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-esportspro-dev-190345-authRole",
+      "UnauthRoleArn": "arn:aws:iam::852731538992:role/amplify-esportspro-dev-190345-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::852731538992:role/amplify-esportspro-dev-190345-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-esportspro-dev-190345-deployment",
+      "UnauthRoleName": "amplify-esportspro-dev-190345-unauthRole",
+      "StackName": "amplify-esportspro-dev-190345",
+      "StackId": "arn:aws:cloudformation:us-east-1:852731538992:stack/amplify-esportspro-dev-190345/bc7de1b0-9c17-11ec-9d71-0aa4b54d6669",
+      "AmplifyAppId": "d33ttmhwp147yb"
+    }
+  },
+  "auth": {
+    "esportspro19acce39": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-esportspro-dev-190345-deployment/amplify-cfn-templates/auth/esportspro19acce39-cloudformation-template.json",
+        "logicalId": "authesportspro19acce39"
+      },
+      "lastPushTimeStamp": "2022-04-28T20:17:49.230Z",
+      "output": {
+        "UserPoolId": "us-east-1_SW0bgTYCE",
+        "AppClientIDWeb": "6r6tma6lkodtturs863fncqtfu",
+        "AppClientID": "724lu8uhq0c8lrk4vtn85utbq2",
+        "IdentityPoolId": "us-east-1:993ed952-d66e-4fd5-aa2f-20a5b97e3480",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:852731538992:userpool/us-east-1_SW0bgTYCE",
+        "IdentityPoolName": "esportspro19acce39_identitypool_19acce39__dev",
+        "UserPoolName": "esportspro19acce39_userpool_19acce39"
+      },
+      "lastPushDirHash": "3Waw4QM4ldg+J1uy6S6gFQC3nj8="
+    }
+  },
+  "api": {
+    "esportspro": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 300,
+              "apiKeyExpirationDate": "2023-01-02T14:02:45.039Z",
+              "description": "300"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        },
+        "GraphQLAPIIdOutput": "xhywtidt2rc4tp4q7lya4dmjvi",
+        "GraphQLAPIEndpointOutput": "https://gjups46tqnf77n4j7x2scoh6zi.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-amox3cjxjnbflpq7edejyd6dpe"
+      },
+      "lastPushTimeStamp": "2022-04-28T21:06:50.022Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-esportspro-dev-190345-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiesportspro"
+      },
+      "lastPushDirHash": "CnFHuiZxhqdlK8k2M/4+oVHJvek=",
+      "testMode": true
+    }
+  },
+  "function": {
+    "S3Triggera9d31577": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "lastBuildTimeStamp": "2022-03-08T02:21:47.826Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2022-03-08T02:21:47.883Z",
+      "distZipFilename": "S3Triggera9d31577-647972544f756b705158-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-esportspro-dev-190345-deployment",
+        "s3Key": "amplify-builds/S3Triggera9d31577-647972544f756b705158-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-esportspro-dev-190345-deployment/amplify-cfn-templates/function/S3Triggera9d31577-cloudformation-template.json",
+        "logicalId": "functionS3Triggera9d31577"
+      },
+      "lastPushTimeStamp": "2022-04-28T20:17:49.241Z",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:852731538992:function:S3Triggera9d31577-dev",
+        "Name": "S3Triggera9d31577-dev",
+        "LambdaExecutionRole": "S3Triggera9d31577LambdaRolea9d31577-dev"
+      },
+      "lastPushDirHash": "ossJpWw6eX5AyoN0TfgHagYP/CE="
+    }
+  },
+  "storage": {
+    "s33cba41a9EsportsPro": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "S3Triggera9d31577",
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2022-04-28T20:17:57.589Z",
+      "output": {
+        "BucketName": "esportspro5207bd14491a402e9c804e2fa8a32e92190345-dev",
+        "Region": "us-east-1",
+        "service": "S3"
+      },
+      "testMode": true,
+      "resourceName": "s33cba41a9EsportsPro",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-esportspro-dev-190345-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storages33cba41a9EsportsPro"
+      },
+      "lastPushDirHash": "3T2mxAAAxbxlBgHFGvPcBMPQWJI="
+    }
+  }
+}

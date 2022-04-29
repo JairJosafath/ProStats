@@ -18,9 +18,11 @@ export const getPlayerQuery = /* GraphQL */ `
         items {
           id
           team {
+            playerManagesId
             name
             id
             status
+            slogan
             leagueMemberships {
               items {
                 league {
@@ -36,9 +38,11 @@ export const getPlayerQuery = /* GraphQL */ `
         items {
           id
           team {
+            playerManagesId
             id
             name
             status
+            slogan
             leagueMemberships {
               items {
                 id
@@ -66,7 +70,8 @@ export const getPlayerQuery = /* GraphQL */ `
           name
           id
           status
-
+          slogan
+          playerManagesId
           leagueMemberships {
             items {
               id
@@ -270,6 +275,7 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
                 id
                 name
                 moderators
+                slogan
                 teamMemberships {
                   items {
                     id
@@ -439,6 +445,26 @@ export const createTrophyQuery = /* GraphQL */ `
     }
   }
 `;
+export const updateTrophyQuery = /* GraphQL */ `
+  mutation UpdateTrophy(
+    $input: UpdateTrophyInput!
+    $condition: ModelTrophyConditionInput
+  ) {
+    updateTrophy(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+export const deleteTrophyMutation = /* GraphQL */ `
+  mutation DeleteTrophy(
+    $input: DeleteTrophyInput!
+    $condition: ModelTrophyConditionInput
+  ) {
+    deleteTrophy(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
 export const createFixtureQuery = /* GraphQL */ `
   mutation CreateFixture(
     $input: CreateFixtureInput!
@@ -470,24 +496,30 @@ export const fixtureByTournamentandRoundQuery = /* GraphQL */ `
         status
         awayTeam {
           name
+          moderators
+          logo
           teamMemberships {
             items {
               id
               player {
                 id
                 name
+                username
               }
             }
           }
         }
         homeTeam {
           name
+          moderators
+          logo
           teamMemberships {
             items {
               id
               player {
                 id
                 name
+                username
               }
             }
           }
@@ -960,6 +992,7 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
     getTeam(id: $id) {
       id
       name
+      logo
       leagueMemberships {
         items {
           id
@@ -987,6 +1020,11 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
           tournament {
             id
             name
+            league {
+              id
+              name
+              moderatornames
+            }
           }
         }
       }
@@ -1057,10 +1095,32 @@ export const fixtureByTournamentandHomeTeamQuery = /* GraphQL */ `
         awayTeam {
           name
           id
+          logo
+          teamMemberships {
+            items {
+              id
+              player {
+                name
+                id
+                username
+              }
+            }
+          }
         }
         homeTeam {
           name
           id
+          logo
+          teamMemberships {
+            items {
+              id
+              player {
+                name
+                id
+                username
+              }
+            }
+          }
         }
 
         playerStats {
@@ -1359,10 +1419,32 @@ export const fixtureByTournamentandAwayTeamQuery = /* GraphQL */ `
         awayTeam {
           name
           id
+          logo
+          teamMemberships {
+            items {
+              id
+              player {
+                name
+                id
+                username
+              }
+            }
+          }
         }
         homeTeam {
           name
           id
+          logo
+          teamMemberships {
+            items {
+              id
+              player {
+                name
+                id
+                username
+              }
+            }
+          }
         }
         playerStats {
           items {
@@ -1704,6 +1786,7 @@ export const getPlayerForDashboardQuery = /* GraphQL */ `
     getPlayer(id: $id) {
       id
       name
+      username
     }
   }
 `;

@@ -7,7 +7,7 @@ const FlexItemCustom = ({ ...props }) => {
     <FlexboxGrid.Item
       {...props}
       style={{
-        padding: 8,
+        padding: 0,
         borderRadius: 20,
         background: focus
           ? "var( --primary-statMe-listItemFocus)"

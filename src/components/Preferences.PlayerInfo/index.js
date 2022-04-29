@@ -12,6 +12,7 @@ import {
   updateTeam,
 } from "../../graphql/mutations";
 import { apiSettings } from "../../API/API";
+import ButtonCustom from "../ButtonCustom";
 
 const updateplayerQuery = /* GraphQL */ `
   mutation UpdatePlayer(
@@ -45,7 +46,7 @@ const PlayerInfoFrame = ({
       slogan: playerabout,
       id: player.id,
       image: file
-        ? `${player.username}/${player.id}/avatars/${file.name}`
+        ? `players/${player.username}/${player.id}/avatars/${file.name}`
         : player.image,
     });
 
@@ -87,7 +88,7 @@ const PlayerInfoFrame = ({
         <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
       </FlexboxGrid>
       <div style={{ display: "grid" }}>
-        <Button
+        <ButtonCustom
           size="md"
           style={{ margin: " auto", width: 60 }}
           onClick={() => {
@@ -97,7 +98,7 @@ const PlayerInfoFrame = ({
           }}
         >
           Save
-        </Button>
+        </ButtonCustom>
       </div>
     </Panel>
   );

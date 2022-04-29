@@ -55,6 +55,8 @@ import {
   getPlayerUsernameQuery,
   getTeamModsQuery,
   getLeagueModsQuery,
+  deleteTrophyMutation,
+  updateTrophyQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -173,7 +175,7 @@ export const apiSettings = {
     return result;
   },
   updateLeague: async (input) => {
-    console.log("mutation: updateLeague");
+    console.log("mutation: updateLeague", input);
     const result = await API.graphql({
       query: updateLeagueMutation,
       variables: {
@@ -661,7 +663,7 @@ export const apiSettings = {
     return result;
   },
   createTrophy: async (input) => {
-    console.log("mutation: createLeague");
+    console.log("mutation: createTrophy");
     console.log("input", input);
     const result = await API.graphql({
       query: createTrophyQuery,
@@ -672,9 +674,33 @@ export const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  updateTrophy: async (input) => {
+    console.log("mutation: updateTrophy");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: updateTrophyQuery,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
 
   //removeOrdelete
 
+  deleteTrophy: async (input) => {
+    console.log("mutation: deleteTrophy");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deleteTrophyMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
   deleteLeague2TeamRequest: async (input) => {
     console.log("mutation: delete L2T req");
     console.log("input", input);
@@ -738,7 +764,7 @@ export const apiSettings = {
 
   putImagePlayer: async (username, id, file) => {
     const result = await Storage.put(
-      `${username}/${id}/avatars/${file.name}`,
+      `players/${username}/${id}/avatars/${file.name}`,
       file.blobFile
     ).catch((err) => console.log(err));
 
@@ -747,7 +773,21 @@ export const apiSettings = {
   putImageTeam: async (teamname, id, file) => {
     const result = await Storage.put(
       `teams/${teamname}/${id}/avatars/${file.name}`,
-      file
+      file.blobFile
+    ).catch((err) => console.log(err));
+
+    return result;
+  },
+  putImageTournament: async (
+    leagueName,
+    leagueId,
+    tournamentName,
+    id,
+    file
+  ) => {
+    const result = await Storage.put(
+      `${leagueName}/${leagueId}/tournaments/${tournamentName}/${id}/avatars/${file.name}`,
+      file.blobFile
     ).catch((err) => console.log(err));
 
     return result;
@@ -755,7 +795,7 @@ export const apiSettings = {
   putImageLeague: async (leaguename, id, file) => {
     const result = await Storage.put(
       `leagues/${leaguename}/${id}/avatars/${file.name}`,
-      file
+      file.blobFile
     ).catch((err) => console.log(err));
 
     return result;
@@ -763,7 +803,7 @@ export const apiSettings = {
   putHeaderLeague: async (leaguename, id, file) => {
     const result = await Storage.put(
       `leagues/${leaguename}/${id}/headers/${file.name}`,
-      file
+      file.blobFile
     ).catch((err) => console.log(err));
 
     return result;
@@ -784,6 +824,34 @@ export const apiSettingsTD = {
     });
 
     return data.getTeam;
+  },
+  deleteTournament: async ({ id, teams }) => {
+    console.log("delete Tournament", id, teams);
+    let input = "";
+    teams.map((teamTournament, index) => {
+      input += /* GraphQL */ `
+    deleteMembership${index}:deleteTeamTournaments(input: {id: "${teamTournament.id}"})
+    {id}
+    `;
+    });
+
+    input = /* GraphQL */ `
+    mutation DeleteTournamentAndTeamTournaments{
+      ${input}
+
+      deleteTournament(input:{id:"${id}"})
+      {id}
+    }
+    `;
+    console.log(input, "input");
+    const { data } = await API.graphql({
+      query: input,
+
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+    return data.DeleteTournamentAndTeamTournaments;
   },
   getPlayerForDashboard: async (id) => {
     console.log("querying db for player", id);

@@ -12,8 +12,10 @@ const useLeagueDashboard = () => {
   const [league, setLeague] = useState(null);
   const [leagueTeamp, setLeagueTemp] = useState(null);
 
+  const [deleteTrophy, setDeleteTrophy] = useState(false);
   const [createTournament, setCreateTournament] = useState(false);
   const [createTrophy, setCreateTrophy] = useState(false);
+  const [updateTrophy, setUpdateTrophy] = useState(false);
   const [updateTournament, setUpdateTournament] = useState(false);
   const [tournamentAddTeam, setTournamentAddTeam] = useState(false);
   const [tournamentRemoveTeam, setTournamentRemoveTeam] = useState(false);
@@ -34,6 +36,7 @@ const useLeagueDashboard = () => {
   const [updateFixture, setUpdateFixture] = useState(false);
   const [getUsernameLeagueReq, setGetUsernameLeagueReq] = useState(false);
 
+  const [deleteTournament, setDeleteTournament] = useState(false);
   const [tournament, setTournament] = useState();
   const [getTournamentByID, setGetTournamentByID] = useState(false);
 
@@ -76,12 +79,27 @@ const useLeagueDashboard = () => {
         //   name: league.name,
         //   logo: league.logo,
         //   description: league.description,
-        //   id: league.id,
+        //   id: league?.id,
         //   header: league.header,
         // });
         setLoading(false);
         setGetUsernameLeagueReq(false);
       }
+    }
+  };
+
+  const deleteTournamentFunct = async () => {
+    if (deleteTournament) {
+      setLoading(true);
+      apiSettingsTD
+        .deleteTournament(deleteTournament)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+      setDeleteTournament(false);
     }
   };
   const fetchLeague = async () => {
@@ -102,56 +120,111 @@ const useLeagueDashboard = () => {
         //   name: league.name,
         //   logo: league.logo,
         //   description: league.description,
-        //   id: league.id,
+        //   id: league?.id,
         //   header: league.header,
         // });
         setDataLoaded(true);
         setLoading(false);
       }
+      setLeagueId(false);
     }
   };
 
+  const updateLeaguefunct = async () => {
+    if (updateLeague) {
+      setLoading(true);
+      apiSettings
+        .updateLeague(updateLeague)
+        .then(() => setLeagueId(league.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+      setUpdateLeague(!updateLeague);
+    }
+  };
   const createTournamentFunct = async () => {
     if (createTournament) {
       setLoading(true);
-      apiSettings.createTournament(createTournament).catch((err) => {
-        console.log(err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .createTournament(createTournament)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
       setCreateTournament(false);
     }
   };
   const createTrophyFunct = async () => {
     if (createTrophy) {
       setLoading(true);
-      apiSettings.createTrophy(createTrophy).catch((err) => {
-        console.log(err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .createTrophy(createTrophy)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
       setCreateTrophy(false);
+    }
+  };
+  const updateTrophyFunct = async () => {
+    if (updateTrophy) {
+      setLoading(true);
+      apiSettings
+        .updateTrophy(updateTrophy)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+      setUpdateTrophy(false);
+    }
+  };
+  const deleteTrophyFunct = async () => {
+    if (deleteTrophy) {
+      setLoading(true);
+      apiSettings
+        .deleteTrophy(deleteTrophy)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+      setDeleteTrophy(false);
     }
   };
   const updateTournamentFunct = async () => {
     if (createTournament) {
       setLoading(true);
-      apiSettings.updateTournament(updateTournament).catch((err) => {
-        console.log(err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .updateTournament(updateTournament)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
       setUpdateTournament(false);
     }
   };
   const updateTournamentAddTeamFunct = async () => {
     if (tournamentAddTeam) {
       setLoading(true);
-      apiSettings.updateTournamentAddTeam(tournamentAddTeam).catch((err) => {
-        console.log("errOr", err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .updateTournamentAddTeam(tournamentAddTeam)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
       setTournamentAddTeam(false);
     }
   };
@@ -160,6 +233,7 @@ const useLeagueDashboard = () => {
       setLoading(true);
       apiSettings
         .removeTeamfromTournament(tournamentRemoveTeam)
+        .then(() => setLeagueId(league?.id))
         .catch((err) => {
           console.log("errOr", err);
           setError(true);
@@ -178,7 +252,7 @@ const useLeagueDashboard = () => {
         createTeamStats.teamStatsAway_teamId
       );
 
-      const leagueMods = await apiSettingsTD.getLeagueModUsernames(league.id);
+      const leagueMods = await apiSettingsTD.getLeagueModUsernames(league?.id);
       console.log(teamModsAway.moderators, "teamModsAway");
       console.log(teamModsHome.moderators, "teamModsHome");
       console.log(leagueMods.moderatornames, "leagueMods");
@@ -358,7 +432,7 @@ const useLeagueDashboard = () => {
       apiSettings
         .deleteLeague2TeamRequest(deleteL2TRequest)
         .then(() => {
-          setGetLeagueRequests(league.id);
+          setGetLeagueRequests(league?.id);
         })
         .catch((err) => {
           console.log("errOr", err);
@@ -456,14 +530,17 @@ const useLeagueDashboard = () => {
     setError(false);
 
     createTournamentFunct();
-    fetchLeague();
   }, [createTournament]);
+  useEffect(() => {
+    setError(false);
+
+    updateTournamentFunct();
+  }, [updateTournament]);
 
   useEffect(() => {
     setError(false);
 
     updateTournamentFunct();
-    fetchLeague();
   }, [updateTournament]);
 
   useEffect(() => {
@@ -471,22 +548,28 @@ const useLeagueDashboard = () => {
 
     updateTournamentAddTeamFunct();
     setError(false);
-    fetchLeague();
   }, [tournamentAddTeam]);
   useEffect(() => {
     setError(false);
 
     updateTournamentRemoveTeamFunct();
     setError(false);
-    fetchLeague();
   }, [tournamentRemoveTeam]);
   useEffect(() => {
     setError(false);
 
     createTrophyFunct();
-    setError(false);
-    fetchLeague();
   }, [createTrophy]);
+  useEffect(() => {
+    setError(false);
+
+    updateTrophyFunct();
+  }, [updateTrophy]);
+  useEffect(() => {
+    setError(false);
+
+    deleteTrophyFunct();
+  }, [deleteTrophy]);
   useEffect(() => {
     setError(false);
 
@@ -586,7 +669,7 @@ const useLeagueDashboard = () => {
 
   useEffect(() => {
     createRequestLeague2TeamFunct();
-    setGetLeagueRequests(leagueId);
+    setGetLeagueRequests(league?.id);
   }, [createRequestLeague2Team]);
 
   useEffect(() => {
@@ -607,6 +690,14 @@ const useLeagueDashboard = () => {
   useEffect(() => {
     getUsernameLeagueReqFunct();
   }, [getUsernameLeagueReq]);
+  useEffect(() => {
+    deleteTournamentFunct();
+  }, [deleteTournament]);
+  useEffect(() => {
+    //only run if user clicks save
+    updateLeaguefunct();
+  }, [updateLeague]);
+
   return {
     league,
     setLeague,
@@ -641,6 +732,10 @@ const useLeagueDashboard = () => {
     setUpdateFixture,
     setActiveRound,
     setGetUsernameLeagueReq,
+    setDeleteTournament,
+    setDeleteTrophy,
+    setUpdateTrophy,
+    setUpdateLeague,
   };
 };
 export default useLeagueDashboard;

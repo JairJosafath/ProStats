@@ -3,6 +3,7 @@ import {
   Button,
   Dropdown,
   FlexboxGrid,
+  IconButton,
   Input,
   List,
   Modal,
@@ -13,248 +14,11 @@ import DropdownItem from "rsuite/esm/Dropdown/DropdownItem";
 import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
 import { map } from "rsuite/esm/utils/ReactChildren";
 import ListItemCustom from "../../../components/ListCustom";
+import NewTournamentModal from "../../../components/NewTournamentModal";
+import AddTeamModal from "../../../components/AddTeamModal";
+import NewTrophyModal from "../../../components/NewTrophyModal";
+import UpdateTrophyModal from "../../../components/UpdateTrophyModal";
 
-const NewTournamentModal = ({ open, setOpen, setCreateTournament, league }) => {
-  const [overflow, setOverflow] = useState(true);
-  // const [file, setFile] = useState(null);
-  const [valueName, setValueName] = useState("");
-  const [valueAbout, setValueAbout] = useState("");
-  const [create, setCreate] = useState(false);
-  const [tournament, setTournament] = useState({
-    name: "",
-    logo: "",
-    slogan: "",
-    create,
-  });
-  // const { createdTeam, loadingCreateTeam, errorCreateTeam } =
-  //   useCreateTeam(team);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleOK = () => {
-    setCreateTournament({
-      name: valueName,
-      slogan: valueAbout,
-      leagueTournamentsId: league.id,
-    });
-
-    // console.log("league inofo", league);
-
-    console.log(`tourney\nname: ${valueName}, slogan: ${valueAbout}`);
-    // console.log("created", createdTeam);
-    setOpen(false);
-    setCreate(false);
-  };
-
-  return (
-    <div className="modal-container">
-      <Modal overflow={true} open={open} onClose={handleClose}>
-        <Modal.Header>
-          <Modal.Title>Create New Tournament</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FlexboxGrid justify="space-around">
-            <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={6}>
-              {/* <UploadPhotoCustom source={``} setFile={setFile} file={file} /> */}
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={10}>
-              <div>
-                <label>Tournament Name</label>
-                <Input
-                  placeholder={"Tournament name ..."}
-                  onChange={setValueName}
-                  value={valueName}
-                />
-              </div>
-
-              <div>
-                <label>About</label>
-                <Input
-                  placeholder={"Slogan or anything really ..."}
-                  onChange={setValueAbout}
-                  value={valueAbout}
-                />
-              </div>
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
-            Ok
-          </Button>
-          <Button onClick={handleClose} appearance="subtle">
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-};
-const AddTeamModal = ({
-  open,
-  setOpen,
-  setTournamentAddTeam,
-  league,
-  tournament,
-}) => {
-  // const { createdTeam, loadingCreateTeam, errorCreateTeam } =
-  //   useCreateTeam(team);
-  const [selected, setSelected] = useState();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    setSelected();
-  };
-
-  const handleOK = () => {
-    setTournamentAddTeam({
-      teamID: selected.id,
-      tournamentID: tournament.id,
-    });
-
-    // console.log("league inofo", league);
-
-    //console.log(`tourney\nname: ${valueName}, slogan: ${valueAbout}`);
-    // console.log("created", createdTeam);
-    setSelected();
-    setOpen(false);
-    setSelected();
-  };
-
-  const leagueteams = league?.teams?.items;
-  const tourneyteams = tournament?.team?.items;
-  const chooseteams = leagueteams?.filter((team) => {
-    for (let i = 0; i < tourneyteams?.length; i++) {
-      if (team.team.id === tourneyteams[i]?.team.id) return false;
-    }
-    return true;
-  });
-
-  return (
-    <div className="modal-container">
-      <Modal overflow={false} open={open} onClose={handleClose}>
-        <Modal.Header>
-          <Modal.Title>Add Team</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FlexboxGrid justify="space-around">
-            <FlexboxGrid.Item colspan={12}>
-              <Dropdown title={selected ? selected.name : "Add Team"}>
-                {chooseteams?.map((team, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() => setSelected(team.team)}
-                  >
-                    {team.team.name}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={3}>
-              {/* <UploadPhotoCustom source={``} setFile={setFile} file={file} /> */}
-            </FlexboxGrid.Item>
-            {/* <FlexboxGrid.Item colspan={10}>
-              <div>
-                <label>Tournament Name</label>
-                <Input placeholder={"Tournament name ..."} />
-              </div>
-
-              <div>
-                <label>About</label>
-                <Input placeholder={"Slogan or anything really ..."} />
-              </div>
-            </FlexboxGrid.Item> */}
-          </FlexboxGrid>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={() => {
-              if (selected) handleOK();
-            }}
-            appearance="primary"
-          >
-            Ok
-          </Button>
-          <Button onClick={handleClose} appearance="subtle">
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-};
-
-const NewTrophyModal = ({ open, setOpen, setCreateTrophy, tournament }) => {
-  const [overflow, setOverflow] = useState(true);
-  // const [file, setFile] = useState(null);
-  const [valueName, setValueName] = useState("");
-  const [valueAbout, setValueAbout] = useState("");
-  const [create, setCreate] = useState(false);
-
-  // const { createdTeam, loadingCreateTeam, errorCreateTeam } =
-  //   useCreateTeam(team);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleOK = () => {
-    setCreateTrophy({
-      name: valueName,
-      description: valueAbout,
-      tournamentTrophiesId: tournament.id,
-    });
-
-    // console.log("league inofo", league);
-
-    console.log(`trophy\nname: ${valueName}, slogan: ${valueAbout}`);
-    // console.log("created", createdTeam);
-    setOpen(false);
-    setCreate(false);
-  };
-
-  return (
-    <div className="modal-container">
-      <Modal overflow={true} open={open} onClose={handleClose}>
-        <Modal.Header>
-          <Modal.Title>Create New Trophy</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FlexboxGrid justify="space-around">
-            <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={6}>
-              {/* <UploadPhotoCustom source={``} setFile={setFile} file={file} /> */}
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={10}>
-              <div>
-                <label>Trophy Name</label>
-                <Input
-                  placeholder={"Trophy name ..."}
-                  onChange={setValueName}
-                  value={valueName}
-                />
-              </div>
-
-              <div>
-                <label>Description</label>
-                <Input
-                  placeholder={"Slogan or anything really ..."}
-                  onChange={setValueAbout}
-                  value={valueAbout}
-                />
-              </div>
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
-            Ok
-          </Button>
-          <Button onClick={handleClose} appearance="subtle">
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-};
 const LTournaments = () => {
   const {
     league,
@@ -266,10 +30,15 @@ const LTournaments = () => {
     setCreateTrophy,
     tournament,
     setTournament,
+    setDeleteTournament,
+    setDeleteTrophy,
+    setUpdateTrophy,
   } = useOutletContext();
   const [openTournament, setOpenTournament] = useState(false);
   const [openTournamentAdd, setOpenTournamentAdd] = useState(false);
   const [openCreateTrophy, setOpenCreateTrophy] = useState(false);
+  const [openUpdateTrophy, setOpenUpdateTrophy] = useState(false);
+  const [trophy, setTrophy] = useState(false);
 
   useEffect(() => {
     const tourn = league?.tournaments?.items?.filter(
@@ -278,6 +47,10 @@ const LTournaments = () => {
     setTournament(tourn && tourn[0]);
   }, [league]);
   // console.log("in tournaments, show teams", tournament);
+
+  const handleDeleteTOurnament = (id, teams) => {
+    setDeleteTournament({ id, teams: teams });
+  };
 
   const removeTeamHandle = (id) => {
     setTournamentRemoveTeam({
@@ -301,15 +74,40 @@ const LTournaments = () => {
             }
             shaded
           >
-            <List hover>
+            <List hover style={{ margin: 4 }}>
               {league &&
-                league?.tournaments.items.map((tournament, index) => (
+                league?.tournaments.items.map((tournament1, index) => (
                   <ListItemCustom
+                    isSelected={tournament?.id === tournament1?.id}
                     key={index}
-                    onClick={() => setTournament(tournament)}
+                    onClick={() => setTournament(tournament1)}
                   >
-                    <FlexboxGrid>
-                      <FlexboxGrid.Item>{tournament.name}</FlexboxGrid.Item>
+                    <FlexboxGrid justify="space-between">
+                      {/* <FlexboxGrid.Item></FlexboxGrid.Item> */}
+
+                      <FlexboxGrid.Item style={{ marginLeft: 10 }}>
+                        {tournament1?.name}
+                      </FlexboxGrid.Item>
+                      <FlexboxGrid.Item style={{ marginRight: 10 }}>
+                        <IconButton
+                          appearance="subtle"
+                          color="red"
+                          size="xs"
+                          icon={
+                            <MdDelete
+                              style={{ margin: "0 auto" }}
+                              size={"1.5em"}
+                            />
+                          }
+                          onClick={(e) => {
+                            // console.log(tournament?.team.items);
+                            handleDeleteTOurnament(
+                              tournament1?.id,
+                              tournament1?.team.items
+                            );
+                          }}
+                        />
+                      </FlexboxGrid.Item>
                     </FlexboxGrid>
                   </ListItemCustom>
                 ))}
@@ -326,48 +124,38 @@ const LTournaments = () => {
         </FlexboxGrid.Item>
         <FlexboxGrid.Item colspan={15}>
           <Panel
-            style={{ minHeight: "40vh" }}
+            style={{ minHeight: "40vh", maxHeight: "40em" }}
             header={tournament?.name}
-            bordered
+            shaded
           >
             <List hover>
               {tournament &&
                 tournament?.team?.items?.map((team) => (
                   <ListItemCustom key={team.id}>
                     <FlexboxGrid justify="space-between">
-                      <FlexboxGrid.Item>{team.team.name}</FlexboxGrid.Item>
-                      <FlexboxGrid.Item>
-                        <div style={{ display: "flex" }}>
-                          {/* <div
-                            style={{ flex: 1, marginLeft: 5, marginRight: 5 }}
-                          >
-                            <MdModeEdit
-                              style={{ margin: "0 auto" }}
-                              size={"1.5em"}
-                            />
-                          </div> */}
-                          <div
-                            style={{
-                              padding: 5,
-                              flex: 1,
-                              marginLeft: 5,
-                              marginRight: 5,
-                            }}
-                            onClick={() => {
-                              console.log(
-                                "remove %s with id %s",
-                                team.team.name,
-                                team.id
-                              );
-                              removeTeamHandle(team.id);
-                            }}
-                          >
+                      <FlexboxGrid.Item style={{ marginLeft: 10 }}>
+                        {team.team.name}
+                      </FlexboxGrid.Item>
+                      <FlexboxGrid.Item style={{ marginRight: 10 }}>
+                        <IconButton
+                          appearance="subtle"
+                          color="red"
+                          size="xs"
+                          icon={
                             <MdDelete
                               style={{ margin: "0 auto" }}
                               size={"1.5em"}
                             />
-                          </div>
-                        </div>
+                          }
+                          onClick={() => {
+                            console.log(
+                              "remove %s with id %s",
+                              team.team.name,
+                              team.id
+                            );
+                            removeTeamHandle(team.id);
+                          }}
+                        />
                       </FlexboxGrid.Item>
                     </FlexboxGrid>
                   </ListItemCustom>
@@ -385,13 +173,50 @@ const LTournaments = () => {
       </FlexboxGrid>{" "}
       <FlexboxGrid>
         <FlexboxGrid.Item>
-          <Panel style={{ minWidth: "30vw" }} shaded header={"trophies"}>
+          {/* <Panel style={{ minWidth: "30vw" }} shaded header={"trophies"}>
             <List>
               {tournament?.trophies?.items.map((trophy, index) => (
                 <ListItemCustom key={index}>
                   <FlexboxGrid justify="space-between">
-                    <FlexboxGrid.Item>{trophy.name}</FlexboxGrid.Item>
-                    <FlexboxGrid.Item>{trophy.description}</FlexboxGrid.Item>
+                    <FlexboxGrid.Item colspan={7} style={{ marginLeft: 10 }}>
+                      {trophy.name}
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item colspan={7}>
+                      <p>{trophy.description}</p>
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item colspan={3}>
+                      <IconButton
+                        appearance="subtle"
+                        color="blue"
+                        size="xs"
+                        icon={
+                          <MdModeEdit
+                            style={{ margin: "0 auto" }}
+                            size={"1.5em"}
+                          />
+                        }
+                        onClick={(e) => {
+                          setTrophy(trophy);
+                          setOpenUpdateTrophy(true);
+                        }}
+                      />
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item style={{ marginRight: 10 }} colspan={3}>
+                      <IconButton
+                        appearance="subtle"
+                        color="red"
+                        size="xs"
+                        icon={
+                          <MdDelete
+                            style={{ margin: "0 auto" }}
+                            size={"1.5em"}
+                          />
+                        }
+                        onClick={(e) => {
+                          setDeleteTrophy({ id: trophy.id });
+                        }}
+                      />
+                    </FlexboxGrid.Item>
                   </FlexboxGrid>
                 </ListItemCustom>
               ))}
@@ -403,7 +228,7 @@ const LTournaments = () => {
             >
               Create Trophy
             </Button>
-          </Panel>
+          </Panel> */}
         </FlexboxGrid.Item>
       </FlexboxGrid>
       <NewTournamentModal
@@ -424,6 +249,15 @@ const LTournaments = () => {
         setOpen={setOpenCreateTrophy}
         setCreateTrophy={setCreateTrophy}
         tournament={tournament}
+        league={league}
+      />
+      <UpdateTrophyModal
+        open={openUpdateTrophy}
+        setOpen={setOpenUpdateTrophy}
+        setUpdateTrophy={setUpdateTrophy}
+        tournament={tournament}
+        league={league}
+        trophy={trophy}
       />
     </>
   );

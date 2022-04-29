@@ -1,6 +1,7 @@
 import { Sidenav, Nav, Dropdown } from "rsuite";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import NavItemCustom from "../NavItemCustom";
 
 const panelStyles = {
   padding: "15px 20px",
@@ -91,85 +92,90 @@ const TSideNavCustom = ({
         {showNav !== "hide" && (
           <Sidenav.Body>
             <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              <Nav.Item as="div" eventKey="dashboard">
-                <Link to={`dashboard`}>
-                  <div
-                    style={activeKey !== "dashboard" ? { color: "#aaa" } : {}}
-                  >
-                    Dashboard
-                  </div>
-                </Link>
-              </Nav.Item>
+              <Link style={{ textDecoration: "none" }} to={`dashboard`}>
+                {" "}
+                <NavItemCustom
+                  as="div"
+                  eventKey="dashboard"
+                  isSelected={activeKey === "dashboard" ? true : false}
+                >
+                  <p style={{ padding: "20px 50px 20px 50px" }}>Dashboard</p>
+                </NavItemCustom>
+              </Link>{" "}
               <Nav.Item panel style={panelStyles}>
                 Manage
               </Nav.Item>
-              <Nav.Item as="div" eventKey="teamstats">
-                <Link to={`teamstats`}>
-                  <div
-                    style={activeKey !== "teamstats" ? { color: "#aaa" } : {}}
-                  >
-                    Team Stats
-                  </div>
-                </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="playerstats">
-                <Link to="playerstats">
-                  <div
-                    style={activeKey !== "playerstats" ? { color: "#aaa" } : {}}
-                  >
-                    Player Stats
-                  </div>
-                </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="leagues">
-                <Link to="leagues">
-                  <div style={activeKey !== "leagues" ? { color: "#aaa" } : {}}>
-                    Leagues
-                  </div>
-                </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="players">
-                <Link to="players">
-                  <div style={activeKey !== "players" ? { color: "#aaa" } : {}}>
-                    Players
-                  </div>
-                </Link>
-              </Nav.Item>
-              {/* <Nav.Item as="div" eventKey="roles">
-                <Link to="roles">
+              <Link style={{ textDecoration: "none" }} to={`teamstats`}>
+                {" "}
+                <NavItemCustom
+                  as="div"
+                  eventKey="teamstats"
+                  isSelected={activeKey === "teamstats" ? true : false}
+                >
+                  <p style={{ padding: "20px 50px 20px 50px" }}>Team Stats</p>
+                </NavItemCustom>
+              </Link>{" "}
+              <Link style={{ textDecoration: "none" }} to="playerstats">
+                {" "}
+                <NavItemCustom
+                  as="div"
+                  eventKey="playerstats"
+                  isSelected={activeKey === "playerstats" ? true : false}
+                >
+                  <p style={{ padding: "20px 50px 20px 50px" }}>Player Stats</p>
+                </NavItemCustom>{" "}
+              </Link>
+              {/* <Link style={{ textDecoration: "none" }} to="leagues">
+                {" "}
+                <NavItemCustom as="div" eventKey="leagues">
+                  <p style={{ padding: "20px 50px 20px 50px" }}>Leagues</p>
+                </NavItemCustom>
+              </Link>{" "} */}
+              <Link
+                style={{ textDecoration: "none" }}
+                to="players"
+                isSelected={activeKey === "players" ? true : false}
+              >
+                {" "}
+                <NavItemCustom as="div" eventKey="players">
+                  <p style={{ padding: "20px 50px 20px 50px" }}>Players</p>
+                </NavItemCustom>{" "}
+              </Link>
+              {/* <NavItemCustom as="div" eventKey="roles">
+                <Link style={{ textDecoration: "none" }} to="roles">
                   <div style={activeKey !== "roles" ? { color: "#aaa" } : {}}>
                     Roles
                   </div>
                 </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="requests">
-                <Link to="requests">
+              </NavItemCustom>
+              <NavItemCustom as="div" eventKey="requests">
+                <Link style={{ textDecoration: "none" }} to="requests">
                   <div
                     style={activeKey !== "requests" ? { color: "#aaa" } : {}}
                   >
                     Requests
                   </div>
                 </Link>
-              </Nav.Item> */}
+              </NavItemCustom> */}
               {/* <Nav.Item panel style={panelStyles}>
                 Post
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="news">
-                <Link to="news">
+              </NavItemCustom>
+              <NavItemCustom as="div" eventKey="news">
+                <Link style={{ textDecoration: "none" }} to="news">
                   <div style={activeKey !== "news" ? { color: "#aaa" } : {}}>
                     News
                   </div>
                 </Link>
-              </Nav.Item>
-              <Nav.Item as="div" eventKey="transfer">
-                <Link to="transfer">
+              </NavItemCustom>
+              <NavItemCustom as="div" eventKey="transfer">
+                <Link style={{ textDecoration: "none" }} to="transfer">
                   <div
                     style={activeKey !== "transfer" ? { color: "#aaa" } : {}}
                   >
                     Transfer
                   </div>
                 </Link>
-              </Nav.Item> */}
+              </NavItemCustom> */}
             </Nav>
           </Sidenav.Body>
         )}
