@@ -180,7 +180,7 @@ const LTeamStats = () => {
                 generate fixtures
               </Button>
             )}
-            <List hover style={{ width: 750 }}>
+            <List hover style={{ width: 500 }}>
               {fixturesByTournamentAndRound?.items?.map((fixture) => {
                 return (
                   <Fixture
@@ -439,10 +439,12 @@ const LTeamStats = () => {
 
                         //check for cleansheets
                         if (currentFixture?.awayScore === 0) {
-                          homeTableStat.cleanSheats--;
+                          if (homeTableStat.cleanSheats - 1 >= 0)
+                            homeTableStat.cleanSheats--;
                         }
                         if (currentFixture?.homeScore === 0) {
-                          awayTableStat.cleanSheats--;
+                          if (awayTableStat.cleanSheats - 1 >= 0)
+                            awayTableStat.cleanSheats--;
                         }
 
                         //check W,D,L count and points upddate
@@ -450,26 +452,36 @@ const LTeamStats = () => {
                           currentFixture?.awayScore ===
                           currentFixture?.homeScore
                         ) {
-                          homeTableStat.gamesDrawn--;
+                          if (homeTableStat.gamesDrawn - 1 >= 0)
+                            homeTableStat.gamesDrawn--;
                           if (homeTableStat.gamesDrawn < 0)
                             homeTableStat.gamesDrawn = 0;
-                          awayTableStat.gamesDrawn--;
+                          if (awayTableStat.gamesDrawn - 1 >= 0)
+                            awayTableStat.gamesDrawn--;
                           if (awayTableStat.gamesDrawn < 0)
                             awayTableStat.gamesDrawn = 0;
-                          homeTableStat.points--;
-                          awayTableStat.points--;
+                          if (homeTableStat.points - 1 >= 0)
+                            homeTableStat.points--;
+                          if (awayTableStat.points - 1 >= 0)
+                            awayTableStat.points--;
                         } else if (
                           currentFixture?.awayScore > currentFixture?.homeScore
                         ) {
-                          awayTableStat.gamesWon--;
-                          homeTableStat.gamesLost--;
-                          awayTableStat.points -= 3;
+                          if (awayTableStat.gamesWon - 1 >= 0)
+                            awayTableStat.gamesWon--;
+                          if (homeTableStat.gamesLost - 1 >= 0)
+                            homeTableStat.gamesLost--;
+                          if (awayTableStat.points - 3 >= 0)
+                            awayTableStat.points -= 3;
                         } else if (
                           currentFixture?.awayScore < currentFixture?.homeScore
                         ) {
-                          awayTableStat.gamesLost--;
-                          homeTableStat.gamesWon--;
-                          homeTableStat.points -= 3;
+                          if (awayTableStat.gamesLost - 1 >= 0)
+                            awayTableStat.gamesLost--;
+                          if (homeTableStat.gamesWon - 1 >= 0)
+                            homeTableStat.gamesWon--;
+                          if (homeTableStat.points - 3 >= 0)
+                            homeTableStat.points -= 3;
                         }
 
                         //update goal diff, for and against

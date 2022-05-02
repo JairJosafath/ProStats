@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 //Styles
@@ -129,39 +129,40 @@ function App(props) {
   const [indexT, setIndexT] = useState(0);
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   const [roles, setRoles] = useState(["player"]);
+  const [newUserTrigger, setNewUserTrigger] = useState(true);
 
   useEffect(() => {
     setTournaments(league.tournaments.items);
     setTournament(tournaments[indexT]);
   }, [league, tournament, tournaments, indexT]);
 
-  useEffect(() => {
-    if (user) {
-      const createPlayerInput = {
-        name: user.username,
-        username: user.username,
-      };
+  // useEffect(() => {
+  //   if (newUserTrigger && user) {
+  //     const createPlayerInput = {
+  //       name: user.username,
+  //       username: user.username,
+  //     };
 
-      const cp = async () => {
-        if (
-          user.attributes["custom:player_id"] === "" ||
-          !user.attributes["custom:player_id"]
-        ) {
-          const playerID = await API.graphql({
-            query: createPlayer,
-            variables: { input: createPlayerInput },
-            authMode: "AMAZON_COGNITO_USER_POOLS",
-          });
+  //     const cp = async () => {
+  //       if (
+  //         user.attributes["custom:player_id"] === "" ||
+  //         !user.attributes["custom:player_id"]
+  //       ) {
+  //         const playerID = await API.graphql({
+  //           query: createPlayer,
+  //           variables: { input: createPlayerInput },
+  //           authMode: "AMAZON_COGNITO_USER_POOLS",
+  //         });
 
-          Auth.updateUserAttributes(user, {
-            "custom:player_id": playerID.data.createPlayer.id,
-          });
-        }
-      };
+  //         Auth.updateUserAttributes(user, {
+  //           "custom:player_id": playerID.data.createPlayer.id,
+  //         }).then(setNewUserTrigger(false));
+  //       }
+  //     };
 
-      cp();
-    }
-  }, [user, league]);
+  //     cp();
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     if (user) {

@@ -57,6 +57,8 @@ import {
   getLeagueModsQuery,
   deleteTrophyMutation,
   updateTrophyQuery,
+  getLeagueMembership,
+  createPlayerQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -380,6 +382,18 @@ export const apiSettings = {
       authMode: defaultAuth,
     }).catch((error) => console.log(error));
     return result;
+  },
+  createPlayer: async (input) => {
+    console.log("mutation: createPlayer");
+    console.log("input", input);
+    const { data } = await API.graphql({
+      query: createPlayerQuery,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return data;
   },
   createRequestLeague2Team: async (input) => {
     console.log("mutation: request2Team");
@@ -824,6 +838,20 @@ export const apiSettingsTD = {
     });
 
     return data.getTeam;
+  },
+  getLeagueMembership: async (id) => {
+    console.log("querying db for leagueMember", id);
+    const { data } = await API.graphql({
+      query: getLeagueMembership,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getLeagueMembership;
   },
   deleteTournament: async ({ id, teams }) => {
     console.log("delete Tournament", id, teams);

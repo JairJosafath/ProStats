@@ -236,6 +236,8 @@ const PlayerRoles = ({
   };
   const handleDeleteLeague = (id, role) => {
     console.log(`delete league with id: ${id} as ${role}`);
+    //tournaments=> delete standings, fixtures, tournaments and all join table records
+
     setUpdateLeague({
       id,
       name: "deleted league",
@@ -466,9 +468,9 @@ const PlayerRoles = ({
                     (request) => request.status === "pending"
                   )[0] && (
                     <ListItemCustom
-                      style={{
-                        background: "rgba(30,100,200,.5)",
-                      }}
+                      // style={{
+                      //   background: "rgba(30,100,200,.5)",
+                      // }}
                       onClick={(e) => {
                         setShowRequests(!showRequests);
                       }}
@@ -796,7 +798,7 @@ const PlayerRoles = ({
                                           }
                                           onClick={(e) => {
                                             handleEditTeam(
-                                              team.id,
+                                              teamLeague.id,
                                               "manager",
                                               false
                                             );
@@ -1091,73 +1093,75 @@ const PlayerRoles = ({
                       membership.team.playerManagesId !== player.id
                   )
                   .map((team, index) => {
-                    return (
-                      team.team.status !== "qw" && (
-                        <ListItemCustom key={`${team.team.id}-Man${index}`}>
-                          <FlexboxGrid justify="space-around">
-                            <FlexboxGrid.Item colspan={7}>
-                              {team.team.name}
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={4}>
-                              Member
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={4}>
-                              {team?.team?.league?.name}
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={1}>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  width: "4em",
-                                }}
-                              >
-                                <IconButton
-                                  appearance="subtle"
-                                  color="blue"
-                                  size="xs"
-                                  icon={
-                                    <MdModeEdit
-                                      style={{ margin: "0 auto" }}
-                                      size={"1.5em"}
-                                    />
-                                  }
-                                  onClick={(e) => {
-                                    handleEditTeam(
-                                      team.team.id,
-                                      "member",
-                                      player.id
-                                    );
+                    console.log("index", team.team.leagueMemberships);
+                    return team.team.leagueMemberships.items.map(
+                      (membership, index) =>
+                        team.team.status !== "qw" && (
+                          <ListItemCustom key={`${team.team.id}-Man${index}`}>
+                            <FlexboxGrid justify="space-around">
+                              <FlexboxGrid.Item colspan={7}>
+                                {team.team.name}
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={4}>
+                                Member
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={4}>
+                                {membership.league?.name}
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={1}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    width: "4em",
                                   }}
-                                />
-                              </div>
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={1}>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  width: "4em",
-                                }}
-                              >
-                                <IconButton
-                                  appearance="subtle"
-                                  color="red"
-                                  size="xs"
-                                  icon={
-                                    <MdExitToApp
-                                      style={{ margin: "0 auto" }}
-                                      size={"1.5em"}
-                                    />
-                                  }
-                                  onClick={(e) => {
-                                    handleLeaveTeam(team.id, "member");
+                                >
+                                  <IconButton
+                                    appearance="subtle"
+                                    color="blue"
+                                    size="xs"
+                                    icon={
+                                      <MdModeEdit
+                                        style={{ margin: "0 auto" }}
+                                        size={"1.5em"}
+                                      />
+                                    }
+                                    onClick={(e) => {
+                                      handleEditTeam(
+                                        membership.id,
+                                        "member",
+                                        player.id
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              </FlexboxGrid.Item>
+                              <FlexboxGrid.Item colspan={1}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    width: "4em",
                                   }}
-                                />
-                              </div>
-                            </FlexboxGrid.Item>
-                          </FlexboxGrid>
-                        </ListItemCustom>
-                      )
+                                >
+                                  <IconButton
+                                    appearance="subtle"
+                                    color="red"
+                                    size="xs"
+                                    icon={
+                                      <MdExitToApp
+                                        style={{ margin: "0 auto" }}
+                                        size={"1.5em"}
+                                      />
+                                    }
+                                    onClick={(e) => {
+                                      handleLeaveTeam(team.id, "member");
+                                    }}
+                                  />
+                                </div>
+                              </FlexboxGrid.Item>
+                            </FlexboxGrid>
+                          </ListItemCustom>
+                        )
                     );
                   })}
               </List>

@@ -11,7 +11,9 @@ const typeDataTeam = [
   "shooting",
   "defending",
 ];
-
+const TinyText = ({ value }) => {
+  return <p style={{ fontSize: ".8em" }}>{value}</p>;
+};
 //controls the different rows in the statpanel
 const StatRow = ({
   stadium,
@@ -23,16 +25,16 @@ const StatRow = ({
   end,
 }) => {
   return (
-    <FlexboxGrid.Item colspan={7}>
+    <FlexboxGrid.Item colspan={7} justify={"space-between"}>
       <List hover>
         {teamStats[stadium][typeDataTeamState].slice(start, end).map((stat) => {
           return (
             <ListItemCustom>
-              <FlexboxGrid justify={"space-around"}>
-                <FlexboxGrid.Item colspan={16} style={{ minHeight: 50 }}>
-                  {stat.attr}
+              <FlexboxGrid justify={"space-around"} style={{ padding: 6 }}>
+                <FlexboxGrid.Item colspan={16} style={{}}>
+                  <TinyText value={stat.attr.replace("percentage", "%")} />
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={8}>
                   <ControlledInput
                     currentFixture={currentFixture}
                     type={typeDataTeamState}
@@ -43,8 +45,8 @@ const StatRow = ({
                     stadium={stadium}
                     size="sm"
                     style={{
-                      width: 60,
-                      marginLeft: 7,
+                      // width: 60,
+                      marginLeft: 0,
                     }}
                     placeholder="value"
                   />

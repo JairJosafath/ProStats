@@ -16,6 +16,8 @@ const useTeamDashboard = () => {
   const [createPlayerStats, setCreatePlayerStats] = useState(false);
   const [updatePlayerStats, setUpdatePlayerStats] = useState(false);
   const [getTeamRequestsDahboard, setGetTeamRequestsDahboard] = useState(false);
+  const [leagueMembershipId, setLeagueMembershipId] = useState(false);
+  const [league, setLeague] = useState(false);
 
   const [updateTeam, setUpdateTeam] = useState(false);
   const [updateLeague, setUpdateLeague] = useState(false);
@@ -65,6 +67,36 @@ const useTeamDashboard = () => {
         // });
         setLoading(false);
         setGetUsernameTeamReq(false);
+      }
+    }
+  };
+
+  const setTeamLeagueFunct = async () => {
+    if (leagueMembershipId) {
+      const data = await apiSettingsTD
+        .getLeagueMembership(leagueMembershipId)
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+
+      console.log("err", error);
+      if (!error) {
+        setTeam(data.team);
+        setLeague(data.league);
+
+        console.log("l", league);
+        console.log("t", team);
+        // setLeagueTemp({
+        //   name: league.name,
+        //   logo: league.logo,
+        //   description: league.description,
+        //   id: league.id,
+        //   header: league.header,
+        // });
+        setLoading(false);
+        setTeamId(false);
       }
     }
   };
@@ -347,6 +379,9 @@ const useTeamDashboard = () => {
     getTeam();
   }, [teamId]);
   useEffect(() => {
+    setTeamLeagueFunct();
+  }, [leagueMembershipId]);
+  useEffect(() => {
     getUsernameTeamReqTeamReqFunct();
   }, [getUsernameTeamReq]);
   useEffect(() => {
@@ -397,12 +432,16 @@ const useTeamDashboard = () => {
     setTournament(
       tournament
         ? team?.tournaments?.items.filter(
-            (tournamenta) => tournamenta.id === tournament?.id
+            (tournamenta) =>
+              tournamenta.tournament.id === tournament?.id &&
+              tournamenta.tournament?.league?.name === league?.name
           )[0]?.tournament
-        : team?.tournaments?.items[0]?.tournament
+        : team?.tournaments?.items.filter(
+            (tour) => tour.tournament?.league?.name === league?.name
+          )[0]?.tournament
     );
     console.log("team chosen in nav", tournament);
-  }, [team]);
+  }, [team, league]);
   return {
     setTeamId,
     team,
@@ -428,6 +467,8 @@ const useTeamDashboard = () => {
     setUpdateTeam,
     setDeleteTeamMember,
     setUpdateLeague,
+    setLeagueMembershipId,
+    league,
   };
 };
 

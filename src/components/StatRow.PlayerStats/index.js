@@ -3,6 +3,9 @@ import playerStats from "../../backend/db/playerStats";
 import ControlledInput from "../ControlledInput.PlayerStats";
 import ListItemCustom from "../ListCustom";
 
+const TinyText = ({ value }) => {
+  return <p style={{ fontSize: ".8em" }}>{value}</p>;
+};
 //controls the different rows in the statpanel
 const StatRow = ({
   stadium,
@@ -17,16 +20,16 @@ const StatRow = ({
   currentPlayer,
 }) => {
   return (
-    <FlexboxGrid.Item colspan={7}>
+    <FlexboxGrid.Item colspan={8} justify={"space-between"}>
       <List hover>
         {playerStats[typeDataPlayerState].slice(start, end).map((stat) => {
           return (
             <ListItemCustom>
-              <FlexboxGrid justify={"space-around"}>
-                <FlexboxGrid.Item colspan={16} style={{ minHeight: 50 }}>
-                  {stat.attr}
+              <FlexboxGrid justify={"space-around"} style={{ padding: 6 }}>
+                <FlexboxGrid.Item colspan={16}>
+                  <TinyText value={stat.attr.replace("percentage", "%")} />
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={8}>
                   <ControlledInput
                     tempObject={tempObject}
                     setTempObject={setTempObject}
@@ -39,8 +42,7 @@ const StatRow = ({
                     stadium={stadium}
                     size="sm"
                     style={{
-                      width: 60,
-                      marginLeft: 7,
+                      marginLeft: 0,
                     }}
                     placeholder="value"
                     currentPlayer={currentPlayer}

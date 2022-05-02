@@ -178,14 +178,14 @@ const NavBarInstance = ({
             title={user ? user.username : "Profile"}
             style={{ color: "white" }}
           >
-            <Dropdown.Item eventKey="d">
+            {/* <Dropdown.Item eventKey="d">
               <Link to={"account"} style={{ textDecoration: "none" }}>
                 Account
               </Link>
-            </Dropdown.Item>
+            </Dropdown.Item> */}
             <Dropdown.Item eventKey="e">
               <Link to={`preferences`} style={{ textDecoration: "none" }}>
-                Preferences
+                Manage Profile
               </Link>
             </Dropdown.Item>
             <Dropdown.Item

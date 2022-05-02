@@ -148,7 +148,7 @@ const LRoles = () => {
       )}
       <div style={{ display: "flex" }}>
         <div style={{ flex: "1.4", margin: 10 }}>
-          <h5>{"players in " + team?.name}</h5>
+          <h5>{`Moderators in  ${league?.name} league`}</h5>
           <PlayerList
             team={team}
             setUpdateTeam={setUpdateTeam}

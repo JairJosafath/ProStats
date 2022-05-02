@@ -15,7 +15,13 @@ const headerStyles = {
   color: " #fff",
 };
 
-const PSideNavCustom = ({ team, player, tournament, setTournament }) => {
+const PSideNavCustom = ({
+  team,
+  player,
+  tournament,
+  setTournament,
+  league,
+}) => {
   const [activeKey, setActiveKey] = useState("dashboard");
   const [showNav, setShowNav] = useState("default");
   const [drop, setDrop] = useState(false);
@@ -30,16 +36,6 @@ const PSideNavCustom = ({ team, player, tournament, setTournament }) => {
       setDrop(false);
     }
   }, [showNav]);
-  useEffect(() => {
-    setTournament(
-      tournament
-        ? team?.tournaments?.items.filter(
-            (tournamenta) => tournamenta.id === tournament?.id
-          )[0]?.tournament
-        : team?.tournaments?.items[0]?.tournament
-    );
-    console.log("team chosen in nav", tournament);
-  }, [team]);
 
   // useEffect(() => {
   //   setTournament(
@@ -75,23 +71,27 @@ const PSideNavCustom = ({ team, player, tournament, setTournament }) => {
               }}
             >
               {tournament &&
-                team?.tournaments?.items.map((tournament1) => (
-                  <Dropdown.Item
-                    style={{
-                      background:
-                        tournament.name === tournament1.tournament.name
-                          ? "blue"
-                          : "",
-                    }}
-                    onClick={() => {
-                      console.log("item clicked");
-                      setShowNav("show");
-                      setTournament(tournament1.tournament);
-                    }}
-                  >
-                    {tournament1?.tournament?.name}
-                  </Dropdown.Item>
-                ))}
+                team?.tournaments?.items
+                  .filter(
+                    (tour) => tour?.tournament?.league?.name === league?.name
+                  )
+                  .map((tournament1) => (
+                    <Dropdown.Item
+                      style={{
+                        background:
+                          tournament.name === tournament1.tournament.name
+                            ? "blue"
+                            : "",
+                      }}
+                      onClick={() => {
+                        console.log("item clicked");
+                        setShowNav("show");
+                        setTournament(tournament1.tournament);
+                      }}
+                    >
+                      {tournament1?.tournament?.name}
+                    </Dropdown.Item>
+                  ))}
             </Dropdown>
           </div>
         </Sidenav.Header>

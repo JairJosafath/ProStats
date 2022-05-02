@@ -19,6 +19,7 @@ const TSideNavCustom = ({
   team,
   tournament,
   setTournament,
+  league,
   fixturesByTournamentAndRound,
 }) => {
   const [activeKey, setActiveKey] = useState("dashboard");
@@ -57,7 +58,7 @@ const TSideNavCustom = ({
       >
         <Sidenav.Header>
           <div style={headerStyles}>
-            {team?.name}
+            {`${team?.name} : ${league?.name}`}
             <Dropdown
               open={drop}
               title={tournament ? tournament.name : "choose tournament"}
@@ -69,23 +70,28 @@ const TSideNavCustom = ({
               }}
             >
               {tournament &&
-                team?.tournaments?.items.map((tournament1) => (
-                  <Dropdown.Item
-                    style={{
-                      background:
-                        tournament.name === tournament1.tournament.name
-                          ? "blue"
-                          : "",
-                    }}
-                    onClick={() => {
-                      console.log("item clicked");
-                      setShowNav("show");
-                      setTournament(tournament1.tournament);
-                    }}
-                  >
-                    {tournament1?.tournament?.name}
-                  </Dropdown.Item>
-                ))}
+                team?.tournaments?.items
+                  .filter(
+                    (tourney) =>
+                      tourney.tournament?.league?.name === league?.name
+                  )
+                  .map((tournament1) => (
+                    <Dropdown.Item
+                      style={{
+                        background:
+                          tournament.name === tournament1.tournament.name
+                            ? "blue"
+                            : "",
+                      }}
+                      onClick={() => {
+                        console.log("item clicked");
+                        setShowNav("show");
+                        setTournament(tournament1.tournament);
+                      }}
+                    >
+                      {tournament1?.tournament?.name}
+                    </Dropdown.Item>
+                  ))}
             </Dropdown>
           </div>
         </Sidenav.Header>

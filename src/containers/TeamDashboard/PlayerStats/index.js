@@ -131,7 +131,7 @@ const TPlayerStats = () => {
           <div style={{ display: "flex" }}>
             <Panel header={` players`} style={{ flex: 1 }}>
               <List>
-                {selectedTeam?.teamMemberships?.items.map((membership) => (
+                {team?.teamMemberships?.items.map((membership) => (
                   <ListItemCustom
                     onClick={() => {
                       setCurrentPlayer(membership.player);

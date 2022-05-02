@@ -60,7 +60,14 @@ const LeagueDashboard = () => {
           tournament={tournament}
           setTournament={setTournament}
         />
-        <div style={{ flex: "4" }}>
+        <div
+          style={{
+            flex: "4",
+            display: "flex",
+            overflowY: "scroll",
+            maxHeight: "90vh",
+          }}
+        >
           <Outlet
             context={{
               league,
@@ -101,7 +108,7 @@ const LeagueDashboard = () => {
             }}
           />
         </div>
-        <div style={{ flex: 3 }}></div>
+        <div style={{ flex: 2 }}></div>
       </div>
     </>
   );

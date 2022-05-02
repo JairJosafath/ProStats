@@ -6,6 +6,7 @@ import useTeamDashoard from "../../hooks/useTeamDashboard";
 const TeamDashboard = () => {
   const { id } = useParams();
   const {
+    league,
     setTeamId,
     team,
     tournament,
@@ -28,21 +29,23 @@ const TeamDashboard = () => {
     username,
     setUpdateTeam,
     setDeleteTeamMember,
+    setLeagueMembershipId,
   } = useTeamDashoard();
   useEffect(() => {
-    setTeamId(id);
+    setLeagueMembershipId(id);
   }, [id]);
 
   useEffect(() => {
+    console.log("league", league);
     console.log("team", team);
-  }, [team]);
+  }, [league, team]);
   return (
     <>
       {" "}
       <div style={{ display: "flex" }}>
         <TSideNavCustom
           team={team}
-          //   league={league}
+          league={league}
           style={{ flex: "1" }}
           tournament={tournament}
           setTournament={setTournament}

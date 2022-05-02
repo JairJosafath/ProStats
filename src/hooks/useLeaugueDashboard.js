@@ -323,22 +323,28 @@ const useLeagueDashboard = () => {
   const createPlayerTableStatFunct = async () => {
     if (createPlayerTableStat) {
       setLoading(true);
-      apiSettings.createPlayerTableStat(createPlayerTableStat).catch((err) => {
-        console.log("errOr", err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .createPlayerTableStat(createPlayerTableStat)
+        .then(() => setLeagueId(league.id))
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
       setCreatePlayerTableStat(false);
     }
   };
   const updatePlayerTableStatFunct = async () => {
     if (updatePlayerTableStat) {
       setLoading(true);
-      apiSettings.updatePlayerTableStat(updatePlayerTableStat).catch((err) => {
-        console.log("errOr", err);
-        setError(true);
-        setLoading(false);
-      });
+      apiSettings
+        .updatePlayerTableStat(updatePlayerTableStat)
+        .then(() => setLeagueId(league.id))
+        .catch((err) => {
+          console.log("errOr", err);
+          setError(true);
+          setLoading(false);
+        });
       setUpdatePlayerTableStat(false);
     }
   };
@@ -347,12 +353,7 @@ const useLeagueDashboard = () => {
       setLoading(true);
       apiSettings
         .createTableStat(createTableStat)
-        .then(() => {
-          setGetFixturesByTournamentandRound({
-            tournamentID: tournament?.id,
-            condition: { eq: activeRound },
-          });
-        })
+        .then(() => setLeagueId(league.id))
         .catch((err) => {
           console.log("errOr", err);
           setError(true);
@@ -366,12 +367,7 @@ const useLeagueDashboard = () => {
       setLoading(true);
       apiSettings
         .updateTableStat(updateTableStat)
-        .then(() => {
-          setGetFixturesByTournamentandRound({
-            tournamentID: tournament?.id,
-            condition: { eq: activeRound },
-          });
-        })
+        .then(() => setLeagueId(league.id))
         .catch((err) => {
           console.log("errOr", err);
           setError(true);

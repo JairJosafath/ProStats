@@ -188,6 +188,7 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
     getLeague(id: $id) {
       id
       name
+      description
       header
       newsModerators
       requestModerators
@@ -367,6 +368,16 @@ export const createTeamQuery = /* GraphQL */ `
     $condition: ModelTeamConditionInput
   ) {
     createTeam(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+export const createPlayerQuery = /* GraphQL */ `
+  mutation CreatePlayer(
+    $input: CreatePlayerInput!
+    $condition: ModelPlayerConditionInput
+  ) {
+    createPlayer(input: $input, condition: $condition) {
       id
     }
   }
@@ -992,6 +1003,7 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
     getTeam(id: $id) {
       id
       name
+      slogan
       logo
       leagueMemberships {
         items {
@@ -1057,6 +1069,71 @@ export const getTeamForDashboardQuery = /* GraphQL */ `
   }
 `;
 
+export const getLeagueMembership = /* GraphQL */ `
+  query GetLeagueMembership($id: ID!) {
+    getLeagueMembership(id: $id) {
+      id
+      league {
+        id
+        name
+        moderatornames
+      }
+      team {
+        id
+        name
+        logo
+        leagueMemberships {
+          items {
+            id
+            league {
+              id
+              name
+              status
+
+              tournamentModerators
+
+              requestModerators
+              transferModerator
+              leagueAdmin
+
+              playerAdminsId
+            }
+          }
+        }
+        moderators
+        status
+
+        tournaments {
+          items {
+            id
+            tournament {
+              id
+              name
+              league {
+                id
+                name
+                moderatornames
+              }
+            }
+          }
+        }
+        teamManager
+        teamCaptain
+
+        teamMemberships {
+          items {
+            id
+            player {
+              name
+              id
+              username
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 export const fixtureByTournamentandHomeTeamQuery = /* GraphQL */ `
   query FixtureByTournamentandHomeTeam(
     $homeID: ID!

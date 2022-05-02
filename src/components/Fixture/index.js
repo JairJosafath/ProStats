@@ -39,40 +39,42 @@ const Fixture = ({
           setCurrentFixture(fixture);
         }}
       >
-        <FlexboxGrid justify="space-between">
-          <FlexboxGrid.Item colspan={6}>
+        <FlexboxGrid justify={"space-between"}>
+          <FlexboxGrid.Item colspan={22}>
             <FlexboxGrid justify="center">
-              <FlexboxGrid.Item colspan={4}>
+              <FlexboxGrid.Item colspan={1}>
                 <img
                   alt="club logo"
                   src={homeLogo ? homeLogo : "dummy.jpg"}
                   style={{ maxHeight: "2em" }}
                 />
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={10}>
-                {fixture?.homeTeam.name}
+              <FlexboxGrid.Item colspan={7}>
+                <FlexboxGrid justify="center">
+                  <FlexboxGrid.Item colspan={20}>
+                    {fixture?.homeTeam.name}
+                  </FlexboxGrid.Item>
+                </FlexboxGrid>
               </FlexboxGrid.Item>
-            </FlexboxGrid>
-          </FlexboxGrid.Item>
-
-          <FlexboxGrid.Item colspan={3}>
-            <FlexboxGrid justify="center">
-              <FlexboxGrid.Item>{fixture?.homeScore}</FlexboxGrid.Item>
-            </FlexboxGrid>
-          </FlexboxGrid.Item>
-          <FlexboxGrid.Item>VS</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={3}>
-            <FlexboxGrid justify="center">
-              <FlexboxGrid.Item>{fixture?.awayScore}</FlexboxGrid.Item>
-            </FlexboxGrid>
-          </FlexboxGrid.Item>
-
-          <FlexboxGrid.Item colspan={6}>
-            <FlexboxGrid justify="center">
-              <FlexboxGrid.Item colspan={10}>
-                {fixture?.awayTeam.name}
+              <FlexboxGrid.Item colspan={3}>
+                <FlexboxGrid justify="center">
+                  <FlexboxGrid.Item>{fixture?.homeScore}</FlexboxGrid.Item>
+                </FlexboxGrid>
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={4}>
+              <FlexboxGrid.Item colspan={1}>VS</FlexboxGrid.Item>
+              <FlexboxGrid.Item colspan={3}>
+                <FlexboxGrid justify="center">
+                  <FlexboxGrid.Item>{fixture?.awayScore}</FlexboxGrid.Item>
+                </FlexboxGrid>
+              </FlexboxGrid.Item>
+              <FlexboxGrid.Item colspan={7}>
+                <FlexboxGrid justify="center">
+                  <FlexboxGrid.Item colspan={20}>
+                    {fixture?.awayTeam.name}
+                  </FlexboxGrid.Item>
+                </FlexboxGrid>
+              </FlexboxGrid.Item>
+              <FlexboxGrid.Item colspan={1}>
                 <img
                   alt="club logo"
                   src={awayLogo ? awayLogo : "dummy.jpg"}
@@ -81,7 +83,7 @@ const Fixture = ({
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>
+          <FlexboxGrid.Item colspan={1} style={{ padding: 0 }}>
             {fixture?.status === "pending" && (
               <Icon as={MdPendingActions} size="1.5em" fill="yellow" />
             )}

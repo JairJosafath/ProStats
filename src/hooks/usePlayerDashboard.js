@@ -15,10 +15,41 @@ const usePlayerDashboard = () => {
   const [createPlayerStats, setCreatePlayerStats] = useState(false);
   const [updatePlayerStats, setUpdatePlayerStats] = useState(false);
   const [getPlayerRequests, setGetPlayerRequests] = useState(false);
+  const [leagueMembershipId, setLeagueMembershipId] = useState(false);
+  const [league, setLeague] = useState(false);
   const [updateRequestFromTeamToPlayer, setUpdateRequestFromTeamToPlayer] =
     useState(false);
   const [playerRequests, setPlayerRequests] = useState(false);
 
+  const setTeamLeagueFunct = async () => {
+    if (leagueMembershipId) {
+      const data = await apiSettingsTD
+        .getLeagueMembership(leagueMembershipId.split("+")[0])
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+
+      console.log("err", error);
+      if (!error) {
+        setTeam(data.team);
+        setLeague(data.league);
+
+        console.log("l", league);
+        console.log("t", team);
+        // setLeagueTemp({
+        //   name: league.name,
+        //   logo: league.logo,
+        //   description: league.description,
+        //   id: league.id,
+        //   header: league.header,
+        // });
+        setLoading(false);
+        setTeamId(false);
+      }
+    }
+  };
   const getPlayer = async () => {
     setLoading(true);
     if (playerId) {
@@ -167,6 +198,23 @@ const usePlayerDashboard = () => {
   useEffect(() => {
     getTeamFixturesFunct();
   }, [getTeamFixtures]);
+  useEffect(() => {
+    setTeamLeagueFunct();
+  }, [leagueMembershipId]);
+  useEffect(() => {
+    setTournament(
+      tournament
+        ? team?.tournaments?.items.filter(
+            (tournamenta) =>
+              tournamenta.id === tournament?.id &&
+              tournamenta.tournament?.league?.name === league?.name
+          )[0]?.tournament
+        : team?.tournaments?.items.filter(
+            (tour) => tour?.tournament?.league?.name === league?.name
+          )[0]?.tournament
+    );
+    // console.log("team chosen in nav", tournament);
+  }, [team, league]);
   return {
     setPlayerId,
     setTeamId,
@@ -178,6 +226,8 @@ const usePlayerDashboard = () => {
     teamFixtures,
     setCreatePlayerStats,
     setUpdatePlayerStats,
+    setLeagueMembershipId,
+    league,
   };
 };
 

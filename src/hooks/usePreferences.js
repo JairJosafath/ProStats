@@ -1,3 +1,4 @@
+import { Auth } from "aws-amplify";
 import { useState, useEffect } from "react";
 import { apiSettings, apiSettingsTD } from "../API/API";
 
@@ -27,7 +28,53 @@ const usePreferences = () => {
   const [deleteTeamLeague, setDeleteTeamLeague] = useState(false);
   const [deleteTeam, setDeleteTeam] = useState(false);
   const [updateLeague, setUpdateLeague] = useState(false);
+  const [createUserPlayer, setCreateUserPlayer] = useState(false);
 
+  const createUserPlayerFunc = async () => {
+    setLoading(true);
+
+    if (createUserPlayer) {
+      // const { CognitoUser } = await Auth.currentAuthenticatedUser({
+      //   bypassCache: true,
+      // });
+      // console.log(CognitoUser, "user");
+      // if (
+      //   CognitoUser.attributes["custom:player_id"] === "" ||
+      //   !CognitoUser.attributes["custom:player_id"]
+      // ) {
+      //   setPlayerId(CognitoUser.attributes["custom:player_id"]);
+      //   return;
+      // }
+      const data = await apiSettings
+        .createPlayer(createUserPlayer.input)
+        .then((data) => {
+          console.log(createUserPlayer.user, "the returned data");
+          Auth.updateUserAttributes(createUserPlayer.user, {
+            "custom:player_id": data.createPlayer.id,
+          }).then((res) => {
+            console.log("result", res);
+            setPlayerId(data.createPlayer.id);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+
+      if (!error) {
+        // setPlayerTemp({
+        //   name: player.name,
+        //   image: player.image,
+        //   slogan: player.slogan,
+        //   id: player.id,
+        // });
+        setDataLoaded(true);
+        setLoading(false);
+      }
+      setCreateUserPlayer(false);
+    }
+  };
   const fetchPlayer = async () => {
     setLoading(true);
 
@@ -313,6 +360,10 @@ const usePreferences = () => {
   useEffect(() => {
     updateRequestTeam2LeagueFunct();
   }, [updateRequestFromTEam]);
+  useEffect(() => {
+    createUserPlayerFunc();
+  }, [createUserPlayer]);
+
   return {
     loading,
     setLoading,
@@ -339,6 +390,7 @@ const usePreferences = () => {
     setUpdateLeague,
     setDeleteTeamLeague,
     setDeleteTeam,
+    setCreateUserPlayer,
   };
 };
 

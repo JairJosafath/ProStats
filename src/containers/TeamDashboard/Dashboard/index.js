@@ -14,7 +14,7 @@ const TDashboard = () => {
   useEffect(() => {
     // console.log(team);
     setTeamname(team?.name);
-    setTeamdescription(team?.description);
+    setTeamdescription(team?.slogan);
   }, [team]);
   return (
     <>
@@ -49,15 +49,21 @@ const TDashboard = () => {
             style={{ margin: " auto", width: 60 }}
             onClick={() => {
               apiSettings.putImageTeam(team?.name, team?.id, file);
-
-              setUpdateTeam({
-                id: team?.id,
-                name: teamname,
-                slogan: teamdescription,
-                logo: file
-                  ? `teams/${teamname}/${team?.id}/avatars/${file.name}`
-                  : team?.name,
-              });
+              if (file)
+                setUpdateTeam({
+                  id: team?.id,
+                  name: teamname,
+                  slogan: teamdescription,
+                  logo: file
+                    ? `teams/${teamname}/${team?.id}/avatars/${file.name}`
+                    : team?.name,
+                });
+              else
+                setUpdateTeam({
+                  id: team?.id,
+                  name: teamname,
+                  slogan: teamdescription,
+                });
             }}
           >
             Save

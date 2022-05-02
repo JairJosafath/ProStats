@@ -1,11 +1,11 @@
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import { useAuthenticator, withAuthenticator } from "@aws-amplify/ui-react";
 import { Button, FlexboxGrid, Input, List, Panel } from "rsuite";
 import UploadPhotoCustom from "../../components/UploadPhotoCustom";
 import useGetCurrentPlayerInfo from "../../hooks/useGetCurrentPlayerInfo";
 import awsmobile from "../../aws-exports";
 import { useEffect, useState } from "react";
 import { updatePlayer } from "../../graphql/mutations";
-import { API } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 import {
   deleteLeague,
   updateLeague,
@@ -21,7 +21,7 @@ import PlayerRoles from "../../components/Preferences.PlayerRoles";
 //Hooks
 import usePreferences from "../../hooks/usePreferences";
 
-const Preferences = ({ playerID }) => {
+const Preferences = ({}) => {
   const {
     loading,
     setLoading,
@@ -48,10 +48,34 @@ const Preferences = ({ playerID }) => {
     setUpdateLeague,
     setDeleteTeamLeague,
     setDeleteTeam,
+    setCreateUserPlayer,
   } = usePreferences();
+
   useEffect(() => {
-    setPlayerId(playerID);
-  }, [playerID]);
+    const setUserData = async () => {
+      const userData = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      });
+      const { username, attributes } = userData;
+      if (
+        attributes["custom:player_id"] === "" ||
+        !attributes["custom:player_id"]
+      ) {
+        const createPlayerInput = {
+          name: username,
+          username: username,
+        };
+
+        setCreateUserPlayer({ input: createPlayerInput, user: userData });
+      } else {
+        setPlayerId(attributes["custom:player_id"]);
+      }
+      console.log("theteeest", username, attributes["custom:player_id"]);
+      // setUser(CognitoUser);
+    };
+
+    setUserData();
+  }, []);
 
   return (
     <>

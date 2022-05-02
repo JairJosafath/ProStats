@@ -11,8 +11,10 @@ const AdvancedFixture = ({
   setSelectedTEam,
   fixture,
   setShowStats,
+  setShowPlayers,
   setTypeDataPlayerState,
   typeDataPlayer,
+  setShowFixtures,
 }) => {
   const [homeLogo, setHomeLogo] = useState();
   const [awayLogo, setAwayLogo] = useState();
@@ -44,6 +46,8 @@ const AdvancedFixture = ({
             }}
             onClick={() => {
               setShowStats(false);
+              setShowFixtures(false);
+              setShowPlayers(true);
               setTimeout(() => {
                 setShowStats(true);
                 setTypeDataPlayerState(typeDataPlayer[0]);
@@ -85,6 +89,8 @@ const AdvancedFixture = ({
             }}
             onClick={() => {
               setShowStats(false);
+              setShowFixtures(false);
+              setShowPlayers(true);
               setTimeout(() => {
                 setShowStats(true);
                 setTypeDataPlayerState(typeDataPlayer[0]);

@@ -42,6 +42,7 @@ const LPlayerStats = () => {
     setActiveRound,
   } = useOutletContext();
   const [showStats, setShowStats] = useState(false);
+  const [showFixtures, setShowFixtures] = useState(true);
   const [activePage, setActivePage] = useState(1);
   const [currentFixture, setCurrentFixture] = useState(false);
   const [typeDataPlayerState, setTypeDataPlayerState] = useState(
@@ -52,6 +53,7 @@ const LPlayerStats = () => {
   const [playerstatsTracker, setPlayerstatsTracker] = useState({}); //track changes onchange
   const [currentPlayer, setCurrentPlayer] = useState(false);
   const [tempObject, setTempObject] = useState({});
+  const [showPlayers, setShowPlayers] = useState(false);
 
   useEffect(() => {
     setGetFixturesByTournamentandRound({
@@ -95,7 +97,7 @@ const LPlayerStats = () => {
   // }, [updateFixtures]);
   return (
     <>
-      {!showStats && (
+      {showFixtures && (
         <Panel header={`Fixtures round ${activePage}`} style={{ flex: 1 }}>
           {fixturesByTournamentAndRound?.items.length === 0 && (
             <Button
@@ -112,7 +114,7 @@ const LPlayerStats = () => {
               generate fixtures
             </Button>
           )}
-          <List style={{ width: 750 }}>
+          <List style={{ width: 500 }}>
             {fixturesByTournamentAndRound?.items?.map((fixture) => {
               return (
                 <AdvancedFixture
@@ -120,6 +122,8 @@ const LPlayerStats = () => {
                   setSelectedTEam={setSelectedTEam}
                   fixture={fixture}
                   setShowStats={setShowStats}
+                  setShowFixtures={setShowFixtures}
+                  setShowPlayers={setShowPlayers}
                   setTypeDataPlayerState={setTypeDataPlayerState}
                   typeDataPlayer={typeDataPlayer}
                 />
@@ -137,52 +141,68 @@ const LPlayerStats = () => {
           />
         </Panel>
       )}
-      {showStats && (
+      {(showStats || showPlayers) && (
         <Panel header={"player stats"} style={{ minHeight: "70vh" }}>
           <IoMdArrowBack
             size={"1.5em"}
             style={{ display: "block", margin: 6 }}
             onClick={() => {
-              setShowStats(false);
+              if (showPlayers && !showStats) {
+                setShowFixtures(true);
+                setShowPlayers(false);
+              }
+
+              if (!showPlayers && showStats) {
+                setShowStats(false);
+                setShowPlayers(true);
+              }
               setCurrentPlayer(false);
             }}
           />
 
           <div style={{ display: "flex" }}>
-            <Panel header={`${selectedTeam?.name} players`} style={{ flex: 1 }}>
-              <List>
-                {selectedTeam?.teamMemberships?.items.map((membership) => (
-                  <ListItemCustom
-                    onClick={() => {
-                      setCurrentPlayer(membership.player);
-                    }}
-                  >
-                    <FlexboxGrid>
-                      <FlexboxGrid.Item colspan={10}>
-                        {membership.player.name}
-                      </FlexboxGrid.Item>
-                      <FlexboxGrid.Item colspan={10}>
-                        {currentFixture?.playerStats?.items?.filter(
-                          (stats) => stats.player.id === membership?.player?.id
-                        )[0]?.status === "pending" && (
-                          <Icon
-                            as={MdPendingActions}
-                            size="1.5em"
-                            fill="yellow"
-                          />
-                        )}
-                        {currentFixture?.playerStats?.items?.filter(
-                          (stats) => stats.player.id === membership?.player?.id
-                        )[0]?.status === "verified" && (
-                          <Icon as={MdVerified} size="1.5em" fill="green" />
-                        )}
-                      </FlexboxGrid.Item>
-                    </FlexboxGrid>
-                  </ListItemCustom>
-                ))}
-              </List>
-            </Panel>{" "}
-            {currentPlayer && (
+            {showPlayers && (
+              <Panel
+                header={`${selectedTeam?.name} players`}
+                style={{ flex: 1 }}
+              >
+                <List>
+                  {selectedTeam?.teamMemberships?.items.map((membership) => (
+                    <ListItemCustom
+                      onClick={() => {
+                        setCurrentPlayer(membership.player);
+                        setShowPlayers(false);
+                      }}
+                    >
+                      <FlexboxGrid>
+                        <FlexboxGrid.Item colspan={10}>
+                          {membership.player.name}
+                        </FlexboxGrid.Item>
+                        <FlexboxGrid.Item colspan={10}>
+                          {currentFixture?.playerStats?.items?.filter(
+                            (stats) =>
+                              stats.player.id === membership?.player?.id
+                          )[0]?.status === "pending" && (
+                            <Icon
+                              as={MdPendingActions}
+                              size="1.5em"
+                              fill="yellow"
+                            />
+                          )}
+                          {currentFixture?.playerStats?.items?.filter(
+                            (stats) =>
+                              stats.player.id === membership?.player?.id
+                          )[0]?.status === "verified" && (
+                            <Icon as={MdVerified} size="1.5em" fill="green" />
+                          )}
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
+                    </ListItemCustom>
+                  ))}
+                </List>
+              </Panel>
+            )}
+            {showStats && !showPlayers && (
               <Panel header={currentPlayer?.name} style={{ flex: 3 }}>
                 <Dropdown title={typeDataPlayerState}>
                   {typeDataPlayer.map((type) => {
@@ -320,74 +340,127 @@ const LPlayerStats = () => {
                             currentFixture?.playerStats?.items?.filter(
                               (stats) => stats.player.id === currentPlayer?.id
                             )[0];
-                          playerTable.goals -= oldStats.summary_goals;
-                          playerTable.assists -= oldStats.summary_assists;
-                          playerTable.beat -= oldStats.possession_beat;
-                          playerTable.skillmove_beat -=
-                            oldStats.possession_skillmove_beat;
-                          playerTable.nutmeg -= oldStats.possession_nutmeg;
-                          playerTable.match_rating -= oldStats.rating;
-                          // playerTable.playerOfTheMatch-=oldStats.passing_expected_assists
-                          playerTable.expected_assists -=
-                            oldStats.passing_expected_assists;
-                          playerTable.interceptions -=
-                            oldStats.defending_interceptions;
-                          playerTable.tackles_won -=
-                            oldStats.defending_interceptions;
-                          playerTable.blocks -= oldStats.defending_blocks;
-                          playerTable.saves -= oldStats.goalkeeping_saves;
 
-                          setUpdatePlayerTableStat({
-                            id: tournament?.playerTable?.items?.filter(
+                          if (
+                            tournament?.playerTable?.items?.filter(
                               (table) => table.player.id === currentPlayer.id
-                            )[0].id,
-                            goals: playerstatsTracker.summary_goals
-                              ? playerstatsTracker.summary_goals +
-                                playerTable.goals
-                              : 0 + playerTable.goals,
-                            assists: playerstatsTracker.summary_assists
-                              ? playerstatsTracker.summary_assists +
-                                playerTable.assists
-                              : 0 + playerTable.assists,
-                            beat: playerstatsTracker.possession_beat
-                              ? playerstatsTracker.possession_beat +
-                                playerTable.beat
-                              : 0 + playerTable.beat,
-                            skillmove_beat:
-                              playerstatsTracker.possession_skillmove_beat
-                                ? playerstatsTracker.possession_skillmove_beat +
-                                  playerTable.skillmove_beat
-                                : 0 + playerTable.skillmove_beat,
-                            nutmeg: playerstatsTracker.possession_nutmeg
-                              ? playerstatsTracker.possession_nutmeg +
-                                playerTable.nutmeg
-                              : 0 + playerTable.nutmeg,
-                            match_rating: 0,
-                            expected_assists:
-                              playerstatsTracker.passing_expected_assists
-                                ? playerstatsTracker.passing_expected_assists +
-                                  playerTable.expected_assists
-                                : 0 + playerTable.expected_assists,
-                            interceptions:
-                              playerstatsTracker.defending_interceptions
-                                ? playerstatsTracker.defending_interceptions +
-                                  playerTable.interceptions
-                                : 0 + playerTable.interceptions,
-                            tackles_won:
-                              playerstatsTracker.defending_tackles_won
-                                ? playerstatsTracker.defending_tackles_won +
-                                  playerTable.tackles_won
-                                : 0 + playerTable.tackles_won,
-                            blocks: playerstatsTracker.defending_blocks
-                              ? playerstatsTracker.defending_blocks +
-                                playerTable.blocks
-                              : 0 + playerTable.blocks,
-                            saves: playerstatsTracker.goalkeeping_saves
-                              ? playerstatsTracker.goalkeeping_saves +
-                                playerTable.saves
-                              : 0 + playerTable.saves,
-                            playerOfTheMatch: 0,
-                          });
+                            )[0]
+                          ) {
+                            playerTable.goals -= oldStats.summary_goals;
+                            playerTable.assists -= oldStats.summary_assists;
+                            playerTable.beat -= oldStats.possession_beat;
+                            playerTable.skillmove_beat -=
+                              oldStats.possession_skillmove_beat;
+                            playerTable.nutmeg -= oldStats.possession_nutmeg;
+                            playerTable.match_rating -= oldStats.rating;
+                            // playerTable.playerOfTheMatch-=oldStats.passing_expected_assists
+                            playerTable.expected_assists -=
+                              oldStats.passing_expected_assists;
+                            playerTable.interceptions -=
+                              oldStats.defending_interceptions;
+                            playerTable.tackles_won -=
+                              oldStats.defending_interceptions;
+                            playerTable.blocks -= oldStats.defending_blocks;
+                            playerTable.saves -= oldStats.goalkeeping_saves;
+                            setUpdatePlayerTableStat({
+                              id: tournament?.playerTable?.items?.filter(
+                                (table) => table.player.id === currentPlayer.id
+                              )[0].id,
+                              goals: playerstatsTracker.summary_goals
+                                ? playerstatsTracker.summary_goals +
+                                  playerTable.goals
+                                : 0 + playerTable.goals,
+                              assists: playerstatsTracker.summary_assists
+                                ? playerstatsTracker.summary_assists +
+                                  playerTable.assists
+                                : 0 + playerTable.assists,
+                              beat: playerstatsTracker.possession_beat
+                                ? playerstatsTracker.possession_beat +
+                                  playerTable.beat
+                                : 0 + playerTable.beat,
+                              skillmove_beat:
+                                playerstatsTracker.possession_skillmove_beat
+                                  ? playerstatsTracker.possession_skillmove_beat +
+                                    playerTable.skillmove_beat
+                                  : 0 + playerTable.skillmove_beat,
+                              nutmeg: playerstatsTracker.possession_nutmeg
+                                ? playerstatsTracker.possession_nutmeg +
+                                  playerTable.nutmeg
+                                : 0 + playerTable.nutmeg,
+                              match_rating: 0,
+                              expected_assists:
+                                playerstatsTracker.passing_expected_assists
+                                  ? playerstatsTracker.passing_expected_assists +
+                                    playerTable.expected_assists
+                                  : 0 + playerTable.expected_assists,
+                              interceptions:
+                                playerstatsTracker.defending_interceptions
+                                  ? playerstatsTracker.defending_interceptions +
+                                    playerTable.interceptions
+                                  : 0 + playerTable.interceptions,
+                              tackles_won:
+                                playerstatsTracker.defending_tackles_won
+                                  ? playerstatsTracker.defending_tackles_won +
+                                    playerTable.tackles_won
+                                  : 0 + playerTable.tackles_won,
+                              blocks: playerstatsTracker.defending_blocks
+                                ? playerstatsTracker.defending_blocks +
+                                  playerTable.blocks
+                                : 0 + playerTable.blocks,
+                              saves: playerstatsTracker.goalkeeping_saves
+                                ? playerstatsTracker.goalkeeping_saves +
+                                  playerTable.saves
+                                : 0 + playerTable.saves,
+                              playerOfTheMatch: 0,
+                            });
+                          } else {
+                            setCreatePlayerTableStat({
+                              tournamentPlayerTableId: tournament.id,
+                              playerTableStatPlayerId: currentPlayer.id,
+                              goals: playerstatsTracker["summary_goals"]
+                                ? playerstatsTracker["summary_goals"]
+                                : 0,
+                              assists: playerstatsTracker["summary_assists"]
+                                ? playerstatsTracker["summary_assists"]
+                                : 0,
+                              beat: playerstatsTracker["possession_beat"]
+                                ? playerstatsTracker["possession_beat"]
+                                : 0,
+                              skillmove_beat: playerstatsTracker[
+                                "possession_skillmove_beat"
+                              ]
+                                ? playerstatsTracker[
+                                    "possession_skillmove_beat"
+                                  ]
+                                : 0,
+                              nutmeg: playerstatsTracker["possession_nutmeg"]
+                                ? playerstatsTracker["possession_nutmeg"]
+                                : 0,
+                              match_rating: 0,
+                              expected_assists: playerstatsTracker[
+                                "passing_expected_assists"
+                              ]
+                                ? playerstatsTracker["passing_expected_assists"]
+                                : 0,
+                              interceptions: playerstatsTracker[
+                                "defending_interceptions"
+                              ]
+                                ? playerstatsTracker["defending_interceptions"]
+                                : 0,
+                              tackles_won: playerstatsTracker[
+                                "defending_tackles_won"
+                              ]
+                                ? playerstatsTracker["defending_tackles_won"]
+                                : 0,
+                              blocks: playerstatsTracker["defending_blocks"]
+                                ? playerstatsTracker["defending_blocks"]
+                                : 0,
+                              saves: playerstatsTracker["goalkeeping_saves"]
+                                ? playerstatsTracker["goalkeeping_saves"]
+                                : 0,
+                              playerOfTheMatch: 0,
+                            });
+                          }
                           return;
                         } else if (
                           currentFixture?.playerStats?.items?.filter(

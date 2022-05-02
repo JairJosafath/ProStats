@@ -16,10 +16,12 @@ const PlayerDashboard = () => {
     teamFixtures,
     setCreatePlayerStats,
     setUpdatePlayerStats,
+    setLeagueMembershipId,
+    league,
   } = usePlayerDashboard();
 
   useEffect(() => {
-    setTeamId(id);
+    setLeagueMembershipId(id);
     setPlayerId(id);
   }, [id]);
 
@@ -35,6 +37,7 @@ const PlayerDashboard = () => {
           style={{ flex: 1 }}
           player={player}
           team={team}
+          league={league}
           tournament={tournament}
           setTournament={setTournament}
         />
@@ -51,6 +54,8 @@ const PlayerDashboard = () => {
               teamFixtures,
               setCreatePlayerStats,
               setUpdatePlayerStats,
+              setLeagueMembershipId,
+              league,
             }}
           />
         </div>
