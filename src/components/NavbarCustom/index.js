@@ -8,6 +8,7 @@ import { Auth } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import useGetFavoriteLeague from "../../hooks/useGetFavoriteLeagues";
+import { ButtonElevated } from "./Styles";
 
 const NavBarInstance = ({
   onSelect,
@@ -43,10 +44,14 @@ const NavBarInstance = ({
     <>
       <Navbar {...props}>
         <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-          <Navbar.Brand onClick={() => onSelect("0")} as={"div"}>
-            StatMe <p style={{ display: "inline", fontSize: 9 }}>beta</p>
-          </Navbar.Brand>
+          {" "}
+          <ButtonElevated>
+            <Navbar.Brand onClick={() => onSelect("0")} as={"div"}>
+              StatMe <p style={{ display: "inline", fontSize: 9 }}>beta</p>
+            </Navbar.Brand>
+          </ButtonElevated>{" "}
         </Link>
+
         {/* <Nav onSelect={onSelect} activeKey={activeKey}> */}
         {/* <Link
           key={"standings"}
@@ -135,12 +140,15 @@ const NavBarInstance = ({
               </Dropdown.Item>
             </Dropdown>
           ) : (
-            <NavItem as={"div"}>
+            <NavItem as={"div"} style={{ background: "rgba(0,0,0,0)" }}>
+              {" "}
               <Link
                 to={"signIn"}
                 style={{ color: "white", textDecoration: "none" }}
               >
-                Sign in
+                <ButtonElevated>
+                  <p style={{ padding: 10 }}>Sign in</p>
+                </ButtonElevated>{" "}
               </Link>
             </NavItem>
           )}
@@ -172,12 +180,13 @@ const NavbarCustom = ({
 };
 
 const style = {
-  background: "#023e8a",
+  background: "var(--primary-black)",
   position: "sticky",
   top: 0,
   left: 0,
   zIndex: 20,
   paddingRight: 50,
+  boxShadow: "2px 2px 2px 2px rgba(0,0,0,.2)",
 };
 
 export default NavbarCustom;

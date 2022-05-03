@@ -2,6 +2,7 @@ import { color } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Animation, Panel } from "rsuite";
+import HomeNav from "../../components/HomeNav";
 import banner from "../../img/banner.png";
 import image from "../../img/banner2.png";
 
@@ -23,7 +24,7 @@ const Home = () => {
       <Banner src={image}>
         <div>
           <h2>
-            StatMe is a robust way to manage leagues effectively and easy!
+            StatMe is a robust way to manage E-leagues effectively and easy!
           </h2>{" "}
           <p>
             <ul>
@@ -38,9 +39,7 @@ const Home = () => {
         </div>
       </Banner>
 
-      <div style={{ background: "rgb(20,20,80)", height: 50 }}>
-        Navbar to about or to view all leagues and Contact
-      </div>
+      <HomeNav />
       <Outlet />
     </>
   );

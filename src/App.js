@@ -62,8 +62,9 @@ import PPlayerStats from "./containers/PlayerDashboard/PlayerStats";
 import PTeams from "./containers/PlayerDashboard/Teams";
 import GlobalStyles from "./GlobalStyles";
 import About from "./containers/About";
-import Contact from "./containers/Contact";
+
 import Landing from "./components/Landing";
+import Leagues from "./containers/Leagues";
 
 // import TTeams from "./containers/TeamDashboard/Teams";
 
@@ -248,7 +249,7 @@ function App(props) {
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="about" element={<About />} />
-              <Route path="contact" element={<Contact />} />
+              <Route path="leagues" element={<Leagues />} />
               <Route path="/" element={<Landing />} />
             </Route>
             <Route
