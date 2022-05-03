@@ -27,7 +27,7 @@ const LDashboard = () => {
     setLeaguedescription(league?.description);
   }, [league]);
   useEffect(() => {
-    // console.log(tournament.table);
+    console.log(tournament);
   }, [tournament]);
   return (
     <>
@@ -99,7 +99,9 @@ const LDashboard = () => {
         <div>
           <TeamStandings data={tournament && tournament?.table?.items} />
 
-          <PlayerStandings />
+          <PlayerStandings
+            data={tournament && tournament?.playerTable?.items}
+          />
         </div>
       </div>
 

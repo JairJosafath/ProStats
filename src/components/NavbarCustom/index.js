@@ -9,70 +9,6 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import useGetFavoriteLeague from "../../hooks/useGetFavoriteLeagues";
 
-const query = `
-query MyQuery {
-  listLeagues {
-    items {
-      id
-      name
-      header
-      newsModerators
-      requestModerators
-      tournamentModerators
-      transferModerator
-      tournaments {
-        items {
-          name
-          table {
-            items {
-              cleanSheats
-              gamesDrawn
-              gamesLost
-              gamesWon
-              gamesPlayed
-              goalDifference
-              goalsAgainst
-              goalsFor
-              points
-              record
-              team {
-                logo
-                name
-                id
-              }
-            }
-          }
-          playerTable {
-            items {
-              assists
-              beat
-              blocks
-              expectedAssists
-              goals
-              interceptions
-              matchRating
-              nutmeg
-              player {
-                name
-              }
-              playerOfTheMatch
-              playerTableStatPlayerId
-              saves
-              skillmoveBeat
-              tacklesWon
-              tournamentPlayerTableId
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-
-`;
-
 const NavBarInstance = ({
   onSelect,
   activeKey,
@@ -104,14 +40,15 @@ const NavBarInstance = ({
   // }, []);
 
   return (
-    <Navbar {...props}>
-      <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-        <Navbar.Brand onClick={() => onSelect("0")} as={"div"}>
-          ProStats
-        </Navbar.Brand>
-      </Link>
-      <Nav onSelect={onSelect} activeKey={activeKey}>
-        <Link
+    <>
+      <Navbar {...props}>
+        <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
+          <Navbar.Brand onClick={() => onSelect("0")} as={"div"}>
+            StatMe <p style={{ display: "inline", fontSize: 9 }}>beta</p>
+          </Navbar.Brand>
+        </Link>
+        {/* <Nav onSelect={onSelect} activeKey={activeKey}> */}
+        {/* <Link
           key={"standings"}
           to={"standings"}
           style={{ color: "white", textDecoration: "none" }}
@@ -166,50 +103,50 @@ const NavBarInstance = ({
           <Dropdown.Item eventKey="c" onSelect={() => setLeague("La Liga")}>
             La Liga
           </Dropdown.Item> */}
-          <Dropdown.Item style={{ background: "rgba(0,0,0,.04)" }} eventKey="d">
+        {/* <Dropdown.Item style={{ background: "rgba(0,0,0,.04)" }} eventKey="d">
             All leagues
           </Dropdown.Item>
-        </Dropdown>
-      </Nav>
-
-      <Nav pullRight>
-        {loggedIn ? (
-          <Dropdown
-            title={user ? user.username : "Profile"}
-            style={{ color: "white" }}
-          >
-            {/* <Dropdown.Item eventKey="d">
+        </Dropdown> */}
+        {/* </Nav> */}
+        <Nav pullRight>
+          {loggedIn ? (
+            <Dropdown
+              title={user ? user.username : "Profile"}
+              style={{ color: "white" }}
+            >
+              {/* <Dropdown.Item eventKey="d">
               <Link to={"account"} style={{ textDecoration: "none" }}>
                 Account
               </Link>
             </Dropdown.Item> */}
-            <Dropdown.Item eventKey="e">
-              <Link to={`preferences`} style={{ textDecoration: "none" }}>
-                Manage Profile
+              <Dropdown.Item eventKey="e">
+                <Link to={`preferences`} style={{ textDecoration: "none" }}>
+                  Manage Profile
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="f"
+                onClick={() => {
+                  navigate("/");
+                  signOut();
+                }}
+              >
+                Log Out
+              </Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <NavItem as={"div"}>
+              <Link
+                to={"signIn"}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                Sign in
               </Link>
-            </Dropdown.Item>
-            <Dropdown.Item
-              eventKey="f"
-              onClick={() => {
-                navigate("/");
-                signOut();
-              }}
-            >
-              Log Out
-            </Dropdown.Item>
-          </Dropdown>
-        ) : (
-          <NavItem as={"div"}>
-            <Link
-              to={"signIn"}
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Sign in
-            </Link>
-          </NavItem>
-        )}
-      </Nav>
-    </Navbar>
+            </NavItem>
+          )}
+        </Nav>
+      </Navbar>
+    </>
   );
 };
 
@@ -240,6 +177,7 @@ const style = {
   top: 0,
   left: 0,
   zIndex: 20,
+  paddingRight: 50,
 };
 
 export default NavbarCustom;

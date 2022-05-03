@@ -23,7 +23,7 @@ const PlayerList = ({
       </FlexboxGrid>
       <List style={{ height: 600 }}>
         {team?.teamMemberships?.items.map((member) => (
-          <ListItemCustom>
+          <ListItemCustom height={60}>
             <FlexboxGrid
               justify="space-between"
               style={{ margin: 5, maxWidth: 600 }}
@@ -121,7 +121,7 @@ const PlayerList = ({
                   />
                 )}
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={1}>
+              <FlexboxGrid.Item colspan={1} style={{ marginRight: 10 }}>
                 {member.id === editMode ? (
                   <Button
                     size="xs"

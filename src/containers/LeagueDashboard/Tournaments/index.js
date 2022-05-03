@@ -59,121 +59,122 @@ const LTournaments = () => {
   };
   return (
     <>
-      <FlexboxGrid justify="space-around">
-        <FlexboxGrid.Item colspan={8}>
-          <Panel
-            style={{ minHeight: "40vh" }}
-            header={
-              league ? (
-                <>
-                  <h5>{league?.name}</h5> Tournaments
-                </>
-              ) : (
-                "Tournaments"
-              )
-            }
-            shaded
-          >
-            <List hover style={{ margin: 4 }}>
-              {league &&
-                league?.tournaments.items.map((tournament1, index) => (
-                  <ListItemCustom
-                    isSelected={tournament?.id === tournament1?.id}
-                    key={index}
-                    onClick={() => setTournament(tournament1)}
-                  >
-                    <FlexboxGrid justify="space-between">
-                      {/* <FlexboxGrid.Item></FlexboxGrid.Item> */}
+      <div style={{ width: "100%" }}>
+        <FlexboxGrid justify="space-around">
+          <FlexboxGrid.Item colspan={8}>
+            <Panel
+              style={{ minHeight: "40vh" }}
+              header={
+                league ? (
+                  <>
+                    <h5>{league?.name}</h5> Tournaments
+                  </>
+                ) : (
+                  "Tournaments"
+                )
+              }
+              shaded
+            >
+              <List hover style={{ margin: 4 }}>
+                {league &&
+                  league?.tournaments.items.map((tournament1, index) => (
+                    <ListItemCustom
+                      isSelected={tournament?.id === tournament1?.id}
+                      key={index}
+                      onClick={() => setTournament(tournament1)}
+                    >
+                      <FlexboxGrid justify="space-between">
+                        {/* <FlexboxGrid.Item></FlexboxGrid.Item> */}
 
-                      <FlexboxGrid.Item style={{ marginLeft: 10 }}>
-                        {tournament1?.name}
-                      </FlexboxGrid.Item>
-                      <FlexboxGrid.Item style={{ marginRight: 10 }}>
-                        <IconButton
-                          appearance="subtle"
-                          color="red"
-                          size="xs"
-                          icon={
-                            <MdDelete
-                              style={{ margin: "0 auto" }}
-                              size={"1.5em"}
-                            />
-                          }
-                          onClick={(e) => {
-                            // console.log(tournament?.team.items);
-                            handleDeleteTOurnament(
-                              tournament1?.id,
-                              tournament1?.team.items
-                            );
-                          }}
-                        />
-                      </FlexboxGrid.Item>
-                    </FlexboxGrid>
-                  </ListItemCustom>
-                ))}
-            </List>
-            <Button
-              onClick={() => {
-                console.log("NT");
-                setOpenTournament(true);
-              }}
+                        <FlexboxGrid.Item style={{ marginLeft: 10 }}>
+                          {tournament1?.name}
+                        </FlexboxGrid.Item>
+                        <FlexboxGrid.Item style={{ marginRight: 10 }}>
+                          <IconButton
+                            appearance="subtle"
+                            color="red"
+                            size="xs"
+                            icon={
+                              <MdDelete
+                                style={{ margin: "0 auto" }}
+                                size={"1.5em"}
+                              />
+                            }
+                            onClick={(e) => {
+                              // console.log(tournament?.team.items);
+                              handleDeleteTOurnament(
+                                tournament1?.id,
+                                tournament1?.team.items
+                              );
+                            }}
+                          />
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
+                    </ListItemCustom>
+                  ))}
+              </List>
+              <Button
+                onClick={() => {
+                  console.log("NT");
+                  setOpenTournament(true);
+                }}
+              >
+                Add New Tournament
+              </Button>
+            </Panel>
+          </FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={15}>
+            <Panel
+              style={{ minHeight: "40vh", maxHeight: "40em" }}
+              header={tournament?.name}
+              shaded
             >
-              Add New Tournament
-            </Button>
-          </Panel>
-        </FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={15}>
-          <Panel
-            style={{ minHeight: "40vh", maxHeight: "40em" }}
-            header={tournament?.name}
-            shaded
-          >
-            <List hover>
-              {tournament &&
-                tournament?.team?.items?.map((team) => (
-                  <ListItemCustom key={team.id}>
-                    <FlexboxGrid justify="space-between">
-                      <FlexboxGrid.Item style={{ marginLeft: 10 }}>
-                        {team.team.name}
-                      </FlexboxGrid.Item>
-                      <FlexboxGrid.Item style={{ marginRight: 10 }}>
-                        <IconButton
-                          appearance="subtle"
-                          color="red"
-                          size="xs"
-                          icon={
-                            <MdDelete
-                              style={{ margin: "0 auto" }}
-                              size={"1.5em"}
-                            />
-                          }
-                          onClick={() => {
-                            console.log(
-                              "remove %s with id %s",
-                              team.team.name,
-                              team.id
-                            );
-                            removeTeamHandle(team.id);
-                          }}
-                        />
-                      </FlexboxGrid.Item>
-                    </FlexboxGrid>
-                  </ListItemCustom>
-                ))}
-            </List>
-            <Button
-              onClick={() => {
-                setOpenTournamentAdd(true);
-              }}
-            >
-              Add Team
-            </Button>
-          </Panel>
-        </FlexboxGrid.Item>
-      </FlexboxGrid>{" "}
-      <FlexboxGrid>
-        <FlexboxGrid.Item>
-          {/* <Panel style={{ minWidth: "30vw" }} shaded header={"trophies"}>
+              <List hover>
+                {tournament &&
+                  tournament?.team?.items?.map((team) => (
+                    <ListItemCustom key={team.id}>
+                      <FlexboxGrid justify="space-between">
+                        <FlexboxGrid.Item style={{ marginLeft: 10 }}>
+                          {team.team.name}
+                        </FlexboxGrid.Item>
+                        <FlexboxGrid.Item style={{ marginRight: 10 }}>
+                          <IconButton
+                            appearance="subtle"
+                            color="red"
+                            size="xs"
+                            icon={
+                              <MdDelete
+                                style={{ margin: "0 auto" }}
+                                size={"1.5em"}
+                              />
+                            }
+                            onClick={() => {
+                              console.log(
+                                "remove %s with id %s",
+                                team.team.name,
+                                team.id
+                              );
+                              removeTeamHandle(team.id);
+                            }}
+                          />
+                        </FlexboxGrid.Item>
+                      </FlexboxGrid>
+                    </ListItemCustom>
+                  ))}
+              </List>
+              <Button
+                onClick={() => {
+                  setOpenTournamentAdd(true);
+                }}
+              >
+                Add Team
+              </Button>
+            </Panel>
+          </FlexboxGrid.Item>
+        </FlexboxGrid>{" "}
+        <FlexboxGrid>
+          <FlexboxGrid.Item>
+            {/* <Panel style={{ minWidth: "30vw" }} shaded header={"trophies"}>
             <List>
               {tournament?.trophies?.items.map((trophy, index) => (
                 <ListItemCustom key={index}>
@@ -229,8 +230,10 @@ const LTournaments = () => {
               Create Trophy
             </Button>
           </Panel> */}
-        </FlexboxGrid.Item>
-      </FlexboxGrid>
+          </FlexboxGrid.Item>
+        </FlexboxGrid>
+      </div>
+
       <NewTournamentModal
         open={openTournament}
         setOpen={setOpenTournament}

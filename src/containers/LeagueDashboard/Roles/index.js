@@ -146,8 +146,8 @@ const LRoles = () => {
           username={username}
         />
       )}
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: "1.4", margin: 10 }}>
+      <div style={{ display: "flex", width: "100%" }}>
+        <div style={{ flex: "1", margin: 10 }}>
           <h5>{`Moderators in  ${league?.name} league`}</h5>
           <PlayerList
             team={team}

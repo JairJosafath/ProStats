@@ -139,7 +139,8 @@ const LTeams = () => {
           username={username}
         />
       )}
-      <div style={{ display: "flex" }}>
+
+      <div style={{ display: "flex", width: "100%" }}>
         <div style={{ flex: "1", margin: 10 }}>
           <h5>{"teams in " + league?.name}</h5>
           <List autoScroll={true} style={{ height: 600 }}>
@@ -151,7 +152,7 @@ const LTeams = () => {
           </List>
         </div>
 
-        <Panel style={{ flex: "1" }} header={"Requests"}>
+        <Panel style={{ flex: "1.5" }} header={"Requests"}>
           <Whisper
             placement="right"
             controlId="control-id-hover"

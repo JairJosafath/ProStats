@@ -6,7 +6,7 @@ import CustomHeaderCell from "../CustomHeaderCell";
 const ClubTableCell = ({ rowData, team, ...props }) => {
   //   console.log("in Cell", rowData[dataKey]);
   const [logo, setLogo] = useState(false);
-  console.log(props.rowIndex);
+  // console.log(props.rowIndex);
   useEffect(() => {
     // console.log(fixture.homeTeam, "logo");
     const setLogoF = async () => {

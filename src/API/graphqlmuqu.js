@@ -252,20 +252,6 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
               }
               goals
               assists
-              beat
-              skillmove_beat
-              nutmeg
-              match_rating
-              playerOfTheMatch
-              expected_assists
-              interceptions
-              tackles_won
-              blocks
-              saves
-              createdAt
-              updatedAt
-              tournamentPlayerTableId
-              playerTableStatPlayerId
               id
             }
           }

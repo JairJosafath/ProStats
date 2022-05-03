@@ -66,7 +66,6 @@ const exp = [
 ];
 
 const TeamStandings = ({ data }) => {
-  //   console.log("gmhhh", data);
   return (
     <>
       <h5 style={{ margin: 5 }}>Team Standings</h5>
