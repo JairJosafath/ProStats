@@ -59,6 +59,8 @@ import {
   updateTrophyQuery,
   getLeagueMembership,
   createPlayerQuery,
+  getFeaturedLeaguesQuery,
+  getFeaturedTeamsQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -77,6 +79,7 @@ export const apiSettings = {
     }).catch((err) => {
       console.log(err);
     });
+    console.log("chekckc", data);
     return data.getPlayer;
   },
   getFixtureByRoundandTournament: async (input) => {
@@ -1057,5 +1060,41 @@ export const apiSettingsTD = {
     });
 
     return data.getLeague;
+  },
+};
+
+export const apiSettingsPublic = {
+  getFeaturedLeagues: async () => {
+    console.log("querying db for for featured league");
+    const { data } = await API.graphql({
+      query: getFeaturedLeaguesQuery,
+      variables: {
+        limit: 100,
+        filter: { name: { notContains: "deleted" } },
+      },
+      authMode: "API_KEY",
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.listLeagues;
+  },
+  getFeaturedTeams: async () => {
+    console.log("querying db for for featured team");
+    const { data } = await API.graphql({
+      query: getFeaturedTeamsQuery,
+      variables: {
+        limit: 100,
+        filter: {
+          name: { notContains: "deleted" },
+          slogan: { notContains: "modTeam" },
+        },
+      },
+      authMode: "API_KEY",
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.listTeams;
   },
 };

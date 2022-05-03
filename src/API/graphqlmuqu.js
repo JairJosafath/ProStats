@@ -1956,3 +1956,35 @@ export const updateLeagueMutation = /* GraphQL */ `
     }
   }
 `;
+export const getFeaturedLeaguesQuery = /* GraphQL */ `
+  query ListLeagues(
+    $filter: ModelLeagueFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLeagues(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        status
+        logo
+      }
+    }
+  }
+`;
+export const getFeaturedTeamsQuery = /* GraphQL */ `
+  query ListTeams(
+    $filter: ModelTeamFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        status
+        logo
+      }
+    }
+  }
+`;

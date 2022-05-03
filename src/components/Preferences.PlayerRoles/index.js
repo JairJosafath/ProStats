@@ -599,8 +599,8 @@ const PlayerRoles = ({
                   )}
                 {/* Manager */}
                 {player &&
-                  player.manages.items
-                    .filter((manages) => manages.slogan !== "modTeam")
+                  player?.manages?.items
+                    .filter((manages) => manages?.slogan !== "modTeam")
                     .map((team, index) => {
                       return (
                         <>
@@ -1087,10 +1087,13 @@ const PlayerRoles = ({
                 {/* Member */}
 
                 {player?.teamMemberships?.items
-                  ?.filter((membership) => membership.team.slogan !== "modTeam")
+                  ?.filter((membership) => membership.team !== null)
+                  ?.filter(
+                    (membership) => membership?.team?.slogan !== "modTeam"
+                  )
                   .filter(
                     (membership) =>
-                      membership.team.playerManagesId !== player.id
+                      membership?.team?.playerManagesId !== player.id
                   )
                   .map((team, index) => {
                     console.log("index", team.team.leagueMemberships);

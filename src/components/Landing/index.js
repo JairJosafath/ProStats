@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { Panel } from "rsuite";
 import {
   CircleContainer,
   LeftImage,
   RightImage,
 } from "../../containers/Home/Styles";
+import Featured from "../Featured";
 
 const Landing = () => {
   const [arr, setArr] = useState([
@@ -15,40 +17,48 @@ const Landing = () => {
     "black",
     "brown",
   ]);
+
+  const { featured } = useOutletContext();
   return (
     <>
       <div>
         <div
-          style={{ zIndex: 100, background: "rgb(120,20,80)", paddingLeft: 10 }}
+          style={{
+            zIndex: 100,
+            background: "var(--primary-blue-dark)",
+            paddingLeft: 10,
+          }}
         >
-          <h5>Featured Leagues</h5>
+          {/* <h5 style={{ padding: 5 }}>Featured Leagues and Teams</h5> */}
         </div>
         <div
           style={{
             overflowX: "hidden",
+            overflowY: "hidden",
             display: "flex",
-            background: "rgb(120,20,80)",
-            height: 70,
+            background: "var(--primary-blue-dark)",
+            height: "90px",
             padding: 10,
             maxWidth: "100vw",
           }}
         >
           {/* 5 leagues and 5 teams scrolling horizontally */}
 
-          {arr.map((color, index) => {
-            return (
-              <CircleContainer
-                color={color}
-
-                // onMouseEnter={() => setDuration("100s")}
-                // onMouseLeave={() => setDuration("60s")}
-              />
-            );
-          })}
+          {featured &&
+            featured?.map((featured, index) => {
+              return <Featured featured={featured} />;
+            })}
         </div>
       </div>
 
-      <div style={{ display: "flex", height: 400 }}>
+      <div
+        style={{
+          display: "flex",
+          height: 400,
+          background:
+            "linear-gradient(var(--primary-blue-dark),var(--primary-blue))",
+        }}
+      >
         <Panel
           shaded
           style={{ flex: "1", margin: "60px" }}
@@ -58,7 +68,14 @@ const Landing = () => {
           <RightImage src={"img/autoStandings.png"} />
         </div>
       </div>
-      <div style={{ display: "flex", height: 400 }}>
+      <div
+        style={{
+          display: "flex",
+          height: 400,
+          background:
+            "linear-gradient(var(--primary-blue),var(--primary-blue-light))",
+        }}
+      >
         <div style={{ flex: "1" }}>
           <LeftImage src="img/customCards.png" />
           <LeftImage src="img/customCards.png" />
@@ -70,7 +87,14 @@ const Landing = () => {
           header={"Custom Player Cards!"}
         ></Panel>
       </div>
-      <div style={{ display: "flex", height: 400 }}>
+      <div
+        style={{
+          display: "flex",
+          height: 400,
+          background:
+            "linear-gradient(var(--primary-blue-light),var(--primary-blue-very-light))",
+        }}
+      >
         <Panel
           shaded
           style={{ flex: "1", margin: "60px" }}

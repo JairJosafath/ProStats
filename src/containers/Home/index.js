@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Animation, Panel } from "rsuite";
 import HomeNav from "../../components/HomeNav";
+import useHome from "../../hooks/useHome";
 import banner from "../../img/banner.png";
 import image from "../../img/banner2.png";
 
@@ -19,6 +20,9 @@ const Home = () => {
   //   setTimeout(() => setShow(!show), 3000);
   // });
 
+  const { featured } = useHome();
+
+  // useEffect(() => console.log("is it coming tru?", featured), [featured]);
   return (
     <>
       <Banner src={image}>
@@ -40,7 +44,7 @@ const Home = () => {
       </Banner>
 
       <HomeNav />
-      <Outlet />
+      <Outlet context={{ featured }} />
     </>
   );
 };
