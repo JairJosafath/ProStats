@@ -8,6 +8,7 @@ const TeamDashboard = () => {
   const {
     league,
     setTeamId,
+    setTeamIdNoLeague,
     team,
     tournament,
     setTournament,
@@ -32,7 +33,10 @@ const TeamDashboard = () => {
     setLeagueMembershipId,
   } = useTeamDashoard();
   useEffect(() => {
-    setLeagueMembershipId(id);
+    console.log("soplitter", id.split("+")[0]);
+    if (id.split("+").length > 0 && id.split("+")[1] === "No") {
+      setTeamIdNoLeague(id.split("+")[0]);
+    } else setLeagueMembershipId(id);
   }, [id]);
 
   useEffect(() => {

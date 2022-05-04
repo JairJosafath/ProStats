@@ -61,6 +61,8 @@ import {
   createPlayerQuery,
   getFeaturedLeaguesQuery,
   getFeaturedTeamsQuery,
+  getLeaguePublicQuery,
+  fixtureByTournamentandRoundPublicQuery,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -90,7 +92,7 @@ export const apiSettings = {
         tournamentID: input.tournamentID,
         round: input.condition,
       },
-      authMode: defaultAuth,
+      authMode: "defaultAuth",
     }).catch((err) => {
       console.log(err);
     });
@@ -1079,6 +1081,20 @@ export const apiSettingsPublic = {
 
     return data.listLeagues;
   },
+  getLeague: async (id) => {
+    console.log("getLeaguePublic", id);
+    const { data } = await API.graphql({
+      query: getLeaguePublicQuery,
+      variables: {
+        id: id,
+      },
+      authMode: "API_KEY",
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return data.getLeague;
+  },
   getFeaturedTeams: async () => {
     console.log("querying db for for featured team");
     const { data } = await API.graphql({
@@ -1096,5 +1112,19 @@ export const apiSettingsPublic = {
     });
 
     return data.listTeams;
+  },
+  getFixtureByRoundandTournament: async (input) => {
+    console.log("querying fixtures by tournament and round Public");
+    const { data } = await API.graphql({
+      query: fixtureByTournamentandRoundPublicQuery,
+      variables: {
+        tournamentID: input.tournamentID,
+        round: input.condition,
+      },
+      authMode: "API_KEY",
+    }).catch((err) => {
+      console.log(err);
+    });
+    return data.fixtureByTournamentandRound;
   },
 };

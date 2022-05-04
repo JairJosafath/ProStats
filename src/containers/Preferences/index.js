@@ -79,7 +79,7 @@ const Preferences = ({}) => {
 
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", minHeight: "88vh" }}>
         <div style={{ flex: 1 }}></div>
         <div style={{ flex: 3 }}>
           {player && (
@@ -113,6 +113,16 @@ const Preferences = ({}) => {
           )}
         </div>
         <div style={{ flex: 1 }}></div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          height: "60px",
+          background: "var(--primary-blue-dark)",
+        }}
+      >
+        {" "}
+        Footer
       </div>
     </>
   );

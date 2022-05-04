@@ -6,6 +6,7 @@ const useTeamDashboard = () => {
   const [error, setError] = useState(false);
 
   const [teamId, setTeamId] = useState(false);
+  const [teamIdNoLeague, setTeamIdNoLeague] = useState(false);
   const [team, setTeam] = useState(null);
   const [tournament, setTournament] = useState(null);
   const [getTeamFixtures, setGetTeamFixtures] = useState(false);
@@ -105,6 +106,13 @@ const useTeamDashboard = () => {
     if (teamId) {
       const data = await apiSettingsTD
         .getTeamForDashboard(teamId)
+        .then(() =>
+          setTournament(
+            team?.tournaments?.items.filter(
+              (tour) => tour.tournament?.league?.name === league?.name
+            )[0]?.tournament
+          )
+        )
         .catch((err) => {
           console.log(err);
           setError(true);
@@ -123,6 +131,32 @@ const useTeamDashboard = () => {
         // });
         setLoading(false);
         setTeamId(false);
+      }
+    }
+  };
+  const getTeamNoLeague = async () => {
+    setLoading(true);
+    if (teamIdNoLeague) {
+      const data = await apiSettingsTD
+        .getTeamForDashboard(teamIdNoLeague)
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+          setLoading(false);
+        });
+
+      console.log("err", error);
+      if (!error) {
+        setTeam(data);
+        // setLeagueTemp({
+        //   name: league.name,
+        //   logo: league.logo,
+        //   description: league.description,
+        //   id: league.id,
+        //   header: league.header,
+        // });
+        setLoading(false);
+        setTeamIdNoLeague(false);
       }
     }
   };
@@ -217,7 +251,11 @@ const useTeamDashboard = () => {
       apiSettings
         .updateTeam(updateTeam)
         .then(() => {
-          setTeamId(team.id);
+          try {
+            setTeamId(team.id);
+          } catch {
+            setTeamIdNoLeague(team.id);
+          }
         })
         .catch((err) => {
           console.log("errOr", err);
@@ -379,6 +417,9 @@ const useTeamDashboard = () => {
     getTeam();
   }, [teamId]);
   useEffect(() => {
+    getTeamNoLeague();
+  }, [teamIdNoLeague]);
+  useEffect(() => {
     setTeamLeagueFunct();
   }, [leagueMembershipId]);
   useEffect(() => {
@@ -444,6 +485,7 @@ const useTeamDashboard = () => {
   }, [team, league]);
   return {
     setTeamId,
+    setTeamIdNoLeague,
     team,
     tournament,
     setTournament,

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 //Styles
-import "./App.css";
+// import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 
 //Amplify
@@ -65,6 +65,10 @@ import About from "./containers/About";
 
 import Landing from "./components/Landing";
 import Leagues from "./containers/Leagues";
+import ShowLeagues from "./containers/Home/ShowLeagues";
+import HStandings from "./containers/Home/Standings";
+import HFixtures from "./containers/Home/Fixtures";
+import Community from "./containers/Home/Community";
 
 // import TTeams from "./containers/TeamDashboard/Teams";
 
@@ -249,7 +253,12 @@ function App(props) {
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="about" element={<About />} />
-              <Route path="leagues" element={<Leagues />} />
+              <Route path="leagues" element={<Leagues />}>
+                <Route path="showleagues" element={<ShowLeagues />} />
+                <Route path="standings/:id" element={<HStandings />} />
+                <Route path="fixtures/:id" element={<HFixtures />} />
+                <Route path="community" element={<Community />} />
+              </Route>
               <Route path="/" element={<Landing />} />
             </Route>
             <Route
@@ -359,6 +368,7 @@ function App(props) {
           </Routes>
         </div>
       </BrowserRouter>
+
       {/* <News league={league} /> */}
       <GlobalStyles />
       <CustomProvider theme="dark">{props.children}</CustomProvider>

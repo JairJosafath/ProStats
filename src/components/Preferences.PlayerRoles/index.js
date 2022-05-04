@@ -267,6 +267,7 @@ const PlayerRoles = ({
     console.log(`edit Team with id: ${id} as ${role}`);
     if (role === "manager") nav(`/teamDashboard/${id}/dashboard`);
     if (role === "member") nav(`/playerDashboard/${id}+${playerId}/dashboard`);
+    if (role === "managerNoLeague") nav(`/teamDashboard/${id}+No/dashboard`);
   };
   const handleDeleteTeam = (id, role) => {
     //remove team from players (admins,mods, mark it deleted) and rename it to created team
@@ -896,7 +897,7 @@ const PlayerRoles = ({
                                       onClick={(e) => {
                                         handleEditTeam(
                                           team.id,
-                                          "manager",
+                                          "managerNoLeague",
                                           false
                                         );
                                       }}

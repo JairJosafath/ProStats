@@ -183,6 +183,63 @@ export const getLeagueQuery = /* GraphQL */ `
     }
   }
 `;
+export const getLeaguePublicQuery = /* GraphQL */ `
+  query GetLeague($id: ID = "") {
+    getLeague(id: $id) {
+      id
+      name
+      header
+      leagueAdmin
+      tournaments {
+        items {
+          id
+          name
+          team {
+            items {
+              id
+            }
+          }
+          table {
+            items {
+              id
+
+              gamesDrawn
+              gamesLost
+              gamesWon
+              gamesPlayed
+              goalDifference
+              goalsAgainst
+              goalsFor
+              points
+              record
+              team {
+                logo
+                name
+                id
+              }
+            }
+          }
+          playerTable {
+            items {
+              id
+              assists
+
+              goals
+
+              player {
+                id
+                name
+                image
+              }
+
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 export const getLeagueForDashboardQuery = /* GraphQL */ `
   query GetLeague($id: ID = "") {
     getLeague(id: $id) {
@@ -469,6 +526,49 @@ export const createFixtureQuery = /* GraphQL */ `
   ) {
     createFixture(input: $input, condition: $condition) {
       id
+    }
+  }
+`;
+export const fixtureByTournamentandRoundPublicQuery = /* GraphQL */ `
+  query FixtureByTournamentandRound(
+    $tournamentID: ID!
+    $round: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFixtureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    fixtureByTournamentandRound(
+      tournamentID: $tournamentID
+      round: $round
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        status
+        awayTeam {
+          id
+          name
+          moderators
+          logo
+        }
+        homeTeam {
+          id
+          name
+          moderators
+          logo
+        }
+
+        awayScore
+
+        homeScore
+        round
+        season
+
+        id
+      }
     }
   }
 `;

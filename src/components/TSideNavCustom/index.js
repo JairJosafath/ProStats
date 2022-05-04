@@ -79,7 +79,7 @@ const TSideNavCustom = ({
                     <Dropdown.Item
                       style={{
                         background:
-                          tournament.name === tournament1.tournament.name
+                          tournament?.name === tournament1.tournament.name
                             ? "blue"
                             : "",
                       }}

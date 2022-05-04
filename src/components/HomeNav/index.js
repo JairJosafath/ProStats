@@ -24,13 +24,17 @@ const HomeNav = () => {
             >
               <Navitem>
                 Home
-                <Icon size={hover === "home" ? "2.2em" : "1.5em"} as={MdHome} />
+                <Icon
+                  className="icon"
+                  size={hover === "home" ? "2.2em" : "1.5em"}
+                  as={MdHome}
+                />
               </Navitem>
             </Link>
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={5}>
             <Link
-              to={"leagues"}
+              to={"leagues/showLeagues"}
               style={{ textDecoration: "none" }}
               onMouseEnter={() => setHover("leagues")}
               onMouseLeave={() => setHover(false)}
@@ -38,6 +42,7 @@ const HomeNav = () => {
               <Navitem>
                 Leagues
                 <Icon
+                  className="icon"
                   spin={hover === "leagues"}
                   size={hover === "leagues" ? "2.2em" : "1.5em"}
                   rotate={100}
@@ -56,6 +61,7 @@ const HomeNav = () => {
               <Navitem>
                 About
                 <Icon
+                  className="icon"
                   size={hover === "about" ? "2.2em" : "1.5em"}
                   as={FcAbout}
                 />

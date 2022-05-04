@@ -11,7 +11,7 @@ export default createGlobalStyle`
     --primary-statMe-sidenavSelected:#44474a;
     
     --primary-statMe-button:rgba(69, 132, 196,.1);
-    --primary-statMe-buttonFocus:rgba(69, 132, 196,1)
+    --primary-statMe-buttonFocus:rgba(69, 132, 196,1);
 
     --primary-black:#1e2124;
     --primary-black-light:#202327;

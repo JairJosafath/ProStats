@@ -20,7 +20,14 @@ const Home = () => {
   //   setTimeout(() => setShow(!show), 3000);
   // });
 
-  const { featured } = useHome();
+  const {
+    featured,
+    leagues,
+    league,
+    setGetLeague,
+    setGetFixturesByTournamentandRound,
+    fixturesByTournamentAndRound,
+  } = useHome();
 
   // useEffect(() => console.log("is it coming tru?", featured), [featured]);
   return (
@@ -38,13 +45,23 @@ const Home = () => {
               <li>Player performance rating alghoritms</li>
               <li>And many ways to make your League Fun and Competitive</li>
             </ul>
-            Let us worry about the boring stuff, so YOU have fun!
+            Let us worry about the boring stuff, league, setGetLeague, so YOU
+            have fun!
           </p>
         </div>
       </Banner>
 
       <HomeNav />
-      <Outlet context={{ featured }} />
+      <Outlet
+        context={{
+          featured,
+          leagues,
+          league,
+          setGetLeague,
+          setGetFixturesByTournamentandRound,
+          fixturesByTournamentAndRound,
+        }}
+      />
     </>
   );
 };

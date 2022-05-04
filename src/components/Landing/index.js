@@ -7,6 +7,7 @@ import {
   RightImage,
 } from "../../containers/Home/Styles";
 import Featured from "../Featured";
+import { UL } from "./Styles";
 
 const Landing = () => {
   const [arr, setArr] = useState([
@@ -62,8 +63,16 @@ const Landing = () => {
         <Panel
           shaded
           style={{ flex: "1", margin: "60px" }}
-          header={"Automated Standings!"}
-        ></Panel>{" "}
+          header={<h3>Automated Fixtures and Standings</h3>}
+        >
+          <UL>
+            <li>generate all of your fixtures with a click of a button</li>
+            <li>
+              standings update automatically when the fixtures are completed
+            </li>
+            <li>input stats in an easy way</li>
+          </UL>
+        </Panel>{" "}
         <div style={{ flex: "1" }}>
           <RightImage src={"img/autoStandings.png"} />
         </div>
@@ -84,8 +93,20 @@ const Landing = () => {
         <Panel
           shaded
           style={{ flex: "1", margin: "60px" }}
-          header={"Custom Player Cards!"}
-        ></Panel>
+          header={<h3>Customize your teams and leagues to your needs</h3>}
+        >
+          <UL>
+            <li>
+              StatMe offers the ability for you to be in different teams and/or
+              leagues
+            </li>
+            <li>
+              From fun small leagues to very Competitive big leagues, You can do
+              it all
+            </li>
+            <li>Customize your presentation of top performers and top teams</li>
+          </UL>
+        </Panel>
       </div>
       <div
         style={{
@@ -98,7 +119,7 @@ const Landing = () => {
         <Panel
           shaded
           style={{ flex: "1", margin: "60px" }}
-          header={"More Control over your league!"}
+          header={<h3>Sign Up and Get Started!</h3>}
         ></Panel>
         <div style={{ flex: "1" }}>
           {/* <InfoPanel>
@@ -109,7 +130,6 @@ const Landing = () => {
           <InfoPanel /> */}
         </div>
       </div>
-      <div style={{ display: "flex", height: 60 }}> Footer</div>
     </>
   );
 };

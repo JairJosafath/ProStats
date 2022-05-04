@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+// import "./index.css";
 import styled from "styled-components";
 import "rsuite/dist/rsuite.min.css";
 

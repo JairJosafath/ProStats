@@ -180,13 +180,14 @@ const NavbarCustom = ({
 };
 
 const style = {
-  background: "var(--primary-black)",
+  background: "rgba(1,1,1,0)",
   position: "sticky",
   top: 0,
   left: 0,
   zIndex: 20,
   paddingRight: 50,
   boxShadow: "2px 2px 2px 2px rgba(0,0,0,.2)",
+  backdropFilter: "blur(5px)",
 };
 
 export default NavbarCustom;
