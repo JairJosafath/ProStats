@@ -24,12 +24,15 @@ make the webapp user test ready:
 2. handle deletes cleanly: (temp Fix)
     a. create dummy entities: deleted player, team, league
     b. cleanup when id = deletedEntity, so all join rows can be undone correctly
-3. discord support server.
+3. discord support server. working on it
 4. fix standings glitches. V
 5. double player creation when user signs up. Fixed
 
-6.updating league names Fixed
-7. user friendly position for the ids
-8. cup formats for tournaments
-9. hybrid format for tournaments, cup/leagues
+6.updating league names Fixed 
+7. user friendly position for the ids temp fix
+8. cup formats for tournaments NOt YET
+9. hybrid format for tournaments, cup/leagues Not Yet
 10. automatically add owner into team V
+
+Map out deletion alg
+Loading and Error handles

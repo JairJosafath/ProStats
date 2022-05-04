@@ -50,7 +50,6 @@ const Home = () => {
           </p>
         </div>
       </Banner>
-
       <HomeNav />
       <Outlet
         context={{
@@ -62,6 +61,9 @@ const Home = () => {
           fixturesByTournamentAndRound,
         }}
       />
+      <div style={{ height: "60px", background: "var(--primary-black)" }}>
+        Footer
+      </div>
     </>
   );
 };

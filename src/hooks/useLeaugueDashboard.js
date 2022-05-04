@@ -107,6 +107,7 @@ const useLeagueDashboard = () => {
     if (leagueId) {
       const data = await apiSettings
         .getLeagueForDashboard(leagueId)
+
         .catch((err) => {
           console.log(err);
           setError(true);

@@ -1,7 +1,8 @@
 import { Sidenav, Nav, Dropdown } from "rsuite";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import NavItemCustom from "../NavItemCustom";
+// import Nav.Item from "../Nav.Item";
+import { Body, Header } from "../PSideNavCustom/Styles";
 
 const panelStyles = {
   padding: "15px 20px",
@@ -46,115 +47,123 @@ const TSideNavCustom = ({
   return (
     <div
       style={{
-        width: 240,
+        flex: 0.6,
+        minWidth: 100,
         height: "90vh",
-        background: "var(--primary-statMe-sidenav)",
+        background: "var(--primary-black)",
       }}
     >
       <Sidenav
         // defaultOpenKeys={["3", "4"]}
         appearance="subtle"
-        style={{ background: "var(--primary-statMe-sidenav)" }}
       >
-        <Sidenav.Header>
-          <div style={headerStyles}>
-            {`${team?.name} : ${league?.name}`}
-            <Dropdown
-              open={drop}
-              title={tournament ? tournament.name : "choose tournament"}
-              style={{ zIndex: 20 }}
-              onClick={() => {
-                console.log("clicked");
-                setDrop(true);
-                setShowNav(showNav === "default" ? "hide" : "show");
-              }}
-            >
-              {tournament &&
-                team?.tournaments?.items
-                  .filter(
-                    (tourney) =>
-                      tourney.tournament?.league?.name === league?.name
-                  )
-                  .map((tournament1) => (
-                    <Dropdown.Item
-                      style={{
-                        background:
-                          tournament?.name === tournament1.tournament.name
-                            ? "blue"
-                            : "",
-                      }}
-                      onClick={() => {
-                        console.log("item clicked");
-                        setShowNav("show");
-                        setTournament(tournament1.tournament);
-                      }}
-                    >
-                      {tournament1?.tournament?.name}
-                    </Dropdown.Item>
-                  ))}
-            </Dropdown>
-          </div>
-        </Sidenav.Header>
-        {showNav !== "hide" && (
-          <Sidenav.Body>
-            <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              <Link style={{ textDecoration: "none" }} to={`dashboard`}>
-                {" "}
-                <NavItemCustom
-                  as="div"
-                  eventKey="dashboard"
-                  isSelected={activeKey === "dashboard" ? true : false}
-                >
-                  <p style={{ padding: "20px 50px 20px 50px" }}>Dashboard</p>
-                </NavItemCustom>
-              </Link>{" "}
-              <Nav.Item panel style={panelStyles}>
-                Manage
-              </Nav.Item>
-              <Link style={{ textDecoration: "none" }} to={`teamstats`}>
-                {" "}
-                <NavItemCustom
-                  as="div"
-                  eventKey="teamstats"
-                  isSelected={activeKey === "teamstats" ? true : false}
-                >
-                  <p style={{ padding: "20px 50px 20px 50px" }}>Team Stats</p>
-                </NavItemCustom>
-              </Link>{" "}
-              <Link style={{ textDecoration: "none" }} to="playerstats">
-                {" "}
-                <NavItemCustom
-                  as="div"
-                  eventKey="playerstats"
-                  isSelected={activeKey === "playerstats" ? true : false}
-                >
-                  <p style={{ padding: "20px 50px 20px 50px" }}>Player Stats</p>
-                </NavItemCustom>{" "}
-              </Link>
-              {/* <Link style={{ textDecoration: "none" }} to="leagues">
-                {" "}
-                <NavItemCustom as="div" eventKey="leagues">
-                  <p style={{ padding: "20px 50px 20px 50px" }}>Leagues</p>
-                </NavItemCustom>
-              </Link>{" "} */}
-              <Link
-                style={{ textDecoration: "none" }}
-                to="players"
-                isSelected={activeKey === "players" ? true : false}
+        <Header>
+          <Sidenav.Header>
+            <div>
+              {`${team?.name} : ${league?.name}`}
+              <Dropdown
+                open={drop}
+                title={tournament ? tournament.name : "choose tournament"}
+                style={{ zIndex: 20 }}
+                onClick={() => {
+                  console.log("clicked");
+                  setDrop(true);
+                  setShowNav(showNav === "default" ? "hide" : "show");
+                }}
               >
+                {tournament &&
+                  team?.tournaments?.items
+                    .filter(
+                      (tourney) =>
+                        tourney.tournament?.league?.name === league?.name
+                    )
+                    .map((tournament1) => (
+                      <Dropdown.Item
+                        className={
+                          tournament?.name === tournament1?.tournament?.name
+                            ? "selected item"
+                            : "item"
+                        }
+                        onClick={() => {
+                          console.log("item clicked");
+                          setShowNav("show");
+                          setTournament(tournament1.tournament);
+                        }}
+                      >
+                        {tournament1?.tournament?.name}
+                      </Dropdown.Item>
+                    ))}
+              </Dropdown>
+            </div>
+          </Sidenav.Header>
+        </Header>
+        {showNav !== "hide" && (
+          <Body>
+            <Sidenav.Body>
+              <Nav activeKey={activeKey} onSelect={setActiveKey}>
+                <Link style={{ textDecoration: "none" }} to={`dashboard`}>
+                  {" "}
+                  <Nav.Item
+                    as="div"
+                    eventKey="dashboard"
+                    className={
+                      activeKey === "dashboard" ? "item selected" : "item"
+                    }
+                  >
+                    Dashboard
+                  </Nav.Item>
+                </Link>{" "}
+                <Nav.Item panel style={panelStyles}></Nav.Item>
+                <Link style={{ textDecoration: "none" }} to={`teamstats`}>
+                  {" "}
+                  <Nav.Item
+                    as="div"
+                    eventKey="teamstats"
+                    className={
+                      activeKey === "teamstats" ? "item selected" : "item"
+                    }
+                  >
+                    Team Stats
+                  </Nav.Item>
+                </Link>{" "}
+                <Link style={{ textDecoration: "none" }} to="playerstats">
+                  {" "}
+                  <Nav.Item
+                    as="div"
+                    eventKey="playerstats"
+                    className={
+                      activeKey === "playerstats" ? "item selected" : "item"
+                    }
+                  >
+                    Player Stats
+                  </Nav.Item>{" "}
+                </Link>
+                {/* <Link style={{ textDecoration: "none" }} to="leagues">
                 {" "}
-                <NavItemCustom as="div" eventKey="players">
-                  <p style={{ padding: "20px 50px 20px 50px" }}>Players</p>
-                </NavItemCustom>{" "}
-              </Link>
-              {/* <NavItemCustom as="div" eventKey="roles">
+                <Nav.Item as="div" eventKey="leagues">
+                  Leagues
+                </Nav.Item>
+              </Link>{" "} */}
+                <Link style={{ textDecoration: "none" }} to="players">
+                  {" "}
+                  <Nav.Item
+                    as="div"
+                    eventKey="players"
+                    className={
+                      activeKey === "players" ? "item selected" : "item"
+                    }
+                  >
+                    Players
+                  </Nav.Item>{" "}
+                </Link>
+                {/* <Nav.Item as="div" eventKey="roles">
                 <Link style={{ textDecoration: "none" }} to="roles">
                   <div style={activeKey !== "roles" ? { color: "#aaa" } : {}}>
                     Roles
                   </div>
                 </Link>
-              </NavItemCustom>
-              <NavItemCustom as="div" eventKey="requests">
+              </Nav.Item>
+              <Nav.Item as="div" eventKey="requests">
                 <Link style={{ textDecoration: "none" }} to="requests">
                   <div
                     style={activeKey !== "requests" ? { color: "#aaa" } : {}}
@@ -162,18 +171,18 @@ const TSideNavCustom = ({
                     Requests
                   </div>
                 </Link>
-              </NavItemCustom> */}
-              {/* <Nav.Item panel style={panelStyles}>
+              </Nav.Item> */}
+                {/* <Nav.Item panel style={panelStyles}>
                 Post
-              </NavItemCustom>
-              <NavItemCustom as="div" eventKey="news">
+              </Nav.Item>
+              <Nav.Item as="div" eventKey="news">
                 <Link style={{ textDecoration: "none" }} to="news">
                   <div style={activeKey !== "news" ? { color: "#aaa" } : {}}>
                     News
                   </div>
                 </Link>
-              </NavItemCustom>
-              <NavItemCustom as="div" eventKey="transfer">
+              </Nav.Item>
+              <Nav.Item as="div" eventKey="transfer">
                 <Link style={{ textDecoration: "none" }} to="transfer">
                   <div
                     style={activeKey !== "transfer" ? { color: "#aaa" } : {}}
@@ -181,9 +190,10 @@ const TSideNavCustom = ({
                     Transfer
                   </div>
                 </Link>
-              </NavItemCustom> */}
-            </Nav>
-          </Sidenav.Body>
+              </Nav.Item> */}
+              </Nav>
+            </Sidenav.Body>
+          </Body>
         )}
       </Sidenav>
     </div>

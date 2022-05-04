@@ -9,6 +9,8 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import useGetFavoriteLeague from "../../hooks/useGetFavoriteLeagues";
 import { ButtonElevated } from "./Styles";
+import Logo from "../../img/StatMeLogo.svg";
+import { Icon } from "@rsuite/icons";
 
 const NavBarInstance = ({
   onSelect,
@@ -47,6 +49,7 @@ const NavBarInstance = ({
           {" "}
           <ButtonElevated>
             <Navbar.Brand onClick={() => onSelect("0")} as={"div"}>
+              <img src={Logo} alt={"logo"} width={"40px"} />
               StatMe <p style={{ display: "inline", fontSize: 9 }}>beta</p>
             </Navbar.Brand>
           </ButtonElevated>{" "}
@@ -188,6 +191,8 @@ const style = {
   paddingRight: 50,
   boxShadow: "2px 2px 2px 2px rgba(0,0,0,.2)",
   backdropFilter: "blur(5px)",
+  height: "7vh",
+  minHeight: "60px",
 };
 
 export default NavbarCustom;

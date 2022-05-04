@@ -46,7 +46,7 @@ const TeamDashboard = () => {
   return (
     <>
       {" "}
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", background: "var(--primary-grey)" }}>
         <TSideNavCustom
           team={team}
           league={league}

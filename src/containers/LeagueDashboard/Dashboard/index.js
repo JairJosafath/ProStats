@@ -65,7 +65,13 @@ const LDashboard = () => {
               </div>
             </FlexboxGrid.Item>
           </FlexboxGrid>
-          <div style={{ display: "grid" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <ButtonCustom
               size="md"
               style={{ margin: " auto", width: 60 }}

@@ -84,10 +84,18 @@ const PlayerInfoFrame = ({
               value={playerabout}
             />
           </div>
+          <p style={{ marginTop: 20 }}>Player ID</p>
+          <p style={{ color: "var(--primary-blue-very-light" }}>{player?.id}</p>
         </FlexboxGrid.Item>
         <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
       </FlexboxGrid>
-      <div style={{ display: "grid" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <ButtonCustom
           size="md"
           style={{ margin: " auto", width: 60 }}

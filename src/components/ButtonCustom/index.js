@@ -3,10 +3,18 @@ import { Button } from "rsuite";
 import styled from "styled-components";
 
 const Wrapper = styled.button`
-  background: var(--primary-statMe-buttonFocus);
   margin: 10px;
   padding: 0;
-  border-radius: 10%;
+  border-radius: 2em;
+  /* :hover {
+    filter: brightness(60%);
+  } */
+  #btn {
+    background: var(--primary-blue);
+    :hover {
+      background: var(--primary-blue-very-light);
+    }
+  }
 `;
 
 const ButtonCustom = ({ isSelected, disableHover, ...props }) => {
@@ -14,20 +22,12 @@ const ButtonCustom = ({ isSelected, disableHover, ...props }) => {
   return (
     <Wrapper>
       <Button
+        id={"btn"}
         appearance="primary"
         {...props}
-        style={
-          isSelected
-            ? {}
-            : disableHover
-            ? { margin: 0 }
-            : {
-                background: focus
-                  ? "rgba(63, 148, 235,1)"
-                  : "rgba(63, 148, 235,.4)",
-                margin: 0,
-              }
-        }
+        style={{
+          margin: 0,
+        }}
         onMouseEnter={() => {
           setFocus(true);
         }}

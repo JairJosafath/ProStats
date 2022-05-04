@@ -41,9 +41,24 @@ const TDashboard = () => {
                 value={teamdescription}
               />
             </div>
+            <p style={{ marginTop: 20 }}>Player ID</p>
+            <p
+              style={{
+                minWidth: "500px",
+                color: "var(--primary-blue-very-light",
+              }}
+            >
+              {team?.id}
+            </p>
           </FlexboxGrid.Item>
         </FlexboxGrid>
-        <div style={{ display: "grid" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <ButtonCustom
             size="md"
             style={{ margin: " auto", width: 60 }}

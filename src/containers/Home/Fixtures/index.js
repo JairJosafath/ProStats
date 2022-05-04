@@ -31,7 +31,7 @@ const HFixtures = () => {
     if (league) {
       setTournament(league.tournaments.items[0]);
     }
-  }, [league, tournament]);
+  }, [league]);
   return (
     <>
       <div

@@ -33,11 +33,20 @@ const usePlayerDashboard = () => {
 
       console.log("err", error);
       if (!error) {
+        console.log("data", data);
         setTeam(data.team);
         setLeague(data.league);
 
-        console.log("l", league);
-        console.log("t", team);
+        // console.log(
+        //   "teat filter",
+        //   data?.team?.tournaments?.items.map((tour) => tour)
+        // );
+        setTournament(
+          data?.team?.tournaments?.items.filter(
+            (tour) => tour?.tournament?.league?.name === data.league?.name
+          )[0]?.tournament
+        );
+
         // setLeagueTemp({
         //   name: league.name,
         //   logo: league.logo,
@@ -81,6 +90,7 @@ const usePlayerDashboard = () => {
     if (teamId) {
       const data = await apiSettingsTD
         .getTeamForDashboard(teamId.split("+")[0])
+
         .catch((err) => {
           console.log(err);
           setError(true);
@@ -182,9 +192,9 @@ const usePlayerDashboard = () => {
     }
   };
 
-  useEffect(() => {
-    getTeam();
-  }, [teamId]);
+  // useEffect(() => {
+  //   getTeam();
+  // }, [teamId]);
   useEffect(() => {
     getPlayer();
   }, [playerId]);
@@ -201,20 +211,20 @@ const usePlayerDashboard = () => {
   useEffect(() => {
     setTeamLeagueFunct();
   }, [leagueMembershipId]);
-  useEffect(() => {
-    setTournament(
-      tournament
-        ? team?.tournaments?.items.filter(
-            (tournamenta) =>
-              tournamenta.id === tournament?.id &&
-              tournamenta.tournament?.league?.name === league?.name
-          )[0]?.tournament
-        : team?.tournaments?.items.filter(
-            (tour) => tour?.tournament?.league?.name === league?.name
-          )[0]?.tournament
-    );
-    // console.log("team chosen in nav", tournament);
-  }, [team, league]);
+  // useEffect(() => {
+  //   setTournament(
+  //     tournament
+  //       ? team?.tournaments?.items.filter(
+  //           (tournamenta) =>
+  //             tournamenta.id === tournament?.id &&
+  //             tournamenta.tournament?.league?.name === league?.name
+  //         )[0]?.tournament
+  //       : team?.tournaments?.items.filter(
+  //           (tour) => tour?.tournament?.league?.name === league?.name
+  //         )[0]?.tournament
+  //   );
+  //   // console.log("team chosen in nav", tournament);
+  // }, [team, league]);
   return {
     setPlayerId,
     setTeamId,

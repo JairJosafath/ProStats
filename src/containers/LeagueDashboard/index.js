@@ -52,11 +52,10 @@ const LeagueDashboard = () => {
   // console.log("test", leagueID);
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", background: "var(--primary-grey)" }}>
         <SideNavCustom
           leagueID={id}
           league={league}
-          style={{ flex: "1" }}
           tournament={tournament}
           setTournament={setTournament}
         />

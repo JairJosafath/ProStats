@@ -86,7 +86,12 @@ const useTeamDashboard = () => {
       if (!error) {
         setTeam(data.team);
         setLeague(data.league);
-
+        console.log("SOO TIRED", data);
+        setTournament(
+          data?.team?.tournaments?.items.filter(
+            (tour) => tour.tournament?.league?.name === data?.league?.name
+          )[0]?.tournament
+        );
         console.log("l", league);
         console.log("t", team);
         // setLeagueTemp({
@@ -469,20 +474,20 @@ const useTeamDashboard = () => {
     deleteTeamMemberFunct();
   }, [deleteTeamMember]);
 
-  useEffect(() => {
-    setTournament(
-      tournament
-        ? team?.tournaments?.items.filter(
-            (tournamenta) =>
-              tournamenta.tournament.id === tournament?.id &&
-              tournamenta.tournament?.league?.name === league?.name
-          )[0]?.tournament
-        : team?.tournaments?.items.filter(
-            (tour) => tour.tournament?.league?.name === league?.name
-          )[0]?.tournament
-    );
-    console.log("team chosen in nav", tournament);
-  }, [team, league]);
+  // useEffect(() => {
+  //   setTournament(
+  //     tournament
+  //       ? team?.tournaments?.items.filter(
+  //           (tournamenta) =>
+  //             tournamenta.tournament.id === tournament?.id &&
+  //             tournamenta.tournament?.league?.name === league?.name
+  //         )[0]?.tournament
+  //       : team?.tournaments?.items.filter(
+  //           (tour) => tour.tournament?.league?.name === league?.name
+  //         )[0]?.tournament
+  //   );
+  //   console.log("team chosen in nav", tournament);
+  // }, [team, league]);
   return {
     setTeamId,
     setTeamIdNoLeague,

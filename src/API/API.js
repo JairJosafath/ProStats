@@ -92,7 +92,7 @@ export const apiSettings = {
         tournamentID: input.tournamentID,
         round: input.condition,
       },
-      authMode: "defaultAuth",
+      authMode: defaultAuth,
     }).catch((err) => {
       console.log(err);
     });

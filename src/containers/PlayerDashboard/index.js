@@ -32,7 +32,7 @@ const PlayerDashboard = () => {
 
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", background: "var(--primary-grey)" }}>
         <PSideNavCustom
           style={{ flex: 1 }}
           player={player}

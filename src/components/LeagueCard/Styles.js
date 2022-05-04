@@ -24,7 +24,9 @@ export const LogoCard = styled.div`
     );
 
     height: 200px;
-    width: 400px;
+    width: 350px;
+    border-bottom-right-radius: 3em;
+    border-top-right-radius: 3em;
     z-index: 100;
     /* backdrop-filter: brightness(40%); */
     opacity: 0.9;
