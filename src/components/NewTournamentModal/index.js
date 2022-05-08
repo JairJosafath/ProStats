@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Button, FlexboxGrid, Input, Modal } from "rsuite";
 
-const NewTournamentModal = ({ open, setOpen, setCreateTournament, league }) => {
+const NewTournamentModal = ({
+  open,
+  setOpen,
+  setCreateTournament,
+  league,
+  setNewTournamentTrigger,
+  setShowConfirmModal,
+}) => {
   const [overflow, setOverflow] = useState(true);
   // const [file, setFile] = useState(null);
   const [valueName, setValueName] = useState("");
@@ -22,12 +29,17 @@ const NewTournamentModal = ({ open, setOpen, setCreateTournament, league }) => {
     setValueName("");
   };
   const handleOK = () => {
-    setCreateTournament({
+    console.log("open modal");
+    setShowConfirmModal({
+      type: "tournament",
+      action: "create",
+    });
+    //
+    setNewTournamentTrigger({
       name: valueName,
       slogan: valueAbout,
       leagueTournamentsId: league.id,
     });
-
     // console.log("league inofo", league);
 
     console.log(`tourney\nname: ${valueName}, slogan: ${valueAbout}`);
@@ -72,7 +84,7 @@ const NewTournamentModal = ({ open, setOpen, setCreateTournament, league }) => {
           </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
+          <Button onClick={() => handleOK()} appearance="primary">
             Ok
           </Button>
           <Button onClick={handleClose} appearance="subtle">

@@ -47,7 +47,7 @@ const TSideNavCustom = ({
   return (
     <div
       style={{
-        flex: 0.6,
+        flex: 1,
         minWidth: 100,
         height: "90vh",
         background: "var(--primary-black)",

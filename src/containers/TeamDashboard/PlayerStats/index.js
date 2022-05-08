@@ -17,7 +17,8 @@ import { MdVerified, MdPendingActions } from "react-icons/md";
 import FlexItemCustom from "../../../components/FlexItemCustom";
 import ListItemCustom from "../../../components/ListCustom";
 import Fixture from "../../../components/Fixture";
-
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 const typeDataPlayer = [
   "summary",
   "passing",
@@ -36,6 +37,9 @@ const TPlayerStats = () => {
     team,
     setCreatePlayerStats,
     setUpdatePlayerStats,
+    error,
+    setError,
+    loading,
   } = useOutletContext();
   const [showStats, setShowStats] = useState(false);
   const [activePage, setActivePage] = useState(1);
@@ -49,7 +53,21 @@ const TPlayerStats = () => {
   const [playerstatsTracker, setPlayerstatsTracker] = useState({}); //track changes onchange
   const [currentPlayer, setCurrentPlayer] = useState(false);
   const [tempObject, setTempObject] = useState({});
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [addPlayerStatsTrigger, setAddPlayerStatsTrigger] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  useEffect(() => {
+    if (addPlayerStatsTrigger && confirm) {
+      handleSave(addPlayerStatsTrigger);
+      setAddPlayerStatsTrigger(false);
 
+      setShowStats(false);
+      setConfirm(false);
+
+      setCurrentPlayer(false);
+    }
+    setAddPlayerStatsTrigger(false);
+  }, [confirm]);
   useEffect(() => {
     console.log("teamcheck", selectedTeam);
   }, [selectedTeam]);
@@ -78,6 +96,40 @@ const TPlayerStats = () => {
     }
   }, [team, tournament]);
 
+  const handleSave = () => {
+    if (
+      currentFixture?.playerStats?.items?.filter(
+        (stats) => stats.player.id === currentPlayer?.id
+      )[0]
+    ) {
+      //means there is already stats for the player, so update
+      console.log("update code comes here");
+      setUpdatePlayerStats({
+        id: currentFixture?.playerStats?.items?.filter(
+          (stats) => stats.player.id === currentPlayer?.id
+        )[0].id,
+        playerPlayerStatsId: currentPlayer.id,
+        fixturePlayerStatsId: currentFixture.id,
+        status: "pending",
+        ...playerstatsTracker,
+      });
+    } else {
+      //create the playerStat
+      setCreatePlayerStats({
+        playerPlayerStatsId: currentPlayer.id,
+        fixturePlayerStatsId: currentFixture.id,
+        status: "pending",
+        moderators: [
+          currentPlayer.username && currentPlayer.username,
+          ...(selectedTeam.moderators ? selectedTeam.moderators : []),
+          ...(tournament.league.moderatornames
+            ? tournament.league.moderatornames
+            : []),
+        ],
+        ...playerstatsTracker,
+      });
+    }
+  };
   useEffect(() => {
     //when fixtures are selected update the stats based on the fixture
     setPlayerstatsTracker({});
@@ -89,6 +141,15 @@ const TPlayerStats = () => {
 
   return (
     <>
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       {!showStats && (
         <Panel header={`Fixtures `} style={{ flex: 1 }}>
           <List hover>
@@ -273,42 +334,12 @@ const TPlayerStats = () => {
 
                         // setGetTournamentByID(tournament?.id);
 
-                        if (
-                          currentFixture?.playerStats?.items?.filter(
-                            (stats) => stats.player.id === currentPlayer?.id
-                          )[0]
-                        ) {
-                          //means there is already stats for the player, so update
-                          console.log("update code comes here");
-                          setUpdatePlayerStats({
-                            id: currentFixture?.playerStats?.items?.filter(
-                              (stats) => stats.player.id === currentPlayer?.id
-                            )[0].id,
-                            playerPlayerStatsId: currentPlayer.id,
-                            fixturePlayerStatsId: currentFixture.id,
-                            status: "pending",
-                            ...playerstatsTracker,
-                          });
-                        } else {
-                          //create the playerStat
-                          setCreatePlayerStats({
-                            playerPlayerStatsId: currentPlayer.id,
-                            fixturePlayerStatsId: currentFixture.id,
-                            status: "pending",
-                            moderators: [
-                              currentPlayer.username && currentPlayer.username,
-                              ...(selectedTeam.moderators
-                                ? selectedTeam.moderators
-                                : []),
-                              ...(tournament.league.moderatornames
-                                ? tournament.league.moderatornames
-                                : []),
-                            ],
-                            ...playerstatsTracker,
-                          });
-                        }
-
                         // setShowStats(false);
+                        setShowConfirmModal({
+                          type: "stats",
+                          action: "save/update",
+                        });
+                        setAddPlayerStatsTrigger(playerstatsTracker);
                       }}
                     >
                       Save

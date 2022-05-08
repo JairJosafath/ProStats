@@ -283,24 +283,30 @@ export const apiSettings = {
     return result;
   },
   updatePlayerTableStat: async (input) => {
-    console.log("mutation: updatePlayerTableStat");
+    console.log("mutation: updatePlayerTableStat", input);
     const temp = /* GraphQL */ `
     mutation UpdatePlayerTableStat {
       homeMutation: updatePlayerTableStat(
         input: {
           id:"${input.id}"
-          goals:${input.goals}
-          assists:${input.assists}
-          beat:${input.beat}
-          skillmove_beat:${input.skillmove_beat}
-          nutmeg:${input.nutmeg}
-          match_rating:${input.match_rating}
-          playerOfTheMatch:${input.playerOfTheMatch}
-          expected_assists:${input.expected_assists}
-          interceptions:${input.interceptions}
-          tackles_won:${input.tackles_won}
-          blocks:${input.blocks}
-          saves:${input.saves}
+          goals:${isNaN(input.goals) ? 0 : input.goals}
+          assists:${isNaN(input.assists) ? 0 : input.assists}
+          beat:${isNaN(input.beat) ? 0 : input.beat}
+          skillmove_beat:${
+            isNaN(input.skillmove_beat) ? 0 : input.skillmove_beat
+          }
+          nutmeg:${isNaN(input.nutmeg) ? 0 : input.nutmeg}
+          match_rating:${isNaN(input.match_rating) ? 0 : input.match_rating}
+          playerOfTheMatch:${
+            isNaN(input.playerOfTheMatch) ? 0 : input.playerOfTheMatch
+          }
+          expected_assists:${
+            isNaN(input.expected_assists) ? 0 : input.expected_assists
+          }
+          interceptions:${isNaN(input.interceptions) ? 0 : input.interceptions}
+          tackles_won:${isNaN(input.tackles_won) ? 0 : input.tackles_won}
+          blocks:${isNaN(input.blocks) ? 0 : input.blocks}
+          saves:${isNaN(input.saves) ? 0 : input.saves}
         }
       ){
         id

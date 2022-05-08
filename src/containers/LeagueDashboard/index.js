@@ -6,6 +6,8 @@ import useLeagueDashboard from "../../hooks/useLeaugueDashboard";
 const LeagueDashboard = () => {
   const { id } = useParams();
   const {
+    confirm,
+    setConfirm,
     league,
     setLeague,
     tournament,
@@ -43,6 +45,9 @@ const LeagueDashboard = () => {
     setDeleteTrophy,
     setUpdateLeague,
     setUpdateTrophy,
+    loading,
+    setError,
+    error,
   } = useLeagueDashboard();
 
   useEffect(() => {
@@ -69,6 +74,8 @@ const LeagueDashboard = () => {
         >
           <Outlet
             context={{
+              confirm,
+              setConfirm,
               league,
               setLeague,
               createTournament,
@@ -104,6 +111,9 @@ const LeagueDashboard = () => {
               setDeleteTrophy,
               setUpdateLeague,
               setUpdateTrophy,
+              loading,
+              setError,
+              error,
             }}
           />
         </div>

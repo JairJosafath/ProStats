@@ -17,6 +17,8 @@ import { apiSettings, apiSettingsTD } from "../../../API/API";
 import { MdModeEdit, MdDelete, MdExitToApp } from "react-icons/md";
 import PlayerList from "../../../components/PlayerList";
 import ListItemCustom from "../../../components/ListCustom";
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 
 const NewRequest = ({
   setOpen,
@@ -25,6 +27,8 @@ const NewRequest = ({
   teamID,
   setGetUsernameTeamReq,
   username,
+  setAddPlayerTrigger,
+  setShowConfirmModal,
 }) => {
   const [playerId, setPlayerId] = useState("");
   const [searchPlayer, setSearchPlayer] = useState(false);
@@ -48,7 +52,12 @@ const NewRequest = ({
       console.log(username, "is the username");
       console.log("id", playerId);
 
-      setGetUsernameTeamReq({
+      // setGetUsernameTeamReq({
+      //   playerId,
+      //   status: "pending",
+      //   teamRequeststoPlayerId: teamID,
+      // });
+      setAddPlayerTrigger({
         playerId,
         status: "pending",
         teamRequeststoPlayerId: teamID,
@@ -81,6 +90,7 @@ const NewRequest = ({
             onClick={() => {
               setSearchPlayer(true);
               setOpen(true);
+              setShowConfirmModal({ type: "player", action: "add" });
             }}
           >
             Add
@@ -110,15 +120,43 @@ const TPlayers = () => {
     setUpdateTeam,
     setDeleteTeamMember,
     username,
+    error,
+    setError,
   } = useOutletContext();
   const [open, setOpen] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [addPlayerTrigger, setAddPlayerTrigger] = useState(false);
+  const [deletePlayerRequestTrigger, setDeletePlayerRequestTrigger] =
+    useState(false);
 
   console.log(team, "team");
   useEffect(() => {
     setGetTeamRequests(team?.id);
   }, [team]);
+
+  useEffect(() => {
+    if (confirm && addPlayerTrigger) {
+      setGetUsernameTeamReq(addPlayerTrigger);
+    }
+    setAddPlayerTrigger(false);
+    if (confirm && deletePlayerRequestTrigger) {
+      setDeleteRequestFromTeamToPlayer(deletePlayerRequestTrigger);
+    }
+    setAddPlayerTrigger(false);
+    setConfirm(false);
+  }, [confirm]);
   return (
     <>
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       {open && (
         <NewRequest
           open={open}
@@ -127,6 +165,8 @@ const TPlayers = () => {
           teamID={team?.id}
           setGetUsernameTeamReq={setGetUsernameTeamReq}
           username={username}
+          setShowConfirmModal={setShowConfirmModal}
+          setAddPlayerTrigger={setAddPlayerTrigger}
         />
       )}
       <div style={{ display: "flex" }}>
@@ -182,7 +222,15 @@ const TPlayers = () => {
                     <FlexboxGrid.Item colspan={1}>
                       <IconButton
                         onClick={() => {
-                          setDeleteRequestFromTeamToPlayer({ id: request.id });
+                          setShowConfirmModal({
+                            type: "request",
+                            action:
+                              request?.status === "pending"
+                                ? "cancel"
+                                : "delete",
+                          });
+                          setDeletePlayerRequestTrigger({ id: request.id });
+                          // setDeleteRequestFromTeamToPlayer({ id: request.id });
                         }}
                         appearance="subtle"
                         size={"xs"}

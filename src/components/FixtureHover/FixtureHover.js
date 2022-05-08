@@ -45,11 +45,10 @@ const AdvancedFixture = ({
               setSelectedTEam(fixture?.teamHomefixturesId);
             }}
             onClick={() => {
-              setShowStats(false);
-              setShowFixtures(false);
               setShowPlayers(true);
+              setShowFixtures(false);
               setTimeout(() => {
-                setShowStats(true);
+                // setShowStats(true);
                 setTypeDataPlayerState(typeDataPlayer[0]);
                 setSelectedTEam(fixture?.homeTeam);
               }, 500);
@@ -88,11 +87,11 @@ const AdvancedFixture = ({
               setSelectedTEam(fixture?.teamAwayfixturesId);
             }}
             onClick={() => {
-              setShowStats(false);
-              setShowFixtures(false);
               setShowPlayers(true);
+              setShowFixtures(false);
+
               setTimeout(() => {
-                setShowStats(true);
+                // setShowStats(true);
                 setTypeDataPlayerState(typeDataPlayer[0]);
                 setSelectedTEam(fixture?.awayTeam);
               }, 500);

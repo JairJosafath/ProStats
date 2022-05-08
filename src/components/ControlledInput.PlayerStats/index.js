@@ -38,7 +38,13 @@ const ControlledInput = ({
   }, [currentPlayer, value]);
 
   return (
-    <Input value={value} {...props} onChange={setValue} placeholder="0"></Input>
+    <Input
+      type="number"
+      value={value}
+      {...props}
+      onChange={setValue}
+      placeholder={0}
+    ></Input>
   );
 };
 

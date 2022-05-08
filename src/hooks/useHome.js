@@ -25,20 +25,20 @@ const useHome = () => {
         setError(true);
         setLoading(false);
       });
-    const data2 = await apiSettingsPublic
-      .getFeaturedTeams()
+    // const data2 = await apiSettingsPublic
+    //   .getFeaturedTeams()
 
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-        setLoading(false);
-      });
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setError(true);
+    //     setLoading(false);
+    //   });
 
     if (!error) {
       setLeagues(data1?.items);
       setFeatured([
         ...(data1 ? data1?.items : []),
-        ...(data2 ? data2?.items : []),
+        // ...(data2 ? data2?.items : []),
       ]);
       // console.log("id", leagues[0].id);
       // setGetLeague(leagues[0]?.id);
@@ -99,6 +99,8 @@ const useHome = () => {
     setGetLeague,
     setGetFixturesByTournamentandRound,
     fixturesByTournamentAndRound,
+    loading,
+    setError,
   };
 };
 

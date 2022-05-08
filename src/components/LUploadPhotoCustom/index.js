@@ -21,6 +21,8 @@ const LUploadPhotoCustom = ({
   setLeagueTemp,
   file,
   setFile,
+  reloadLogo,
+  setReloadLogo,
 }) => {
   const [uploading, setUploading] = useState(false);
   const [leagueImage, setLeagueImage] = useState(null);
@@ -35,6 +37,17 @@ const LUploadPhotoCustom = ({
     };
     img();
   }, [league]);
+
+  useEffect(() => {
+    if (reloadLogo) {
+      setReloadLogo(false);
+      const img = async () => {
+        const data = await apiSettings.getImage(league.logo);
+        setLeagueImage(data);
+      };
+      img();
+    }
+  });
 
   return (
     <>

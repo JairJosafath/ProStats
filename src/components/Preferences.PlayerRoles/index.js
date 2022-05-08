@@ -20,6 +20,7 @@ import {
   updateLeague,
   updateTeam,
 } from "../../graphql/mutations";
+import Confirmation from "../Confirmation";
 
 import { BsFillXCircleFill, BsCheckCircleFill } from "react-icons/bs";
 import { FaExclamation } from "react-icons/fa";
@@ -30,7 +31,16 @@ import { useTimeout } from "rsuite/esm/utils";
 import ListItemCustom from "../ListCustom";
 import ButtonCustom from "../ButtonCustom";
 
-const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
+const NewTeamModal = ({
+  open,
+  setOpen,
+  setCreateTeam,
+  player,
+  showConfirmModal,
+  setConfirm,
+  setShowConfirmModal,
+  confirm,
+}) => {
   const [overflow, setOverflow] = useState(true);
   const [file, setFile] = useState(null);
   const [valueName, setValueName] = useState("");
@@ -42,6 +52,9 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
     slogan: "",
     create,
   });
+  useEffect(() => {
+    if (confirm && open) handleOK();
+  }, [confirm]);
   // const { createdTeam, loadingCreateTeam, errorCreateTeam } =
   //   useCreateTeam(team);
 
@@ -104,10 +117,16 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
           </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
+          <Button
+            onClick={() => {
+              setShowConfirmModal({ type: "league", action: "create" });
+              console.log("modaldata", showConfirmModal);
+            }}
+            appearance="primary"
+          >
             Ok
           </Button>
-          <ButtonCustom onClick={handleClose} appearance="subtle">
+          <ButtonCustom onClick={() => handleClose()} appearance="subtle">
             Cancel
           </ButtonCustom>
         </Modal.Footer>
@@ -116,22 +135,39 @@ const NewTeamModal = ({ open, setOpen, setCreateTeam, player }) => {
   );
 };
 
-const NewLeagueModal = ({ open, setOpen, setCreateLeague, player }) => {
+const NewLeagueModal = ({
+  open,
+  setOpen,
+  setCreateLeague,
+  player,
+  setShowConfirmModal,
+  showConfirmModal,
+  setConfirm,
+  confirm,
+}) => {
   const [overflow, setOverflow] = useState(true);
   const [file, setFile] = useState(null);
   const [valueName, setValueName] = useState("");
   const [valueAbout, setValueAbout] = useState("");
   const [create, setCreate] = useState(false);
+  // const [createLeagueTrigger, setCreateLeagueTrigger] = useState(false);
   const [league, setLeague] = useState({
     name: "",
     logo: "",
     slogan: "",
     create,
   });
+  useEffect(() => {
+    if (confirm && open) handleOK();
+  }, [confirm]);
   // const { createdTeam, loadingCreateTeam, errorCreateTeam } =
   //   useCreateTeam(team);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setValueAbout("");
+    setValueName("");
+  };
   const handleOK = () => {
     console.log("player update when OK", player);
     setCreateLeague({
@@ -141,7 +177,8 @@ const NewLeagueModal = ({ open, setOpen, setCreateLeague, player }) => {
       leagueAdmin: player.username,
       moderatornames: [player.username],
     });
-
+    setValueAbout("");
+    setValueName("");
     console.log("league inofo", league);
 
     console.log(`league\nname: ${valueName}, descr: ${valueAbout}`);
@@ -184,10 +221,17 @@ const NewLeagueModal = ({ open, setOpen, setCreateLeague, player }) => {
           </FlexboxGrid>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleOK} appearance="primary">
+          <Button
+            onClick={() => {
+              setShowConfirmModal({ type: "league", action: "create" });
+              console.log("modaldata", showConfirmModal);
+              // handleOK();
+            }}
+            appearance="primary"
+          >
             Ok
           </Button>
-          <ButtonCustom onClick={handleClose} appearance="subtle">
+          <ButtonCustom onClick={() => handleClose()} appearance="subtle">
             Cancel
           </ButtonCustom>
         </Modal.Footer>
@@ -210,13 +254,58 @@ const PlayerRoles = ({
   setUpdateLeague,
   setDeleteTeamLeague,
   setDeleteTeam,
+  confirm,
+  setConfirm,
 }) => {
   const nav = useNavigate();
   const [openLeague, setOpenLeague] = useState(false);
   const [openTeam, setOpenTeam] = useState(false);
   const [requestShow, setRequestShow] = useState(false);
   const [showRequests, setShowRequests] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deleteLeagueTrigger, setDeleteLeagueTrigger] = useState(false);
+  const [deleteTeamTrigger, setDeleteTeamTrigger] = useState(false);
+  const [leaveLeagueTrigger, setLeaveLeagueTrigger] = useState(false);
+  const [leaveTeamTrigger, setLeaveTeamTrigger] = useState(false);
+  const [triggerUpdateRequest, setTriggerUpdateRequest] = useState(false);
+  const [triggerUpdateRequestFromLeague, setTriggerUpdateRequestFromLeague] =
+    useState(false);
 
+  useEffect(() => {
+    if (deleteLeagueTrigger && confirm) {
+      handleDeleteLeague(deleteLeagueTrigger.id, deleteLeagueTrigger.role);
+    }
+    setDeleteLeagueTrigger(false);
+    if (deleteTeamTrigger && confirm) {
+      handleDeleteTeam(deleteTeamTrigger.id, deleteTeamTrigger.role);
+    }
+    setLeaveTeamTrigger(false);
+    if (leaveLeagueTrigger && confirm) {
+      handleLeaveLeague(leaveLeagueTrigger.id);
+    }
+    setLeaveLeagueTrigger(false);
+    if (leaveTeamTrigger && confirm) {
+      handleLeaveTeam(leaveTeamTrigger.id);
+    }
+    setLeaveTeamTrigger(false);
+    if (triggerUpdateRequest && confirm) {
+      // handleLeaveTeam(leaveTeamTrigger.id);
+      setUpdateRequestFromTEam(triggerUpdateRequest.request);
+      setCreateTeamMember(
+        triggerUpdateRequest?.membership && triggerUpdateRequest?.membership
+      );
+    }
+    setTriggerUpdateRequest(false);
+    if (triggerUpdateRequestFromLeague && confirm) {
+      // handleLeaveTeam(leaveTeamTrigger.id);
+      setUpdateRequestFromLeague(triggerUpdateRequestFromLeague.request);
+      setCreateTeamLeague(
+        triggerUpdateRequestFromLeague?.membership &&
+          triggerUpdateRequestFromLeague?.membership
+      );
+    }
+    setTriggerUpdateRequestFromLeague(false);
+  }, [confirm]);
   useEffect(() => {
     if (player)
       for (let i = 0; i < 5; i++) {
@@ -304,6 +393,14 @@ const PlayerRoles = ({
 
   return (
     <>
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal?.action}
+          type={showConfirmModal?.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       <Panel header="Player Roles" shaded>
         <FlexboxGrid justify="space-between">
           <FlexboxGrid.Item colspan={11}>
@@ -367,7 +464,16 @@ const PlayerRoles = ({
                                   />
                                 }
                                 onClick={(e) => {
-                                  handleDeleteLeague(league.id, "admin");
+                                  console.log(league);
+                                  setShowConfirmModal({
+                                    type: `league : ${league?.name}`,
+                                    action: "delete",
+                                  });
+                                  setDeleteLeagueTrigger({
+                                    id: league.id,
+                                    role: "admin",
+                                  });
+                                  // handleDeleteLeague(league.id, "admin");
                                 }}
                               />
                             </div>
@@ -429,7 +535,14 @@ const PlayerRoles = ({
                                   />
                                 }
                                 onClick={(e) => {
-                                  handleLeaveLeague(league.id);
+                                  setShowConfirmModal({
+                                    type: `league: ${league.name}`,
+                                    action: "leave",
+                                  });
+                                  setLeaveLeagueTrigger({
+                                    id: league.id,
+                                  });
+                                  // handleLeaveLeague(league.id);
                                 }}
                               />
                             </div>
@@ -549,20 +662,32 @@ const PlayerRoles = ({
                                           />
                                         }
                                         onClick={(e) => {
-                                          setUpdateRequestFromTEam({
-                                            id: request.id,
-                                            status: "accepted",
+                                          setShowConfirmModal({
+                                            type: "team",
+                                            action: "join",
                                           });
-                                          // setCreateTeamMember({
-                                          //   playerID: player.id,
-                                          //   teamID: team.id,
+                                          setTriggerUpdateRequest({
+                                            request: {
+                                              id: request.id,
+                                              status: "accepted",
+                                            },
+                                            membership: {
+                                              teamTeamMembershipsId:
+                                                request.from.id,
+                                              playerTeamMembershipsId:
+                                                player.id,
+                                            },
+                                          });
+                                          // setUpdateRequestFromTEam({
+                                          //   id: request.id,
+                                          //   status: "accepted",
                                           // });
 
-                                          setCreateTeamMember({
-                                            teamTeamMembershipsId:
-                                              request.from.id,
-                                            playerTeamMembershipsId: player.id,
-                                          });
+                                          // setCreateTeamMember({
+                                          //   teamTeamMembershipsId:
+                                          //     request.from.id,
+                                          //   playerTeamMembershipsId: player.id,
+                                          // });
                                           setShowRequests(!showRequests);
                                         }}
                                       />
@@ -582,10 +707,20 @@ const PlayerRoles = ({
                                           />
                                         }
                                         onClick={(e) => {
-                                          setUpdateRequestFromTEam({
-                                            id: request.id,
-                                            status: "declined",
+                                          setShowConfirmModal({
+                                            type: "request",
+                                            action: "cancel",
                                           });
+                                          setTriggerUpdateRequest({
+                                            request: {
+                                              id: request.id,
+                                              status: "declined",
+                                            },
+                                          });
+                                          // setUpdateRequestFromTEam({
+                                          //   id: request.id,
+                                          //   status: "declined",
+                                          // });
                                           setShowRequests(!showRequests);
                                         }}
                                       />
@@ -706,22 +841,37 @@ const PlayerRoles = ({
                                                       />
                                                     }
                                                     onClick={(e) => {
-                                                      setUpdateRequestFromLeague(
+                                                      setShowConfirmModal({
+                                                        type: "league",
+                                                        action: "join",
+                                                      });
+                                                      setTriggerUpdateRequestFromLeague(
                                                         {
-                                                          id: request.id,
-                                                          status: "accepted",
+                                                          request: {
+                                                            id: request.id,
+                                                            status: "accepted",
+                                                          },
+                                                          membership: {
+                                                            teamLeagueMembershipsId:
+                                                              team.id,
+                                                            leagueLeagueMembershipsId:
+                                                              request.from.id,
+                                                          },
                                                         }
                                                       );
-                                                      // setCreateTeamMember({
-                                                      //   playerID: player.id,
-                                                      //   teamID: team.id,
+                                                      // setUpdateRequestFromLeague(
+                                                      //   {
+                                                      //     id: request.id,
+                                                      //     status: "accepted",
+                                                      //   }
+                                                      // );
+
+                                                      // setCreateTeamLeague({
+                                                      //   teamLeagueMembershipsId:
+                                                      //     team.id,
+                                                      //   leagueLeagueMembershipsId:
+                                                      //     request.from.id,
                                                       // });
-                                                      setCreateTeamLeague({
-                                                        teamLeagueMembershipsId:
-                                                          team.id,
-                                                        leagueLeagueMembershipsId:
-                                                          request.from.id,
-                                                      });
                                                       setShowRequests(
                                                         !showRequests
                                                       );
@@ -743,12 +893,25 @@ const PlayerRoles = ({
                                                       />
                                                     }
                                                     onClick={(e) => {
-                                                      setUpdateRequestFromLeague(
+                                                      setShowConfirmModal({
+                                                        type: "request",
+                                                        action: "delete",
+                                                      });
+
+                                                      setTriggerUpdateRequestFromLeague(
                                                         {
-                                                          id: request.id,
-                                                          status: "declined",
+                                                          request: {
+                                                            id: request.id,
+                                                            status: "declined",
+                                                          },
                                                         }
                                                       );
+                                                      // setUpdateRequestFromLeague(
+                                                      //   {
+                                                      //     id: request.id,
+                                                      //     status: "declined",
+                                                      //   }
+                                                      // );
                                                       setShowRequests(
                                                         !showRequests
                                                       );
@@ -825,8 +988,13 @@ const PlayerRoles = ({
                                             />
                                           }
                                           onClick={(e) => {
-                                            handleLeaveLeague(teamLeague.id);
-                                            // handleDeleteTeam(team.id, "manager");
+                                            setShowConfirmModal({
+                                              type: `league: ${teamLeague?.league?.name}`,
+                                              action: "leave",
+                                            });
+                                            setLeaveLeagueTrigger({
+                                              id: teamLeague?.id,
+                                            });
                                           }}
                                         />
                                       </div>
@@ -922,7 +1090,14 @@ const PlayerRoles = ({
                                         />
                                       }
                                       onClick={(e) => {
-                                        handleDeleteTeam(team.id, "manager");
+                                        setShowConfirmModal({
+                                          type: `team: ${team.name}`,
+                                          action: "delete",
+                                        });
+                                        setDeleteTeamTrigger({
+                                          id: team.id,
+                                          role: "manager",
+                                        });
                                       }}
                                     />
                                   </div>
@@ -973,20 +1148,24 @@ const PlayerRoles = ({
                                                     />
                                                   }
                                                   onClick={(e) => {
-                                                    setUpdateRequestFromLeague({
-                                                      id: request.id,
-                                                      status: "accepted",
+                                                    setShowConfirmModal({
+                                                      type: "league",
+                                                      action: "join",
                                                     });
-                                                    // setCreateTeamMember({
-                                                    //   playerID: player.id,
-                                                    //   teamID: team.id,
-                                                    // });
-                                                    setCreateTeamLeague({
-                                                      teamLeagueMembershipsId:
-                                                        team.id,
-                                                      leagueLeagueMembershipsId:
-                                                        request.from.id,
-                                                    });
+                                                    setTriggerUpdateRequestFromLeague(
+                                                      {
+                                                        request: {
+                                                          id: request.id,
+                                                          status: "accepted",
+                                                        },
+                                                        membership: {
+                                                          teamLeagueMembershipsId:
+                                                            team.id,
+                                                          leagueLeagueMembershipsId:
+                                                            request.from.id,
+                                                        },
+                                                      }
+                                                    );
                                                     setShowRequests(
                                                       !showRequests
                                                     );
@@ -1008,12 +1187,18 @@ const PlayerRoles = ({
                                                     />
                                                   }
                                                   onClick={(e) => {
-                                                    setUpdateRequestFromLeague({
-                                                      id: request.id,
-                                                      status: "declined",
+                                                    setShowConfirmModal({
+                                                      type: "request",
+                                                      action: "delete",
                                                     });
-                                                    setShowRequests(
-                                                      !showRequests
+
+                                                    setTriggerUpdateRequestFromLeague(
+                                                      {
+                                                        request: {
+                                                          id: request.id,
+                                                          status: "declined",
+                                                        },
+                                                      }
                                                     );
                                                   }}
                                                 />
@@ -1071,7 +1256,7 @@ const PlayerRoles = ({
                                   width: "4em",
                                 }}
                                 onClick={(e) => {
-                                  handleLeaveTeam(team.id, "captain");
+                                  // handleLeaveTeam(team.id, "captain");
                                 }}
                               >
                                 <MdExitToApp
@@ -1097,7 +1282,6 @@ const PlayerRoles = ({
                       membership?.team?.playerManagesId !== player.id
                   )
                   .map((team, index) => {
-                    console.log("index", team.team.leagueMemberships);
                     return team.team.leagueMemberships.items.map(
                       (membership, index) =>
                         team.team.status !== "qw" && (
@@ -1158,7 +1342,13 @@ const PlayerRoles = ({
                                       />
                                     }
                                     onClick={(e) => {
-                                      handleLeaveTeam(team.id, "member");
+                                      setShowConfirmModal({
+                                        type: `team: ${team?.team?.name}`,
+                                        action: "leave",
+                                      });
+                                      setLeaveTeamTrigger({
+                                        id: team?.id,
+                                      });
                                     }}
                                   />
                                 </div>
@@ -1182,16 +1372,24 @@ const PlayerRoles = ({
         </FlexboxGrid>
       </Panel>
       <NewTeamModal
+        setShowConfirmModal={setShowConfirmModal}
+        setConfirm={setConfirm}
+        showConfirmModal={showConfirmModal}
+        confirm={confirm}
         open={openTeam}
         setOpen={setOpenTeam}
         setCreateTeam={setCreateTeam}
         player={player}
       />
       <NewLeagueModal
+        setShowConfirmModal={setShowConfirmModal}
+        setConfirm={setConfirm}
+        showConfirmModal={showConfirmModal}
         open={openLeague}
         setOpen={setOpenLeague}
         player={player}
         setCreateLeague={setCreateLeague}
+        confirm={confirm}
       />
     </>
   );

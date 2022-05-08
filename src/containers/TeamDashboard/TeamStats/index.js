@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import Loading from "../../../components/Loading";
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 //Style
 import {
   Button,
@@ -43,12 +46,17 @@ const TTeamStats = () => {
     setUpdateFixture,
     setCreateTeamStats,
     setUpdateTeamStats,
+    setError,
+    error,
   } = useOutletContext();
   const [showStats, setShowStats] = useState(false); //toggle between stats and fixtures
   const [currentFixture, setCurrentFixture] = useState(); //to access selected fixture data
   const [activePage, setActivePage] = useState(1); //pagination
   const [typeDataTeamState, setTypeDataTeamState] = useState(typeDataTeam[0]); //keep track which datatype is being used
   const [teamstatsTracker, setTeamstatsTracker] = useState({}); //track changes onchange
+  const [confirm, setConfirm] = useState(false);
+  const [createTeamStatsTrigger, setCreateTeamStatsTrigger] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   //if tournament changes update the fixture component
   useEffect(() => {
@@ -67,7 +75,15 @@ const TTeamStats = () => {
       // );
     }
   }, [team, tournament]);
-
+  useEffect(() => {
+    console.log(confirm, "conf");
+    console.log(createTeamStatsTrigger, "trigger");
+    if (confirm && createTeamStatsTrigger) {
+      handleSave();
+      setConfirm(false);
+      setCreateTeamStatsTrigger(false);
+    }
+  }, [confirm]);
   useEffect(() => {
     //when fixtures are selected update the stats based on the fixture
     setTeamstatsTracker({});
@@ -76,8 +92,77 @@ const TTeamStats = () => {
     );
     setTimeout(() => setTypeDataTeamState(typeDataTeam[0]), 1005);
   }, [currentFixture]);
+
+  const handleSave = () => {
+    console.log("in handler");
+    if (currentFixture?.teamStats?.items[0]) {
+      // const oldTeamStats = currentFixture?.teamStats?.items[0];
+
+      setUpdateTeamStats({
+        id: currentFixture.teamStats.items[0].id,
+        teamStatsAway_teamId: currentFixture.awayTeam.id,
+        teamStatsHome_teamId: currentFixture.homeTeam.id,
+        fixtureTeamStatsId: currentFixture.id,
+        ...teamstatsTracker,
+      });
+    } else {
+      setCreateTeamStats({
+        teamStatsAway_teamId: currentFixture.awayTeam.id,
+        teamStatsHome_teamId: currentFixture.homeTeam.id,
+        fixtureTeamStatsId: currentFixture.id,
+        members: [
+          ...(team.moderators ? team.moderators : []),
+          ...(tournament.league.moderatornames
+            ? tournament.league.moderatornames
+            : []),
+        ],
+        ...teamstatsTracker,
+      });
+      setTeamstatsTracker({});
+
+      // setUpdateFixtures(true);
+
+      // setGetTournamentByID(tournament?.id);
+    }
+
+    // if (
+    //   temp[`away_summary_goals`] &&
+    //   temp[`home_summary_goals`]
+    // ) {
+    //   setUpdateFixture({
+    //     id: currentFixture?.id,
+    //     homeScore: temp[`home_summary_goals`],
+    //     awayScore: temp[`away_summary_goals`],
+    //   });
+    // } else
+    if (teamstatsTracker[`away_summary_goals`]) {
+      setUpdateFixture({
+        id: currentFixture?.id,
+        awayScore: teamstatsTracker[`away_summary_goals`],
+        status: "pending",
+      });
+    } else if (teamstatsTracker[`home_summary_goals`]) {
+      setUpdateFixture({
+        id: currentFixture?.id,
+        homeScore: teamstatsTracker[`home_summary_goals`],
+        status: "pending",
+      });
+    }
+    setTeamstatsTracker({});
+    setShowStats(false);
+  };
+
   return (
     <>
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       {!showStats && (
         <Panel header={`Fixtures `} style={{ flex: 1 }}>
           <List hover>
@@ -264,61 +349,11 @@ const TTeamStats = () => {
                   //   })
                   // );
                   // console.log(temp, "temp");
-
-                  if (currentFixture?.teamStats?.items[0]) {
-                    // const oldTeamStats = currentFixture?.teamStats?.items[0];
-
-                    setUpdateTeamStats({
-                      id: currentFixture.teamStats.items[0].id,
-                      teamStatsAway_teamId: currentFixture.awayTeam.id,
-                      teamStatsHome_teamId: currentFixture.homeTeam.id,
-                      fixtureTeamStatsId: currentFixture.id,
-                      ...teamstatsTracker,
-                    });
-                  } else {
-                    setCreateTeamStats({
-                      teamStatsAway_teamId: currentFixture.awayTeam.id,
-                      teamStatsHome_teamId: currentFixture.homeTeam.id,
-                      fixtureTeamStatsId: currentFixture.id,
-                      members: [
-                        ...(team.moderators ? team.moderators : []),
-                        ...(tournament.league.moderatornames
-                          ? tournament.league.moderatornames
-                          : []),
-                      ],
-                      ...teamstatsTracker,
-                    });
-                    setTeamstatsTracker({});
-
-                    // setUpdateFixtures(true);
-
-                    // setGetTournamentByID(tournament?.id);
-                  }
-
-                  // if (
-                  //   temp[`away_summary_goals`] &&
-                  //   temp[`home_summary_goals`]
-                  // ) {
-                  //   setUpdateFixture({
-                  //     id: currentFixture?.id,
-                  //     homeScore: temp[`home_summary_goals`],
-                  //     awayScore: temp[`away_summary_goals`],
-                  //   });
-                  // } else
-                  if (teamstatsTracker[`away_summary_goals`]) {
-                    setUpdateFixture({
-                      id: currentFixture?.id,
-                      awayScore: teamstatsTracker[`away_summary_goals`],
-                      status: "pending",
-                    });
-                  } else if (teamstatsTracker[`home_summary_goals`]) {
-                    setUpdateFixture({
-                      id: currentFixture?.id,
-                      homeScore: teamstatsTracker[`home_summary_goals`],
-                      status: "pending",
-                    });
-                  }
-                  setTeamstatsTracker({});
+                  setShowConfirmModal({
+                    type: "stats",
+                    action: "save/update",
+                  });
+                  setCreateTeamStatsTrigger(true);
                   setShowStats(false);
                 }}
               >

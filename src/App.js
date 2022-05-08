@@ -69,6 +69,7 @@ import ShowLeagues from "./containers/Home/ShowLeagues";
 import HStandings from "./containers/Home/Standings";
 import HFixtures from "./containers/Home/Fixtures";
 import Community from "./containers/Home/Community";
+import Test from "./containers/Test";
 
 // import TTeams from "./containers/TeamDashboard/Teams";
 
@@ -279,6 +280,7 @@ function App(props) {
                 />
               }
             />
+            <Route path="/test" element={<Test />} />
             <Route path="/transfers" element={<Transfers />} />
             <Route path="/fixtures" element={<Fixtures />} />
             <Route

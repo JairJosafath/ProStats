@@ -4,6 +4,7 @@ import { apiSettings, apiSettingsTD } from "../API/API";
 const usePlayerDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const [playerId, setPlayerId] = useState(false);
   const [player, setPlayer] = useState(null);

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { apiSettings } from "../../API/API";
 import { CircleContainer } from "./Styles";
 import fallback from "./fallback.png";
+import { useNavigate } from "react-router-dom";
 
-const Featured = ({ featured }) => {
+const Featured = ({ featured, pause, setPause }) => {
   console.log(featured);
   const [image, setImage] = useState(fallback);
-  const [size, setSize] = useState("25px");
+  const nav = useNavigate();
 
   useEffect(() => {
     // console.log(fixture.homeTeam, "logo");
@@ -20,13 +21,16 @@ const Featured = ({ featured }) => {
   }, [featured]);
   return (
     <>
-      <CircleContainer
-        size={size}
-        // color={"green"}
-        src={image ? image : fallback}
-        onMouseEnter={() => setSize("65px")}
-        onMouseLeave={() => setSize("50px")}
-      />
+      <CircleContainer pause={pause}>
+        <img
+          className="cont"
+          onClick={() => nav(`leagues/standings/${featured?.id}`)}
+          src={image ? image : fallback}
+          onMouseEnter={() => setPause(true)}
+          onMouseLeave={() => setPause(false)}
+          alt="logos of leagues"
+        />
+      </CircleContainer>
     </>
   );
 };

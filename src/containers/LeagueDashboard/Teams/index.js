@@ -14,6 +14,8 @@ import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import ListItemCustom from "../../../components/ListCustom";
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 
 const NewRequest = ({
   setOpen,
@@ -23,6 +25,9 @@ const NewRequest = ({
   setGetUsername,
   username,
   setGetUsernameLeagueReq,
+  addTeamTrigger,
+  setAddTeamTrigger,
+  setShowConfirmModal,
 }) => {
   const [teamId, setTeamId] = useState("");
   const [searchPlayer, setSearchPlayer] = useState(false);
@@ -50,7 +55,13 @@ const NewRequest = ({
       //   teamRequestsfromLeagueId: teamId,
       // });
 
-      setGetUsernameLeagueReq({
+      // setGetUsernameLeagueReq({
+      //   status: "pending",
+      //   leagueRequeststoTeamId: leagueID,
+      //   teamRequestsfromLeagueId: teamId,
+      // });
+
+      setAddTeamTrigger({
         status: "pending",
         leagueRequeststoTeamId: leagueID,
         teamRequestsfromLeagueId: teamId,
@@ -82,6 +93,7 @@ const NewRequest = ({
             onClick={() => {
               setSearchPlayer(true);
               setOpen(true);
+              setShowConfirmModal(true);
             }}
           >
             Add
@@ -111,8 +123,15 @@ const LTeams = () => {
     setGetUsername,
     username,
     setGetUsernameLeagueReq,
+    confirm,
+    setConfirm,
+    setError,
+    error,
   } = useOutletContext();
   const [open, setOpen] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [addTeamTrigger, setAddTeamTrigger] = useState(false);
+  const [deleteRequestTrigger, setDeleteRequestTrigger] = useState(false);
 
   useEffect(() => {
     console.log("reqs", leagueRequests);
@@ -127,8 +146,31 @@ const LTeams = () => {
     setGetLeagueRequests(league?.id);
   }, [league]);
 
+  useEffect(() => {
+    if (addTeamTrigger && confirm) {
+      setGetUsernameLeagueReq(addTeamTrigger);
+      setAddTeamTrigger(false);
+    }
+    setAddTeamTrigger(false);
+
+    if (deleteRequestTrigger && confirm) {
+      setDeleteL2TRequest(deleteRequestTrigger);
+      setDeleteRequestTrigger(false);
+    }
+    setDeleteRequestTrigger(false);
+  }, [confirm]);
+
   return (
     <>
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       {open && (
         <NewRequest
           open={open}
@@ -137,6 +179,8 @@ const LTeams = () => {
           leagueID={league?.id}
           setGetUsernameLeagueReq={setGetUsernameLeagueReq}
           username={username}
+          setShowConfirmModal={setShowConfirmModal}
+          setAddTeamTrigger={setAddTeamTrigger}
         />
       )}
 
@@ -195,7 +239,15 @@ const LTeams = () => {
                     <FlexboxGrid.Item colspan={1}>
                       <IconButton
                         onClick={() => {
-                          setDeleteL2TRequest({ id: request.id });
+                          // setDeleteL2TRequest({ id: request.id });
+                          setShowConfirmModal({
+                            type: "request",
+                            action:
+                              request?.status === "pending"
+                                ? "cancel"
+                                : "delete",
+                          });
+                          setDeleteRequestTrigger({ id: request.id });
                         }}
                         appearance="subtle"
                         size={"xs"}

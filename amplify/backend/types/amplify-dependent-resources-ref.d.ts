@@ -26,9 +26,17 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "storage": {
-        "s33cba41a9EsportsPro": {
+        "s309ba07fbStaTMEv2": {
             "BucketName": "string",
             "Region": "string"
+        }
+    },
+    "hosting": {
+        "S3AndCloudFront": {
+            "Region": "string",
+            "HostingBucketName": "string",
+            "WebsiteURL": "string",
+            "S3BucketSecureURL": "string"
         }
     }
 }

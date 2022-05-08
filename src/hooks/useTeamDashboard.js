@@ -4,6 +4,7 @@ import { apiSettings, apiSettingsTD } from "../API/API";
 const useTeamDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const [teamId, setTeamId] = useState(false);
   const [teamIdNoLeague, setTeamIdNoLeague] = useState(false);
@@ -111,13 +112,13 @@ const useTeamDashboard = () => {
     if (teamId) {
       const data = await apiSettingsTD
         .getTeamForDashboard(teamId)
-        .then(() =>
-          setTournament(
-            team?.tournaments?.items.filter(
-              (tour) => tour.tournament?.league?.name === league?.name
-            )[0]?.tournament
-          )
-        )
+        // .then(() =>
+        //   setTournament(
+        //     team?.tournaments?.items.filter(
+        //       (tour) => tour.tournament?.league?.name === league?.name
+        //     )[0]?.tournament
+        //   )
+        // )
         .catch((err) => {
           console.log(err);
           setError(true);

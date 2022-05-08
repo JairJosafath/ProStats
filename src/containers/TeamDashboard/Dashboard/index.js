@@ -5,19 +5,70 @@ import { apiSettings } from "../../../API/API";
 import TUploadPhotoCustom from "../../../components/TUploadPhotoCustom";
 import useTeamDashboard from "../../../hooks/useLeaugueDashboard";
 import ButtonCustom from "../../../components/ButtonCustom";
+import Loading from "../../../components/Loading";
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 
 const TDashboard = () => {
   const [teamname, setTeamname] = useState("");
   const [teamdescription, setTeamdescription] = useState("");
   const [file, setFile] = useState();
-  const { team, setTeam, setUpdateTeam } = useOutletContext();
+  const { team, setTeam, setUpdateTeam, loading, setError, error } =
+    useOutletContext();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [triggerUpdateTeamInfo, setTriggerUpdateTeamInfo] = useState(false);
+  const [reloadLogo, setReloadLogo] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     // console.log(team);
     setTeamname(team?.name);
     setTeamdescription(team?.slogan);
   }, [team]);
+
+  useEffect(() => {
+    console.log("conf", confirm);
+    console.log("trigger", triggerUpdateTeamInfo);
+    if (confirm && triggerUpdateTeamInfo) {
+      file && apiSettings.putImageTeam(team?.name, team?.id, file);
+
+      if (file) {
+        setUpdateTeam({
+          id: team?.id,
+          name: teamname,
+          slogan: teamdescription,
+          logo: file
+            ? `teams/${teamname}/${team?.id}/avatars/${file.name}`
+            : team?.name,
+        });
+      } else {
+        setUpdateTeam({
+          id: team?.id,
+          name: teamname,
+          slogan: teamdescription,
+        });
+      }
+      setTriggerUpdateTeamInfo(false);
+      // setTriggerUpdateTeamInfo(false);
+    } else if (!showConfirmModal && !confirm) {
+      setTeamname(team?.name);
+      setTeamdescription(team?.slogan);
+      setReloadLogo(true);
+    }
+    setConfirm(false);
+  }, [confirm, triggerUpdateTeamInfo, showConfirmModal]);
   return (
     <>
+      {" "}
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
+      {loading && <Loading size={"30px"} />}
       <Panel shaded header="Team Info">
         <FlexboxGrid justify="space-around">
           <FlexboxGrid.Item colspan={6}>
@@ -41,7 +92,7 @@ const TDashboard = () => {
                 value={teamdescription}
               />
             </div>
-            <p style={{ marginTop: 20 }}>Player ID</p>
+            <p style={{ marginTop: 20 }}>Team ID</p>
             <p
               style={{
                 minWidth: "500px",
@@ -63,22 +114,8 @@ const TDashboard = () => {
             size="md"
             style={{ margin: " auto", width: 60 }}
             onClick={() => {
-              apiSettings.putImageTeam(team?.name, team?.id, file);
-              if (file)
-                setUpdateTeam({
-                  id: team?.id,
-                  name: teamname,
-                  slogan: teamdescription,
-                  logo: file
-                    ? `teams/${teamname}/${team?.id}/avatars/${file.name}`
-                    : team?.name,
-                });
-              else
-                setUpdateTeam({
-                  id: team?.id,
-                  name: teamname,
-                  slogan: teamdescription,
-                });
+              setShowConfirmModal({ action: "update", type: "team" });
+              setTriggerUpdateTeamInfo(true);
             }}
           >
             Save

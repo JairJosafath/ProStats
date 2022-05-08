@@ -29,6 +29,7 @@ const usePreferences = () => {
   const [deleteTeam, setDeleteTeam] = useState(false);
   const [updateLeague, setUpdateLeague] = useState(false);
   const [createUserPlayer, setCreateUserPlayer] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const createUserPlayerFunc = async () => {
     setLoading(true);
@@ -70,10 +71,10 @@ const usePreferences = () => {
         //   id: player.id,
         // });
         setDataLoaded(true);
-        setLoading(false);
       }
       setCreateUserPlayer(false);
     }
+    setLoading(false);
   };
   const fetchPlayer = async () => {
     setLoading(true);
@@ -94,14 +95,14 @@ const usePreferences = () => {
         //   id: player.id,
         // });
         setDataLoaded(true);
-        setLoading(false);
       }
       setPlayerId(false);
     }
+    setLoading(false);
   };
 
   const updatePlayerfunct = async () => {
-    if (updatePlayer) {
+    if (updatePlayer && confirm) {
       setLoading(true);
       apiSettings
         .updatePlayer(playerTemp)
@@ -109,14 +110,15 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setUpdatePlayer(!updatePlayer);
+      setConfirm(false);
     }
+    setLoading(false);
   };
 
   const createTeamFunct = async () => {
-    if (createTeam) {
+    if (createTeam && confirm) {
       setLoading(true);
       apiSettings
         .createTeam(createTeam)
@@ -130,13 +132,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setCreateTeam(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const updateTeamFunct = async () => {
-    if (updateTeam) {
+    if (updateTeam && confirm) {
       setLoading(true);
       apiSettings
         .updateTeam(updateTeam)
@@ -144,13 +147,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setUpdateTeam(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const updateLeagueFunct = async () => {
-    if (updateLeague) {
+    if (updateLeague && confirm) {
       setLoading(true);
       apiSettings
         .updateLeague(updateLeague)
@@ -158,13 +162,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setUpdateLeague(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const createTeamMemberFunct = async () => {
-    if (createTeamMember) {
+    if (createTeamMember && confirm) {
       console.log("fresh member obj", createTeamMember);
 
       setLoading(true);
@@ -180,13 +185,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setCreateTeamMember(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const createTeamLeagueFunct = async () => {
-    if (createTeamLeague) {
+    if (createTeamLeague && confirm) {
       setLoading(true);
       apiSettings
         .createTeamLeague(createTeamLeague)
@@ -196,13 +202,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
+      setConfirm(false);
       setCreateTeamLeague(false);
     }
+    setLoading(false);
   };
   const deleteTeamLeagueFunct = async () => {
-    if (deleteTeamLeague) {
+    if (deleteTeamLeague && confirm) {
       setLoading(true);
       apiSettings
         .deleteTeamLeague(deleteTeamLeague)
@@ -212,13 +219,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setDeleteTeamLeague(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const deleteTeamFunct = async () => {
-    if (deleteTeam) {
+    if (deleteTeam && confirm) {
       setLoading(true);
       apiSettings
         .deleteTeam(deleteTeam)
@@ -228,13 +236,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setDeleteTeam(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const deleteTeamMemberFunct = async () => {
-    if (deleteTeamMember) {
+    if (deleteTeamMember && confirm) {
       setLoading(true);
       apiSettings
         .deleteTeamMembers(deleteTeamMember)
@@ -242,14 +251,16 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setDeleteTeamMember(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const createLeaguFunct = async () => {
-    let temp;
-    if (createLeague) {
+    console.log(confirm, "conf");
+
+    if (createLeague && confirm) {
       setLoading(true);
       apiSettings
         .createLeague(createLeague)
@@ -278,13 +289,14 @@ const usePreferences = () => {
         .catch((err) => {
           console.log(err);
           setError(true);
-          setLoading(false);
         });
       setCreateLeague(false);
+      setConfirm(false);
     }
+    setLoading(false);
   };
   const updateRequestLeague2TeamFunct = async () => {
-    if (updateRequestFromLeague) {
+    if (updateRequestFromLeague && confirm) {
       setLoading(true);
       apiSettings
         .updateRequestLeague2Team(updateRequestFromLeague)
@@ -292,15 +304,16 @@ const usePreferences = () => {
         .catch((err) => {
           console.log("errOr", err);
           setError(true);
-          setLoading(false);
         });
 
       setLoading(false);
+      setConfirm(false);
       setUpdateRequestFromLeague(false);
     }
+    setLoading(false);
   };
   const updateRequestTeam2LeagueFunct = async () => {
-    if (updateRequestFromTEam) {
+    if (updateRequestFromTEam && confirm) {
       setLoading(true);
       apiSettingsTD
         .updateTeam2PlayerRequest(updateRequestFromTEam)
@@ -308,12 +321,13 @@ const usePreferences = () => {
         .catch((err) => {
           console.log("errOr", err);
           setError(true);
-          setLoading(false);
         });
 
       setLoading(false);
+      setConfirm(false);
       setUpdateRequestFromTEam(false);
     }
+    setLoading(false);
   };
   useEffect(() => {
     //might be improved to loading object with specific component name
@@ -391,6 +405,10 @@ const usePreferences = () => {
     setDeleteTeamLeague,
     setDeleteTeam,
     setCreateUserPlayer,
+    loading,
+    setError,
+    confirm,
+    setConfirm,
   };
 };
 

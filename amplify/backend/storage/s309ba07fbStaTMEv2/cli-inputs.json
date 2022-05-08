@@ -1,0 +1,16 @@
+{
+  "resourceName": "s309ba07fbStaTMEv2",
+  "policyUUID": "09ba07fb",
+  "bucketName": "esportsproca0a51816b5a47d8ae03f803statmev2",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

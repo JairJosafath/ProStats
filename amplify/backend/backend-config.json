@@ -62,20 +62,16 @@
     }
   },
   "storage": {
-    "s33cba41a9EsportsPro": {
+    "s309ba07fbStaTMEv2": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "S3Triggera9d31577",
-          "attributes": [
-            "Name",
-            "Arn",
-            "LambdaExecutionRole"
-          ]
-        }
-      ]
+      "dependsOn": []
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "service": "S3AndCloudFront",
+      "providerPlugin": "awscloudformation"
     }
   }
 }

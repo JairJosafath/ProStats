@@ -36,6 +36,16 @@ const UploadPhotoCustom = ({
     };
     img();
   }, [player]);
+  useEffect(() => {
+    if (!playerTemp) {
+      const img = async () => {
+        const data = await apiSettings.getImage(player.image);
+        setPlayerImage(data);
+        // console.log(data);
+      };
+      img();
+    }
+  }, [playerTemp]);
 
   return (
     <>

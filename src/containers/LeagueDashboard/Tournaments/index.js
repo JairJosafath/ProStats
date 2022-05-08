@@ -18,6 +18,8 @@ import NewTournamentModal from "../../../components/NewTournamentModal";
 import AddTeamModal from "../../../components/AddTeamModal";
 import NewTrophyModal from "../../../components/NewTrophyModal";
 import UpdateTrophyModal from "../../../components/UpdateTrophyModal";
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 
 const LTournaments = () => {
   const {
@@ -33,12 +35,55 @@ const LTournaments = () => {
     setDeleteTournament,
     setDeleteTrophy,
     setUpdateTrophy,
+    confirm,
+    setConfirm,
+    setError,
+    error,
   } = useOutletContext();
   const [openTournament, setOpenTournament] = useState(false);
   const [openTournamentAdd, setOpenTournamentAdd] = useState(false);
   const [openCreateTrophy, setOpenCreateTrophy] = useState(false);
   const [openUpdateTrophy, setOpenUpdateTrophy] = useState(false);
   const [trophy, setTrophy] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [addTeamTrigger, setAddTeamTrigger] = useState(false);
+  const [removeTeamTrigger, setRemoveTeamTrigger] = useState(false);
+  const [newTournamentTrigger, setNewTournamentTrigger] = useState(false);
+  const [deleteTournamentTrigger, setDeleteTournamentTrigger] = useState(false);
+
+  useEffect(() => {
+    if (addTeamTrigger && confirm) {
+      //add team
+
+      // console.log("test", addTeamTrigger, confirm);
+      setTournamentAddTeam(addTeamTrigger);
+      setAddTeamTrigger(false);
+    }
+    setAddTeamTrigger(false);
+
+    if (removeTeamTrigger && confirm) {
+      //remove team
+      removeTeamHandle(removeTeamTrigger);
+      setRemoveTeamTrigger(false);
+    }
+    setRemoveTeamTrigger(false);
+
+    if (newTournamentTrigger && confirm) {
+      //new tournamentm
+      setCreateTournament(newTournamentTrigger);
+      setNewTournamentTrigger(false);
+    }
+    setNewTournamentTrigger(false);
+    if (deleteTournamentTrigger && confirm) {
+      //delete tournamentm
+      handleDeleteTOurnament(
+        deleteTournamentTrigger?.id,
+        deleteTournamentTrigger?.teams
+      );
+      setDeleteTournamentTrigger(false);
+    }
+    setDeleteTournamentTrigger(false);
+  }, [confirm]);
 
   useEffect(() => {
     const tourn = league?.tournaments?.items?.filter(
@@ -59,6 +104,15 @@ const LTournaments = () => {
   };
   return (
     <>
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       <div style={{ width: "100%" }}>
         <FlexboxGrid justify="space-around">
           <FlexboxGrid.Item colspan={8}>
@@ -102,10 +156,18 @@ const LTournaments = () => {
                             }
                             onClick={(e) => {
                               // console.log(tournament?.team.items);
-                              handleDeleteTOurnament(
-                                tournament1?.id,
-                                tournament1?.team.items
-                              );
+                              setShowConfirmModal({
+                                type: "tournament",
+                                action: "delete",
+                              });
+                              setDeleteTournamentTrigger({
+                                id: tournament1?.id,
+                                teams: tournament1?.team.items,
+                              });
+                              // handleDeleteTOurnament(
+                              //   tournament1?.id,
+                              //   tournament1?.team.items
+                              // );
                             }}
                           />
                         </FlexboxGrid.Item>
@@ -154,7 +216,11 @@ const LTournaments = () => {
                                 team.team.name,
                                 team.id
                               );
-                              removeTeamHandle(team.id);
+                              setShowConfirmModal({
+                                type: "team",
+                                action: "remove",
+                              });
+                              setRemoveTeamTrigger(team.id);
                             }}
                           />
                         </FlexboxGrid.Item>
@@ -239,6 +305,8 @@ const LTournaments = () => {
         setOpen={setOpenTournament}
         setCreateTournament={setCreateTournament}
         league={league}
+        setNewTournamentTrigger={setNewTournamentTrigger}
+        setShowConfirmModal={setShowConfirmModal}
       />
       <AddTeamModal
         open={openTournamentAdd}
@@ -246,6 +314,8 @@ const LTournaments = () => {
         setTournamentAddTeam={setTournamentAddTeam}
         league={league}
         tournament={tournament}
+        setAddTeamTrigger={setAddTeamTrigger}
+        setShowConfirmModal={setShowConfirmModal}
       />
       <NewTrophyModal
         open={openCreateTrophy}

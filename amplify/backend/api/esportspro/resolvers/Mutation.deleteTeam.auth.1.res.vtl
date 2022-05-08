@@ -1,0 +1,32 @@
+## [Start] Authorization Steps. **
+$util.qr($ctx.stash.put("hasAuth", true))
+#set( $isAuthorized = false )
+#if( $util.authType() == "API Key Authorization" )
+$util.unauthorized()
+#end
+#if( $util.authType() == "IAM Authorization" )
+$util.unauthorized()
+#end
+#if( $util.authType() == "User Pool Authorization" )
+  #if( !$isAuthorized )
+    #set( $ownerEntity0 = $util.defaultIfNull($ctx.result.owner, null) )
+    #set( $ownerClaim0 = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+    #set( $ownerClaimsList0 = [] )
+    #if( $ownerEntity0 == $ownerClaim0 || $ownerClaimsList0.contains($ownerEntity0) )
+      #set( $isAuthorized = true )
+    #end
+  #end
+  #if( !$isAuthorized )
+    #set( $ownerEntity1 = $util.defaultIfNull($ctx.result.teamManager, null) )
+    #set( $ownerClaim1 = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+    #set( $ownerClaimsList1 = [] )
+    #if( $ownerEntity1 == $ownerClaim1 || $ownerClaimsList1.contains($ownerEntity1) )
+      #set( $isAuthorized = true )
+    #end
+  #end
+#end
+#if( !$isAuthorized )
+$util.unauthorized()
+#end
+$util.toJson({"version":"2018-05-29","payload":{}})
+## [End] Authorization Steps. **

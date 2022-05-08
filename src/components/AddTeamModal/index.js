@@ -7,6 +7,8 @@ const AddTeamModal = ({
   setTournamentAddTeam,
   league,
   tournament,
+  setAddTeamTrigger,
+  setShowConfirmModal,
 }) => {
   // const { createdTeam, loadingCreateTeam, errorCreateTeam } =
   //   useCreateTeam(team);
@@ -18,7 +20,8 @@ const AddTeamModal = ({
   };
 
   const handleOK = () => {
-    setTournamentAddTeam({
+    setShowConfirmModal({ type: "team", action: "add" });
+    setAddTeamTrigger({
       teamID: selected.id,
       tournamentID: tournament?.id,
     });

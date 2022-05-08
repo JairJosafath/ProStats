@@ -1,27 +1,28 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { Panel } from "rsuite";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { Button, FlexboxGrid, Panel } from "rsuite";
 import {
   CircleContainer,
   LeftImage,
   RightImage,
 } from "../../containers/Home/Styles";
 import Featured from "../Featured";
+import Loading from "../Loading";
 import { UL } from "./Styles";
+import Dashboard from "../../img/dashboard.png";
+import Stats from "../../img/stats.png";
+import ProfileDashboard from "../../img/profiledashboard.png";
+import StatMeLogo from "../../img/StatMeLogo.svg";
 
 const Landing = () => {
-  const [arr, setArr] = useState([
-    "red",
-    "orange",
-    "blue",
-    "white",
-    "black",
-    "brown",
-  ]);
+  const { featured, loading, setError } = useOutletContext();
+  const nav = useNavigate();
+  const [pause, setPause] = useState(false);
 
-  const { featured } = useOutletContext();
   return (
     <>
+      {" "}
+      {loading && <Loading size={"30px"} />}
       <div>
         <div
           style={{
@@ -47,11 +48,16 @@ const Landing = () => {
 
           {featured &&
             featured?.map((featured, index) => {
-              return <Featured featured={featured} />;
+              return (
+                <Featured
+                  pause={pause}
+                  setPause={setPause}
+                  featured={featured}
+                />
+              );
             })}
         </div>
       </div>
-
       <div
         style={{
           display: "flex",
@@ -73,8 +79,9 @@ const Landing = () => {
             <li>input stats in an easy way</li>
           </UL>
         </Panel>{" "}
-        <div style={{ flex: "1" }}>
-          <RightImage src={"img/autoStandings.png"} />
+        <div style={{ flex: "1", display: "flex", paddingRight: 60 }}>
+          <RightImage src={Dashboard} />
+          <RightImage src={Stats} inverted />
         </div>
       </div>
       <div
@@ -85,10 +92,10 @@ const Landing = () => {
             "linear-gradient(var(--primary-blue),var(--primary-blue-light))",
         }}
       >
-        <div style={{ flex: "1" }}>
-          <LeftImage src="img/customCards.png" />
-          <LeftImage src="img/customCards.png" />
-          <LeftImage src="img/customCards.png" />
+        <div style={{ flex: "1", display: "flex" }}>
+          {/* <LeftImage src="img/customCards.png" />
+          <LeftImage src="img/customCards.png" /> */}
+          <LeftImage src={ProfileDashboard} />
         </div>
         <Panel
           shaded
@@ -120,7 +127,19 @@ const Landing = () => {
           shaded
           style={{ flex: "1", margin: "60px" }}
           header={<h3>Sign Up and Get Started!</h3>}
-        ></Panel>
+        >
+          <FlexboxGrid justify="center">
+            <FlexboxGrid.Item>
+              <Button
+                onClick={() => {
+                  nav("../signIn");
+                }}
+              >
+                Sign Up
+              </Button>
+            </FlexboxGrid.Item>
+          </FlexboxGrid>
+        </Panel>
         <div style={{ flex: "1" }}>
           {/* <InfoPanel>
             <h3>Add and remove teams From Your League</h3>
@@ -128,6 +147,12 @@ const Landing = () => {
           {/* <InfoPanel />
           <InfoPanel />
           <InfoPanel /> */}
+          <img
+            style={{ marginLeft: 30 }}
+            src={StatMeLogo}
+            width={400}
+            alt={"statme logo"}
+          />
         </div>
       </div>
     </>

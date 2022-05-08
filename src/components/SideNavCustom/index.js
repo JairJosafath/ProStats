@@ -47,7 +47,7 @@ const SideNavCustom = ({
   return (
     <div
       style={{
-        flex: 0.6,
+        flex: 1,
         minWidth: 100,
         height: "90vh",
         background: "var(--primary-black)",
@@ -156,7 +156,7 @@ const SideNavCustom = ({
                     Teams
                   </Nav.Item>{" "}
                 </Link>
-                <Link style={{ textDecoration: "none" }} to="roles">
+                {/* <Link style={{ textDecoration: "none" }} to="roles">
                   {" "}
                   <Nav.Item
                     as="div"
@@ -165,7 +165,7 @@ const SideNavCustom = ({
                   >
                     Roles
                   </Nav.Item>{" "}
-                </Link>
+                </Link> */}
 
                 <Nav.Item panel style={panelStyles}></Nav.Item>
                 {/* <Link style={{ textDecoration: "none" }} to="news">

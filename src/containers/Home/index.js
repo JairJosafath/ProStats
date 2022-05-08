@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Animation, Panel } from "rsuite";
 import HomeNav from "../../components/HomeNav";
+import Loading from "../../components/Loading";
 import useHome from "../../hooks/useHome";
 import banner from "../../img/banner.png";
 import image from "../../img/banner2.png";
@@ -21,6 +22,8 @@ const Home = () => {
   // });
 
   const {
+    loading,
+    setError,
     featured,
     leagues,
     league,
@@ -51,8 +54,11 @@ const Home = () => {
         </div>
       </Banner>
       <HomeNav />
+
       <Outlet
         context={{
+          loading,
+          setError,
           featured,
           leagues,
           league,

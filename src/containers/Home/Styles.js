@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CircleContainer = styled.div`
-  display: "inline";
+  display: "flex";
   border-radius: 100%;
   width: 50px;
   height: 50px;
@@ -39,27 +39,32 @@ export const CircleContainer = styled.div`
 export const LeftImage = styled.img`
   src: ${(props) => props.src};
   height: 300px;
-
-  transform: perspective(800px) rotateY(25deg) scale(0.9) rotateX(10deg);
+  justify-content: center;
+  margin-left: 100px;
+  transform: perspective(800px) scale(0.9) rotateX(20deg);
   filter: blur(2px);
   opacity: 0.5;
   transition: 0.6s ease all;
 
   &:hover {
-    transform: perspective(800px) rotateY(-15deg) translateY(-50px)
-      rotateX(10deg) scale(1);
+    height: 400px;
+    transform: translateY(20px) rotateX(0deg) scale(1);
     filter: blur(0);
     opacity: 1;
   }
 `;
 export const RightImage = styled.img`
   src: ${(props) => props.src};
+  justify-content: center;
+  flex: 1;
   height: 300px;
-  margin-left: 150px;
+  /* margin-left: 150px; */
   margin-top: 70px;
   /* transform: rotateY(-35deg) rotateX(15deg) translate3d(0, 0, 0); */
 
-  transform: perspective(800px) rotateY(25deg) scale(0.9) rotateX(10deg);
+  transform: perspective(800px)
+    rotateY(${(props) => (props.inverted ? "-25deg" : "25deg")}) scale(0.9)
+    rotateX(10deg);
   filter: blur(2px);
   opacity: 0.5;
   transition: 0.6s ease all;
@@ -69,6 +74,8 @@ export const RightImage = styled.img`
       rotateX(10deg) scale(1);
     filter: blur(0);
     opacity: 1;
+    height: 400px;
+    flex: 3;
   }
 `;
 

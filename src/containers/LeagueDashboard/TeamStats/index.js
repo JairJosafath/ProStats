@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import Loading from "../../../components/Loading";
 
 //Style
 import {
@@ -22,6 +23,8 @@ import StatPanel from "../../../components/StatPanel";
 import { TeamStats } from "../../../backend/db/teamStatsClass";
 import ListItemCustom from "../../../components/ListCustom";
 import Fixture from "../../../components/Fixture";
+import Confirmation from "../../../components/Confirmation";
+import Error from "../../../components/Error";
 //used to navigate the different stat types
 const typeDataTeam = [
   "summary",
@@ -53,6 +56,10 @@ const LTeamStats = () => {
     setUpdateTableStat2,
     setUpdateFixture,
     setActiveRound,
+    confirm,
+    setConfirm,
+    setError,
+    error,
   } = useOutletContext();
 
   const [showStats, setShowStats] = useState(false); //toggle between stats and fixtures
@@ -63,6 +70,9 @@ const LTeamStats = () => {
   const [updateFixtures, setUpdateFixtures] = useState(false);
   const [deleteAllFixtureStats, setDeleteAllFixtureStats] = useState(false);
   const [tempData, setTempData] = useState({});
+  const [createFixturesTrigger, setCreateFixturesTrigger] = useState(false);
+  const [createTeamStatsTrigger, setCreateTeamStatsTrigger] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     setActiveRound(activePage);
@@ -119,10 +129,11 @@ const LTeamStats = () => {
 
   //if tournament changes update the fixture component
   useEffect(() => {
-    setGetFixturesByTournamentandRound({
-      tournamentID: tournament?.id,
-      condition: { eq: activePage },
-    });
+    if (tournament)
+      setGetFixturesByTournamentandRound({
+        tournamentID: tournament?.id,
+        condition: { eq: activePage },
+      });
   }, [activePage, tournament]);
 
   // useEffect(() => {
@@ -151,6 +162,390 @@ const LTeamStats = () => {
     // setTimeout(() => setTypeDataTeamState(typeDataTeam[0]), 1005);
   }, [currentFixture]);
 
+  useEffect(() => {
+    console.log("conf status useff", confirm, createFixturesTrigger);
+
+    if (confirm && createFixturesTrigger) {
+      setCreateFixtures(createFixturesTrigger);
+      setCreateFixturesTrigger(false);
+    }
+    if (confirm && createTeamStatsTrigger) {
+      handleSave();
+    }
+  }, [confirm]);
+
+  const handleSave = () => {
+    const homeTS = tournament?.table?.items.filter(
+      (tableStat) => tableStat.team.id === currentFixture.homeID
+    )[0];
+    const awayTS = tournament?.table?.items.filter(
+      (tableStat) => tableStat.team.id === currentFixture.awayID
+    )[0];
+    let tablestatHome = {};
+    let tablestatAway = {};
+
+    let awayGoals = teamstatsTracker["away_summary_goals"];
+    let homeGoals = teamstatsTracker["home_summary_goals"];
+    let result =
+      (homeGoals > awayGoals && "W") ||
+      (homeGoals === awayGoals && "D") ||
+      (homeGoals < awayGoals && "L");
+
+    const homePoints = () => {
+      switch (result) {
+        case "W":
+          return 3;
+
+        case "D":
+          return 1;
+
+        case "L":
+          return 0;
+
+        default:
+          return -1;
+      }
+    };
+    const awayPoints = () => {
+      switch (result) {
+        case "W":
+          return 0;
+
+        case "D":
+          return 1;
+
+        case "L":
+          return 3;
+
+        default:
+          return -1;
+      }
+    };
+    const updateFixture = {
+      id: currentFixture?.id,
+      homeScore: parseInt(homeGoals),
+      awayScore: parseInt(awayGoals),
+      status: "verified",
+    };
+    console.log("testing ", currentFixture?.teamStats?.items[0]);
+    if (
+      currentFixture?.teamStats?.items[0] &&
+      currentFixture?.status === "verified"
+    ) {
+      // const oldTeamStats = currentFixture?.teamStats?.items[0];
+      if (homeTS && awayTS) {
+        const homeTableStat = tournament?.table?.items.filter(
+          (tableStat) => tableStat.team.id === currentFixture?.homeID
+        )[0];
+        const awayTableStat = tournament?.table?.items.filter(
+          (tableStat) => tableStat.team.id === currentFixture?.awayID
+        )[0];
+
+        console.log("old tables", {
+          homeTableStat,
+          awayTableStat,
+        });
+
+        //check for cleansheets
+        if (currentFixture?.awayScore === 0) {
+          if (homeTableStat.cleanSheats - 1 >= 0) homeTableStat.cleanSheats--;
+        }
+        if (currentFixture?.homeScore === 0) {
+          if (awayTableStat.cleanSheats - 1 >= 0) awayTableStat.cleanSheats--;
+        }
+
+        //check W,D,L count and points upddate
+        if (currentFixture?.awayScore === currentFixture?.homeScore) {
+          if (homeTableStat.gamesDrawn - 1 >= 0) homeTableStat.gamesDrawn--;
+          if (homeTableStat.gamesDrawn < 0) homeTableStat.gamesDrawn = 0;
+          if (awayTableStat.gamesDrawn - 1 >= 0) awayTableStat.gamesDrawn--;
+          if (awayTableStat.gamesDrawn < 0) awayTableStat.gamesDrawn = 0;
+          if (homeTableStat.points - 1 >= 0) homeTableStat.points--;
+          if (awayTableStat.points - 1 >= 0) awayTableStat.points--;
+        } else if (currentFixture?.awayScore > currentFixture?.homeScore) {
+          if (awayTableStat.gamesWon - 1 >= 0) awayTableStat.gamesWon--;
+          if (homeTableStat.gamesLost - 1 >= 0) homeTableStat.gamesLost--;
+          if (awayTableStat.points - 3 >= 0) awayTableStat.points -= 3;
+        } else if (currentFixture?.awayScore < currentFixture?.homeScore) {
+          if (awayTableStat.gamesLost - 1 >= 0) awayTableStat.gamesLost--;
+          if (homeTableStat.gamesWon - 1 >= 0) homeTableStat.gamesWon--;
+          if (homeTableStat.points - 3 >= 0) homeTableStat.points -= 3;
+        }
+
+        //update goal diff, for and against
+        homeTableStat.goalDifference -=
+          currentFixture.homeScore - currentFixture.awayScore;
+        awayTableStat.goalDifference -=
+          currentFixture.awayScore - currentFixture.homeScore;
+
+        homeTableStat.goalsAgainst -= currentFixture.awayScore;
+        awayTableStat.goalsAgainst -= currentFixture.homeScore;
+
+        homeTableStat.goalsFor -= currentFixture.homeScore;
+        awayTableStat.goalsFor -= currentFixture.awayScore;
+
+        //update with new results
+        //check for cleansheets
+        const awayGoals = parseInt(teamstatsTracker["away_summary_goals"]);
+        const homeGoals = parseInt(teamstatsTracker["home_summary_goals"]);
+        if (awayGoals === 0) {
+          homeTableStat.cleanSheats++;
+        }
+        if (homeGoals === 0) {
+          awayTableStat.cleanSheats++;
+        }
+
+        //check W,D,L count and points upddate
+        if (awayGoals === homeGoals) {
+          homeTableStat.gamesDrawn++;
+          awayTableStat.gamesDrawn++;
+          homeTableStat.points++;
+          awayTableStat.points++;
+        } else if (awayGoals > homeGoals) {
+          awayTableStat.gamesWon++;
+          homeTableStat.gamesLost++;
+          awayTableStat.points += 3;
+        } else if (awayGoals < homeGoals) {
+          awayTableStat.gamesLost++;
+          homeTableStat.gamesWon++;
+          homeTableStat.points += 3;
+        }
+
+        //update goal diff, for and against
+        homeTableStat.goalDifference =
+          homeTableStat.goalDifference + homeGoals - awayGoals;
+        awayTableStat.goalDifference =
+          awayTableStat.goalDifference + awayGoals - homeGoals;
+
+        homeTableStat.goalsAgainst =
+          homeTableStat.goalsAgainst + awayGoals < 0
+            ? 0
+            : homeTableStat.goalsAgainst + awayGoals;
+        awayTableStat.goalsAgainst =
+          awayTableStat.goalsAgainst + homeGoals < 0
+            ? 0
+            : awayTableStat.goalsAgainst + homeGoals;
+
+        homeTableStat.goalsFor =
+          homeTableStat.goalsFor + homeGoals < 0
+            ? 0
+            : homeTableStat.goalsFor + homeGoals;
+        awayTableStat.goalsFor =
+          awayTableStat.goalsFor + awayGoals < 0
+            ? 0
+            : awayTableStat.goalsFor + awayGoals;
+
+        console.log("updated tables", {
+          homeTableStat,
+          awayTableStat,
+        });
+        //update record
+        homeTableStat.record[activePage - 1] =
+          (homeGoals > awayGoals && "W") ||
+          (homeGoals < awayGoals && "L") ||
+          "D";
+        awayTableStat.record[activePage - 1] =
+          (awayGoals > homeGoals && "W") ||
+          (awayGoals < homeGoals && "L") ||
+          "D";
+
+        setUpdateTeamStats({
+          id: currentFixture?.teamStats?.items[0].id,
+          teamStatsAway_teamId: currentFixture.awayID,
+          teamStatsHome_teamId: currentFixture.homeID,
+          fixtureTeamStatsId: currentFixture.id,
+          ...teamstatsTracker,
+        });
+        const updateFixture = {
+          id: currentFixture?.id,
+          homeScore: parseInt(homeGoals),
+          awayScore: parseInt(awayGoals),
+          status: "verified",
+        };
+        setUpdateTableStat({
+          home: homeTableStat,
+          away: awayTableStat,
+          fixture: updateFixture,
+        });
+        console.log("to be uploaded", teamstatsTracker);
+
+        setTeamstatsTracker({});
+        console.log(teamstatsTracker);
+
+        // setTeamstatsTracker({ ...teamStats });
+        // console.log("after save", teamstatsTracker);
+        // console.log(teamStats);
+
+        // setUpdateFixtures(true);
+
+        // setGetTournamentByID(tournament?.id);
+
+        setShowStats(false);
+        return;
+      }
+    } else if (
+      currentFixture?.teamStats?.items[0] &&
+      currentFixture?.status === "pending"
+    ) {
+      setUpdateTeamStats({
+        id: currentFixture?.teamStats?.items[0].id,
+        teamStatsAway_teamId: currentFixture.awayID,
+        teamStatsHome_teamId: currentFixture.homeID,
+        ...teamstatsTracker,
+      });
+    } else {
+      setCreateTeamStats({
+        teamStatsAway_teamId: currentFixture.awayID,
+        teamStatsHome_teamId: currentFixture.homeID,
+        fixtureTeamStatsId: currentFixture.id,
+
+        ...teamstatsTracker,
+      });
+
+      //create table standings
+    }
+    if (homeTS) {
+      //update standings for homeTeam
+      //currentFixture?.teamStats?.items[0]["away_summary_goals"]===0?1:0 ,
+
+      tablestatHome = {
+        id: homeTS.id,
+        cleanSheats:
+          parseInt(homeTS.cleanSheats) + (parseInt(awayGoals) === 0 ? 1 : 0),
+        gamesDrawn:
+          parseInt(homeTS.gamesDrawn) + (homeGoals === awayGoals ? 1 : 0),
+        gamesLost: parseInt(homeTS.gamesLost + (homeGoals < awayGoals ? 1 : 0)),
+        gamesPlayed: parseInt(homeTS.gamesPlayed) + 1,
+        gamesWon: parseInt(homeTS.gamesWon) + (homeGoals > awayGoals ? 1 : 0),
+        goalDifference:
+          parseInt(homeTS.goalDifference) +
+          (parseInt(homeGoals) - parseInt(awayGoals)),
+        goalsAgainst: parseInt(homeTS.goalsAgainst) + parseInt(awayGoals),
+        goalsFor: parseInt(homeTS.goalsFor) + parseInt(homeGoals),
+        points: parseInt(homeTS.points) + homePoints(),
+        record: [...homeTS.record, result],
+        tableStatTeamId: currentFixture?.homeID,
+        tournamentTableId: tournament?.id,
+      };
+    } else {
+      //create standings for home team
+      tablestatHome = {
+        cleanSheats: parseInt(awayGoals) === 0 ? 1 : 0,
+        gamesDrawn: homeGoals === awayGoals ? 1 : 0,
+        gamesLost: homeGoals < awayGoals ? 1 : 0,
+        gamesPlayed: 1,
+        gamesWon: homeGoals > awayGoals ? 1 : 0,
+        goalDifference: homeGoals - awayGoals,
+        goalsAgainst: awayGoals,
+        goalsFor: homeGoals,
+        points: homePoints(),
+        record: [result],
+        tableStatTeamId: currentFixture?.homeID,
+        tournamentTableId: tournament?.id,
+      };
+    }
+    if (awayTS) {
+      //update standings for awayTEam
+      tablestatAway = {
+        id: awayTS.id,
+        cleanSheats:
+          parseInt(awayTS.cleanSheats) + (parseInt(homeGoals) === 0 ? 1 : 0),
+        gamesDrawn:
+          parseInt(awayTS.gamesDrawn) + (homeGoals === awayGoals ? 1 : 0),
+        gamesLost:
+          parseInt(awayTS.gamesLost) +
+          (parseInt(homeGoals) > parseInt(awayGoals) ? 1 : 0),
+        gamesPlayed:
+          parseInt(awayTS.gamesPlayed) + 1
+            ? parseInt(awayTS.gamesPlayed) + 1
+            : 1,
+        gamesWon:
+          parseInt(awayTS.gamesWon) +
+          (parseInt(homeGoals) < parseInt(awayGoals) ? 1 : 0),
+        goalDifference:
+          parseInt(awayTS.goalDifference) +
+          (parseInt(awayGoals) - parseInt(homeGoals)),
+        goalsAgainst: parseInt(awayTS.goalsAgainst) + parseInt(homeGoals),
+        goalsFor: parseInt(awayTS.goalsFor) + parseInt(awayGoals),
+        points: parseInt(awayTS.points) + awayPoints(),
+        record: [
+          ...awayTS.record,
+          (result === "W" && "L") ||
+            (result === "D" && "D") ||
+            (result === "L" && "W"),
+        ],
+        tableStatTeamId: currentFixture?.awayID,
+        tournamentTableId: tournament?.id,
+      };
+    } else {
+      //create standings for awayTeam
+      tablestatAway = {
+        cleanSheats: parseInt(homeGoals) === 0 ? 1 : 0,
+        gamesDrawn: homeGoals === awayGoals ? 1 : 0,
+        gamesLost: homeGoals > awayGoals ? 1 : 0,
+        gamesPlayed: 1,
+        gamesWon: homeGoals < awayGoals ? 1 : 0,
+        goalDifference: awayGoals - homeGoals,
+        goalsAgainst: homeGoals,
+        goalsFor: awayGoals,
+        points: awayPoints(),
+        record: [
+          (result === "W" && "L") ||
+            (result === "D" && "D") ||
+            (result === "L" && "W"),
+        ],
+        tableStatTeamId: currentFixture?.awayID,
+        tournamentTableId: tournament?.id,
+      };
+    }
+    if (!homeTS && !awayTS) {
+      setCreateTableStat({
+        home: tablestatHome,
+        away: tablestatAway,
+        fixture: updateFixture,
+      });
+    } else if (!homeTS && awayTS) {
+      //update awayTS and create Home
+      setCreateTableStat2({
+        home: tablestatHome,
+      });
+      setUpdateFixture({
+        id: currentFixture?.id,
+        homeScore: parseInt(homeGoals),
+        awayScore: parseInt(awayGoals),
+        status: "verified",
+      });
+      setUpdateTableStat2({
+        away: tablestatAway,
+      });
+    } else if (homeTS && !awayTS) {
+      //create awayTS and update Home
+      setCreateTableStat2({
+        away: tablestatAway,
+      });
+      setUpdateTableStat2({
+        home: tablestatHome,
+      });
+      setUpdateFixture({
+        id: currentFixture?.id,
+        homeScore: parseInt(homeGoals),
+        awayScore: parseInt(awayGoals),
+        status: "verified",
+      });
+      console.log("not implemented yet V2");
+    } else if (homeTS && awayTS) {
+      // update home and away
+      setUpdateTableStat({
+        home: tablestatHome,
+        away: tablestatAway,
+        fixture: updateFixture,
+      });
+    }
+    console.log("to be uploaded", teamstatsTracker);
+
+    setTeamstatsTracker({});
+    console.log(teamstatsTracker);
+  };
   return (
     <>
       {/* <Button
@@ -159,11 +554,22 @@ const LTeamStats = () => {
         }}
       >
         reset
+              {loading && <Loading size={"30px"} />}
+
       </Button> */}
+      {error && <Error error={error} setError={setError} />}
+      {showConfirmModal && (
+        <Confirmation
+          setConfirm={setConfirm}
+          action={showConfirmModal.action}
+          type={showConfirmModal.type}
+          setOpen={setShowConfirmModal}
+        />
+      )}
       <div style={{ display: "flex" }}>
         {!showStats && (
-          <Panel header={`Fixtures round ${activePage}`} style={{ flex: 1 }}>
-            {fixturesByTournamentAndRound?.items.length === 0 && (
+          <Panel header={`Fixtures round ${activePage}`} style={{ flex: 2 }}>
+            {fixturesByTournamentAndRound?.items?.length === 0 && (
               <Button
                 onClick={() => {
                   console.log(":gen fixtures");
@@ -174,7 +580,9 @@ const LTeamStats = () => {
                     tournamentID: tournament?.id,
                   };
 
-                  setCreateFixtures(inp);
+                  // setCreateFixtures(inp);
+                  setShowConfirmModal({ type: "fixtures", action: "create" });
+                  setCreateFixturesTrigger(inp);
                 }}
               >
                 generate fixtures
@@ -193,21 +601,31 @@ const LTeamStats = () => {
                 );
               })}
             </List>
-            <Pagination
-              total={
-                tournament?.team?.items.length *
-                (tournament?.team?.items.length - 1)
-              }
-              limit={Math.floor(tournament?.team?.items?.length / 2)}
-              activePage={activePage}
-              onChangePage={setActivePage}
-            />
+            {fixturesByTournamentAndRound?.items?.[0] && (
+              <Pagination
+                total={
+                  tournament?.team?.items?.length *
+                  (tournament?.team?.items?.length - 1)
+                }
+                limit={Math.floor(tournament?.team?.items?.length / 2)}
+                activePage={activePage}
+                onChangePage={setActivePage}
+              />
+            )}
           </Panel>
         )}
 
         {/* Stats */}
         {showStats && (
-          <Panel header="Stats" style={{ flex: 2, minHeight: "70vh" }}>
+          <Panel
+            header="Stats"
+            style={{
+              flex: 2,
+              minHeight: "70vh",
+              width: "100%",
+              overflowY: "scroll",
+            }}
+          >
             <IoMdArrowBack
               size={"1.5em"}
               style={{ display: "block", margin: 6 }}
@@ -229,10 +647,7 @@ const LTeamStats = () => {
               })}
             </Dropdown>
 
-            <Panel
-              header={`Home: ${currentFixture?.homeTeam?.name}`}
-              collapsible
-            >
+            <Panel header={`Home: ${currentFixture?.homeTeam?.name}`}>
               {typeDataTeamState === typeDataTeam[0] && (
                 <StatPanel
                   typeDataTeamState={typeDataTeamState}
@@ -280,10 +695,7 @@ const LTeamStats = () => {
               )}
             </Panel>
 
-            <Panel
-              header={`Away: ${currentFixture?.awayTeam?.name}`}
-              collapsible
-            >
+            <Panel header={`Away: ${currentFixture?.awayTeam?.name}`}>
               {typeDataTeamState === typeDataTeam[0] && (
                 <StatPanel
                   typeDataTeamState={typeDataTeamState}
@@ -361,419 +773,6 @@ const LTeamStats = () => {
                     //   })
                     // );
 
-                    const homeTS = tournament?.table?.items.filter(
-                      (tableStat) => tableStat.team.id === currentFixture.homeID
-                    )[0];
-                    const awayTS = tournament?.table?.items.filter(
-                      (tableStat) => tableStat.team.id === currentFixture.awayID
-                    )[0];
-                    let tablestatHome = {};
-                    let tablestatAway = {};
-
-                    let awayGoals = teamstatsTracker["away_summary_goals"];
-                    let homeGoals = teamstatsTracker["home_summary_goals"];
-                    let result =
-                      (homeGoals > awayGoals && "W") ||
-                      (homeGoals === awayGoals && "D") ||
-                      (homeGoals < awayGoals && "L");
-
-                    const homePoints = () => {
-                      switch (result) {
-                        case "W":
-                          return 3;
-
-                        case "D":
-                          return 1;
-
-                        case "L":
-                          return 0;
-
-                        default:
-                          return -1;
-                      }
-                    };
-                    const awayPoints = () => {
-                      switch (result) {
-                        case "W":
-                          return 0;
-
-                        case "D":
-                          return 1;
-
-                        case "L":
-                          return 3;
-
-                        default:
-                          return -1;
-                      }
-                    };
-                    const updateFixture = {
-                      id: currentFixture?.id,
-                      homeScore: parseInt(homeGoals),
-                      awayScore: parseInt(awayGoals),
-                      status: "verified",
-                    };
-                    console.log(
-                      "testing ",
-                      currentFixture?.teamStats?.items[0]
-                    );
-                    if (
-                      currentFixture?.teamStats?.items[0] &&
-                      currentFixture?.status === "verified"
-                    ) {
-                      // const oldTeamStats = currentFixture?.teamStats?.items[0];
-                      if (homeTS && awayTS) {
-                        const homeTableStat = tournament?.table?.items.filter(
-                          (tableStat) =>
-                            tableStat.team.id === currentFixture?.homeID
-                        )[0];
-                        const awayTableStat = tournament?.table?.items.filter(
-                          (tableStat) =>
-                            tableStat.team.id === currentFixture?.awayID
-                        )[0];
-
-                        console.log("old tables", {
-                          homeTableStat,
-                          awayTableStat,
-                        });
-
-                        //check for cleansheets
-                        if (currentFixture?.awayScore === 0) {
-                          if (homeTableStat.cleanSheats - 1 >= 0)
-                            homeTableStat.cleanSheats--;
-                        }
-                        if (currentFixture?.homeScore === 0) {
-                          if (awayTableStat.cleanSheats - 1 >= 0)
-                            awayTableStat.cleanSheats--;
-                        }
-
-                        //check W,D,L count and points upddate
-                        if (
-                          currentFixture?.awayScore ===
-                          currentFixture?.homeScore
-                        ) {
-                          if (homeTableStat.gamesDrawn - 1 >= 0)
-                            homeTableStat.gamesDrawn--;
-                          if (homeTableStat.gamesDrawn < 0)
-                            homeTableStat.gamesDrawn = 0;
-                          if (awayTableStat.gamesDrawn - 1 >= 0)
-                            awayTableStat.gamesDrawn--;
-                          if (awayTableStat.gamesDrawn < 0)
-                            awayTableStat.gamesDrawn = 0;
-                          if (homeTableStat.points - 1 >= 0)
-                            homeTableStat.points--;
-                          if (awayTableStat.points - 1 >= 0)
-                            awayTableStat.points--;
-                        } else if (
-                          currentFixture?.awayScore > currentFixture?.homeScore
-                        ) {
-                          if (awayTableStat.gamesWon - 1 >= 0)
-                            awayTableStat.gamesWon--;
-                          if (homeTableStat.gamesLost - 1 >= 0)
-                            homeTableStat.gamesLost--;
-                          if (awayTableStat.points - 3 >= 0)
-                            awayTableStat.points -= 3;
-                        } else if (
-                          currentFixture?.awayScore < currentFixture?.homeScore
-                        ) {
-                          if (awayTableStat.gamesLost - 1 >= 0)
-                            awayTableStat.gamesLost--;
-                          if (homeTableStat.gamesWon - 1 >= 0)
-                            homeTableStat.gamesWon--;
-                          if (homeTableStat.points - 3 >= 0)
-                            homeTableStat.points -= 3;
-                        }
-
-                        //update goal diff, for and against
-                        homeTableStat.goalDifference -=
-                          currentFixture.homeScore - currentFixture.awayScore;
-                        awayTableStat.goalDifference -=
-                          currentFixture.awayScore - currentFixture.homeScore;
-
-                        homeTableStat.goalsAgainst -= currentFixture.awayScore;
-                        awayTableStat.goalsAgainst -= currentFixture.homeScore;
-
-                        homeTableStat.goalsFor -= currentFixture.homeScore;
-                        awayTableStat.goalsFor -= currentFixture.awayScore;
-
-                        //update with new results
-                        //check for cleansheets
-                        const awayGoals = parseInt(
-                          teamstatsTracker["away_summary_goals"]
-                        );
-                        const homeGoals = parseInt(
-                          teamstatsTracker["home_summary_goals"]
-                        );
-                        if (awayGoals === 0) {
-                          homeTableStat.cleanSheats++;
-                        }
-                        if (homeGoals === 0) {
-                          awayTableStat.cleanSheats++;
-                        }
-
-                        //check W,D,L count and points upddate
-                        if (awayGoals === homeGoals) {
-                          homeTableStat.gamesDrawn++;
-                          awayTableStat.gamesDrawn++;
-                          homeTableStat.points++;
-                          awayTableStat.points++;
-                        } else if (awayGoals > homeGoals) {
-                          awayTableStat.gamesWon++;
-                          homeTableStat.gamesLost++;
-                          awayTableStat.points += 3;
-                        } else if (awayGoals < homeGoals) {
-                          awayTableStat.gamesLost++;
-                          homeTableStat.gamesWon++;
-                          homeTableStat.points += 3;
-                        }
-
-                        //update goal diff, for and against
-                        homeTableStat.goalDifference =
-                          homeTableStat.goalDifference + homeGoals - awayGoals;
-                        awayTableStat.goalDifference =
-                          awayTableStat.goalDifference + awayGoals - homeGoals;
-
-                        homeTableStat.goalsAgainst =
-                          homeTableStat.goalsAgainst + awayGoals < 0
-                            ? 0
-                            : homeTableStat.goalsAgainst + awayGoals;
-                        awayTableStat.goalsAgainst =
-                          awayTableStat.goalsAgainst + homeGoals < 0
-                            ? 0
-                            : awayTableStat.goalsAgainst + homeGoals;
-
-                        homeTableStat.goalsFor =
-                          homeTableStat.goalsFor + homeGoals < 0
-                            ? 0
-                            : homeTableStat.goalsFor + homeGoals;
-                        awayTableStat.goalsFor =
-                          awayTableStat.goalsFor + awayGoals < 0
-                            ? 0
-                            : awayTableStat.goalsFor + awayGoals;
-
-                        console.log("updated tables", {
-                          homeTableStat,
-                          awayTableStat,
-                        });
-                        //update record
-                        homeTableStat.record[activePage - 1] =
-                          (homeGoals > awayGoals && "W") ||
-                          (homeGoals < awayGoals && "L") ||
-                          "D";
-                        awayTableStat.record[activePage - 1] =
-                          (awayGoals > homeGoals && "W") ||
-                          (awayGoals < homeGoals && "L") ||
-                          "D";
-
-                        setUpdateTeamStats({
-                          id: currentFixture?.teamStats?.items[0].id,
-                          teamStatsAway_teamId: currentFixture.awayID,
-                          teamStatsHome_teamId: currentFixture.homeID,
-                          fixtureTeamStatsId: currentFixture.id,
-                          ...teamstatsTracker,
-                        });
-                        const updateFixture = {
-                          id: currentFixture?.id,
-                          homeScore: parseInt(homeGoals),
-                          awayScore: parseInt(awayGoals),
-                          status: "verified",
-                        };
-                        setUpdateTableStat({
-                          home: homeTableStat,
-                          away: awayTableStat,
-                          fixture: updateFixture,
-                        });
-                        console.log("to be uploaded", teamstatsTracker);
-
-                        setTeamstatsTracker({});
-                        console.log(teamstatsTracker);
-
-                        // setTeamstatsTracker({ ...teamStats });
-                        // console.log("after save", teamstatsTracker);
-                        // console.log(teamStats);
-
-                        // setUpdateFixtures(true);
-
-                        // setGetTournamentByID(tournament?.id);
-
-                        setShowStats(false);
-                        return;
-                      }
-                    } else if (
-                      currentFixture?.teamStats?.items[0] &&
-                      currentFixture?.status === "pending"
-                    ) {
-                      setUpdateTeamStats({
-                        id: currentFixture?.teamStats?.items[0].id,
-                        teamStatsAway_teamId: currentFixture.awayID,
-                        teamStatsHome_teamId: currentFixture.homeID,
-                        ...teamstatsTracker,
-                      });
-                    } else {
-                      setCreateTeamStats({
-                        teamStatsAway_teamId: currentFixture.awayID,
-                        teamStatsHome_teamId: currentFixture.homeID,
-                        fixtureTeamStatsId: currentFixture.id,
-
-                        ...teamstatsTracker,
-                      });
-
-                      //create table standings
-                    }
-                    if (homeTS) {
-                      //update standings for homeTeam
-                      //currentFixture?.teamStats?.items[0]["away_summary_goals"]===0?1:0 ,
-
-                      tablestatHome = {
-                        id: homeTS.id,
-                        cleanSheats:
-                          parseInt(homeTS.cleanSheats) +
-                          (parseInt(awayGoals) === 0 ? 1 : 0),
-                        gamesDrawn:
-                          parseInt(homeTS.gamesDrawn) +
-                          (homeGoals === awayGoals ? 1 : 0),
-                        gamesLost: parseInt(
-                          homeTS.gamesLost + (homeGoals < awayGoals ? 1 : 0)
-                        ),
-                        gamesPlayed: parseInt(homeTS.gamesPlayed) + 1,
-                        gamesWon:
-                          parseInt(homeTS.gamesWon) +
-                          (homeGoals > awayGoals ? 1 : 0),
-                        goalDifference:
-                          parseInt(homeTS.goalDifference) +
-                          (parseInt(homeGoals) - parseInt(awayGoals)),
-                        goalsAgainst:
-                          parseInt(homeTS.goalsAgainst) + parseInt(awayGoals),
-                        goalsFor:
-                          parseInt(homeTS.goalsFor) + parseInt(homeGoals),
-                        points: parseInt(homeTS.points) + homePoints(),
-                        record: [...homeTS.record, result],
-                        tableStatTeamId: currentFixture?.homeID,
-                        tournamentTableId: tournament?.id,
-                      };
-                    } else {
-                      //create standings for home team
-                      tablestatHome = {
-                        cleanSheats: parseInt(awayGoals) === 0 ? 1 : 0,
-                        gamesDrawn: homeGoals === awayGoals ? 1 : 0,
-                        gamesLost: homeGoals < awayGoals ? 1 : 0,
-                        gamesPlayed: 1,
-                        gamesWon: homeGoals > awayGoals ? 1 : 0,
-                        goalDifference: homeGoals - awayGoals,
-                        goalsAgainst: awayGoals,
-                        goalsFor: homeGoals,
-                        points: homePoints(),
-                        record: [result],
-                        tableStatTeamId: currentFixture?.homeID,
-                        tournamentTableId: tournament?.id,
-                      };
-                    }
-                    if (awayTS) {
-                      //update standings for awayTEam
-                      tablestatAway = {
-                        id: awayTS.id,
-                        cleanSheats:
-                          parseInt(awayTS.cleanSheats) +
-                          (parseInt(homeGoals) === 0 ? 1 : 0),
-                        gamesDrawn:
-                          parseInt(awayTS.gamesDrawn) +
-                          (homeGoals === awayGoals ? 1 : 0),
-                        gamesLost:
-                          parseInt(awayTS.gamesLost) +
-                          (parseInt(homeGoals) > parseInt(awayGoals) ? 1 : 0),
-                        gamesPlayed:
-                          parseInt(awayTS.gamesPlayed) + 1
-                            ? parseInt(awayTS.gamesPlayed) + 1
-                            : 1,
-                        gamesWon:
-                          parseInt(awayTS.gamesWon) +
-                          (parseInt(homeGoals) < parseInt(awayGoals) ? 1 : 0),
-                        goalDifference:
-                          parseInt(awayTS.goalDifference) +
-                          (parseInt(awayGoals) - parseInt(homeGoals)),
-                        goalsAgainst:
-                          parseInt(awayTS.goalsAgainst) + parseInt(homeGoals),
-                        goalsFor:
-                          parseInt(awayTS.goalsFor) + parseInt(awayGoals),
-                        points: parseInt(awayTS.points) + awayPoints(),
-                        record: [
-                          ...awayTS.record,
-                          (result === "W" && "L") ||
-                            (result === "D" && "D") ||
-                            (result === "L" && "W"),
-                        ],
-                        tableStatTeamId: currentFixture?.awayID,
-                        tournamentTableId: tournament?.id,
-                      };
-                    } else {
-                      //create standings for awayTeam
-                      tablestatAway = {
-                        cleanSheats: parseInt(homeGoals) === 0 ? 1 : 0,
-                        gamesDrawn: homeGoals === awayGoals ? 1 : 0,
-                        gamesLost: homeGoals > awayGoals ? 1 : 0,
-                        gamesPlayed: 1,
-                        gamesWon: homeGoals < awayGoals ? 1 : 0,
-                        goalDifference: awayGoals - homeGoals,
-                        goalsAgainst: homeGoals,
-                        goalsFor: awayGoals,
-                        points: awayPoints(),
-                        record: [
-                          (result === "W" && "L") ||
-                            (result === "D" && "D") ||
-                            (result === "L" && "W"),
-                        ],
-                        tableStatTeamId: currentFixture?.awayID,
-                        tournamentTableId: tournament?.id,
-                      };
-                    }
-                    if (!homeTS && !awayTS) {
-                      setCreateTableStat({
-                        home: tablestatHome,
-                        away: tablestatAway,
-                        fixture: updateFixture,
-                      });
-                    } else if (!homeTS && awayTS) {
-                      //update awayTS and create Home
-                      setCreateTableStat2({
-                        home: tablestatHome,
-                      });
-                      setUpdateFixture({
-                        id: currentFixture?.id,
-                        homeScore: parseInt(homeGoals),
-                        awayScore: parseInt(awayGoals),
-                        status: "verified",
-                      });
-                      setUpdateTableStat2({
-                        away: tablestatAway,
-                      });
-                    } else if (homeTS && !awayTS) {
-                      //create awayTS and update Home
-                      setCreateTableStat2({
-                        away: tablestatAway,
-                      });
-                      setUpdateTableStat2({
-                        home: tablestatHome,
-                      });
-                      setUpdateFixture({
-                        id: currentFixture?.id,
-                        homeScore: parseInt(homeGoals),
-                        awayScore: parseInt(awayGoals),
-                        status: "verified",
-                      });
-                      console.log("not implemented yet V2");
-                    } else if (homeTS && awayTS) {
-                      // update home and away
-                      setUpdateTableStat({
-                        home: tablestatHome,
-                        away: tablestatAway,
-                        fixture: updateFixture,
-                      });
-                    }
-                    console.log("to be uploaded", teamstatsTracker);
-
-                    setTeamstatsTracker({});
-                    console.log(teamstatsTracker);
-
                     // setTeamstatsTracker({ ...teamStats });
                     // console.log("after save", teamstatsTracker);
                     // console.log(teamStats);
@@ -782,6 +781,11 @@ const LTeamStats = () => {
 
                     // setGetTournamentByID(tournament?.id);
 
+                    setShowConfirmModal({
+                      type: "stats",
+                      action: "save/update",
+                    });
+                    setCreateTeamStatsTrigger(true);
                     setShowStats(false);
                   }}
                 >

@@ -20,6 +20,8 @@ import PlayerRoles from "../../components/Preferences.PlayerRoles";
 
 //Hooks
 import usePreferences from "../../hooks/usePreferences";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const Preferences = ({}) => {
   const {
@@ -49,6 +51,8 @@ const Preferences = ({}) => {
     setDeleteTeamLeague,
     setDeleteTeam,
     setCreateUserPlayer,
+    confirm,
+    setConfirm,
   } = usePreferences();
 
   useEffect(() => {
@@ -88,6 +92,9 @@ const Preferences = ({}) => {
       >
         <div style={{ flex: 1 }}></div>
         <div style={{ flex: 3 }}>
+          {loading && <Loading size={"30px"} />}
+          {error && <Error error={error} setError={setError} />}
+
           {player && (
             <PlayerInfoFrame
               player={player}
@@ -95,11 +102,15 @@ const Preferences = ({}) => {
               playerTemp={playerTemp}
               setPlayerTemp={setPlayerTemp}
               setUpdatePlayer={setUpdatePlayer}
+              confirm={confirm}
+              setConfirm={setConfirm}
             />
           )}
 
           {player && (
             <PlayerRoles
+              confirm={confirm}
+              setConfirm={setConfirm}
               player={player}
               setPlayer={setPlayer}
               playerTemp={playerTemp}

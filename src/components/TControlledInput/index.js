@@ -24,7 +24,13 @@ const ControlledInput = ({
     setTeamstatsTracker(teamstatsTracker);
   }, [value, teamstatsTracker, stadium, type, attr, val, currentFixture]);
   return (
-    <Input value={value} {...props} onChange={setValue} placeholder="0"></Input>
+    <Input
+      type="number"
+      value={value}
+      {...props}
+      onChange={setValue}
+      placeholder={0}
+    ></Input>
   );
 };
 
