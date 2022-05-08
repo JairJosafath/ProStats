@@ -48,8 +48,7 @@ const Home = () => {
               <li>Player performance rating alghoritms</li>
               <li>And many ways to make your League Fun and Competitive</li>
             </ul>
-            Let us worry about the boring stuff, league, setGetLeague, so YOU
-            have fun!
+            Let us worry about the boring stuff so YOU can have fun!
           </p>
         </div>
       </Banner>
@@ -68,7 +67,7 @@ const Home = () => {
         }}
       />
       <div style={{ height: "60px", background: "var(--primary-black)" }}>
-        Footer
+        This Website is not affiliated with or sponsored by Electronic Arts Inc.
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import { MdVerified, MdPendingActions } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { apiSettings } from "../../API/API";
 import FlexItemCustom from "../FlexItemCustom";
+import fallback from "../../img/dummy.jpg";
 
 const AdvancedFixture = ({
   setCurrentFixture,
@@ -59,8 +60,9 @@ const AdvancedFixture = ({
             <FlexboxGrid justify="center">
               <FlexboxGrid.Item colspan={4}>
                 <img
+                  onError={() => setHomeLogo(fallback)}
                   alt="club logo"
-                  src={homeLogo ? homeLogo : ""}
+                  src={homeLogo ? homeLogo : fallback}
                   style={{ maxHeight: "2em" }}
                 />
               </FlexboxGrid.Item>
@@ -103,8 +105,9 @@ const AdvancedFixture = ({
               <FlexboxGrid.Item>{fixture?.awayTeam.name}</FlexboxGrid.Item>
               <FlexboxGrid.Item colspan={4}>
                 <img
+                  onError={() => setAwayLogo(fallback)}
                   alt="club logo"
-                  src={awayLogo ? awayLogo : "dummy.png"}
+                  src={awayLogo ? awayLogo : fallback}
                   style={{ maxHeight: "2em" }}
                 />
               </FlexboxGrid.Item>

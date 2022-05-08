@@ -2,68 +2,6 @@ import { Table } from "rsuite";
 import ClubRecordCell from "../ClubRecordCell";
 import ClubTableCell from "../ClubTableCell";
 import CustomHeaderCell from "../CustomHeaderCell";
-const exp = [
-  {
-    logo: "FCB",
-    name: "FCBARCELONA",
-    mp: 3,
-    w: 23,
-    l: 9,
-    d: 1,
-    gf: 4,
-    ga: 3,
-    gd: 3,
-    pts: 3,
-  },
-  {
-    logo: "RMD",
-    name: "REALMADRID",
-    mp: 3,
-    w: 23,
-    l: 9,
-    d: 1,
-    gf: 4,
-    ga: 3,
-    gd: 3,
-    pts: 3,
-  },
-  {
-    logo: "FCB",
-    name: "FCBARCELONA",
-    mp: 3,
-    w: 23,
-    l: 9,
-    d: 1,
-    gf: 4,
-    ga: 3,
-    gd: 3,
-    pts: 3,
-  },
-  {
-    logo: "PSG",
-    name: "FCPARIS",
-    mp: 3,
-    w: 23,
-    l: 9,
-    d: 1,
-    gf: 4,
-    ga: 3,
-    gd: 3,
-    pts: 3,
-  },
-  {
-    logo: "FCB",
-    name: "FCBARCELONA",
-    mp: 3,
-    w: 23,
-    l: 9,
-    d: 1,
-    gf: 4,
-    ga: 3,
-    gd: 3,
-    pts: 3,
-  },
-];
 
 const TeamStandings = ({ data }) => {
   return (

@@ -3,6 +3,8 @@ import ListItemCustom from "../ListCustom";
 // import { MdVerified, MdPendingActions } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { apiSettings } from "../../API/API";
+import fallback from "../../img/dummy.jpg";
+
 import { Icon } from "@rsuite/icons";
 const Fixture = ({ fixture }) => {
   const [homeLogo, setHomeLogo] = useState();
@@ -27,8 +29,9 @@ const Fixture = ({ fixture }) => {
             <FlexboxGrid justify="center">
               <FlexboxGrid.Item colspan={1}>
                 <img
+                  onError={() => setHomeLogo(fallback)}
                   alt="club logo"
-                  src={homeLogo ? homeLogo : "dummy.jpg"}
+                  src={homeLogo ? homeLogo : fallback}
                   style={{ maxHeight: "2em" }}
                 />
               </FlexboxGrid.Item>
@@ -65,8 +68,9 @@ const Fixture = ({ fixture }) => {
               </FlexboxGrid.Item>
               <FlexboxGrid.Item colspan={1}>
                 <img
+                  onError={() => setAwayLogo(fallback)}
                   alt="club logo"
-                  src={awayLogo ? awayLogo : "dummy.jpg"}
+                  src={awayLogo ? awayLogo : fallback}
                   style={{ maxHeight: "2em" }}
                 />
               </FlexboxGrid.Item>
