@@ -412,7 +412,7 @@ const useLeagueDashboard = () => {
       apiSettings
         .createFixtures(createFixtures.teams, createFixtures.tournamentID)
         .then(() =>
-          setFixturesByTournamentAndRound({
+          setGetFixturesByTournamentandRound({
             tournamentID: tournament?.id,
             condition: { eq: 1 },
           })

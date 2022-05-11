@@ -46,8 +46,8 @@ const NewRequest = ({
       //   search();
       //   setOpen(false);
       // }
-      console.log(username, "is the username");
-      console.log("id", playerId);
+      // console.log(username, "is the username");
+      // console.log("id", playerId);
 
       setGetUsernameTeamReq({
         playerId,
@@ -172,9 +172,9 @@ const LRoles = () => {
               icon={<AiOutlinePlus size={38} />}
               circle
               onClick={() => {
-                console.log(open);
+                // console.log(open);
                 setOpen(true);
-                console.log("after", open);
+                // console.log("after", open);
               }}
             />
           </Whisper>

@@ -74,7 +74,7 @@ const Preferences = ({}) => {
       } else {
         setPlayerId(attributes["custom:player_id"]);
       }
-      console.log("theteeest", username, attributes["custom:player_id"]);
+      // console.log("theteeest", username, attributes["custom:player_id"]);
       // setUser(CognitoUser);
     };
 

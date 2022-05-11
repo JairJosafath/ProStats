@@ -18,7 +18,7 @@ const UploadSSTeam = () => {
   const [type, setType] = useState("choose type");
 
   useEffect(() => {
-    console.log(type);
+    // console.log(type);
     if (value.length > 1) {
       value.shift();
     }
@@ -26,8 +26,8 @@ const UploadSSTeam = () => {
     }
   }, [value, type]);
   const handleUpload = () => {
-    console.log("uploads");
-    console.log(value);
+    // console.log("uploads");
+    // console.log(value);
     setValue([]);
   };
   return (

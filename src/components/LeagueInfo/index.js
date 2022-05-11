@@ -38,7 +38,7 @@ const LeagueInfoFrame = ({
         : league.image,
     });
 
-    console.log("LeagueTemp", LeagueTemp);
+    // console.log("LeagueTemp", LeagueTemp);
   }, [Leaguename, Leagueabout, file]);
 
   return (

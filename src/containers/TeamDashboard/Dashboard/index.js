@@ -26,8 +26,8 @@ const TDashboard = () => {
   }, [team]);
 
   useEffect(() => {
-    console.log("conf", confirm);
-    console.log("trigger", triggerUpdateTeamInfo);
+    // console.log("conf", confirm);
+    // console.log("trigger", triggerUpdateTeamInfo);
     if (confirm && triggerUpdateTeamInfo) {
       file && apiSettings.putImageTeam(team?.name, team?.id, file);
 

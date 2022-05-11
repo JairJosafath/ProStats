@@ -28,10 +28,10 @@ const SideNavCustom = ({
   const [drop, setDrop] = useState(false);
 
   useEffect(() => {
-    console.log(activeKey);
+    // console.log(activeKey);
   }, [activeKey]);
   useEffect(() => {
-    console.log(showNav);
+    // console.log(showNav);
     if (showNav === "show") {
       setShowNav("default");
       setDrop(false);
@@ -47,7 +47,7 @@ const SideNavCustom = ({
   return (
     <div
       style={{
-        flex: 1,
+        flex: 0.8,
         minWidth: 100,
         height: "90vh",
         background: "var(--primary-black)",
@@ -66,7 +66,7 @@ const SideNavCustom = ({
                 title={tournament ? tournament.name : "choose tournament"}
                 style={{ zIndex: 20 }}
                 onClick={() => {
-                  console.log("clicked");
+                  // console.log("clicked");
                   setDrop(true);
                   setShowNav(showNav === "default" ? "hide" : "show");
                 }}
@@ -80,7 +80,7 @@ const SideNavCustom = ({
                           : "item"
                       }
                       onClick={() => {
-                        console.log("item clicked");
+                        // console.log("item clicked");
                         setShowNav("show");
                         setTournament(tournament1);
                       }}

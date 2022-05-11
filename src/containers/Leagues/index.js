@@ -67,7 +67,7 @@ const Leagues = () => {
           background: "var(--primary-grey-light)",
         }}
       >
-        <div style={{ flex: 2, background: "" }}>ad</div>{" "}
+        <div style={{ flex: 2, background: "" }}></div>{" "}
         <Outlet
           context={{
             leagues,
@@ -77,7 +77,7 @@ const Leagues = () => {
             fixturesByTournamentAndRound,
           }}
         />{" "}
-        <div style={{ flex: 2, background: "" }}>ad</div>
+        <div style={{ flex: 2, background: "" }}></div>
       </div>
     </>
   );

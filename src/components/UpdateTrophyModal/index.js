@@ -57,7 +57,7 @@ const UpdateTrophyModal = ({
 
     // console.log("league inofo", league);
 
-    console.log(`trophy\nname: ${valueName}, slogan: ${valueAbout}`);
+    // console.log(`trophy\nname: ${valueName}, slogan: ${valueAbout}`);
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);
@@ -68,8 +68,8 @@ const UpdateTrophyModal = ({
   useEffect(() => {
     setValueAbout(trophy?.description);
     setValueName(trophy?.name);
-    console.log(trophy);
-    console.log(league);
+    // console.log(trophy);
+    // console.log(league);
   }, [trophy, open]);
 
   return (

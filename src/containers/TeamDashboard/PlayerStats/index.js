@@ -69,7 +69,7 @@ const TPlayerStats = () => {
     setAddPlayerStatsTrigger(false);
   }, [confirm]);
   useEffect(() => {
-    console.log("teamcheck", selectedTeam);
+    // console.log("teamcheck", selectedTeam);
   }, [selectedTeam]);
   useEffect(() => {
     if (currentFixture)
@@ -103,7 +103,7 @@ const TPlayerStats = () => {
       )[0]
     ) {
       //means there is already stats for the player, so update
-      console.log("update code comes here");
+      // console.log("update code comes here");
       setUpdatePlayerStats({
         id: currentFixture?.playerStats?.items?.filter(
           (stats) => stats.player.id === currentPlayer?.id
@@ -310,8 +310,8 @@ const TPlayerStats = () => {
                   <FlexboxGrid.Item>
                     <Button
                       onClick={() => {
-                        console.log("save rex");
-                        console.log("huge test right here", playerstatsTracker);
+                        // console.log("save rex");
+                        // console.log("huge test right here", playerstatsTracker);
 
                         // const temp = {};
                         // console.log("temp obj", temp);
@@ -326,7 +326,7 @@ const TPlayerStats = () => {
                         //   })
                         // );
 
-                        console.log("temp obj ps", playerstatsTracker);
+                        // console.log("temp obj ps", playerstatsTracker);
 
                         // setTeamstatsTracker({ ...teamStats });
 
@@ -348,7 +348,7 @@ const TPlayerStats = () => {
                   <FlexboxGrid.Item>
                     <Button
                       onClick={() => {
-                        console.log("reset");
+                        // console.log("reset");
                       }}
                     >
                       Reset

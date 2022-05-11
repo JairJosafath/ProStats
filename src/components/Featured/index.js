@@ -5,7 +5,7 @@ import fallback from "../../img/dummy.jpg";
 import { useNavigate } from "react-router-dom";
 
 const Featured = ({ featured, pause, setPause }) => {
-  console.log(featured);
+  // console.log(featured);
   const [image, setImage] = useState();
   const nav = useNavigate();
 
@@ -14,11 +14,11 @@ const Featured = ({ featured, pause, setPause }) => {
     const setLogo = async () => {
       const data = await apiSettings
         .getImage(featured.logo)
-        .catch((err) => console.log("catch it pls", err));
+        .catch((err) => console.log("err", err));
       if (data) {
         setImage(data);
       }
-      console.log(data, "data");
+      // console.log(data, "data");
     };
     setLogo();
   }, [featured]);

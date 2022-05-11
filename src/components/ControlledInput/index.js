@@ -32,7 +32,7 @@ const ControlledInput = ({
       const key = `${stadium}_${type}_${attr}`;
       teamstatsTracker[key] = parseInt(value);
       setTeamstatsTracker(teamstatsTracker);
-      console.log("with empty ini obj", teamstatsTracker);
+      // console.log("with empty ini obj", teamstatsTracker);
     }
   }, [value, stadium, type, attr, val]);
 

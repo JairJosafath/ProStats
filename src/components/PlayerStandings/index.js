@@ -4,11 +4,15 @@ import CustomHeaderCell from "../CustomHeaderCell";
 import PlayerTableCell from "../PlayerTableCell";
 
 const PlayerStandings = ({ data }) => {
+  console.log("scorers", data);
+  data.sort((a, b) =>
+    b.goals === a.goals ? b.assists - a.assists : b.goals - a.goals
+  );
   return (
     <>
       <h5 style={{ margin: 5 }}>Player Standings</h5>
       <h6 style={{ margin: 5, color: "lightgrey" }}>goals</h6>
-      <Table data={data} width={580} style={{ margin: 10 }}>
+      <Table autoHeight data={data} width={580} style={{ margin: 10 }}>
         <Table.Column width={250}>
           <CustomHeaderCell>Player Name</CustomHeaderCell>
           <PlayerTableCell player="player" />

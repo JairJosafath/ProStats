@@ -102,7 +102,7 @@ const usePreferences = () => {
   };
 
   const updatePlayerfunct = async () => {
-    if (updatePlayer && confirm) {
+    if (updatePlayer) {
       setLoading(true);
       apiSettings
         .updatePlayer(playerTemp)

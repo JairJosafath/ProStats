@@ -39,16 +39,16 @@ const NewRequest = ({
       //     apiSettingsTD
       //       .getPlayerUsername(teamId)
       //       .then((data) => {
-      //         console.log("the player is", data);
+      // console.log("the player is", data);
       //       })
       //       .catch(() => {
-      //         console.log("error");
+      // console.log("error");
       //       });
       //   };
       //   search();
       //   setOpen(false);
       // }
-      console.log(username, "is the username");
+      // console.log(username, "is the username");
       // console.log("this is the object request", {
       //   status: "pending",
       //   leagueRequeststoTeamId: leagueID,
@@ -197,25 +197,29 @@ const LTeams = () => {
         </div>
 
         <Panel style={{ flex: "1.5" }} header={"Requests"}>
-          <Whisper
-            placement="right"
-            controlId="control-id-hover"
-            trigger="hover"
-            speaker={<Tooltip>Add a new Team, send a request</Tooltip>}
-          >
-            <IconButton
-              appearance="primary"
-              color="green"
-              size={"xs"}
-              icon={<AiOutlinePlus size={38} />}
-              circle
-              onClick={() => {
-                console.log(open);
-                setOpen(true);
-                console.log("after", open);
-              }}
-            />
-          </Whisper>
+          {league?.leagueMemberships?.items.filter(
+            (team) => team.team.slogan !== "modTeam"
+          ).length < 10 && (
+            <Whisper
+              placement="right"
+              controlId="control-id-hover"
+              trigger="hover"
+              speaker={<Tooltip>Add a new Team, send a request</Tooltip>}
+            >
+              <IconButton
+                appearance="primary"
+                color="green"
+                size={"xs"}
+                icon={<AiOutlinePlus size={38} />}
+                circle
+                onClick={() => {
+                  // console.log(open);
+                  setOpen(true);
+                  // console.log("after", open);
+                }}
+              />
+            </Whisper>
+          )}
           <FlexboxGrid justify="space-between">
             <FlexboxGrid.Item colspan={6}>Team</FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={6}>Manager</FlexboxGrid.Item>

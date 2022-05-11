@@ -26,7 +26,7 @@ const LUploadPhotoCustom = ({ team, teamTemp, setTeamTemp, file, setFile }) => {
     const img = async () => {
       const data = await apiSettings.getImage(team.logo);
       setTeamImage(data);
-      console.log(data);
+      // console.log(data);
     };
     img();
   }, [team]);
@@ -40,7 +40,7 @@ const LUploadPhotoCustom = ({ team, teamTemp, setTeamTemp, file, setFile }) => {
         action="//jsonplaceholder.typicode.com/posts/"
         onChange={(file) => {
           // console.log("file event", file[0]);
-          console.log(file);
+          // console.log(file);
 
           setFile(file[file.length - 1]);
           previewFile(file[file.length - 1].blobFile, (value) => {
@@ -50,7 +50,7 @@ const LUploadPhotoCustom = ({ team, teamTemp, setTeamTemp, file, setFile }) => {
         onSuccess={(response) => {
           setUploading(false);
           toaster.push(<Message type="success">Uploaded successfully</Message>);
-          console.log(response);
+          // console.log(response);
         }}
         onError={() => {
           setTeamImage(null);

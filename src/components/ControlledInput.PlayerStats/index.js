@@ -33,7 +33,7 @@ const ControlledInput = ({
     if (value) {
       playerstatsTracker[`${type}_${attr}`] = parseInt(value);
       setPlayerstatsTracker(playerstatsTracker);
-      console.log(playerstatsTracker);
+      // console.log(playerstatsTracker);
     }
   }, [currentPlayer, value]);
 

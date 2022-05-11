@@ -9,10 +9,10 @@ const LeagueGrid = ({ leagues }) => {
   const [activePage, setActivePage] = useState(1);
   useEffect(() => {
     if (leagues.length > 4) {
-      console.log("prepare rows");
+      // console.log("prepare rows");
       setMultipleRows(true);
     } else {
-      console.log("just one row is enough");
+      // console.log("just one row is enough");
       setMultipleRows(false);
     }
   }, [leagues]);

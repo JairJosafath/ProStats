@@ -92,10 +92,10 @@ const LPlayerStats = () => {
   useEffect(() => {
     //when fixtures are selected update the stats based on the fixture
     setPlayerstatsTracker({});
-    typeDataPlayer.map(
-      (type) => setTimeout(() => setTypeDataPlayerState(type), 1000) //bug fix for not updating !showing stats
-    );
-    setTimeout(() => setTypeDataPlayerState(typeDataPlayer[0]), 1005);
+    // typeDataPlayer.map(
+    //   (type) => setTimeout(() => setTypeDataPlayerState(type), 1000) //bug fix for not updating !showing stats
+    // );
+    // setTimeout(() => setTypeDataPlayerState(typeDataPlayer[0]), 1005);
   }, [currentPlayer]);
   useEffect(() => {
     if (currentFixture)
@@ -119,7 +119,7 @@ const LPlayerStats = () => {
     ) {
       //means there is already stats for the player, so update
 
-      console.log("update code comes here");
+      // console.log("update code comes here");
       setUpdatePlayerStats({
         id: currentFixture?.playerStats?.items?.filter(
           (stats) => stats.player.id === currentPlayer?.id
@@ -233,7 +233,7 @@ const LPlayerStats = () => {
         });
       }
 
-      console.log("here twoo actually first in code");
+      // console.log("here twoo actually first in code");
 
       return;
     } else if (
@@ -256,7 +256,7 @@ const LPlayerStats = () => {
     } else {
       //create the playerStat
 
-      console.log("its creating");
+      // console.log("its creating");
       setCreatePlayerStats({
         playerPlayerStatsId: currentPlayer.id,
         fixturePlayerStatsId: currentFixture.id,
@@ -324,7 +324,7 @@ const LPlayerStats = () => {
         playerOfTheMatch: 0,
       });
     } else {
-      console.log(playerStats, "idk");
+      // console.log(playerStats, "idk");
 
       setCreatePlayerTableStat({
         tournamentPlayerTableId: tournament.id,
@@ -364,7 +364,7 @@ const LPlayerStats = () => {
       });
     }
 
-    console.log("here");
+    // console.log("here");
   };
 
   // useEffect(() => {
@@ -442,7 +442,7 @@ const LPlayerStats = () => {
                     setCurrentPlayer(membership.player);
                     setShowPlayers(false);
 
-                    setTimeout(() => setShowStats(true), 700);
+                    setShowStats(true);
                   }}
                 >
                   <FlexboxGrid>
@@ -572,7 +572,7 @@ const LPlayerStats = () => {
               <FlexboxGrid.Item>
                 <Button
                   onClick={() => {
-                    console.log("save rex");
+                    // console.log("save rex");
                     // console.log("huge test right here", playerstatsTracker);
 
                     // const temp = {};

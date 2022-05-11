@@ -17,7 +17,7 @@ const HFixtures = () => {
   useEffect(() => {
     setGetLeague(id);
 
-    console.log(league, "the league");
+    // console.log(league, "the league");
   }, [id]);
   useEffect(() => {
     if (tournament)
@@ -27,7 +27,7 @@ const HFixtures = () => {
       });
   }, [activePage, tournament]);
   useEffect(() => {
-    console.log(league, "the league");
+    // console.log(league, "the league");
     if (league) {
       setTournament(league.tournaments.items[0]);
     }

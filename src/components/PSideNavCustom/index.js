@@ -28,10 +28,10 @@ const PSideNavCustom = ({
   const [drop, setDrop] = useState(false);
 
   useEffect(() => {
-    console.log(activeKey);
+    // console.log(activeKey);
   }, [activeKey]);
   useEffect(() => {
-    console.log(showNav);
+    // console.log(showNav);
     if (showNav === "show") {
       setShowNav("default");
       setDrop(false);
@@ -47,7 +47,7 @@ const PSideNavCustom = ({
   return (
     <div
       style={{
-        flex: 0.6,
+        flex: 0.8,
         minWidth: 100,
         height: "90vh",
         background: "var(--primary-black)",
@@ -67,7 +67,7 @@ const PSideNavCustom = ({
                 title={tournament ? tournament.name : "choose tournament"}
                 style={{ zIndex: 20 }}
                 onClick={() => {
-                  console.log("clicked");
+                  // console.log("clicked");
                   setDrop(true);
                   setShowNav(showNav === "default" ? "hide" : "show");
                 }}
@@ -91,7 +91,7 @@ const PSideNavCustom = ({
                         //       : "",
                         // }}
                         onClick={() => {
-                          console.log("item clicked");
+                          // console.log("item clicked");
                           setShowNav("show");
                           setTournament(tournament1.tournament);
                         }}

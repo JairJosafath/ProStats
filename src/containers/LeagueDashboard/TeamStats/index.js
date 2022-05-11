@@ -241,10 +241,10 @@ const LTeamStats = () => {
           (tableStat) => tableStat.team.id === currentFixture?.awayID
         )[0];
 
-        console.log("old tables", {
-          homeTableStat,
-          awayTableStat,
-        });
+        // console.log("old tables", {
+        //   homeTableStat,
+        //   awayTableStat,
+        // });
 
         //check for cleansheets
         if (currentFixture?.awayScore === 0) {
@@ -335,10 +335,10 @@ const LTeamStats = () => {
             ? 0
             : awayTableStat.goalsFor + awayGoals;
 
-        console.log("updated tables", {
-          homeTableStat,
-          awayTableStat,
-        });
+        // console.log("updated tables", {
+        //   homeTableStat,
+        //   awayTableStat,
+        // });
         //update record
         homeTableStat.record[activePage - 1] =
           (homeGoals > awayGoals && "W") ||
@@ -367,10 +367,10 @@ const LTeamStats = () => {
           away: awayTableStat,
           fixture: updateFixture,
         });
-        console.log("to be uploaded", teamstatsTracker);
+        // console.log("to be uploaded", teamstatsTracker);
 
         setTeamstatsTracker({});
-        console.log(teamstatsTracker);
+        // console.log(teamstatsTracker);
 
         // setTeamstatsTracker({ ...teamStats });
         // console.log("after save", teamstatsTracker);
@@ -572,7 +572,7 @@ const LTeamStats = () => {
             {fixturesByTournamentAndRound?.items?.length === 0 && (
               <Button
                 onClick={() => {
-                  console.log(":gen fixtures");
+                  // console.log(":gen fixtures");
                   const inp = {
                     teams: tournament?.team?.items?.map((team) => {
                       return { id: team.team.id, mods: team.team.moderators };
@@ -748,8 +748,8 @@ const LTeamStats = () => {
               <FlexboxGrid.Item>
                 <Button
                   onClick={() => {
-                    console.log("save rex");
-                    console.log("huge test right here", teamstatsTracker);
+                    // console.log("save rex");
+                    // console.log("huge test right here", teamstatsTracker);
 
                     // const temp = {};
                     // console.log("temp obj", temp);

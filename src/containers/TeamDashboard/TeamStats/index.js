@@ -76,8 +76,8 @@ const TTeamStats = () => {
     }
   }, [team, tournament]);
   useEffect(() => {
-    console.log(confirm, "conf");
-    console.log(createTeamStatsTrigger, "trigger");
+    // console.log(confirm, "conf");
+    // console.log(createTeamStatsTrigger, "trigger");
     if (confirm && createTeamStatsTrigger) {
       handleSave();
       setConfirm(false);
@@ -94,7 +94,7 @@ const TTeamStats = () => {
   }, [currentFixture]);
 
   const handleSave = () => {
-    console.log("in handler");
+    // console.log("in handler");
     if (currentFixture?.teamStats?.items[0]) {
       // const oldTeamStats = currentFixture?.teamStats?.items[0];
 
@@ -326,8 +326,8 @@ const TTeamStats = () => {
             <FlexboxGrid.Item>
               <Button
                 onClick={() => {
-                  console.log("save rex");
-                  console.log("huge test right here", teamstatsTracker);
+                  // console.log("save rex");
+                  // console.log("huge test right here", teamstatsTracker);
 
                   // const temp = {};
                   // console.log("temp obj", temp);

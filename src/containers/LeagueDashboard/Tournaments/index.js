@@ -177,7 +177,7 @@ const LTournaments = () => {
               </List>
               <Button
                 onClick={() => {
-                  console.log("NT");
+                  // console.log("NT");
                   setOpenTournament(true);
                 }}
               >
@@ -211,11 +211,11 @@ const LTournaments = () => {
                               />
                             }
                             onClick={() => {
-                              console.log(
-                                "remove %s with id %s",
-                                team.team.name,
-                                team.id
-                              );
+                              // console.log(
+                              //   "remove %s with id %s",
+                              //   team.team.name,
+                              //   team.id
+                              // );
                               setShowConfirmModal({
                                 type: "team",
                                 action: "remove",

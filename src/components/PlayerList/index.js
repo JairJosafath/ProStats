@@ -66,7 +66,7 @@ const PlayerList = ({
                     size="xs"
                     onClick={() => {
                       // console.log(member.player.username);
-                      console.log("role", role);
+                      // console.log("role", role);
 
                       if (
                         (role.role === "moderator" &&
@@ -92,7 +92,7 @@ const PlayerList = ({
                         const mods = team.moderators.filter(
                           (mod) => mod !== member.player.username
                         );
-                        console.log("filter", mods);
+                        // console.log("filter", mods);
 
                         setUpdateTeam({ id: team.id, moderators: mods });
                         if (league)

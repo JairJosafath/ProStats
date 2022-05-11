@@ -45,7 +45,7 @@ const NewTrophyModal = ({
 
     // console.log("league inofo", league);
 
-    console.log(`trophy\nname: ${valueName}, slogan: ${valueAbout}`);
+    // console.log(`trophy\nname: ${valueName}, slogan: ${valueAbout}`);
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);

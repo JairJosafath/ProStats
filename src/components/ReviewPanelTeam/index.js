@@ -17,7 +17,7 @@ const ReviewPanelTeam = ({ type, team }) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     try {
       let id = 0;
       rows.map((row) => {
@@ -26,7 +26,7 @@ const ReviewPanelTeam = ({ type, team }) => {
         });
       });
     } catch (e) {
-      console.log("no data yet", e);
+      // console.log("no data yet", e);
     }
   }, [type]);
 
@@ -86,7 +86,7 @@ const ReviewPanelTeam = ({ type, team }) => {
 
       <Button
         onClick={() => {
-          console.log(data[team][type]);
+          // console.log(data[team][type]);
           try {
             let id = 0;
             rows.map((row) => {
@@ -97,7 +97,7 @@ const ReviewPanelTeam = ({ type, team }) => {
               });
             });
           } catch (e) {
-            console.log("no data yet", e);
+            // console.log("no data yet", e);
           }
         }}
         style={{ marginLeft: "40vw", width: 120 }}

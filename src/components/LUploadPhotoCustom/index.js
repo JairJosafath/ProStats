@@ -58,7 +58,7 @@ const LUploadPhotoCustom = ({
         action="//jsonplaceholder.typicode.com/posts/"
         onChange={(file) => {
           // console.log("file event", file[0]);
-          console.log(file);
+          // console.log(file);
 
           setFile(file[file.length - 1]);
           previewFile(file[file.length - 1].blobFile, (value) => {
@@ -68,7 +68,7 @@ const LUploadPhotoCustom = ({
         onSuccess={(response) => {
           setUploading(false);
           toaster.push(<Message type="success">Uploaded successfully</Message>);
-          console.log(response);
+          // console.log(response);
         }}
         onError={() => {
           setLeagueImage(null);

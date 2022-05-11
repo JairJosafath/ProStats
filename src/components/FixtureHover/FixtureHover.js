@@ -35,14 +35,14 @@ const AdvancedFixture = ({
       <ListItemCustom
         disableHover
         onClick={() => {
-          console.log("nothing for now");
+          // console.log("nothing for now");
         }}
       >
         <FlexboxGrid justify="center">
           <FlexItemCustom
             colspan={8}
             onMouseEnter={() => {
-              console.log("hovering", fixture?.homeTeam.name);
+              // console.log("hovering", fixture?.homeTeam.name);
               setSelectedTEam(fixture?.teamHomefixturesId);
             }}
             onClick={() => {
@@ -85,7 +85,7 @@ const AdvancedFixture = ({
           <FlexItemCustom
             colspan={8}
             onMouseEnter={() => {
-              console.log("hovering", fixture?.awayTeam.name);
+              // console.log("hovering", fixture?.awayTeam.name);
               setSelectedTEam(fixture?.teamAwayfixturesId);
             }}
             onClick={() => {

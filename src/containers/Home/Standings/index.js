@@ -12,10 +12,10 @@ const HStandings = () => {
   useEffect(() => {
     setGetLeague(id);
 
-    console.log(league, "the league");
+    // console.log(league, "the league");
   }, [id]);
   useEffect(() => {
-    console.log(league, "the league");
+    // console.log(league, "the league");
     if (league) {
       setTournament(league.tournaments.items[0]);
     }

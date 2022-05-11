@@ -65,7 +65,7 @@ const NewTeamModal = ({
     setValueAbout("");
   };
   const handleOK = () => {
-    console.log("player update when OK", player);
+    // console.log("player update when OK", player);
     setCreateTeam({
       name: valueName,
       slogan: valueAbout,
@@ -75,7 +75,7 @@ const NewTeamModal = ({
     });
     // setTeam(valueName, "", valueAbout);
 
-    console.log(`team\nname: ${valueName}, about: ${valueAbout}`);
+    // console.log(`team\nname: ${valueName}, about: ${valueAbout}`);
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);
@@ -120,7 +120,7 @@ const NewTeamModal = ({
           <Button
             onClick={() => {
               setShowConfirmModal({ type: "league", action: "create" });
-              console.log("modaldata", showConfirmModal);
+              // console.log("modaldata", showConfirmModal);
             }}
             appearance="primary"
           >
@@ -169,7 +169,7 @@ const NewLeagueModal = ({
     setValueName("");
   };
   const handleOK = () => {
-    console.log("player update when OK", player);
+    // console.log("player update when OK", player);
     setCreateLeague({
       name: valueName,
       description: valueAbout,
@@ -179,9 +179,9 @@ const NewLeagueModal = ({
     });
     setValueAbout("");
     setValueName("");
-    console.log("league inofo", league);
+    // console.log("league inofo", league);
 
-    console.log(`league\nname: ${valueName}, descr: ${valueAbout}`);
+    // console.log(`league\nname: ${valueName}, descr: ${valueAbout}`);
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);
@@ -224,7 +224,7 @@ const NewLeagueModal = ({
           <Button
             onClick={() => {
               setShowConfirmModal({ type: "league", action: "create" });
-              console.log("modaldata", showConfirmModal);
+              // console.log("modaldata", showConfirmModal);
               // handleOK();
             }}
             appearance="primary"
@@ -317,14 +317,14 @@ const PlayerRoles = ({
   const handleLeaveLeague = (id) => {
     setDeleteTeamLeague({ id });
 
-    console.log("delete TeamLeague with id", id);
+    // console.log("delete TeamLeague with id", id);
   };
   const handleEditLeague = (id, role) => {
-    console.log(`edit league with id: ${id} as ${role}`);
+    // console.log(`edit league with id: ${id} as ${role}`);
     nav(`/leaguedashboard/${id}/dashboard`);
   };
   const handleDeleteLeague = (id, role) => {
-    console.log(`delete league with id: ${id} as ${role}`);
+    // console.log(`delete league with id: ${id} as ${role}`);
     //tournaments=> delete standings, fixtures, tournaments and all join table records
 
     setUpdateLeague({
@@ -341,19 +341,19 @@ const PlayerRoles = ({
     //     variables: { input: { id: id, status: "disabled" } },
     //     authMode: "AMAZON_COGNITO_USER_POOLS",
     //   }).catch((error) => {
-    //     console.log("error when deleting", error);
+    // console.log("error when deleting", error);
     //   });
 
-    //   console.log("res", result);
+    // console.log("res", result);
     // };
 
     // deleteLeagueFN();
   };
   // const handleLeaveLeague = (id) => {
-  //   console.log(`leaving league with id: ${id}`);
+  // console.log(`leaving league with id: ${id}`);
   // };
   const handleEditTeam = (id, role, playerId) => {
-    console.log(`edit Team with id: ${id} as ${role}`);
+    // console.log(`edit Team with id: ${id} as ${role}`);
     if (role === "manager") nav(`/teamDashboard/${id}/dashboard`);
     if (role === "member") nav(`/playerDashboard/${id}+${playerId}/dashboard`);
     if (role === "managerNoLeague") nav(`/teamDashboard/${id}+No/dashboard`);
@@ -365,7 +365,7 @@ const PlayerRoles = ({
       playerManagesId: "null",
       name: "deleted Team",
     });
-    console.log(`delete Team with id: ${id} as ${role}`);
+    // console.log(`delete Team with id: ${id} as ${role}`);
 
     //   const deleteTeamFN = async () => {
     //     //delete all connections first
@@ -376,16 +376,16 @@ const PlayerRoles = ({
     //       variables: { input: { id: id, status: "disabled" } },
     //       authMode: "AMAZON_COGNITO_USER_POOLS",
     //     }).catch((error) => {
-    //       console.log("error when deleting", error);
+    // console.log("error when deleting", error);
     //     });
 
-    //     console.log("res", result);
+    // console.log("res", result);
     //   };
     //   deleteTeamFN();
     // window.location.reload();
   };
   const handleLeaveTeam = (id) => {
-    console.log(`leaving Team with id: ${id}`);
+    // console.log(`leaving Team with id: ${id}`);
     setDeleteTeamMember({
       id,
     });
@@ -464,7 +464,7 @@ const PlayerRoles = ({
                                   />
                                 }
                                 onClick={(e) => {
-                                  console.log(league);
+                                  // console.log(league);
                                   setShowConfirmModal({
                                     type: `league : ${league?.name}`,
                                     action: "delete",
@@ -554,14 +554,16 @@ const PlayerRoles = ({
                 })}
               </List>
             </div>
-            <ButtonCustom
-              onClick={() => {
-                console.log("create Team");
-                setOpenLeague(true);
-              }}
-            >
-              Create New League
-            </ButtonCustom>
+            {player?.admins?.items?.length < 1 && (
+              <ButtonCustom
+                onClick={() => {
+                  // console.log("create Team");
+                  setOpenLeague(true);
+                }}
+              >
+                Create New League
+              </ButtonCustom>
+            )}
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={11}>
             <div>
@@ -1360,14 +1362,18 @@ const PlayerRoles = ({
                   })}
               </List>
             </div>
-            <ButtonCustom
-              onClick={() => {
-                console.log("create Team");
-                setOpenTeam(true);
-              }}
-            >
-              Create New Team
-            </ButtonCustom>
+            {player?.manages?.items?.filter(
+              (manages) => manages?.slogan !== "modTeam"
+            ).length < 1 && (
+              <ButtonCustom
+                onClick={() => {
+                  // console.log("create Team");
+                  setOpenTeam(true);
+                }}
+              >
+                Create New Team
+              </ButtonCustom>
+            )}
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </Panel>

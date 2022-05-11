@@ -32,8 +32,8 @@ const LDashboard = () => {
     error,
   } = useOutletContext();
   useEffect(() => {
-    console.log("conf", confirm);
-    console.log("trigger", triggerUpdateLeagueInfo);
+    // console.log("conf", confirm);
+    // console.log("trigger", triggerUpdateLeagueInfo);
     if (confirm && triggerUpdateLeagueInfo) {
       file && apiSettings.putImageLeague(league?.name, league?.id, file);
 
@@ -67,7 +67,7 @@ const LDashboard = () => {
     setLeaguedescription(league?.description);
   }, [league]);
   useEffect(() => {
-    console.log(tournament);
+    // console.log(tournament);
   }, [tournament]);
   return (
     <>

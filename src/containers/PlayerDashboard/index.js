@@ -26,8 +26,8 @@ const PlayerDashboard = () => {
   }, [id]);
 
   useEffect(() => {
-    console.log("team", team);
-    console.log("player", player);
+    // console.log("team", team);
+    // console.log("player", player);
   }, [team, player]);
 
   return (

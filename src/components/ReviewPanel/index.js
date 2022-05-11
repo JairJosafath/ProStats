@@ -17,7 +17,7 @@ const ReviewPanel = ({ type }) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     try {
       let id = 0;
       rows.map((row) => {
@@ -26,7 +26,7 @@ const ReviewPanel = ({ type }) => {
         });
       });
     } catch (e) {
-      console.log("no data yet", e);
+      // console.log("no data yet", e);
     }
   }, [type]);
 
@@ -85,7 +85,7 @@ const ReviewPanel = ({ type }) => {
 
       <Button
         onClick={() => {
-          console.log(data[type]);
+          // console.log(data[type]);
           try {
             let id = 0;
             rows.map((row) => {
@@ -94,7 +94,7 @@ const ReviewPanel = ({ type }) => {
               });
             });
           } catch (e) {
-            console.log("no data yet", e);
+            // console.log("no data yet", e);
           }
         }}
         style={{ marginLeft: "40vw", width: 120 }}

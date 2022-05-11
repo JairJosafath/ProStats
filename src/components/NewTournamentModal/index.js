@@ -42,7 +42,7 @@ const NewTournamentModal = ({
     });
     // console.log("league inofo", league);
 
-    console.log(`tourney\nname: ${valueName}, slogan: ${valueAbout}`);
+    // console.log(`tourney\nname: ${valueName}, slogan: ${valueAbout}`);
     // console.log("created", createdTeam);
     setOpen(false);
     setCreate(false);

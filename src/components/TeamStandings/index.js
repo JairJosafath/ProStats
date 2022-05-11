@@ -4,10 +4,15 @@ import ClubTableCell from "../ClubTableCell";
 import CustomHeaderCell from "../CustomHeaderCell";
 
 const TeamStandings = ({ data }) => {
+  data.sort((a, b) =>
+    b.points === a.points
+      ? b.goalDifference - a.goalDifference
+      : b.points - a.points
+  );
   return (
     <>
       <h5 style={{ margin: 5 }}>Team Standings</h5>
-      <Table data={data} style={{ margin: 10 }}>
+      <Table data={data} autoHeight style={{ margin: 10 }}>
         <Table.Column width={250}>
           <CustomHeaderCell>Club</CustomHeaderCell>
           <ClubTableCell team="team" />

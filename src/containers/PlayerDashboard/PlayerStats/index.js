@@ -72,7 +72,7 @@ const PPlayerStats = () => {
       );
   }, [teamFixtures]);
   useEffect(() => {
-    console.log(tournament);
+    // console.log(tournament);
     if (tournament && team)
       setGetTeamFixtures({
         tournamentID: { eq: tournament?.id },
@@ -93,7 +93,7 @@ const PPlayerStats = () => {
       )[0]
     ) {
       //means there is already stats for the player, so update
-      console.log("update code comes here");
+      // console.log("update code comes here");
       setUpdatePlayerStats({
         id: currentFixture?.playerStats?.items?.filter(
           (stats) => stats.player.id === player?.id
@@ -281,8 +281,8 @@ const PPlayerStats = () => {
                   <FlexboxGrid.Item>
                     <Button
                       onClick={() => {
-                        console.log("save rex");
-                        console.log("huge test right here", playerstatsTracker);
+                        // console.log("save rex");
+                        // console.log("huge test right here", playerstatsTracker);
 
                         // const temp = {};
                         // console.log("temp obj", temp);
@@ -297,7 +297,7 @@ const PPlayerStats = () => {
                         //   })
                         // );
 
-                        console.log("temp obj ps", playerstatsTracker);
+                        // console.log("temp obj ps", playerstatsTracker);
 
                         // setTeamstatsTracker({ ...teamStats });
 
@@ -319,7 +319,7 @@ const PPlayerStats = () => {
                   <FlexboxGrid.Item>
                     <Button
                       onClick={() => {
-                        console.log("reset");
+                        // console.log("reset");
                         setPlayerstatsTracker({});
                       }}
                     >

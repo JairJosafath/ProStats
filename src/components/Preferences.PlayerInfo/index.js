@@ -15,31 +15,19 @@ import {
 import { apiSettings } from "../../API/API";
 import ButtonCustom from "../ButtonCustom";
 
-const updateplayerQuery = /* GraphQL */ `
-  mutation UpdatePlayer(
-    $input: UpdatePlayerInput!
-    $condition: ModelPlayerConditionInput
-  ) {
-    updatePlayer(input: $input, condition: $condition) {
-      id
-    }
-  }
-`;
-
 const PlayerInfoFrame = ({
   player,
   setPlayer,
   playerTemp,
   setPlayerTemp,
   setUpdatePlayer,
-  confirm,
-  setConfirm,
 }) => {
   const [playername, setPlayername] = useState();
   const [playerabout, setPlayerabout] = useState();
   const [file, setFile] = useState();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [triggerUpdatePlayer, setTriggerUpdatePlayer] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     setPlayername(player?.name);
     setPlayerabout(player?.slogan);
@@ -48,14 +36,23 @@ const PlayerInfoFrame = ({
   useEffect(() => {
     if (confirm && triggerUpdatePlayer) {
       apiSettings.putImagePlayer(player.username, player.id, file);
-      setUpdatePlayer(true);
+      setUpdatePlayer({
+        name: playername,
+        slogan: playerabout,
+        id: player.id,
+        image: file
+          ? `players/${player.username}/${player.id}/avatars/${file.name}`
+          : player.image,
+      });
+      setTriggerUpdatePlayer(false);
+      setConfirm(false);
     } else if (!showConfirmModal) {
       setPlayername(player?.name);
       setPlayerabout(player?.slogan);
       setPlayerTemp(false);
     }
-    setTriggerUpdatePlayer(false);
-  }, [triggerUpdatePlayer]);
+    setConfirm(false);
+  }, [confirm]);
   useEffect(() => {
     setPlayerTemp({
       name: playername,
@@ -66,7 +63,7 @@ const PlayerInfoFrame = ({
         : player.image,
     });
 
-    console.log("playerTemp", playerTemp);
+    // console.log("playerTemp", playerTemp);
   }, [playername, playerabout, file]);
 
   return (

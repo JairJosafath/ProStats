@@ -32,7 +32,11 @@ const StatRow = ({
             <ListItemCustom>
               <FlexboxGrid justify={"space-around"} style={{ padding: 6 }}>
                 <FlexboxGrid.Item colspan={16} style={{}}>
-                  <TinyText value={stat.attr.replace("percentage", "%")} />
+                  <TinyText
+                    value={stat.attr
+                      .replace("percentage", "%")
+                      .replace("spasses", "passes")}
+                  />
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={8}>
                   <ControlledInput

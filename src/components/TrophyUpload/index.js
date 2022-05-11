@@ -24,7 +24,7 @@ const UploadTrophyCustom = ({ trophy, file, setFile }) => {
     const img = async () => {
       const data = await apiSettings.getImage(trophy.image);
       setTrophyImage(data);
-      console.log(data);
+      // console.log(data);
     };
     img();
   }, [trophy]);
@@ -37,7 +37,7 @@ const UploadTrophyCustom = ({ trophy, file, setFile }) => {
       action="//jsonplaceholder.typicode.com/posts/"
       onChange={(file) => {
         // console.log("file event", file[0]);
-        console.log(file);
+        // console.log(file);
 
         setFile(file[file.length - 1]);
         previewFile(file[file.length - 1].blobFile, (value) => {
@@ -47,7 +47,7 @@ const UploadTrophyCustom = ({ trophy, file, setFile }) => {
       onSuccess={(response) => {
         setUploading(false);
         toaster.push(<Message type="success">Uploaded successfully</Message>);
-        console.log(response);
+        // console.log(response);
       }}
       onError={() => {
         setTrophyImage(null);
