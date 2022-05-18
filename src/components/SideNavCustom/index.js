@@ -168,7 +168,7 @@ const SideNavCustom = ({
                 </Link> */}
 
                 <Nav.Item panel style={panelStyles}></Nav.Item>
-                {/* <Link style={{ textDecoration: "none" }} to="news">
+                <Link style={{ textDecoration: "none" }} to="news">
                   {" "}
                   <Nav.Item
                     as="div"
@@ -177,7 +177,7 @@ const SideNavCustom = ({
                   >
                     News
                   </Nav.Item>{" "}
-                </Link> */}
+                </Link>
               </Nav>
             </Sidenav.Body>
           </Body>

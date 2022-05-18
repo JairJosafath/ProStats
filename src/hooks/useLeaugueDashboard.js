@@ -51,6 +51,57 @@ const useLeagueDashboard = () => {
 
   const [deleteL2TRequest, setDeleteL2TRequest] = useState(false);
 
+  const [posts, setPosts] = useState(false);
+  const [getPosts, setGetPosts] = useState(false);
+  const [post, setPost] = useState(false);
+  const [getPost, setGetPost] = useState(false);
+  const [updatePost, setUpdatePost] = useState(false);
+  const [deletePost, setDeletePost] = useState(false);
+  const [createPost, setCreatePost] = useState(false);
+
+  const updatePostFunct = async () => {
+    if (updatePost) {
+      setLoading(true);
+      apiSettings
+        .updatePost(updatePost)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
+      setUpdatePost(false);
+    }
+    setLoading(false);
+  };
+  const deletePostFunct = async () => {
+    if (deletePost) {
+      setLoading(true);
+      apiSettings
+        .deletePost(deletePost)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
+      setDeletePost(false);
+    }
+    setLoading(false);
+  };
+  const createPostFunct = async () => {
+    if (createPost) {
+      setLoading(true);
+      apiSettings
+        .createPost(createPost)
+        .then(() => setLeagueId(league?.id))
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
+      setCreatePost(false);
+    }
+    setLoading(false);
+  };
+
   const getUsernameLeagueReqFunct = async () => {
     setLoading(true);
     if (getUsernameLeagueReq) {
@@ -547,6 +598,24 @@ const useLeagueDashboard = () => {
     }
   }, [createTournament]);
   useEffect(() => {
+    // if (confirm) {
+    createPostFunct();
+    setConfirm(false);
+    // }
+  }, [createPost]);
+  useEffect(() => {
+    // if (confirm) {
+    updatePostFunct();
+    setConfirm(false);
+    // }
+  }, [updatePost]);
+  useEffect(() => {
+    // if (confirm) {
+    deletePostFunct();
+    setConfirm(false);
+    // }
+  }, [deletePost]);
+  useEffect(() => {
     if (confirm) {
       updateTournamentFunct();
       setConfirm(false);
@@ -752,6 +821,9 @@ const useLeagueDashboard = () => {
     setConfirm,
     confirm,
     error,
+    setCreatePost,
+    setDeletePost,
+    setUpdatePost,
   };
 };
 export default useLeagueDashboard;

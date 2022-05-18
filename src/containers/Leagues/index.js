@@ -13,6 +13,7 @@ const Leagues = () => {
     fixturesByTournamentAndRound,
   } = useOutletContext();
 
+  const [selected, setSelected] = useState();
   return (
     <>
       <Nav>
@@ -20,7 +21,13 @@ const Leagues = () => {
           <FlexboxGrid justify="center">
             <FlexboxGrid.Item colspan={6}>
               <Link to="showLeagues" style={{ textDecoration: "none" }}>
-                <Navitem> Leagues</Navitem>
+                <Navitem
+                  selected={selected === "leagues" ? true : false}
+                  onClick={() => setSelected("leagues")}
+                >
+                  {" "}
+                  Leagues
+                </Navitem>
               </Link>{" "}
             </FlexboxGrid.Item>
 
@@ -33,7 +40,13 @@ const Leagues = () => {
                 }
                 style={{ textDecoration: "none" }}
               >
-                <Navitem> Standings</Navitem>
+                <Navitem
+                  selected={selected === "standings" ? true : false}
+                  onClick={() => setSelected("standings")}
+                >
+                  {" "}
+                  Standings
+                </Navitem>
               </Link>{" "}
             </FlexboxGrid.Item>
 
@@ -46,13 +59,25 @@ const Leagues = () => {
                 }
                 style={{ textDecoration: "none" }}
               >
-                <Navitem> Fixtures</Navitem>
+                <Navitem
+                  selected={selected === "fixtures" ? true : false}
+                  onClick={() => setSelected("fixtures")}
+                >
+                  {" "}
+                  Fixtures
+                </Navitem>
               </Link>{" "}
             </FlexboxGrid.Item>
 
             <FlexboxGrid.Item colspan={6}>
               <Link to="community" style={{ textDecoration: "none" }}>
-                <Navitem> Community</Navitem>
+                <Navitem
+                  selected={selected === "community" ? true : false}
+                  onClick={() => setSelected("community")}
+                >
+                  {" "}
+                  Community
+                </Navitem>
               </Link>{" "}
             </FlexboxGrid.Item>
           </FlexboxGrid>

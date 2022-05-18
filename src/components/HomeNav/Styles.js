@@ -7,7 +7,10 @@ export const Navitem = styled.div`
   transform: perspective(1500px) rotateY(0deg);
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 5px -12px;
-  background: rgb(20, 20, 20, 0.1);
+  /* background: rgb(20, 20, 20, 0.1); */
+  background: ${(props) =>
+    props.selected ? "var(--primary-grey-light)" : " rgb(20, 20, 20, 0.1)"};
+
   transition: transform 1s ease 0s;
   color: white;
   &:hover {

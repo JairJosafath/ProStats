@@ -11,6 +11,8 @@ import { MdHome } from "react-icons/md";
 
 const HomeNav = () => {
   const [hover, setHover] = useState(false);
+  const [selected, setSelected] = useState();
+
   return (
     <>
       <div style={{ background: "var(--primary-black-light)", height: 50 }}>
@@ -22,7 +24,10 @@ const HomeNav = () => {
               onMouseEnter={() => setHover("home")}
               onMouseLeave={() => setHover(false)}
             >
-              <Navitem>
+              <Navitem
+                selected={selected === "home" ? true : false}
+                onClick={() => setSelected("home")}
+              >
                 Home
                 <Icon
                   className="icon"
@@ -39,7 +44,10 @@ const HomeNav = () => {
               onMouseEnter={() => setHover("leagues")}
               onMouseLeave={() => setHover(false)}
             >
-              <Navitem>
+              <Navitem
+                selected={selected === "leagues" ? true : false}
+                onClick={() => setSelected("leagues")}
+              >
                 Leagues
                 <Icon
                   className="icon"
@@ -58,7 +66,10 @@ const HomeNav = () => {
               onMouseEnter={() => setHover("about")}
               onMouseLeave={() => setHover(false)}
             >
-              <Navitem>
+              <Navitem
+                selected={selected === "about" ? true : false}
+                onClick={() => setSelected("about")}
+              >
                 About
                 <Icon
                   className="icon"

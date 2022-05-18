@@ -13,9 +13,13 @@ export const Navitem = styled.div`
   transform: perspective(1500px) rotateY(0deg);
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 5px -12px;
-  background: var(--primary-blue-very-dark);
+  /* background: var(--primary-blue-very-dark); */
   transition: transform 1s ease 0s;
   color: white;
+  background: ${(props) =>
+    props.selected
+      ? "var(--primary-blue-light)"
+      : "var(--primary-blue-very-dark)"};
 
   &:hover {
     transform: perspective(3000px) rotate&(10deg);

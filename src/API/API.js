@@ -63,6 +63,9 @@ import {
   getFeaturedTeamsQuery,
   getLeaguePublicQuery,
   fixtureByTournamentandRoundPublicQuery,
+  createNewsMutation,
+  updateNewsMutation,
+  deletePostMutation,
 } from "./graphqlmuqu";
 import { roundRobin } from "../util/makeFixtures";
 
@@ -70,6 +73,20 @@ const defaultAuth = "AMAZON_COGNITO_USER_POOLS";
 
 export const apiSettings = {
   //Gets
+  getPlayer: async (id) => {
+    console.log("querying db for player");
+    const { data } = await API.graphql({
+      query: getPlayerQuery,
+      variables: {
+        id,
+      },
+      authMode: defaultAuth,
+    }).catch((err) => {
+      console.log(err);
+    });
+    console.log("chekckc", data);
+    return data.getPlayer;
+  },
   getPlayer: async (id) => {
     console.log("querying db for player");
     const { data } = await API.graphql({
@@ -394,6 +411,31 @@ export const apiSettings = {
     }).catch((error) => console.log(error));
     return result;
   },
+  createPost: async (input) => {
+    console.log("mutation: createPost");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: createNewsMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  updatePost: async (input) => {
+    console.log("mutation: updatePost");
+    console.log("input", input);
+    const result = await API.graphql({
+      query: updateNewsMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+
   createPlayer: async (input) => {
     console.log("mutation: createPlayer");
     console.log("input", input);
@@ -484,6 +526,18 @@ export const apiSettings = {
     console.log("input", input);
     const result = await API.graphql({
       query: deleteTeamMutation,
+      variables: {
+        input,
+      },
+      authMode: defaultAuth,
+    }).catch((error) => console.log(error));
+    return result;
+  },
+  deletePost: async (input) => {
+    console.log("mutation: deletePost", input);
+    console.log("input", input);
+    const result = await API.graphql({
+      query: deletePostMutation,
       variables: {
         input,
       },
@@ -820,6 +874,15 @@ export const apiSettings = {
   putImageLeague: async (leaguename, id, file) => {
     const result = await Storage.put(
       `leagues/${leaguename}/${id}/avatars/${file.name}`,
+      file.blobFile
+    ).catch((err) => console.log(err));
+
+    return result;
+  },
+  putImagePost: async (leaguename, id, tournamentname, file) => {
+    console.log(tournamentname, "name");
+    const result = await Storage.put(
+      `leagues/${leaguename}/${id}/${tournamentname}/news/headerImage/${file.name}`,
       file.blobFile
     ).catch((err) => console.log(err));
 

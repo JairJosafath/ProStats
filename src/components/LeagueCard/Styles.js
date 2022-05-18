@@ -31,6 +31,7 @@ export const LogoCard = styled.div`
     /* backdrop-filter: brightness(40%); */
     opacity: 0.9;
 
+    transition: border-radius 100ms ease-in;
     img {
       height: 140px;
     }

@@ -134,6 +134,15 @@ export const getLeagueQuery = /* GraphQL */ `
         items {
           id
           name
+          news {
+            items {
+              id
+              title
+              subTitle
+              headerImage
+              content
+            }
+          }
           table {
             items {
               id
@@ -194,6 +203,15 @@ export const getLeaguePublicQuery = /* GraphQL */ `
         items {
           id
           name
+          news {
+            items {
+              id
+              title
+              subTitle
+              headerImage
+              content
+            }
+          }
           team {
             items {
               id
@@ -273,6 +291,15 @@ export const getLeagueForDashboardQuery = /* GraphQL */ `
         items {
           id
           name
+          news {
+            items {
+              id
+              title
+              subTitle
+              headerImage
+              content
+            }
+          }
           table {
             items {
               id
@@ -2085,6 +2112,36 @@ export const getFeaturedTeamsQuery = /* GraphQL */ `
         status
         logo
       }
+    }
+  }
+`;
+export const createNewsMutation = /* GraphQL */ `
+  mutation CreateNews(
+    $input: CreateNewsInput!
+    $condition: ModelNewsConditionInput
+  ) {
+    createNews(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+export const updateNewsMutation = /* GraphQL */ `
+  mutation UpdateNews(
+    $input: UpdateNewsInput!
+    $condition: ModelNewsConditionInput
+  ) {
+    updateNews(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+export const deletePostMutation = /* GraphQL */ `
+  mutation DeleteNews(
+    $input: DeleteNewsInput!
+    $condition: ModelNewsConditionInput
+  ) {
+    deleteNews(input: $input, condition: $condition) {
+      id
     }
   }
 `;

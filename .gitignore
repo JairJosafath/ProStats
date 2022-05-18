@@ -12,6 +12,7 @@ dist/
 node_modules/
 aws-exports.js
 awsconfiguration.json
+mockdbbackup
 amplifyconfiguration.json
 amplifyconfiguration.dart
 amplify-build-config.json
@@ -19,4 +20,5 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
+
 #amplify-do-not-edit-end

@@ -1283,10 +1283,12 @@ export const onCreateTournament = /* GraphQL */ `
         nextToken
       }
       tournamentmod
+      news {
+        nextToken
+      }
       createdAt
       updatedAt
       leagueTournamentsId
-      newsTournamentTagsId
       owner
     }
   }
@@ -1337,10 +1339,12 @@ export const onUpdateTournament = /* GraphQL */ `
         nextToken
       }
       tournamentmod
+      news {
+        nextToken
+      }
       createdAt
       updatedAt
       leagueTournamentsId
-      newsTournamentTagsId
       owner
     }
   }
@@ -1391,10 +1395,12 @@ export const onDeleteTournament = /* GraphQL */ `
         nextToken
       }
       tournamentmod
+      news {
+        nextToken
+      }
       createdAt
       updatedAt
       leagueTournamentsId
-      newsTournamentTagsId
       owner
     }
   }
@@ -1468,7 +1474,6 @@ export const onCreateFixture = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       status
@@ -1552,7 +1557,6 @@ export const onUpdateFixture = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       status
@@ -1636,7 +1640,6 @@ export const onDeleteFixture = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       status
@@ -2799,8 +2802,18 @@ export const onCreateNews = /* GraphQL */ `
       teamTags {
         nextToken
       }
-      tournamentTags {
-        nextToken
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        owner
       }
       status
       author {
@@ -2842,6 +2855,7 @@ export const onCreateNews = /* GraphQL */ `
       updatedAt
       leagueNewsId
       playerNewsId
+      tournamentNewsId
       owner
     }
   }
@@ -2860,8 +2874,18 @@ export const onUpdateNews = /* GraphQL */ `
       teamTags {
         nextToken
       }
-      tournamentTags {
-        nextToken
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        owner
       }
       status
       author {
@@ -2903,6 +2927,7 @@ export const onUpdateNews = /* GraphQL */ `
       updatedAt
       leagueNewsId
       playerNewsId
+      tournamentNewsId
       owner
     }
   }
@@ -2921,8 +2946,18 @@ export const onDeleteNews = /* GraphQL */ `
       teamTags {
         nextToken
       }
-      tournamentTags {
-        nextToken
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        owner
       }
       status
       author {
@@ -2964,6 +2999,7 @@ export const onDeleteNews = /* GraphQL */ `
       updatedAt
       leagueNewsId
       playerNewsId
+      tournamentNewsId
       owner
     }
   }
@@ -4170,7 +4206,6 @@ export const onCreateTrophy = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       image
@@ -4200,7 +4235,6 @@ export const onUpdateTrophy = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       image
@@ -4230,7 +4264,6 @@ export const onDeleteTrophy = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       image
@@ -4603,7 +4636,6 @@ export const onCreateTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       team {
@@ -4656,7 +4688,6 @@ export const onUpdateTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       team {
@@ -4709,7 +4740,6 @@ export const onDeleteTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       team {
@@ -4762,7 +4792,6 @@ export const onCreatePlayerTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       player {
@@ -4835,7 +4864,6 @@ export const onUpdatePlayerTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       player {
@@ -4908,7 +4936,6 @@ export const onDeletePlayerTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       player {
@@ -5612,7 +5639,6 @@ export const onCreateTeamTournaments = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       createdAt
@@ -5656,7 +5682,6 @@ export const onUpdateTeamTournaments = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       createdAt
@@ -5700,7 +5725,6 @@ export const onDeleteTeamTournaments = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       createdAt

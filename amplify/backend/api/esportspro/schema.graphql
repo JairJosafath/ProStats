@@ -213,6 +213,7 @@ type Tournament
   status: String
   trophies: [Trophy] @hasMany
   tournamentmod: [String]
+  news: [News] @hasMany
 }
 
 type Fixture
@@ -549,7 +550,7 @@ type News
   content: String
   playerTags: [Player] @hasMany
   teamTags: [Team] @hasMany
-  tournamentTags: [Tournament] @hasMany
+  tournament: Tournament @belongsTo
   status: String
   author: Player @belongsTo
 }

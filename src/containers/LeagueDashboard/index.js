@@ -48,6 +48,9 @@ const LeagueDashboard = () => {
     loading,
     setError,
     error,
+    setCreatePost,
+    setDeletePost,
+    setUpdatePost,
   } = useLeagueDashboard();
 
   useEffect(() => {
@@ -114,6 +117,9 @@ const LeagueDashboard = () => {
               loading,
               setError,
               error,
+              setCreatePost,
+              setDeletePost,
+              setUpdatePost,
             }}
           />
         </div>

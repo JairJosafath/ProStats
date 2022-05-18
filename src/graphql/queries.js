@@ -611,10 +611,12 @@ export const getTournament = /* GraphQL */ `
         nextToken
       }
       tournamentmod
+      news {
+        nextToken
+      }
       createdAt
       updatedAt
       leagueTournamentsId
-      newsTournamentTagsId
       owner
     }
   }
@@ -637,7 +639,6 @@ export const listTournaments = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       nextToken
@@ -713,7 +714,6 @@ export const getFixture = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       status
@@ -1563,8 +1563,18 @@ export const getNews = /* GraphQL */ `
       teamTags {
         nextToken
       }
-      tournamentTags {
-        nextToken
+      tournament {
+        id
+        name
+        season
+        logo
+        slogan
+        status
+        tournamentmod
+        createdAt
+        updatedAt
+        leagueTournamentsId
+        owner
       }
       status
       author {
@@ -1606,6 +1616,7 @@ export const getNews = /* GraphQL */ `
       updatedAt
       leagueNewsId
       playerNewsId
+      tournamentNewsId
       owner
     }
   }
@@ -1628,6 +1639,7 @@ export const listNews = /* GraphQL */ `
         updatedAt
         leagueNewsId
         playerNewsId
+        tournamentNewsId
         owner
       }
       nextToken
@@ -2301,7 +2313,6 @@ export const getTrophy = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       image
@@ -2518,7 +2529,6 @@ export const getTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       team {
@@ -2600,7 +2610,6 @@ export const getPlayerTableStat = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       player {
@@ -2998,7 +3007,6 @@ export const getTeamTournaments = /* GraphQL */ `
         createdAt
         updatedAt
         leagueTournamentsId
-        newsTournamentTagsId
         owner
       }
       createdAt
