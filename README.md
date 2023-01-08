@@ -5,7 +5,7 @@ Tables generate automattically when stats get submitted, leagues can post news f
 
 used: React, Rsuite, Styled components, Amplify, GraphQL API.
 
-web-app link: https://statme.net
+web-app link: https://fancy-semifreddo-06e63d.netlify.app/
 
 ![dashboard](https://user-images.githubusercontent.com/58106977/192359765-9127cce2-8fd6-4531-bc33-fa3b34915572.png)
 ![profiledashboard](https://user-images.githubusercontent.com/58106977/192359789-64eec36f-8a32-44af-846a-bfd7223d3c19.png)
